@@ -1,0 +1,5 @@
+200	Equipment	Armor	Common	NormalArmor	평범한 갑옷	원래부터 지녔을 법한 갑옷이다..	0	0	FALSE	10
+201	Equipment	Armor	Magic	NormalArmor	단단한 갑옷	시중에 나와있는 갑옷보다 단단하다고 한다.	1000	0	FALSE	25
+202	Equipment	Armor	Rare	NormalArmor	평행세계의 선	자신과 닮은 존재를 봤다는 소문이 퍼지기 시작했다.	3500	0	FALSE	50
+203	Equipment	Armor	Unique	NormalArmor	용의 비늘갑	용의 비늘은 무척 단단하고 가볍다고 전해진다.	7000	0	FALSE	75
+204	Equipment	Armor	Legendary	NormalArmor	동반자	언제 어디서든 너와 함께야	10000	0	FALSE	100

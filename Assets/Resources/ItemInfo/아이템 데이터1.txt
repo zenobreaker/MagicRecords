@@ -1,0 +1,16 @@
+100	equipment_weapon_gun_0	평범한 마력총	Equipment	Common	1	0	출처를 알 수 없지만 평범해보인다.	NormalGun	TRUE	Weapon	0	1	FALSE	10	0	FALSE	0	0	FALSE	0	0	FALSE	0
+101	equipment_weapon_gun_1	특별한 마력총	Equipment	Magic	1	1000	마력을 쏠 수 있게 해주는 총. \n 어딘가 특별해 보이기도?	NormalGun	TRUE	Weapon	0	1	FALSE	25	0	FALSE	0	0	FALSE	0	0	FALSE	0
+102	equipment_weapon_gun_2	마력강선	Equipment	Rare	1	3500	강력한 마력을 발사할 수 있을 듯하다.	NormalGun	TRUE	Weapon	0	1	FALSE	50	0	FALSE	0	0	FALSE	0	0	FALSE	0
+103	equipment_weapon_gun_3	마적반응	Equipment	Unique	1	7000	누가 이 것을 만들었는지 모른다. \n 적어도 살아 있진 않겠지.. 	NormalGun	TRUE	Weapon	0	1	FALSE	75	0	FALSE	0	0	FALSE	0	0	FALSE	0
+104	equipment_weapon_gun_4	악마의 속삭임	Equipment	Legendary	1	10000	알 수 없는 존재가 속삭여 온다. \n"좋아.. 받아들이지.." -일렁이는 촛불 앞에서	NormalGun	TRUE	Weapon	0	1	FALSE	100	0	FALSE	0	0	FALSE	0	0	FALSE	0
+200	equipment_armor_0	평범한 갑옷	Equipment	Common	1	0	원래부터 지녔을 법한 갑옷이다..	NormalArmor	TRUE	Armor	0	2	FALSE	10	0	FALSE	0	0	FALSE	0	0	FALSE	0
+201	equipment_armor_1	단단한 갑옷	Equipment	Magic	1	1000	시중에 나와있는 갑옷보다 단단하다고 한다.	NormalArmor	TRUE	Armor	0	2	FALSE	25	0	FALSE	0	0	FALSE	0	0	FALSE	0
+202	equipment_armor_2	평행세계의 선	Equipment	Rare	1	3500	자신과 닮은 존재를 봤다는 소문이 퍼지기 시작했다.	NormalArmor	TRUE	Armor	0	2	FALSE	50	0	FALSE	0	0	FALSE	0	0	FALSE	0
+203	equipment_armor_3	용의 비늘갑	Equipment	Unique	1	7000	용의 비늘은 무척 단단하고 가볍다고 전해진다.	NormalArmor	TRUE	Armor	0	2	FALSE	75	0	FALSE	0	0	FALSE	0	0	FALSE	0
+204	equipment_armor_4	동반자	Equipment	Legendary	1	10000	언제 어디서든 너와 함께야	NormalArmor	TRUE	Armor	0	2	FALSE	100	0	FALSE	0	0	FALSE	0	0	FALSE	0
+300	equipment_tire_0	평범한 바퀴	Equipment	Common	1	0	널리 쓰이고 있는 바퀴이다.	NormalTire	TRUE	Accessory	0	4	FALSE	10	0	FALSE	0	0	FALSE	0	0	FALSE	0
+301	equipment_tire_1	퍼포먼스 타이어	Equipment	Magic	1	1000	견고함과 회전이 우수한 바퀴 은근 인기 있다.	NormalTire	TRUE	Accessory	0	4	FALSE	25	0	FALSE	0	0	FALSE	0	0	FALSE	0
+302	equipment_tire_2	매드 디스크 휠	Equipment	Rare	1	3500	속도감 최고!	NormalTire	TRUE	Accessory	0	4	FALSE	50	0	FALSE	0	0	FALSE	0	0	FALSE	0
+303	equipment_tire_3	무법자의 시계	Equipment	Unique	1	7000	조심해.. 길 위에 녀석은 완전 무법자야! 	NormalTire	TRUE	Accessory	0	4	FALSE	75	0	FALSE	0	0	FALSE	0	0	FALSE	0
+304	equipment_tire_4	수평선 사이	Equipment	Legendary	1	10000	저 편 어딘가에 있을..	NormalTire	TRUE	Accessory	0	4	FALSE	100	0	FALSE	0	0	FALSE	0	0	FALSE	0
+1000	equipment_drone_1	기본 드론	Equipment	Common	1	0	평범한 안내용 드론.	NormalArmor	FALSE	Drone	0	11	FALSE	0	0	FALSE	0	0	FALSE	0	0	FALSE	0

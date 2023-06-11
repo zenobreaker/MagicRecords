@@ -1,0 +1,5 @@
+100	Equipment	Weapon	Common	NormalGun	평범한 마력총	출처를 알 수 없지만 평범해보인다.	0	0	FALSE	10
+101	Equipment	Weapon	Magic	NormalGun	특별한 마력총	마력을 쏠 수 있게 해주는 총. \n 어딘가 특별해 보이기도?	1000	0	FALSE	25
+102	Equipment	Weapon	Rare	NormalGun	마력강선	강력한 마력을 발사할 수 있을 듯하다.	3500	0	FALSE	50
+103	Equipment	Weapon	Unique	NormalGun	마적반응	누가 이 것을 만들었는지 모른다. \n 적어도 살아 있진 않겠지.. 	7000	0	FALSE	75
+104	Equipment	Weapon	Legendary	NormalGun	악마의 속삭임	알 수 없는 존재가 속삭여 온다. \n"좋아.. 받아들이지.." -일렁이는 촛불 앞에서	10000	0	FALSE	100
