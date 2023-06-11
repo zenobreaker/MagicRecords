@@ -1,0 +1,5 @@
+300	Equipment	Accessory	Common	NormalTire	평범한 바퀴	널리 쓰이고 있는 바퀴이다.	0	0	FALSE	10
+301	Equipment	Accessory	Magic	NormalTire	퍼포먼스 타이어	견고함과 회전이 우수한 바퀴 은근 인기 있다.	1000	0	FALSE	25
+302	Equipment	Accessory	Rare	NormalTire	매드 디스크 휠	속도감 최고!	3500	0	FALSE	50
+303	Equipment	Accessory	Unique	NormalTire	무법자의 시계	조심해.. 길 위에 녀석은 완전 무법자야! 	7000	0	FALSE	75
+304	Equipment	Accessory	Legendary	NormalTire	수평선 사이	저 편 어딘가에 있을..	10000	0	FALSE	100

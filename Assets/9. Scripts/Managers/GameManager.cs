@@ -1,0 +1,379 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+
+// 게임 진행 스테이트 
+public enum GameState
+{
+    START,
+    INGAME,
+    STOP,
+}
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager MyInstance;
+
+    public Animator stageAnim;
+    public Text stageText;
+
+    public PlayerControl player;
+    public string stageName;
+    public bool isStageIn = false;
+    public bool isStageEnd = false;             // 게임 종료 여부 판단할 변수
+    public bool isStageClear = false;
+    bool isRoutine = false;
+    public static bool isCharacterOn = false;   // 캐릭터 생성 여부 
+
+    public int playerCount;                   // 게임 내 아군 수
+    public int enemyCount;                    // 게임 내 적 수 
+    public int itemCount;
+
+    public bool isTest = false;
+    // 게임 획득 점수 
+    private int gameScore;
+
+    GameState gameState;
+
+    public int MyGameScore
+    {
+        set { gameScore = value; }
+        get { return gameScore; }
+    }
+
+    // 필요한 컴포넌트 
+    [SerializeField] private StageManager theSM = null;
+    [SerializeField] private PlayerManager thePM = null;
+    [SerializeField] ComboManager theCombo = null;
+    [SerializeField] private RewardController theReward = null;
+
+
+    private void Awake()
+    {
+        if (MyInstance == null)
+            MyInstance = FindObjectOfType<GameManager>();
+        else
+            Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        StageInit();
+    }
+
+    private void Update()
+    {
+        if(gameState == GameState.START)
+        {
+
+        }
+        else if(gameState == GameState.INGAME)
+        {
+
+        }
+        else if(gameState == GameState.STOP)
+        {
+
+        }
+    }
+
+    public void SaveEnemyData(MonsterType monsterType, uint id)
+    {
+        theSM.SaveEnemy(monsterType, id);
+    }
+
+    public void SaveEnemyWithGM(GameObject _enemy, MonsterType p_monstertType = MonsterType.NORMAL)
+    {
+        theSM.SaveEnemy(_enemy, p_monstertType);
+    }
+
+    public void SaveEnemyWithGM(GameObject[] _enemies)
+    {
+        theSM.SaveEnemies(_enemies);
+    }
+
+    public void StageInit()
+    {
+        // 플레이어 적 수 초기화 
+        playerCount = 0;
+        enemyCount = 0;
+
+        gameScore = 0;
+        isStageIn = true;
+        isStageClear = false;
+        isStageEnd = false;
+        // 게임  시작 시 타임 스케일이 0이라면 1로 변경해서 진행한다. 
+        if(Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+        Debug.Log("게임 스테이지 " + stageName);
+
+        StartCoroutine(StartStageCoroutine());
+
+    }
+
+    public void TestStage()
+    {
+        isTest = true;
+
+        gameScore = 0;
+        isStageIn = true;
+        isStageClear = false;
+        isStageEnd = false;
+
+        theCombo.ResetCombo();  // 콤보 초기화
+
+        theSM.CreateTestStage();
+
+    }
+
+    public void StageEnd()
+    {
+        thePM.RemovePlayer();
+        if (!isTest)
+        {
+            theSM.ShowClearUI(false);
+        }
+        theSM.DisableStage();
+        ///LobbyManager.MyInstance.ApearLobbyUI();
+    }
+
+    // 게임 클리어 확인
+    public void CheckGameClaer()
+    {
+        if (enemyCount <= 0)
+        {
+            isStageEnd = true;
+            isStageClear = true;
+        }
+        else if(playerCount <= 0)
+        {
+            isStageEnd = true;
+            isStageClear = false; 
+        }
+
+        if (isStageEnd == true && isStageClear == true && isRoutine == false)
+        {
+            StartCoroutine(StageClearCoroutine());
+
+            Debug.Log("스테이지 클리어!");
+        }
+        else if (isStageEnd == true &&  isStageClear == false)
+        {
+            StartCoroutine(StageFailureCoroutine());
+           
+            Debug.Log("스테이지 클리어 실패!");
+        }
+    }
+
+    IEnumerator StartStageCoroutine()
+    {
+        if(StageInfoManager.instance == null)
+        {
+            yield return null; 
+        }
+
+        var stage = StageInfoManager.instance.GetStageInfo();
+        if(stage == null)
+        {
+            // 스테이지 정보가 없다면 일단 테스트 스테이지를 생성한다
+            Debug.Log("스테이지 없어서 테스트 스테이지 생성");
+            TestStage();
+        }
+
+        // 스테이지 생성  
+       // theSM.CreateStage(stage.stageId);
+        // 캐릭터 생성 
+        thePM.CreateCharacter();
+        // 캐릭터 위치 조정
+        thePM.PlayerSetPos(theSM.GetPlayerSpawnPosition());
+        // 콤보 초기화
+        theCombo.ResetCombo();
+        player = thePM.GetPlayer();
+
+        // 목표 수치 설정
+       // enemyCount = stage.enemyCount;
+
+        yield return new WaitForSeconds(0.5f);
+
+        // TODO : 스테이지 UI 추가 
+        stageText.gameObject.SetActive(true);
+      //  stageText.text = "스테이지" + "\n" + stage.stageName;
+        stageAnim.SetTrigger("Apear");
+
+        yield return new WaitForSeconds(1.5f);
+
+
+        if (stageAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            stageText.gameObject.SetActive(false);
+
+        // 게임 진행 스테이트 변경 
+        gameState = GameState.START;
+    }
+
+
+
+    //스테이지 클리어
+    IEnumerator StageClearCoroutine()
+    {
+        isRoutine = true;
+        FollowItem[] items = FindObjectsOfType<FollowItem>();
+
+        // 필드에 남아있는 아이템들을 스테이지 클리어 조건 달성 시, 모두 회수하도록 한다
+        if (items.Length > 0)
+        {
+            Debug.Log("아이템 등장" + items.Length);
+            itemCount = items.Length;
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i].viewDistance = Vector3.Distance(player.transform.position, items[i].gameObject.transform.position);
+                items[i].followSpeed = 10f; // 유효 사거리를 캐릭터까지 있도록 하여 스피드를 올려서 빨리 먹어질 수 있도록 함
+            }
+        }
+
+        yield return new WaitUntil(() => itemCount <= 0);
+
+       
+        isStageIn = false;
+        isStageClear = false;
+        isRoutine = false;
+        isCharacterOn = false;
+       // Time.timeScale = Time.timeScale > 0 ? 0 : 1;
+        //if (CharStat.instance != null)
+        //    CharStat.instance.IncreaseExp(gameScore);
+
+        theReward.ShowUI();
+       // theSM.ClearStage();
+
+        yield return new WaitUntil(() => theReward.isConfirm == true);
+
+        theSM.ShowClearUI(true);
+
+        // 캐릭터 경험치 지급 
+        GrowUpMyCharacters(MyGameScore); 
+    }
+
+    IEnumerator StageFailureCoroutine()
+    {
+        isStageClear = false;
+        isStageIn = false;
+        isCharacterOn = false;
+        Time.timeScale = Time.timeScale > 0 ? 0 : 1;
+
+        theSM.ShowClearUI(isStageClear);
+        yield return null;
+    }
+
+    public void IncreaseCombo()
+    {
+        theCombo.IncreaseCombo();
+    }
+
+    public void OpenClose(GameObject _gameObject)
+    {
+        if (_gameObject.activeSelf)
+        {
+            _gameObject.SetActive(false);
+
+            SoundManager.instance.PlaySE("Escape_UI");
+        }
+        else
+        {
+            _gameObject.SetActive(true);
+
+            SoundManager.instance.PlaySE("Confirm_Click");
+        }
+    }
+
+    // 설정 열기 
+    public void OpenSetting(GameObject _gameObject)
+    {
+
+        if (_gameObject.activeSelf)
+        {
+            _gameObject.SetActive(false);
+            SoundManager.instance.PlaySE("Escape_UI");  // 
+            Time.timeScale = 1;
+        }
+        else
+        {
+            _gameObject.SetActive(true);
+            SoundManager.instance.PlaySE("Confirm_Click");
+            Time.timeScale = 0;
+        }
+    }
+
+    // 게임으로 돌아가기 
+    public void BackToGame(GameObject _gameObject)
+    {
+        OpenClose(_gameObject);
+        Time.timeScale = 1;
+    }
+
+    // 로비로 돌아가기 
+    public void BackToTheRoom()
+    {
+        isStageClear = false;
+        isStageIn = false;
+        isStageEnd = true;
+        isCharacterOn = false;
+        StageEnd();
+        Time.timeScale = 1;    // 이전 UI에서 시간을 멈췄으므로 모든 씬의 시간을 다시 1로 맞춤
+        SoundManager.instance.PlaySE("Confirm_Click");
+    }
+
+    // 게임 점수 변경 0525
+    public void ChangeGameScore(int downCount, int score)
+    {
+        enemyCount -= downCount;
+        MyGameScore += score;
+
+        // 게임 클리어 확인 
+         CheckGameClaer();
+    }
+
+    // 게임 내 아군 수 변경하기 
+    public void ChanagePlayerTeeamCount(int downCount)
+    {
+        playerCount -= downCount;
+        // 게임 클리어 확인 
+        CheckGameClaer();
+    }
+
+    // 게임을 끝내고 나면 캐릭터들을 성장시켜준다. (소지한 모든 캐릭터)
+    public void GrowUpMyCharacters(int _totalExp, float _directRate = 1.0f, float _indirectRate = 1.0f)
+    {
+        if (InfoManager.instance == null) return;
+
+
+        // 전장에 나가 싸워낸 캐릭터 
+        var battleCharacters = InfoManager.instance.GetSelectPlayerList();
+
+        // 경험치 지급 
+        foreach(var character in battleCharacters)
+        {
+            if (character == null) continue;
+
+            int resultExp = (int)(_totalExp * _directRate);
+            character.GrowUp(resultExp); 
+        }
+
+
+        // 내가 소지한 캐릭터 
+        var myInfoCharacters = InfoManager.instance.GetUnselectCharacters();
+        // 경험치 지급 
+        foreach(var pair in myInfoCharacters)
+        {
+            if (pair.Value == null) continue;
+
+            int resultExp = (int)(_totalExp * _indirectRate);
+            pair.Value.GrowUp(resultExp);
+        }
+    }
+
+}

@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AttackState : BaseState
+{
+    public AttackState(CharacterController context)
+    {
+        this.owner = context;
+    }
+
+    public override void EnterState()
+    {
+        //Debug.Log("어택 스테이트 진입");
+
+  
+    }
+
+    public override void ExitState()
+    {
+        if (owner == null) return;
+        // Debug.Log("어택 스테이트 탈출");
+        owner.isAttacking = false;
+    }
+
+    public override void FixedUpdateState()
+    {
+    }
+
+    public override void UpdateState()
+    {
+        if (owner == null) return;
+
+        Debug.Log("어택 스테이트 실행 중" + owner.isAttacking);
+        if (!owner.isAttacking)
+        {
+            owner.Attack();
+        }
+    }
+
+   
+}
+        
