@@ -53,14 +53,9 @@ public class StageAppearMonsterGroup
     }
 
 
-    // 리스트 값을 받으면 변수에 저장해놓는다. 
+    // 매개변수대로 리스트에 몬스터 데이터를 설정한다. 
     public void SetMonsterList(List<(uint, uint)> list)
     {
-        if (list is null)
-        {
-            return; 
-        }
-
         AppearMonsterList.Clear();
         // 리스트에 몬스터 정보를 넣어준다 
         AppearMonsterList = list.ToList();
@@ -83,6 +78,10 @@ public class StageEventInfo
     // 서브 이벤트 
     public EventCategory subEventCategory;
     // 뭘 넣지 
+
+    // 스토리 이벤트면 나타날 스토리 컷신 정보 
+    // 
+
     // 몬스터이벤트면 나타날 몬스터 그룹 정보
     public StageAppearMonsterGroup monsterGroup;
 
@@ -106,7 +105,7 @@ public class StageEventInfo
 /// <summary>
 /// 이 클래스는 스테이지에 배치되는 노드들에 대한 정보를 가진 클래스이다.
 /// 이벤트마다 상이하며 몬스터 전투 외에 여러 이벤트들을 배치하여 보여준다 
-/// 몬스터 - 몬스터를 배치 시킨다. 시킨다. 
+/// 몬스터 - 몬스터를 배치 시킨다.
 /// </summary>
 [System.Serializable]
 public class StageTableClass
