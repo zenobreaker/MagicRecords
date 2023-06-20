@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -15,18 +16,38 @@ public enum GamePlayLevel
     SPECIAL = 3,    // 특수 
 };
 
-public enum StageSlot { NONE = 0, MONSTER = 1, EVENT, SHOP, REPAIR };
-public enum MonsterSlot { NORMAL = 1, ELITE, BOSS };
-public enum EventSlot { STORY = 1, BUFF, DEBUFF, SPECIAL };
+// 1. 몬스터  배틀 2. 이벤트 3. 혼합 4. 상점
+public enum StageType 
+{
+    NONE = 0, 
+    MONSTER = 1,
+    EVENT, 
+    SHOP, 
+    MULTY, 
+    MAX = MULTY
+};
+public enum MonsterSlot
+{
+    NORMAL = 1, 
+    ELITE, 
+    BOSS,
+};
+public enum EventSlot 
+{
+    NONE = 0,
+    STORY = 1,
+    BUFF, 
+    DEBUFF,
+    SPECIAL
+};
 
 // 이벤트 형태 
 public enum EventCategory
 {
-    STORY = 1,      // 
+    STORY = 1,     
     BUFF,           
     DEBUFF, 
     SPECIAL, 
-
 };
 
 [System.Serializable]
@@ -112,16 +133,52 @@ public class StageTableClass
 {
     int tableOrder; 
 
-    public StageSlot stageSlot;
-    // public StageSlot subSlot;
+    public StageType stageType;
     public MonsterType monsterType;
-    public EventSlot[] eventSlot;
+    public EventSlot eventSlot;
 
-    public List<StageEventInfo> monsterGroups;
+    // 스테이지에 들어 있는 각종 이벤트 정보들을 담아있는 리스트 
+    public List<StageEventInfo> eventInfoList;
 
     public bool isBossStage;
     public bool isLocked;
     public bool isCleared;
+
+    public StageTableClass()
+    {
+        Init(); 
+    }
+
+    public StageTableClass(int tableOrder, StageType stageType, 
+        MonsterType monsterType, EventSlot eventSlot, 
+        List<StageEventInfo> eventInfoList,
+        bool isBossStage, bool isLocked, bool isCleared)
+    {
+        this.tableOrder = tableOrder;
+        this.stageType = stageType;
+        this.monsterType = monsterType;
+        this.eventSlot = eventSlot;
+        this.eventInfoList = eventInfoList;
+        this.isBossStage = isBossStage;
+        this.isLocked = isLocked;
+        this.isCleared = isCleared;
+    }
+
+    // 변수 초기화 
+    public void Init()
+    {
+        tableOrder = 0; 
+
+        stageType = StageType.NONE;
+        monsterType = MonsterType.NORMAL;
+        eventSlot = EventSlot.NONE;
+
+        eventInfoList = null;
+
+        isBossStage = false;
+        isLocked = false;
+        isCleared = false;
+    }
 }
 
 

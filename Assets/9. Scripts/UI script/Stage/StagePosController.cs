@@ -95,6 +95,101 @@ public class StagePosController : MonoBehaviour
         return false; 
     }
 
+
+    // 길이를 알려주면 그 사이 값을 일정한 비율로 채우는 함수 
+    List<int> SetStagePosOneLine(int length, float rate = 1.0f)
+    {
+        List<int> list = new List<int>();
+        // 시작과 끝은 고정이다. 
+        int start = 1;
+        int end = 1;
+        list.Add(start);
+
+        // 먼저 시작과 끝을 뺀 남은 길이를 계산한다. 
+        int diff = length - 2;
+
+        // 남은 길이에 배치할 때 80%로 몬스터 20로 이벤트다 
+        // 또 이벤트를 배치할 때도 상점이 중복으로 배치되면 곤란하니 상점만 배치할 땐 독립적으로 적용한다. 
+        // 남은 수치만큼 반복해서 대입,
+        bool includedShop = false;
+        for (int i = start + 1; i < length; i++)
+        {
+            // 0~10 까지 돌려서 0, 1이 나오면 이벤트로 간주한다.  
+            int randEvent = Random.Range(0, 11);
+            // 이벤트 스테이지 당첨
+            if (randEvent == 0 || randEvent == 1)
+            {
+                // 여기서 한 번 더 결정 지어야한다. 
+                // 이미 상점이 포함된 상태라면 상점을 추가하지 않는다. 
+                int randDecideEvent = Random.Range(0, 2);
+                if (randDecideEvent == 1 && includedShop == false)
+                {
+                    includedShop = true;
+                    list.Add(3);
+                }
+                else
+                {
+                    list.Add(2);
+                }
+            }
+            // 몬스터 스테이지로 결정 
+            else
+            {
+                list.Add(1);
+            }
+        }
+
+        // 모든 루프를 돌았으니 마지막은 고정값을 넣어준다. 
+        list.Add(end);
+
+        return list;
+    }
+
+    // StageTableClass 리스트 값을 받으면 스테이지 타입에 따른 몬스터나 이벤트를 배치시킨다.
+    void SetStageTableClassListByStateTypeData(ref List<StageTableClass> list)
+    {
+        if (list == null || list.Count <= 0) return; 
+
+        // 스테이지 타입 검사 
+        foreach(StageTableClass tableClass in list)
+        {
+            if(tableClass == null) continue;
+
+            // 1. 보스 스테이지 인지 검사 
+            if(tableClass.isBossStage == true)
+            {
+                // 보스 몬스터 데이터 삽입 
+                // 난이도와 챕터 값에 따른 보스 몬스터를 넣어준다. 
+
+
+                // 이 후에 정보는 없으므로 넘긴다. 
+                continue; 
+            }
+
+            // 2. 이벤트일 경우
+            if(tableClass.stageType == StageType.EVENT)
+            {
+
+            }
+            // 3. 몬스터일 경우 
+            else if(tableClass.stageType == StageType.MONSTER)
+            {
+
+            }
+            // 5. 상점일 경우 
+            else if(tableClass.stageType == StageType.SHOP)
+            {
+                
+            }
+            // 5. 혼합형일 경우 
+            else if(tableClass.stageType == StageType.MULTY)
+            {
+
+            }
+        }
+    }
+
+
     public void UpgradeCreateStage(int level = 1)
     {
         // 0. 하나의 라인만 생각한다. 한 스테이지 노드에서 이벤트 최대 3개를 출력. 
@@ -117,11 +212,17 @@ public class StagePosController : MonoBehaviour
             stageTables.Clear();
         }
 
-        // 1-1 스테이지 난이도 만큼 생성하기
-        for (int i = 0; i < maxStageCount; i++)
+        // 스테이지 배치형 리스트를 생성 
+        List<int> stageLocateList = SetStagePosOneLine(maxStageCount); 
+        // 1-1 스테이지 배치형 리스트 만큼 생성하기
+        for(int i = 0; i < stageLocateList.Count; i++)
         {
             StageTableClass stageTable = new StageTableClass();
-            // 2. 스테이지별 최소 1개 최대 3개의 이벤트 노드를 생성한다. 
+            // 2.1 스테이지에 타입 설정 
+            stageTable.stageType = (StageType)stageLocateList[i];
+
+            // 2.2 스테이지 몬스터 타입 설정
+            // 
            if (stageTables != null)
             {
                 stageTables.Add(stageTable);
@@ -132,6 +233,8 @@ public class StagePosController : MonoBehaviour
 
         // 3. 
     }
+
+
 
     public void CreateStage()
     {
@@ -212,7 +315,7 @@ public class StagePosController : MonoBehaviour
             // TODO : 데이터 변경됨에 따라 아래 로직 변경해야됨
             // 그러네 보스전이 없어졌네..
             StageTableClass stageTable = new StageTableClass();
-            stageTable.stageSlot = StageSlot.MONSTER;
+            stageTable.stageType= StageType.MONSTER;
 
             // 랜덤 몬스터 배치 
             RadomLocateMonsterStage(ref stageTable, i);
@@ -377,7 +480,7 @@ public class StagePosController : MonoBehaviour
         else
             monsterCount = 1;
 
-        if (stageTable.monsterGroups == null) 
+        if (stageTable.eventInfoList == null) 
         {
            // stageTable.monsterGroups = new List<StageAppearMonsterGroup>();
         }
