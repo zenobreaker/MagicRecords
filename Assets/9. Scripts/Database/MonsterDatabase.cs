@@ -190,6 +190,21 @@ public class MonsterDatabase : MonoBehaviour
 
         return null; 
     }
+
+
+    // 챕터 번호와 난이도를 받으면 해당되는 몬스터 id를 반환한다. 
+    int GetMonsterIDFromChapter(int chpater, int level = 1, bool isBoss = false)
+    {
+        // 보스일 경우 보스 정보를 가져온다. 
+        if(isBoss == true)
+        {
+
+        }
+
+
+
+        return 0; 
+    }
 }
 
 
