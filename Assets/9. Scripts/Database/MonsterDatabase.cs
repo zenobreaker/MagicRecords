@@ -4,15 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
+
+
+// 아래의 클래스를 리스트로 담고 있는 클래스
+[System.Serializable]
+public class MonsterJsonAllData
+{
+    public MonsterJson[] monsterJsonData; 
+}
+
+// json으로 이루어진 데이터를 가공하는 용도의 클래스 
+[System.Serializable]
+public class MonsterJson
+{
+    public uint monsterID;                 // 고유 식별 id
+    public int monsterType;
+    public string monsterName;
+    public string monsterImage;
+    public string monsterPrefabName;       // 프리팹 위치 경로값
+}
+
 [System.Serializable]
 public class MonsterData
 {
-    public uint id;
-    public uint objectID;
-    public MonsterType type;
+    public uint monsterID;                 // 고유 식별 id
+    public MonsterType monsterType;
     public string monsterName;
-    public Sprite spt_Monster;
-    public GameObject pf_Monster;
+    public Sprite monsterSprite;
+    public string prefabPath;       // 프리팹 위치 경로값
+    public GameObject monsterPrefab;
 }
 
 
@@ -30,8 +50,16 @@ public class MonsterDatabase : MonoBehaviour
     [Header("보스 몬스터")]
     public List<MonsterData> data_Bosses;
 
+    [Header("몬스터 정보")]
+    public List<MonsterData> data_Monsters;
+
     [Header("몬스터 스탯")]
-    public List<PlayerData> data_MonsterStat; 
+    public List<PlayerData> data_MonsterStat;
+
+    [Header("몬스터 JSON 데이터")]
+    public TextAsset monsterJsonData;
+
+    private MonsterJsonAllData allData;
 
     private void Awake()
     {
@@ -44,7 +72,35 @@ public class MonsterDatabase : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        // 몬스터 json데이터를 일반 클래스로 변환하는작업 
+        InitializeConvertJsonToMonsterData(); 
+
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    // 몬스터 json데이터를 일반 클래스로 변환하는작업 
+    void InitializeConvertJsonToMonsterData()
+    {
+        allData = JsonUtility.FromJson<MonsterJsonAllData>(monsterJsonData.text);
+
+        data_Monsters = new List<MonsterData>();
+        // json 데이터를 일반 클래스에 대입한다. 
+        foreach (var data in allData.monsterJsonData)
+        {
+            // 클래스 생성 
+            MonsterData monsterData = new MonsterData();
+
+            monsterData.monsterID = data.monsterID;
+            monsterData.monsterName = data.monsterName;
+            monsterData.monsterType = (MonsterType)data.monsterType;
+            string imagePath = "Monster/" + data.monsterImage;
+            monsterData.monsterSprite = Resources.Load<Sprite>(imagePath);
+            string objectPath = "Prefabs/Monster/" + data.monsterPrefabName;
+            monsterData.monsterPrefab = Resources.Load<GameObject>(objectPath);
+
+            // 데이터 넣어주기 
+            data_Monsters.Add(monsterData);
+        }
     }
 
 
@@ -90,7 +146,7 @@ public class MonsterDatabase : MonoBehaviour
 
         foreach(var data in data_Normals)
         {
-            if(data.id == monsterId)
+            if(data.monsterID == monsterId)
             {
                 monster = data; 
             }
@@ -98,7 +154,7 @@ public class MonsterDatabase : MonoBehaviour
 
         foreach(var data in data_Elites)
         {
-            if (data.id == monsterId)
+            if (data.monsterID == monsterId)
             {
                 monster = data;
             }
@@ -106,7 +162,7 @@ public class MonsterDatabase : MonoBehaviour
 
         foreach (var data in data_Bosses)
         {
-            if (data.id == monsterId)
+            if (data.monsterID == monsterId)
             {
                 monster = data;
             }
@@ -125,15 +181,15 @@ public class MonsterDatabase : MonoBehaviour
             case MonsterType.NORMAL:
                 randArray = data_Normals;
                 rand = Random.Range(0, randArray.Count);
-                return randArray[rand].id;
+                return randArray[rand].monsterID;
             case MonsterType.ELITE:
                 randArray = data_Elites;
                 rand = Random.Range(0, randArray.Count);
-                return randArray[rand].id;
+                return randArray[rand].monsterID;
             case MonsterType.BOSS:
                 randArray = data_Bosses;
                 rand = Random.Range(0, randArray.Count);
-                return randArray[rand].id;
+                return randArray[rand].monsterID;
         }
 
         

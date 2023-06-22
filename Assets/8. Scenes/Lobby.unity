@@ -4098,18 +4098,13 @@ MonoBehaviour:
   selectMonsterStageNum: 0
   stageTables: []
   selectStage:
-    stageSlot: 0
+    stageType: 0
     monsterType: 0
-    eventSlot: 
-    monsterGroups: []
-    enemyCount: 0
-    stageId: 0
-    mapId: 0
-    stageName: 
+    eventSlot: 0
+    eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-    isWave: 0
 --- !u!4 &122702523
 Transform:
   m_ObjectHideFlags: 0
@@ -25685,66 +25680,41 @@ MonoBehaviour:
   img_SelectFrame: {fileID: 1958523899}
   monsterNames: []
   stageTables:
-  - stageSlot: 0
+  - stageType: 0
     monsterType: 0
-    eventSlot: 
-    monsterGroups: []
-    enemyCount: 0
-    stageId: 0
-    mapId: 0
-    stageName: 
+    eventSlot: 0
+    eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-    isWave: 0
-  - stageSlot: 0
+  - stageType: 0
     monsterType: 0
-    eventSlot: 
-    monsterGroups: []
-    enemyCount: 0
-    stageId: 0
-    mapId: 0
-    stageName: 
+    eventSlot: 0
+    eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-    isWave: 0
-  - stageSlot: 0
+  - stageType: 0
     monsterType: 0
-    eventSlot: 
-    monsterGroups: []
-    enemyCount: 0
-    stageId: 0
-    mapId: 0
-    stageName: 
+    eventSlot: 0
+    eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-    isWave: 0
-  - stageSlot: 0
+  - stageType: 0
     monsterType: 0
-    eventSlot: 
-    monsterGroups: []
-    enemyCount: 0
-    stageId: 0
-    mapId: 0
-    stageName: 
+    eventSlot: 0
+    eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-    isWave: 0
-  - stageSlot: 0
+  - stageType: 0
     monsterType: 0
-    eventSlot: 
-    monsterGroups: []
-    enemyCount: 0
-    stageId: 0
-    mapId: 0
-    stageName: 
+    eventSlot: 0
+    eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-    isWave: 0
   cur_SelectMD:
     id: 0
     objectID: 0
@@ -39743,6 +39713,7 @@ MonoBehaviour:
     spt_Monster: {fileID: 21300000, guid: fb064a9a247a4d4479226e8851bf05c2, type: 3}
     pf_Monster: {fileID: 5038329180906567040, guid: 600fdf781ec626949b6b7f65576d4c13,
       type: 3}
+  data_Monsters: []
   data_MonsterStat:
   - {fileID: 11400000, guid: bb82bbba750f991479ea44f14a564a08, type: 2}
   - {fileID: 11400000, guid: d975a20ffa19cb14c88fc9faf3322549, type: 2}
@@ -39754,7 +39725,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371334444}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5500002, y: -0.60442424, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
