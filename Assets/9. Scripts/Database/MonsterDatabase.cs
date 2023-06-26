@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 
+public enum MonsterType { NORMAL = 1, ELITE, BOSS };
 
 // 아래의 클래스를 리스트로 담고 있는 클래스
 [System.Serializable]
@@ -21,7 +24,7 @@ public class MonsterJson
     public int monsterType;
     public string monsterName;
     public string monsterImage;
-    public string monsterPrefabName;       // 프리팹 위치 경로값
+    public string monsterPrefabName;       // 프리팹 위치 경로값에 쓰일 이름 
 }
 
 [System.Serializable]
@@ -35,7 +38,30 @@ public class MonsterData
     public GameObject monsterPrefab;
 }
 
+// 스테이지 json 파일 관리 
+[System.Serializable]
+public class StageMonsterJsonAllData
+{
+   public StageMonsterJson[] stageMonsterJsons;
+}
 
+[System.Serializable]
+public class StageMonsterJson
+{
+    public int id;
+    public int chapter;
+    public string monsterGroup;
+    public int monsterGrade;
+}
+
+[System.Serializable]
+public class StageInfo
+{
+    public int id;
+    public int chapter;
+    public List<int> monsterGroup; 
+    public int monsterGrade;
+}
 
 public class MonsterDatabase : MonoBehaviour
 {
@@ -56,10 +82,24 @@ public class MonsterDatabase : MonoBehaviour
     [Header("몬스터 스탯")]
     public List<PlayerData> data_MonsterStat;
 
+    [Header("스테이지별 정보")]
+    public List<StageInfo> stageInfoList;
+
+    [Header("스테이지 일반 몬스터 정보")]
+    public List<StageInfo> stageNormalInfoList;
+    [Header("스테이지 엘리트 몬스터 정보")]
+    public List<StageInfo> stageEliteInfoList;
+    [Header("스테이지 보스 몬스터 정보")]
+    public List<StageInfo> stageBossInfoList;
+
     [Header("몬스터 JSON 데이터")]
     public TextAsset monsterJsonData;
 
-    private MonsterJsonAllData allData;
+    [Header("챕터 스테이지 JSON 데이터")]
+    public TextAsset stageJsonData;
+
+    private MonsterJsonAllData allData; // 몬스터 정보 
+    private StageMonsterJsonAllData stageAllData; // 스테이지 정보 
 
     private void Awake()
     {
@@ -73,7 +113,9 @@ public class MonsterDatabase : MonoBehaviour
         }
 
         // 몬스터 json데이터를 일반 클래스로 변환하는작업 
-        InitializeConvertJsonToMonsterData(); 
+        InitializeConvertJsonToMonsterData();
+
+        InitializeStageDataFromJson(); 
 
         DontDestroyOnLoad(this.gameObject);
     }
@@ -82,6 +124,7 @@ public class MonsterDatabase : MonoBehaviour
     void InitializeConvertJsonToMonsterData()
     {
         allData = JsonUtility.FromJson<MonsterJsonAllData>(monsterJsonData.text);
+        if (allData == null) return;
 
         data_Monsters = new List<MonsterData>();
         // json 데이터를 일반 클래스에 대입한다. 
@@ -248,15 +291,113 @@ public class MonsterDatabase : MonoBehaviour
     }
 
 
-    // 챕터 번호와 난이도를 받으면 해당되는 몬스터 id를 반환한다. 
-    int GetMonsterIDFromChapter(int chpater, int level = 1, bool isBoss = false)
+    // 스테이지 관련
+    // 챕터별 몬스터 json 정보 세팅
+    private void InitializeStageDataFromJson()
     {
-        // 보스일 경우 보스 정보를 가져온다. 
-        if(isBoss == true)
+        stageAllData = JsonUtility.FromJson<StageMonsterJsonAllData>(stageJsonData.text);
+        if (stageAllData == null) return; 
+
+        stageInfoList = new List<StageInfo>();
+        
+        stageNormalInfoList = new List<StageInfo>();
+        stageEliteInfoList = new List<StageInfo>();
+        stageBossInfoList = new List<StageInfo>();
+
+        if (stageAllData.stageMonsterJsons == null) return; 
+
+        foreach (var data in stageAllData.stageMonsterJsons)
         {
+            // 클래스 생성 
+            StageInfo stageInfo = new StageInfo();
+
+            stageInfo.id = data.id;
+            stageInfo.chapter = data.chapter;
+            stageInfo.monsterGroup = new List<int>(); 
+
+            // 몬스터 그룹 
+            string[] stringGroup = data.monsterGroup.Split(',');
+            for (int i = 0; i < stringGroup.Length; i++)
+            {
+                print(stringGroup[i]); 
+                // 대상 int로 변경하기
+                if(int.TryParse(stringGroup[i], out int target))
+                {
+                    stageInfo.monsterGroup.Add(target);
+                }
+            }
+
+
+            // 스테이지 등급 
+            stageInfo.monsterGrade = data.monsterGrade;
+            
+            // 데이터 넣어주기 
+            stageInfoList.Add(stageInfo);
+
+            // 몬스터 등급별로 리스트 분리 
+            if (data.monsterGrade == (int)MonsterType.NORMAL)
+            {
+                stageNormalInfoList.Add(stageInfo);
+            }
+            else if (data.monsterGrade == (int)MonsterType.ELITE)
+            {
+                stageEliteInfoList.Add(stageInfo);
+            }
+            else if (data.monsterGrade == (int)MonsterType.BOSS)
+            {
+                stageBossInfoList.Add(stageInfo);
+            }
+        }
+    }
+
+
+    // 챕터 번호와 등급을 받으면 랜덤한 스테이지 ID를 반환
+    public int GetRandomStageIDFromChapterAndGrade(int chapter, int grade = 1)
+    {
+       if(stageInfoList == null)  return 0;
+
+        List<StageInfo> targetList = new List<StageInfo>();  
+        foreach(var data in stageInfoList)
+        {
+            if (data == null) continue;
+            // chapter 검사 
+            if (data.chapter != chapter)
+                continue;
+
+            
+            // 해당 등급에 맞는 리스트에서 해당 값을 가져온다. 
+            if (data.monsterGrade == (int)MonsterType.NORMAL)
+            {
+                targetList = stageNormalInfoList;
+            }
+            else if (data.monsterGrade == (int)MonsterType.ELITE)
+            {
+                targetList = stageEliteInfoList;
+            }
+            else if (data.monsterGrade == (int)MonsterType.BOSS)
+            {
+                targetList = stageBossInfoList;
+            }
+
+            if (targetList.Count <= 0)
+                return 0; 
+
+            var findList = targetList.FindAll(x => x.chapter == data.chapter);
+
+            int min = findList.Min(p => p.id);
+            int max = findList.Max(p => p.id);
+
+            int random = Random.Range(min, max + 1);
+
+            foreach(var item in findList)
+            {
+                if (random != item.id)
+                    continue;
+                 
+                return item.id;
+            }
 
         }
-
 
 
         return 0; 

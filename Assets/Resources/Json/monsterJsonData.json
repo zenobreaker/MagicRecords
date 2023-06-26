@@ -1,0 +1,46 @@
+{
+  "monsterJsonData": [
+    {
+      "monsterID": "101",
+      "monsterType": "0",
+      "monsterName": "물덩이",
+      "monsterImage": "slime",
+      "monsterPrefabName": "Slime"
+    },
+    {
+      "monsterID": "102",
+      "monsterType": "0",
+      "monsterName": "나무귀신",
+      "monsterImage": "treemon",
+      "monsterPrefabName": "Treemon"
+    },
+    {
+      "monsterID": "201",
+      "monsterType": "1",
+      "monsterName": "물덩이",
+      "monsterImage": "slime",
+      "monsterPrefabName": "Slime"
+    },
+    {
+      "monsterID": "202",
+      "monsterType": "1",
+      "monsterName": "나무귀신",
+      "monsterImage": "treemon",
+      "monsterPrefabName": "Treemon"
+    },
+    {
+      "monsterID": "301",
+      "monsterType": "1",
+      "monsterName": "물덩이",
+      "monsterImage": "slime",
+      "monsterPrefabName": "Slime"
+    },
+    {
+      "monsterID": "302",
+      "monsterType": "1",
+      "monsterName": "나무귀신",
+      "monsterImage": "treemon",
+      "monsterPrefabName": "Treemon"
+    }
+  ]
+}

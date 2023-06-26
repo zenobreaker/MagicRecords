@@ -1,0 +1,67 @@
+{
+  "stageMonsterJsons": [
+    {
+      "id": "1",
+      "chpater": "1",
+      "monsterGroup": "101",
+      "monsterGrade": "1",
+      "Memo": "슬라임 1마리"
+    },
+    {
+      "id": "2",
+      "chpater": "1",
+      "monsterGroup": "101,102",
+      "monsterGrade": "1",
+      "Memo": "슬라임과 나무귀신 듀오"
+    },
+    {
+      "id": "3",
+      "chpater": "1",
+      "monsterGroup": "101,101,101,101",
+      "monsterGrade": "1",
+      "Memo": "슬라임 가족"
+    },
+    {
+      "id": "4",
+      "chpater": "1",
+      "monsterGroup": "201",
+      "monsterGrade": "2",
+      "Memo": "엘리트 슬라임"
+    },
+    {
+      "id": "5",
+      "chpater": "1",
+      "monsterGroup": "201,201",
+      "monsterGrade": "2",
+      "Memo": "엘리트 슬라임 듀오"
+    },
+    {
+      "id": "6",
+      "chpater": "1",
+      "monsterGroup": "202",
+      "monsterGrade": "2",
+      "Memo": "엘리트 나무귀신"
+    },
+    {
+      "id": "7",
+      "chpater": "1",
+      "monsterGroup": "102,102",
+      "monsterGrade": "1",
+      "Memo": "나무귀신 듀오"
+    },
+    {
+      "id": "8",
+      "chpater": "1",
+      "monsterGroup": "301",
+      "monsterGrade": "3",
+      "Memo": "보스 슬라임"
+    },
+    {
+      "id": "9",
+      "chpater": "1",
+      "monsterGroup": "302",
+      "monsterGrade": "3",
+      "Memo": "보스 나무귀신"
+    }
+  ]
+}

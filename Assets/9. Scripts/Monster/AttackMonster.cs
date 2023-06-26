@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.UI.GridLayoutGroup;
 
-public enum MonsterType { NORMAL, ELITE, BOSS };
 
 [System.Serializable]
 public class MonsterAttackStat
