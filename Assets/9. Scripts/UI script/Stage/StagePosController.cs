@@ -155,8 +155,11 @@ public class StagePosController : MonoBehaviour
         {
             if(tableClass == null) continue;
 
+            // 스테이지에 넣을 이벤트를 만든다
+            StageEventInfo mainEventInfo = new StageEventInfo();
+
             // 1. 보스 스테이지 인지 검사 
-            if(tableClass.isBossStage == true)
+            if (tableClass.isBossStage == true)
             {
                 // 보스 몬스터 데이터 삽입 
                 // 난이도와 챕터 값에 따른 보스 몬스터를 넣어준다. 
@@ -174,7 +177,18 @@ public class StagePosController : MonoBehaviour
             // 3. 몬스터일 경우 
             else if(tableClass.stageType == StageType.MONSTER)
             {
+                if (monsterDB == null) return;
 
+                // 가져온 몬스터 ID값을 정리 
+                tableClass.eventInfoList = new List<StageEventInfo>();
+              
+                var monsterSlot = (MonsterSlot)tableClass.monsterType;
+                // 몬스터 그룹 만들기 
+                mainEventInfo.CreateMonsterGroup(monsterSlot, 1, "", 1);
+                // 몬스터 ID리스트 생성 
+                monsterDB.GetMonsterIDListFromTargetStage(cur_MainChpaterNum, (int)monsterSlot,
+                    ref mainEventInfo.monsterGroup.AppearMonsterList);
+                tableClass.eventInfoList.Add(mainEventInfo);
             }
             // 5. 상점일 경우 
             else if(tableClass.stageType == StageType.SHOP)
@@ -221,19 +235,16 @@ public class StagePosController : MonoBehaviour
             // 2.1 스테이지에 타입 설정 
             stageTable.stageType = (StageType)stageLocateList[i];
 
-            // 2.2 스테이지 몬스터 타입 설정
-            // 
            if (stageTables != null)
             {
                 stageTables.Add(stageTable);
             }
         }
 
-
-
         // 3. 
+        // 타입별 정보 세팅 
+        SetStageTableClassListByStateTypeData(ref stageTables);
     }
-
 
 
     public void CreateStage()
