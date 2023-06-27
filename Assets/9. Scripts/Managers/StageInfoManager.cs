@@ -61,21 +61,21 @@ public class StageAppearMonsterGroup
     public int mapID;   // 어떠한 맵을 그려야하는가 
 
     // 등장할 몬스터리스트 ID, 등장 수치 
-    public List<(uint, uint)> AppearMonsterList = new List<(uint, uint)>();
+    public List<int> AppearMonsterList = new List<int>();
 
     public StageAppearMonsterGroup(MonsterSlot monsterSlot = MonsterSlot.NORMAL, int wave = 0, 
-        int maxWave = 0 , string stageName = "", int mapID = 0)
+        string stageName = "", int mapID = 0)
     {
         this.monsterSlot = monsterSlot;
         this.wave = wave;
-        this.maxWave = maxWave;
+        this.maxWave = wave;
         this.stageName = stageName;
         this.mapID = mapID;
     }
 
 
     // 매개변수대로 리스트에 몬스터 데이터를 설정한다. 
-    public void SetMonsterList(List<(uint, uint)> list)
+    public void SetMonsterList(List<int> list)
     {
         AppearMonsterList.Clear();
         // 리스트에 몬스터 정보를 넣어준다 
@@ -107,20 +107,12 @@ public class StageEventInfo
     public StageAppearMonsterGroup monsterGroup;
 
     // 몬스터 그룹 생성 
-    public void CreateMonsterGroup(MonsterSlot monsterSlot = MonsterSlot.NORMAL, int wave = 0,
-        int maxWave = 0, string stageName = "", int mapID = 0)
+    public void CreateMonsterGroup(MonsterSlot monsterSlot = MonsterSlot.NORMAL, int waveCount = 0,
+             string stageName = "", int mapID = 0)
     {
-        monsterGroup = new StageAppearMonsterGroup(monsterSlot, wave, maxWave, stageName, mapID); 
+        monsterGroup = new StageAppearMonsterGroup(monsterSlot, waveCount, stageName, mapID);
     }
 
-    // 몬스터 그룹에 데이터 넣기
-    public void SetMonsterGroupData(List<(uint, uint)> list)
-    {
-        if (monsterGroup == null)
-            return; 
-
-        monsterGroup.SetMonsterList(list);
-    }
 };
 
 /// <summary>

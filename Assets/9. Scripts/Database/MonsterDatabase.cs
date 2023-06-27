@@ -402,6 +402,30 @@ public class MonsterDatabase : MonoBehaviour
 
         return 0; 
     }
+
+    // chapter와 등급 난이도를 받으면 리스트에 해당 몬스터 ID를 넣어 반환 
+    public void GetMonsterIDListFromTargetStage(int chapter, int grade, ref List<int> targetList)
+    {
+        // 스테이지 ID를 가져온다. 
+        var stageID = GetRandomStageIDFromChapterAndGrade(chapter, grade);
+
+
+        if (stageID <= 0 || stageAllData == null ||
+            stageAllData.stageMonsterJsons == null) return;
+
+        foreach(var data in stageInfoList)
+        {
+            if (data == null || data.id != stageID) continue;
+
+            // 해당 데이터에 있는 몬스터 ID 리스트를 순회하면서 정보를 넣어 전달 
+            foreach(var monsterID in data.monsterGroup)
+            {
+                targetList.Add(monsterID);
+            }
+
+            return; 
+        }
+    }
 }
 
 

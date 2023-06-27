@@ -47,7 +47,8 @@ public class StageSelecter : MonoBehaviour
 
         Debug.Log("현재 사용중?");
         theSPC.cur_MainChpaterNum = 1;
-        theSPC.CreateStage();
+        //theSPC.CreateStage();
+        theSPC.UpgradeCreateStage();
         UIPageManager.instance.OpenClose(go_StageScreen);
         //UIPageManager.instance.ChangeButtonAtoB(LobbyManager.MyInstance.btn_ModeSelect, LobbyManager.MyInstance.btn_IntotheStage);
      
