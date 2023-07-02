@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
+using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 
 
@@ -44,7 +48,8 @@ public class StagePosController : MonoBehaviour
     public int[,] monsterPopulation = new int[5, 3];
 
     [SerializeField] List<StageTableClass> stageTables = null;
-
+    [SerializeField] GamePlayLevel gameLevel = 0; // 게임 난이도
+    [SerializeField] public Dictionary<GamePlayLevel, float> playLevelPair  = new Dictionary<GamePlayLevel, float>();
     // 변수 
     public MonsterData cur_SelectMD;    // 선택한 몬스터 
     public int maxStageNum;             // 스테이지 최대 수
@@ -55,11 +60,8 @@ public class StagePosController : MonoBehaviour
     int cur_SelectStageNum;             // 현재 선택한 스테이지
 
     int cur_Population;                 // 선택한 몬스터 스테이지의 몬스터 수
-    int normalStage;                    // 일반 스테이지 
-    int eliteStage;                     // 앨리트 몬스터 스테이지 
-    int bossStage;                      // 보스 몬스터 스테이지 
-
-    bool isStageOn;
+                                        // 엘리트가 등장할 수 있는 최솟값 
+    int eliteAppearPoint;
     bool isSetted;                      // 스테이지 세팅 확인 
 
     string[] forestFields = { "Forest1", "Forest2", "Forest3" };
@@ -71,6 +73,18 @@ public class StagePosController : MonoBehaviour
         //RandomLocateStage();
         //SetMonsterImagetoStage();
         img_SelectFrame.gameObject.SetActive(false);
+
+        if(playLevelPair.Count <= 0)
+        {
+            // 노말 20퍼 
+            playLevelPair.Add(GamePlayLevel.NORMAL, 0.2f);
+
+            // 하드 40퍼
+            playLevelPair.Add(GamePlayLevel.HARD, 0.4f);
+
+            // 특수 30퍼
+            playLevelPair.Add(GamePlayLevel.SPECIAL, 0.3f);
+        }
 
 
         // 저장한게 없다면 챕터는 1로 초기화시켜놓는다
@@ -96,13 +110,112 @@ public class StagePosController : MonoBehaviour
     }
 
 
-    // 길이를 알려주면 그 사이 값을 일정한 비율로 채우는 함수 
-    List<int> SetStagePosOneLine(int length, float rate = 1.0f)
+    // 리스트를 받으면 몬스터 부분만 다시 등급을 나눈다 (보스몬스터는 제외) 
+    void SetMonsterStageGrade(ref List<StageTableClass> list)
     {
-        List<int> list = new List<int>();
+        if (list == null) return;
+
+        // 스테이지의 최종 길이를 계산해서 비율을 책정한다.
+        // 엘리트만 나오는 스테이지가 있을 수 있지만 이게 연속적으로 등장하면 안된다. 
+        // 5개의 스테이지가잇으면 1개는 엘리트가 포함되어 있다. 
+        int stageCount = list.Count;
+        // 엘리트 몬스터 수 
+        int maxEliteMonsterCount = 1;
+        // 총 스테이지 노드 개수를 나눈다. 
+        int resultDivineStageCount = stageCount / 2;
+        
+        if (playLevelPair.Count() < 0)
+            return;
+
+        float value = 0; 
+        // 그 값이 0보다 크다면 엘리트 생성 개수에 추가할지 말지 결정한다. 난이도에 따라 확률이 다르다. 
+        if (gameLevel == GamePlayLevel.NORMAL)
+        {
+            // NORAML 확률
+           value = playLevelPair[GamePlayLevel.NORMAL];
+        }
+        else if (gameLevel == GamePlayLevel.HARD) 
+        {
+            value = playLevelPair[GamePlayLevel.HARD];
+        }
+        else if (gameLevel == GamePlayLevel.SPECIAL)
+        {
+            value = playLevelPair[GamePlayLevel.SPECIAL];
+        }
+
+        var randValue = Random.Range(0, 1.0f);
+        if (randValue <= value)
+        {
+            // 확률에 당첨되면 갯수 추가 
+            maxEliteMonsterCount += resultDivineStageCount;
+        }
+
+        int currentElitLocateCount = 0;
+        // tableclass 리스트를 돌면서 값을 할당한다. 
+        for(int i = 0 ; i < list.Count; i++)
+        {
+            var stage = list[i];
+            if (stage == null) continue;
+
+            if (i < eliteAppearPoint ||
+                stage.eventInfoList == null)
+                continue;
+
+            bool isBossStage = false;
+            if(stage.isBossStage == true)
+            {
+                isBossStage = true;
+            }
+
+            // 리스트 내부에 정보에서 monstertype것만 건든다. 
+            foreach (var eventInfo in stage.eventInfoList)
+            {
+                if (eventInfo == null) continue;
+
+                // 보스 타입은 제외 
+                if (eventInfo.stageType != StageType.MONSTER)
+                {
+                    continue;
+                }
+
+                if(isBossStage == true)
+                {
+                    eventInfo.monsterType = MonsterType.BOSS;
+                    continue; 
+                }
+
+                // 엘리트는 무조건 하나는 배치 
+                if (currentElitLocateCount < maxEliteMonsterCount &&
+                    maxEliteMonsterCount >= 1)
+                {
+                    currentElitLocateCount++;
+
+                    eventInfo.monsterType = MonsterType.ELITE;
+                }
+                // 하나 이상 배치 했을 때 
+                else if (currentElitLocateCount >= 1 &&
+                     currentElitLocateCount < maxEliteMonsterCount)
+                {
+                    // 몬스터 스테이지면 이 스테이지의 몬스터 등급을 설정한다. 
+                    var eliteCount = Random.Range(0, 1.0f);
+                    // 8%정도라면 추가로 배치시킨다. 
+                    if (eliteCount <= 0.08f)
+                    {
+                        eventInfo.monsterType = MonsterType.ELITE;
+                    }
+                }
+            }
+
+        }
+    }
+
+    // 길이를 알려주면 그 사이 값을 일정한 비율로 채우는 함수 
+    List<List<int>> SetStagePosOneLine(int length, float rate = 1.0f)
+    {
+        List<List<int>> list = new List<List<int>>();
         // 시작과 끝은 고정이다. 
-        int start = 1;
-        int end = 1;
+        List<int> start = new List<int>(1) { 1, 1, 1};
+        List<int> end = new List<int>(1) { 1 };
         list.Add(start);
 
         // 먼저 시작과 끝을 뺀 남은 길이를 계산한다. 
@@ -111,32 +224,71 @@ public class StagePosController : MonoBehaviour
         // 남은 길이에 배치할 때 80%로 몬스터 20로 이벤트다 
         // 또 이벤트를 배치할 때도 상점이 중복으로 배치되면 곤란하니 상점만 배치할 땐 독립적으로 적용한다. 
         // 남은 수치만큼 반복해서 대입,
-        bool includedShop = false;
-        for (int i = start + 1; i < length; i++)
+
+        int maxShopCount = 1;
+        int maxEventCount = 1;
+        int currentShopCount = 0;
+        int currentEventCount = 0;
+
+        // 한 스테이지 노드에 들어갈 이벤트 노드 최대 수는 3개
+        int maxEventNodeCount = 3;
+        int minEventNodeCount = 1;
+
+        eliteAppearPoint = length / 2; 
+
+        bool isBothPosFlag = false; 
+        for (int i = 1; i < length - 1; i++)
         {
-            // 0~10 까지 돌려서 0, 1이 나오면 이벤트로 간주한다.  
-            int randEvent = Random.Range(0, 11);
-            // 이벤트 스테이지 당첨
-            if (randEvent == 0 || randEvent == 1)
+            var sublist = new List<int>();
+            // 넣으려는 스테이지 위치가 전체 길이에서 일정 위치 값을 넘은 상태라면 엘리트랑 이벤트가 동시에 배치된다. 
+            if (i > eliteAppearPoint)
             {
-                // 여기서 한 번 더 결정 지어야한다. 
-                // 이미 상점이 포함된 상태라면 상점을 추가하지 않는다. 
-                int randDecideEvent = Random.Range(0, 2);
-                if (randDecideEvent == 1 && includedShop == false)
+                isBothPosFlag = true; 
+            }
+            int currentNodeCount = Random.Range(minEventNodeCount, maxEventNodeCount+1);
+            for (int j = 0; j < currentNodeCount; j++)
+            {
+                int randEvent = Random.Range(0, 11);
+                // 이벤트 스테이지 당첨
+                if (randEvent == 0 || randEvent == 1)
                 {
-                    includedShop = true;
-                    list.Add(3);
+                    bool eventPosFlag = false;
+                    // 여기서 한 번 더 결정 지어야한다. 
+                    // 이미 상점이 포함된 상태라면 상점을 추가하지 않는다. 
+                    int randDecideEvent = Random.Range(0, 2);
+                    if (randDecideEvent == 1 && maxShopCount <= currentShopCount)
+                    {
+                        currentShopCount += 1;
+                        sublist.Add(3);
+                        eventPosFlag = true; 
+                    }
+                    else if(maxEventCount <= currentEventCount)
+                    {
+                        currentEventCount += 1;
+                        sublist.Add(2);
+                        eventPosFlag = true;
+                    }
+                    else
+                    {
+                        sublist.Add(1);
+                    }
+
+                    // 이벤트 플래그가 배치되어진다면 엘리트도 배치되게 하기 위한 배치를 넣어준다.
+                    if (isBothPosFlag == true && eventPosFlag == true &&
+                       currentNodeCount < maxEventNodeCount)
+                    {
+                        sublist.Add(1);
+                    }
                 }
+                // 몬스터 스테이지로 결정 
                 else
                 {
-                    list.Add(2);
+                    sublist.Add(1);
                 }
-            }
-            // 몬스터 스테이지로 결정 
-            else
-            {
-                list.Add(1);
-            }
+
+            }   
+            
+            list.Add(sublist);
         }
 
         // 모든 루프를 돌았으니 마지막은 고정값을 넣어준다. 
@@ -153,53 +305,65 @@ public class StagePosController : MonoBehaviour
         // 스테이지 타입 검사 
         foreach(StageTableClass tableClass in list)
         {
-            if(tableClass == null) continue;
+            if(tableClass == null || tableClass.eventInfoList == null) continue;
 
-            // 스테이지에 넣을 이벤트를 만든다
-            StageEventInfo mainEventInfo = new StageEventInfo();
 
+            bool isBossStage = false; 
             // 1. 보스 스테이지 인지 검사 
             if (tableClass.isBossStage == true)
             {
-                // 보스 몬스터 데이터 삽입 
-                // 난이도와 챕터 값에 따른 보스 몬스터를 넣어준다. 
-
-
-                // 이 후에 정보는 없으므로 넘긴다. 
-                continue; 
+                isBossStage = true; 
             }
+
+            foreach ( var eventInfo in tableClass.eventInfoList )
+            {
+                if (eventInfo == null) continue;
+
+                // 스테이지 타입이 몬스터 타입일 경우 
+                if (eventInfo.stageType == StageType.MONSTER)
+                {
+                    // 가져온 몬스터 ID값을 정리 
+                    // 몬스터 그룹 만들기 
+                    eventInfo.CreateMonsterGroup(eventInfo.monsterType, 1, "", 1);
+                    // 몬스터 ID리스트 생성 
+                    monsterDB.GetMonsterIDListFromTargetStage(cur_MainChpaterNum, (int)1,
+                        ref eventInfo.monsterGroup.AppearMonsterList);
+                }
+
+            }
+
 
             // 2. 이벤트일 경우
-            if(tableClass.stageType == StageType.EVENT)
-            {
+            //if(tableClass.stageType == StageType.EVENT)
+            //{
 
-            }
-            // 3. 몬스터일 경우 
-            else if(tableClass.stageType == StageType.MONSTER)
-            {
-                if (monsterDB == null) return;
+            //}
+            //// 3. 몬스터일 경우 
+            //else if(tableClass.stageType == StageType.MONSTER)
+            //{
+            //    if (monsterDB == null) return;
 
-                // 가져온 몬스터 ID값을 정리 
-                tableClass.eventInfoList = new List<StageEventInfo>();
-              
-                var monsterSlot = (MonsterSlot)tableClass.monsterType;
-                // 몬스터 그룹 만들기 
-                mainEventInfo.CreateMonsterGroup(monsterSlot, 1, "", 1);
-                // 몬스터 ID리스트 생성 
-                monsterDB.GetMonsterIDListFromTargetStage(cur_MainChpaterNum, (int)monsterSlot,
-                    ref mainEventInfo.monsterGroup.AppearMonsterList);
-                tableClass.eventInfoList.Add(mainEventInfo);
-            }
-            // 5. 상점일 경우 
-            else if(tableClass.stageType == StageType.SHOP)
-            {
-                
-            }
-            // 5. 혼합형일 경우 
-            else if(tableClass.stageType == StageType.MULTY)
-            {
+            //    // 가져온 몬스터 ID값을 정리 
+            //    tableClass.eventInfoList = new List<StageEventInfo>();
 
-            }
+
+            //    // 몬스터 그룹 만들기 
+            //    mainEventInfo.CreateMonsterGroup(MonsterType.NORMAL, 1, "", 1);
+            //    // 몬스터 ID리스트 생성 
+            //    monsterDB.GetMonsterIDListFromTargetStage(cur_MainChpaterNum, (int)1,
+            //        ref mainEventInfo.monsterGroup.AppearMonsterList);
+            //    tableClass.eventInfoList.Add(mainEventInfo);
+            //}
+            //// 5. 상점일 경우 
+            //else if(tableClass.stageType == StageType.SHOP)
+            //{
+
+            //}
+            //// 5. 혼합형일 경우 
+            //else if(tableClass.stageType == StageType.MULTY)
+            //{
+
+            //}
         }
     }
 
@@ -227,23 +391,56 @@ public class StagePosController : MonoBehaviour
         }
 
         // 스테이지 배치형 리스트를 생성 
-        List<int> stageLocateList = SetStagePosOneLine(maxStageCount); 
+        List<List<int>> stageLocateList = SetStagePosOneLine(maxStageCount); 
         // 1-1 스테이지 배치형 리스트 만큼 생성하기
         for(int i = 0; i < stageLocateList.Count; i++)
         {
-            StageTableClass stageTable = new StageTableClass();
-            // 2.1 스테이지에 타입 설정 
-            stageTable.stageType = (StageType)stageLocateList[i];
+            StageTableClass stageTable = new StageTableClass
+            {
+                // 스테이지 값 정렬 order 세팅
+                tableOrder = i + 1,
+                // 2.1 스테이지 이름 설정
+                stageName = cur_MainChpaterNum + "-" + i + 1,
+                // 2.2 스테이지에 타입 설정 
+              //  stageType = (StageType)stageLocateList[i].First(),
+                eventInfoList = new List<StageEventInfo>()
+            };
+            for (int j = 0; j < stageLocateList[i].Count; j++)
+            {
+                StageEventInfo info = new StageEventInfo
+                {
+                    stageType = (StageType)stageLocateList[i][j]
+                };
 
-           if (stageTables != null)
+                stageTable.eventInfoList.Add(info);
+            }
+
+            if (stageTables != null)
             {
                 stageTables.Add(stageTable);
             }
+           
+        }
+
+        // 마지막 스테이지는 보스 스테이지로 고정해놓는다.
+        if (stageTables.Last() != null)
+        {
+            stageTables.Last().isBossStage = true; 
         }
 
         // 3. 
+        // 몬스터 타입은 별도로 세부화해야한다. 
+        SetMonsterStageGrade(ref stageTables);
         // 타입별 정보 세팅 
         SetStageTableClassListByStateTypeData(ref stageTables);
+    
+
+        // 4. 스테이지 UI 기능 잠그기
+        LockedAllStage();
+
+        // 4. 만들어진 정보대로 스테이지 그림 그리기
+        DrawStageIcon();
+
     }
 
 
@@ -280,7 +477,7 @@ public class StagePosController : MonoBehaviour
         // 클리어한 스테이지 잠그기 
         //LockedClearStage();
         // 스테이지에 맞는 몬스터 이미지 세팅
-        SetMonsterImagetoStage();
+        //SetMonsterImagetoStage();
         img_SelectFrame.gameObject.SetActive(false);
         // 모든 스테이지 잠금 처리 (1스테이지 제외)
         LockedAllStage();
@@ -326,7 +523,7 @@ public class StagePosController : MonoBehaviour
             // TODO : 데이터 변경됨에 따라 아래 로직 변경해야됨
             // 그러네 보스전이 없어졌네..
             StageTableClass stageTable = new StageTableClass();
-            stageTable.stageType= StageType.MONSTER;
+            //stageTable.stageType= StageType.MONSTER;
 
             // 랜덤 몬스터 배치 
             RadomLocateMonsterStage(ref stageTable, i);
@@ -398,26 +595,26 @@ public class StagePosController : MonoBehaviour
         }
 
         _stageTableClass.isBossStage = false; 
-        _stageTableClass.monsterType = MonsterType.NORMAL;
+        //_stageTableClass.monsterType = MonsterType.NORMAL;
 
      
         int _ran = UnityEngine.Random.Range(0, 10);
         
         if (_ran == 3)
         {
-            _stageTableClass.monsterType = MonsterType.ELITE;
+        //    _stageTableClass.monsterType = MonsterType.ELITE;
         }
         else
-            _stageTableClass.monsterType = MonsterType.NORMAL;
+        //    _stageTableClass.monsterType = MonsterType.NORMAL;
 
         // 슬롯이 마지막 슬롯이라면 보스전으로 변경 
         if (_slotNum == 4)
         {
             _stageTableClass.isBossStage = true;
-            _stageTableClass.monsterType = MonsterType.BOSS;
+         //   _stageTableClass.monsterType = MonsterType.BOSS;
         }
 
-        SetAppearMonster(ref _stageTableClass);
+      //  SetAppearMonster(ref _stageTableClass);
     }
 
     // 특정 랜덤 이벤트 스테이지 배치 
@@ -446,7 +643,7 @@ public class StagePosController : MonoBehaviour
     }
 
     // 스테이지에 맞는 몬스터 이미지 세팅
-    void SetMonsterImagetoStage()
+    void DrawStageIcon()
     {
         for (int i = 0; i < MAX_STAGE_COUNT; i++)
         {
@@ -454,20 +651,22 @@ public class StagePosController : MonoBehaviour
             {
                 string stageName = cur_MainChpaterNum.ToString() + "-" + (i+1).ToString();
                 btn_MonsterSlots[i].SetSlotText(stageName);
-                switch (stageTables[i].monsterType)
+               // if (stageTables[i].stageType == StageType.MONSTER)
                 {
+                    //switch (stageTables[i].monsterType)
+                    //{
 
-                    case MonsterType.NORMAL:
-                        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[0]);
-                        break;
-                    case MonsterType.ELITE:
-                        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[1]);
-                        break;
-                    case MonsterType.BOSS:
-                        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[2]);
-                        break;
+                    //    case MonsterType.NORMAL:
+                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[0]);
+                    //        break;
+                    //    case MonsterType.ELITE:
+                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[1]);
+                    //        break;
+                    //    case MonsterType.BOSS:
+                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[2]);
+                    //        break;
+                    //}
                 }
-
             }
 
         }
@@ -484,12 +683,12 @@ public class StagePosController : MonoBehaviour
         // TODO 나중에 스테이지 정보에 어떤 몬스터들이 나오는지 몇마리가 나오는지 등 정보가 전달 필요
         // 몬스터 등장 개수 설정
         int monsterCount = 0; 
-        if (stageTable.monsterType == MonsterType.NORMAL)
-        {
-            monsterCount = Random.Range(1, 6);
-        }
-        else
-            monsterCount = 1;
+        //if (stageTable.monsterType == MonsterType.NORMAL)
+        //{
+        //    monsterCount = Random.Range(1, 6);
+        //}
+        //else
+        //    monsterCount = 1;
 
         if (stageTable.eventInfoList == null) 
         {
@@ -679,12 +878,15 @@ public class StagePosController : MonoBehaviour
     // 특정 스테이지 클리어 여부에 따라 세팅 
     public void LockedAllStage()
     {
-
+      
         //img_StageIcon[0].GetComponent<Button>().interactable = true;
         btn_MonsterSlots[0].SetButtonInteractive(true);
 
         for (int i = 0; i < stageTables.Count; i++)
         {
+            if (btn_MonsterSlots[i] == null)
+                continue;
+
             // 해당 스테이지가 클리어 상태인가 
             if(stageTables[i].isCleared == true)
             {
@@ -696,12 +898,10 @@ public class StagePosController : MonoBehaviour
 
             if (stageTables[i].isLocked == true)
             {
-                //img_StageIcon[i].GetComponent<Button>().interactable = false;
                 btn_MonsterSlots[i].SetButtonInteractive(false);
             }
             else 
             {
-                //img_StageIcon[i].GetComponent<Button>().interactable = true;
                 btn_MonsterSlots[i].SetButtonInteractive(true);
             }
 
@@ -720,10 +920,6 @@ public class StagePosController : MonoBehaviour
         }
     }
 
-    public MonsterType GetMonsterSlot()
-    {
-        return stageTables[cur_MainChpaterNum].monsterType;
-    }
 
 
     // 다음 챕터로 변경 

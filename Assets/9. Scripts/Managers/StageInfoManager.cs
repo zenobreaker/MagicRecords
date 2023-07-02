@@ -26,12 +26,7 @@ public enum StageType
     MULTY, 
     MAX = MULTY
 };
-public enum MonsterSlot
-{
-    NORMAL = 1, 
-    ELITE, 
-    BOSS,
-};
+
 public enum EventSlot 
 {
     NONE = 0,
@@ -54,7 +49,7 @@ public enum EventCategory
 public class StageAppearMonsterGroup
 {
     //일반 / 엘리트 /  보스 스테이지인지? 
-    MonsterSlot monsterSlot; 
+    MonsterType monsterType; 
     public int wave;
     public int maxWave; // 웨이브 방식이라면 최대 웨이브 값 
     public string stageName;
@@ -63,10 +58,10 @@ public class StageAppearMonsterGroup
     // 등장할 몬스터리스트 ID, 등장 수치 
     public List<int> AppearMonsterList = new List<int>();
 
-    public StageAppearMonsterGroup(MonsterSlot monsterSlot = MonsterSlot.NORMAL, int wave = 0, 
+    public StageAppearMonsterGroup(MonsterType monsterType = MonsterType.NORMAL, int wave = 0, 
         string stageName = "", int mapID = 0)
     {
-        this.monsterSlot = monsterSlot;
+        this.monsterType = monsterType;
         this.wave = wave;
         this.maxWave = wave;
         this.stageName = stageName;
@@ -94,12 +89,15 @@ public class StageAppearMonsterGroup
 public class StageEventInfo
 {
     public uint stageId;
+
+    public StageType stageType;
     // 메인 이벤트 형식  
     public EventCategory mainEventCategory;
     // 서브 이벤트 
     public EventCategory subEventCategory;
     // 뭘 넣지 
-
+    public MonsterType monsterType;
+    public EventSlot eventSlot;
     // 스토리 이벤트면 나타날 스토리 컷신 정보 
     // 
 
@@ -107,10 +105,10 @@ public class StageEventInfo
     public StageAppearMonsterGroup monsterGroup;
 
     // 몬스터 그룹 생성 
-    public void CreateMonsterGroup(MonsterSlot monsterSlot = MonsterSlot.NORMAL, int waveCount = 0,
+    public void CreateMonsterGroup(MonsterType monsterType = MonsterType.NORMAL, int waveCount = 0,
              string stageName = "", int mapID = 0)
     {
-        monsterGroup = new StageAppearMonsterGroup(monsterSlot, waveCount, stageName, mapID);
+        monsterGroup = new StageAppearMonsterGroup(monsterType, waveCount, stageName, mapID);
     }
 
 };
@@ -123,11 +121,9 @@ public class StageEventInfo
 [System.Serializable]
 public class StageTableClass
 {
-    int tableOrder; 
-
-    public StageType stageType;
-    public MonsterType monsterType;
-    public EventSlot eventSlot;
+    public int tableOrder; 
+    //스테이지 이름
+    public string stageName;
 
     // 스테이지에 들어 있는 각종 이벤트 정보들을 담아있는 리스트 
     public List<StageEventInfo> eventInfoList;
@@ -141,15 +137,12 @@ public class StageTableClass
         Init(); 
     }
 
-    public StageTableClass(int tableOrder, StageType stageType, 
-        MonsterType monsterType, EventSlot eventSlot, 
+    public StageTableClass(int tableOrder, 
         List<StageEventInfo> eventInfoList,
         bool isBossStage, bool isLocked, bool isCleared)
     {
         this.tableOrder = tableOrder;
-        this.stageType = stageType;
-        this.monsterType = monsterType;
-        this.eventSlot = eventSlot;
+ 
         this.eventInfoList = eventInfoList;
         this.isBossStage = isBossStage;
         this.isLocked = isLocked;
@@ -159,11 +152,8 @@ public class StageTableClass
     // 변수 초기화 
     public void Init()
     {
-        tableOrder = 0; 
-
-        stageType = StageType.NONE;
-        monsterType = MonsterType.NORMAL;
-        eventSlot = EventSlot.NONE;
+        tableOrder = 0;
+        stageName = ""; 
 
         eventInfoList = null;
 
@@ -256,6 +246,8 @@ public class StageInfoManager : MonoBehaviour
     // 배치된 스테이지 정보 가져오기 
     public StageTableClass GetLocatedStageInfo(int _count)
     {
+        if (stage_dic_list.Count <= 0) return null;
+
         var stageTable = stage_dic_list[currentChapter];
         if(stageTable == null)
         {

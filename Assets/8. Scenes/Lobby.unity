@@ -4098,6 +4098,8 @@ MonoBehaviour:
   selectMonsterStageNum: 0
   stageTables: []
   selectStage:
+    tableOrder: 0
+    stageName: 
     stageType: 0
     monsterType: 0
     eventSlot: 0
@@ -25680,35 +25682,45 @@ MonoBehaviour:
   img_SelectFrame: {fileID: 1958523899}
   monsterNames: []
   stageTables:
-  - stageType: 0
+  - tableOrder: 0
+    stageName: 
+    stageType: 0
     monsterType: 0
     eventSlot: 0
     eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-  - stageType: 0
+  - tableOrder: 0
+    stageName: 
+    stageType: 0
     monsterType: 0
     eventSlot: 0
     eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-  - stageType: 0
+  - tableOrder: 0
+    stageName: 
+    stageType: 0
     monsterType: 0
     eventSlot: 0
     eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-  - stageType: 0
+  - tableOrder: 0
+    stageName: 
+    stageType: 0
     monsterType: 0
     eventSlot: 0
     eventInfoList: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-  - stageType: 0
+  - tableOrder: 0
+    stageName: 
+    stageType: 0
     monsterType: 0
     eventSlot: 0
     eventInfoList: []

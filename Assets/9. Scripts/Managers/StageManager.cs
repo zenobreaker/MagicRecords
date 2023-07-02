@@ -104,8 +104,8 @@ public class StageManager : MonoBehaviour
         selectedStage.go_Stage.SetActive(true);
      
     
-        var monterType = stageInfo.monsterType;
-        theRM.RespawnMonster(selectedStage.go_EnemyRespawns, monterType);
+        //var monterType = stageInfo.monsterType;
+        //theRM.RespawnMonster(selectedStage.go_EnemyRespawns, monterType);
     }
 
     public void CreateTestStage()
