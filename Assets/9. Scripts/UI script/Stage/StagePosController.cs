@@ -71,8 +71,6 @@ public class StagePosController : MonoBehaviour
 
     private void Start()
     {
-        //RandomLocateStage();
-        //SetMonsterImagetoStage();
         img_SelectFrame.gameObject.SetActive(false);
 
         if(playLevelPair.Count <= 0)
@@ -437,9 +435,12 @@ public class StagePosController : MonoBehaviour
         SetStageTableClassListByStateTypeData(ref stageTables);
     
 
-        // 4. 스테이지 UI 기능 잠그기
-        //LockedAllStage();
+        // 4. 스테이지 잠그기
+        LockedAllStage();
+        // 스테이지 정보 전달 
+        StageInfoManager.instance.SetStageList(cur_MainChpaterNum, ref stageTables);
 
+        // 스크롤뷰 그리기 
         DrawStageButtonByScrollview();
     }
 
@@ -580,7 +581,7 @@ public class StagePosController : MonoBehaviour
         }
         isSetted = false;
         StageInfoManager.instance.
-            SetStageList(cur_MainChpaterNum, stageTables);
+            SetStageList(cur_MainChpaterNum, ref stageTables);
     }
 
 
@@ -832,9 +833,13 @@ public class StagePosController : MonoBehaviour
     // 특정 스테이지 클리어 여부에 따라 세팅 
     public void LockedAllStage()
     {
-      
+        if (stageTables == null) return; 
 
-      
+        for (int i = 1; i < stageTables.Count; i++)
+        {
+            if (stageTables[i] == null) continue;
+            stageTables[i].isLocked = true; 
+        }
     }
 
 
@@ -891,7 +896,7 @@ public class StagePosController : MonoBehaviour
             var slot = Instantiate(stageSlot, contentObject.transform);
             string stageName = cur_MainChpaterNum.ToString() + "-" + (i + 1).ToString();
             slot.SetSlotText(stageName);
-            int temp = i; 
+            int temp = i + 1; 
             if (slot.GetButtonEventCount() == 0)
             {
                 // 슬롯에 기능 할당 
