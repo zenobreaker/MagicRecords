@@ -35,9 +35,10 @@ public class StagePosController : MonoBehaviour
 
     [Header("스테이지")]
     [SerializeField] Text txt_Chpater = null;
-    //[SerializeField] Image[] img_StageIcon = null;
 
-    [SerializeField] StageSelectSlot[] btn_MonsterSlots = null;
+    [SerializeField] GameObject scrollview = null;
+    [SerializeField] GameObject contentObject = null; 
+    [SerializeField] StageSelectSlot stageSlot = null; 
 
     [SerializeField] ChoiceAlert choiceAlert = null;
     [SerializeField] GameObject go_Alert;
@@ -90,6 +91,7 @@ public class StagePosController : MonoBehaviour
         // 저장한게 없다면 챕터는 1로 초기화시켜놓는다
         cur_MainChpaterNum = 1;
         StageInfoManager.instance.currentChapter = cur_MainChpaterNum;
+
     }
 
     // 현재 진행중인 챕터의 (마지막) 보스 스테이지를 클리어 했는지 검사
@@ -436,11 +438,9 @@ public class StagePosController : MonoBehaviour
     
 
         // 4. 스테이지 UI 기능 잠그기
-        LockedAllStage();
+        //LockedAllStage();
 
-        // 4. 만들어진 정보대로 스테이지 그림 그리기
-        DrawStageIcon();
-
+        DrawStageButtonByScrollview();
     }
 
 
@@ -479,8 +479,7 @@ public class StagePosController : MonoBehaviour
         // 스테이지에 맞는 몬스터 이미지 세팅
         //SetMonsterImagetoStage();
         img_SelectFrame.gameObject.SetActive(false);
-        // 모든 스테이지 잠금 처리 (1스테이지 제외)
-        LockedAllStage();
+
         //StageInfoManager.instance.SetStageList();
     }
 
@@ -642,35 +641,7 @@ public class StagePosController : MonoBehaviour
         }
     }
 
-    // 스테이지에 맞는 몬스터 이미지 세팅
-    void DrawStageIcon()
-    {
-        for (int i = 0; i < MAX_STAGE_COUNT; i++)
-        {
-            for (int j = 0; j < stageTables.Count; j++)
-            {
-                string stageName = cur_MainChpaterNum.ToString() + "-" + (i+1).ToString();
-                btn_MonsterSlots[i].SetSlotText(stageName);
-               // if (stageTables[i].stageType == StageType.MONSTER)
-                {
-                    //switch (stageTables[i].monsterType)
-                    //{
-
-                    //    case MonsterType.NORMAL:
-                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[0]);
-                    //        break;
-                    //    case MonsterType.ELITE:
-                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[1]);
-                    //        break;
-                    //    case MonsterType.BOSS:
-                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[2]);
-                    //        break;
-                    //}
-                }
-            }
-
-        }
-    }
+ 
 
     //등장시킬 몬스터 타입 정보 
     void SetAppearMonster(ref StageTableClass stageTable)
@@ -856,68 +827,14 @@ public class StagePosController : MonoBehaviour
         txt_Chpater.text = "Stage " + cur_MainChpaterNum;
     }
 
-    // 클리어한 스테이지 잠금 
-    public void LockedClearStage()
-    {
-        var stageTableList = StageInfoManager.instance.GetLocatedStageInfoList();
-        if (stageTableList.Count <= 0) return;
-
-        btn_MonsterSlots[cur_SelectStageNum].SetButtonInteractive(false);
-         //img_StageIcon[cur_SelectStageNum].GetComponent<Button>().interactable = false;
-
-        // 다음 스테이지 해금 
-        if (cur_SelectStageNum + 1 < stageTableList.Count)
-        {
-            //img_StageIcon[cur_SelectStageNum + 1].GetComponent<Button>().interactable = true;
-            btn_MonsterSlots[cur_SelectStageNum+1].SetButtonInteractive(true);
-        }
-
-    }
 
     // 모든 스테이지 잠금 처리 (1스테이지 제외)
     // 특정 스테이지 클리어 여부에 따라 세팅 
     public void LockedAllStage()
     {
       
-        //img_StageIcon[0].GetComponent<Button>().interactable = true;
-        btn_MonsterSlots[0].SetButtonInteractive(true);
 
-        for (int i = 0; i < stageTables.Count; i++)
-        {
-            if (btn_MonsterSlots[i] == null)
-                continue;
-
-            // 해당 스테이지가 클리어 상태인가 
-            if(stageTables[i].isCleared == true)
-            {
-                if (i + 1 < stageTables.Count)
-                {
-                    stageTables[i + 1].isLocked = false;
-                }
-            }
-
-            if (stageTables[i].isLocked == true)
-            {
-                btn_MonsterSlots[i].SetButtonInteractive(false);
-            }
-            else 
-            {
-                btn_MonsterSlots[i].SetButtonInteractive(true);
-            }
-
-            // 이벤트 추가 람ㄷ다식은 for문에서 해당 반복변수로 인자를 줄 때 같은 변수를 주어서 그 참조값을 통해 전달하기때문에
-            // 변수주소가 다른걸 줘야한다.
-            var temp = i; 
-            //if (img_StageIcon[i].GetComponent<Button>().onClick.GetPersistentEventCount() == 0)
-            if (btn_MonsterSlots[i].GetButtonEventCount()  == 0)
-            {
-                btn_MonsterSlots[i].SetButtonOnlyOneEventLisetener(()=>OpenMonsterStageMenu(temp));
-                //img_StageIcon[i].GetComponent<Button>().onClick.RemoveAllListeners();
-                //img_StageIcon[i].GetComponent<Button>().onClick.AddListener(
-                //    () => OpenMonsterStageMenu(temp));
-            }
-
-        }
+      
     }
 
 
@@ -947,5 +864,86 @@ public class StagePosController : MonoBehaviour
     {
         Debug.Log("보스 스테이지" + stageTables[cur_SelectStageNum].isBossStage);
         return stageTables[cur_SelectStageNum].isBossStage;
+    }
+
+
+
+    //#  스크롤뷰 관련 함수들 
+
+    public void DrawStageButtonByScrollview()
+    {
+        if (stageTables == null || stageSlot == null ||
+            contentObject == null)
+        {
+            return;
+        }
+
+        var cotentRect = contentObject.GetComponent<RectTransform>();
+        if (cotentRect == null)
+        {
+            return;
+        }
+
+        // 스테이지를 배치한다. 
+        for(int i = 0; i < stageTables.Count; i++)
+        { 
+            // 스테이지 버튼에 이름 그리기 
+            var slot = Instantiate(stageSlot, contentObject.transform);
+            string stageName = cur_MainChpaterNum.ToString() + "-" + (i + 1).ToString();
+            slot.SetSlotText(stageName);
+            int temp = i; 
+            if (slot.GetButtonEventCount() == 0)
+            {
+                // 슬롯에 기능 할당 
+                slot.SetButtonOnlyOneEventLisetener(() => OpenMonsterStageMenu(temp));
+            }
+        }
+
+        // 스크롤 기능 설정 
+        if (scrollview == null) return;
+
+        var scrollRect = scrollview.GetComponent<ScrollRect>();
+        if (scrollRect == null) return;
+
+        // 컨텐츠 그룹보다 작으면 스크롤 기능 제거 
+        var contentLegnth = cotentRect.sizeDelta.x; 
+        if (contentLegnth > Screen.width)
+        {
+            scrollRect.horizontal = true; 
+        }
+        else
+        {
+            scrollRect.horizontal = false;
+        }
+    }
+
+    // 스테이지에 맞는 몬스터 이미지 세팅
+    void DrawStageIcon()
+    {
+        for (int i = 0; i < MAX_STAGE_COUNT; i++)
+        {
+            for (int j = 0; j < stageTables.Count; j++)
+            {
+                string stageName = cur_MainChpaterNum.ToString() + "-" + (i + 1).ToString();
+                //btn_MonsterSlots[i].SetSlotText(stageName);
+                // if (stageTables[i].stageType == StageType.MONSTER)
+                {
+                    //switch (stageTables[i].monsterType)
+                    //{
+
+                    //    case MonsterType.NORMAL:
+                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[0]);
+                    //        break;
+                    //    case MonsterType.ELITE:
+                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[1]);
+                    //        break;
+                    //    case MonsterType.BOSS:
+                    //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[2]);
+                    //        break;
+                    //}
+                }
+            }
+
+        }
     }
 }
