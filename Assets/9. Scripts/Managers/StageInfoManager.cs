@@ -195,7 +195,7 @@ public class StageInfoManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SetStageList(int _chapter, List<StageTableClass> _stageTableList)
+    public void SetStageList(int _chapter, ref List<StageTableClass> _stageTableList)
     {
         stage_dic_list[_chapter] = _stageTableList;
     }
