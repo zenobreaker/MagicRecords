@@ -753,15 +753,19 @@ public class StagePosController : MonoBehaviour
                     };
         InfoManager.instance.SetSelectPlayers(idList.ToArray());
 
+        // 선택한 캐릭터가 있으면 씬 옮기기 
         if (InfoManager.instance.GetSelectPlayerList().Count > 0)
         {
+            //StageInfoManager.instance.SetStageInfo(cur_MainChpaterNum, cur_SelectStageNum, selectMonsterNum);
+            
             //씬 변경
            // LoadingSceneController.LoadScene("GameScene");
-            
 
-            //StageInfoManager.instance.SetStageInfo(cur_MainChpaterNum, cur_SelectStageNum, selectMonsterNum);
+        }
+        // 없으면 캐릭터를 고르라고 알림 메세지 출력하기 
+        else
+        {
 
-            Debug.Log("적 숫자 : - " + cur_Population);
         }
     }
 
