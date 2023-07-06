@@ -20,7 +20,7 @@ public class StagePosController : MonoBehaviour
 
     [SerializeField] MonsterDatabase monsterDB = null;
 
-    [SerializeField] GameObject go_MonsterMenu = null;
+    [SerializeField] StageMenuSelectUI stageMenuUI = null;
 
     [Header("몬스터 스테이지 테마 이미지")]
     [SerializeField] Image img_StageTheme = null;  // 배경 이미지 
@@ -57,7 +57,7 @@ public class StagePosController : MonoBehaviour
     public int finalChapterNum;         // 마지막 챕터 번호
 
     public int cur_MainChpaterNum;      // 메인 챕터 번호 
-    public int selectMonsterNum;        // 선택한 몬스터 스테이지 번호 
+    public int selectEventSlotNumber;       // 선택한 이벤트 ID
     int cur_SelectStageNum;             // 현재 선택한 스테이지
 
     int cur_Population;                 // 선택한 몬스터 스테이지의 몬스터 수
@@ -71,8 +71,6 @@ public class StagePosController : MonoBehaviour
 
     private void Start()
     {
-        img_SelectFrame.gameObject.SetActive(false);
-
         if(playLevelPair.Count <= 0)
         {
             // 노말 20퍼 
@@ -151,15 +149,15 @@ public class StagePosController : MonoBehaviour
         }
 
         int currentElitLocateCount = 0;
+        bool possibleElite = false; // 엘리트 배치가능한지 체크 
         // tableclass 리스트를 돌면서 값을 할당한다. 
         for(int i = 0 ; i < list.Count; i++)
         {
             var stage = list[i];
             if (stage == null) continue;
 
-            if (i < eliteAppearPoint ||
-                stage.eventInfoList == null)
-                continue;
+            if (i >= eliteAppearPoint)
+                possibleElite = true;
 
             bool isBossStage = false;
             if(stage.isBossStage == true)
@@ -185,7 +183,8 @@ public class StagePosController : MonoBehaviour
                 }
 
                 // 엘리트는 무조건 하나는 배치 
-                if (currentElitLocateCount < maxEliteMonsterCount &&
+                if (possibleElite == true && 
+                    currentElitLocateCount < maxEliteMonsterCount &&
                     maxEliteMonsterCount >= 1)
                 {
                     currentElitLocateCount++;
@@ -193,7 +192,8 @@ public class StagePosController : MonoBehaviour
                     eventInfo.monsterType = MonsterType.ELITE;
                 }
                 // 하나 이상 배치 했을 때 
-                else if (currentElitLocateCount >= 1 &&
+                else if (possibleElite == true &&  
+                    currentElitLocateCount >= 1 &&
                      currentElitLocateCount < maxEliteMonsterCount)
                 {
                     // 몬스터 스테이지면 이 스테이지의 몬스터 등급을 설정한다. 
@@ -203,6 +203,10 @@ public class StagePosController : MonoBehaviour
                     {
                         eventInfo.monsterType = MonsterType.ELITE;
                     }
+                }
+                else
+                {
+                    eventInfo.monsterType = MonsterType.NORMAL;
                 }
             }
 
@@ -702,90 +706,41 @@ public class StagePosController : MonoBehaviour
         Debug.Log("스테이지 번호 : " + stageNum);
 
         cur_SelectStageNum = stageNum;
-        
-        // 선택한 스테이지 정보 
-        var selectStage = StageInfoManager.instance.GetLocatedStageInfo(stageNum);
-        if (selectStage == null) return; 
 
-        // 나타나는 몬스터 아이콘 출력 
-        for (int i = 0; i < img_MonsterIcon.Length; i++)
+        selectEventSlotNumber = -1;
+
+        if (UIPageManager.instance != null && stageMenuUI != null)
         {
-           
-            // 몬스터DB에서 몬스터 정보를 가져온다.
-            //var data = monsterDB.GetMonsterData(selectStage.monsterGroups[i].
-            //    monsterIdCounts[0].Item1);
-            //// 가져온 정보에서 몬스터 스프라이트를 그린다. 
-            //img_MonsterIcon[i].sprite = data.spt_Monster;
-        }
-
-        // 선택자 아이콘 끄기
-        img_SelectFrame.gameObject.SetActive(false);
-
-        selectMonsterNum = -1;
-
-        if (UIPageManager.instance != null)
-        {
-            UIPageManager.instance.OpenClose(go_MonsterMenu);
+            var stageTableInfo = stageTables[stageNum - 1];
+            stageMenuUI.DeploySelectEventSlot(ref stageTableInfo);
+            UIPageManager.instance.OpenClose(stageMenuUI.gameObject);
         }
     } 
 
     public void CloseMonsterMenu()
     {
         //cur_SelectStageNum = -1;
-        UIPageManager.instance.OpenClose(go_MonsterMenu);
-    }
-
-
-    // 버튼 컴포넌트에 첨부됨 
-    // 팝업 몬스터 아이콘 선택 
-    public void SelectMonsterIcon(int _select)
-    {
-        if (cur_SelectStageNum == -1)
-            return;
-
-        if (selectMonsterNum == _select)
+        if (stageMenuUI != null)
         {
-            if (img_SelectFrame.gameObject.activeSelf)
-                img_SelectFrame.gameObject.SetActive(false);
-
-            selectMonsterNum = 0;
-        }
-        else
-        {
-            selectMonsterNum = _select; 
-            if (!img_SelectFrame.gameObject.activeSelf)
-                img_SelectFrame.gameObject.SetActive(!img_SelectFrame.gameObject.activeSelf);
-        }
-
-
-        switch (_select)
-        {
-            case 1:
-                img_SelectFrame.transform.position = img_MonsterIcon[0].transform.position;
-                break;
-            case 2:
-                img_SelectFrame.transform.position = img_MonsterIcon[1].transform.position;
-                break;
-            case 3:
-                img_SelectFrame.transform.position = img_MonsterIcon[2].transform.position;
-                break;
+            UIPageManager.instance.OpenClose(stageMenuUI.gameObject);
         }
     }
+
 
     // 스테이지 팝업에서 선택 후 입장 버튼 기능 
-    // 스테이지 입장
-    public void GototheStage()
+    // 진행할 대상 선택
+    public void SelectEventStage()
     {
-        if ( 0 < selectMonsterNum)
-        {
-            CloseMonsterMenu();
-            //LobbyManager.MyInstance.HideLobbyUI();
-            //LobbyManager.MyInstance.SceneChange();
-            //GameManager.MyInstance.stageName = _stageName;
-            choiceAlert.ActiveAlert(true);
-            choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
-            choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
-        }
+        selectEventSlotNumber = stageMenuUI.GetSelectEvent();
+
+        // 이벤트 선택 메뉴를 닫는다.
+        CloseMonsterMenu();
+        // 캐릭터 선텍 UI를 연다. 
+        choiceAlert.ActiveAlert(true);
+        choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
+        // 확인버튼 기능에 기능 할당 
+        choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
+     
     }
 
     // 캐릭터 세팅
@@ -801,12 +756,10 @@ public class StagePosController : MonoBehaviour
         if (InfoManager.instance.GetSelectPlayerList().Count > 0)
         {
             //씬 변경
-            LoadingSceneController.LoadScene("GameScene");
+           // LoadingSceneController.LoadScene("GameScene");
             
-            Debug.Log("챕터 " + cur_MainChpaterNum +
-                "스테이지 번호 : " + cur_SelectStageNum + ", 타입 번호 : " + (selectMonsterNum));
 
-            StageInfoManager.instance.SetStageInfo(cur_MainChpaterNum, cur_SelectStageNum, selectMonsterNum);
+            //StageInfoManager.instance.SetStageInfo(cur_MainChpaterNum, cur_SelectStageNum, selectMonsterNum);
 
             Debug.Log("적 숫자 : - " + cur_Population);
         }
@@ -889,18 +842,47 @@ public class StagePosController : MonoBehaviour
             return;
         }
 
+        //  스테이지 만들기 전 검사
+        int stageCount = stageTables.Count;
+        int slotCount = contentObject.transform.childCount;
+
+        if (slotCount < stageCount)
+        {
+            for (int i = 0; i < stageCount; i++)
+            {
+                var slot = Instantiate(stageSlot, contentObject.transform);
+            }
+        }
+        else if (slotCount > stageCount)
+        {
+            int diff = slotCount - stageCount;
+            if (diff > 0)
+            {
+                for (int i = diff + 1; i < stageCount; i++)
+                {
+                    var slot = contentObject.transform.GetChild(i);
+                    if (slot == null) continue;
+                    slot.gameObject.SetActive(false);
+                }
+            }
+        }
+
         // 스테이지를 배치한다. 
         for(int i = 0; i < stageTables.Count; i++)
-        { 
+        {
             // 스테이지 버튼에 이름 그리기 
-            var slot = Instantiate(stageSlot, contentObject.transform);
+            var slot = contentObject.transform.GetChild(i);
+            if (!slot.TryGetComponent<StageSelectSlot>(out var stageSelectSlot)) continue; 
+
+            slot.gameObject.SetActive(true);
+
             string stageName = cur_MainChpaterNum.ToString() + "-" + (i + 1).ToString();
-            slot.SetSlotText(stageName);
+            stageSelectSlot.SetSlotText(stageName);
             int temp = i + 1; 
-            if (slot.GetButtonEventCount() == 0)
+            if (stageSelectSlot.GetButtonEventCount() == 0)
             {
                 // 슬롯에 기능 할당 
-                slot.SetButtonOnlyOneEventLisetener(() => OpenMonsterStageMenu(temp));
+                stageSelectSlot.SetButtonOnlyOneEventLisetener(() => OpenMonsterStageMenu(temp));
             }
         }
 
