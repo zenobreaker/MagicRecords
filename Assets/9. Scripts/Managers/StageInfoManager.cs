@@ -179,6 +179,7 @@ public class StageInfoManager : MonoBehaviour
     [SerializeField] List<StageTableClass> stageTables = null;
     [SerializeField] private StageTableClass selectStage;
 
+    // ц╘ем, stagetable ╪Ь 
     private Dictionary<int, List<StageTableClass>> stage_dic_list = new Dictionary<int, List<StageTableClass>>(); 
 
     private void Awake()
