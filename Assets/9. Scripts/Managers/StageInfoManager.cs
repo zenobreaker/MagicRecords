@@ -180,7 +180,7 @@ public class StageInfoManager : MonoBehaviour
     [SerializeField] private StageTableClass selectStage;
 
     // 챕터, stagetable 순 
-    private Dictionary<int, List<StageTableClass>> stage_dic_list = new Dictionary<int, List<StageTableClass>>(); 
+    private Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>(); 
 
     private void Awake()
     {
@@ -198,23 +198,24 @@ public class StageInfoManager : MonoBehaviour
 
     public void SetStageList(int _chapter, ref List<StageTableClass> _stageTableList)
     {
-        stage_dic_list[_chapter] = _stageTableList;
+        stageDictList[_chapter] = _stageTableList;
     }
 
 
-    public void SetStageInfo(int _count, int _subStageNumber, int _monsterNum)
+    // 플레이할 스테이지를 설정해놓는 함수 
+    public void ChoiceStageInfoForPlaying(int _chapter, int _selectStageNumber, int _selectEventNumber)
     {
-        if(stage_dic_list.Count <= 0)
+        if(stageDictList.Count <= 0)
         {
             selectMonsterStageNum = 0; 
             return;
         }
 
-        currentChapter = _count;
-        var stageList = stage_dic_list[_count];         
+        currentChapter = _chapter;
+        var stageInfo = stageDictList[_chapter];         
 
-        selectStage = stageList[_subStageNumber];    // 선택한 스테이지 정보    
-        selectMonsterStageNum = _monsterNum;    // 서브 스테이지 선택한 정보
+        selectStage = stageInfo[_selectStageNumber];    // 선택한 스테이지 정보    
+        selectMonsterStageNum = _selectEventNumber;    // 서브 스테이지 선택한 정보
     }
     public void SetStageInfo(StageTableClass _stage)
     {
@@ -247,9 +248,9 @@ public class StageInfoManager : MonoBehaviour
     // 배치된 스테이지 정보 가져오기 
     public StageTableClass GetLocatedStageInfo(int _count)
     {
-        if (stage_dic_list.Count <= 0) return null;
+        if (stageDictList.Count <= 0) return null;
 
-        var stageTable = stage_dic_list[currentChapter];
+        var stageTable = stageDictList[currentChapter];
         if(stageTable == null)
         {
             return null; 
@@ -261,9 +262,9 @@ public class StageInfoManager : MonoBehaviour
 
     public List<StageTableClass> GetLocatedStageInfoList()
     {
-        if (stage_dic_list.Count <= 0) return new List<StageTableClass>();
+        if (stageDictList.Count <= 0) return new List<StageTableClass>();
         
-        if(stage_dic_list.TryGetValue(currentChapter, out List<StageTableClass> stageTable) == false)
+        if(stageDictList.TryGetValue(currentChapter, out List<StageTableClass> stageTable) == false)
         {
             return null;
         }

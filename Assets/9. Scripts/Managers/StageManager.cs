@@ -127,7 +127,7 @@ public class StageManager : MonoBehaviour
     {
         if (RLModeController.isRLMode)
         {
-            theSPC.cur_MainChpaterNum = 1;
+            theSPC.curMainChpaterNum = 1;
         }
     }
     
