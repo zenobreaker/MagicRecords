@@ -99,22 +99,14 @@ public class StageMenuSelectUI : MonoBehaviour
                 Instantiate(eventSlot, contentObject.transform);
             }
         }
-        else if(childCount > infoCount)
-        {
-            // 5 - 3 = 2
-            // 0 0 0 0 0 / 0 1 2 3 4
-            int diff = childCount - infoCount;
-            if (diff > 0)
-            {
-                for (int i = diff + 1; i < childCount; i++)
-                {
-                    var slot = contentObject.transform.GetChild(i);
-                    if (slot == null) continue;
-                    slot.gameObject.SetActive(false);
-                }
-            }
-        }
 
+        // ±×·ÁÁø ½½·ÔÀº ´Ù ²¨µÐ´Ù.
+        for (int i = 0; i < childCount; i++)
+        {
+            var slot = contentObject.transform.GetChild(i);
+            if (slot == null) continue;
+            slot.gameObject.SetActive(false);
+        }
 
         for (int i = 0; i < infoCount; i++)
         {

@@ -46,7 +46,7 @@ public class StageSelecter : MonoBehaviour
             go_SignBase.SetActive(false);
 
         Debug.Log("현재 사용중?");
-        theSPC.cur_MainChpaterNum = 1;
+        theSPC.curMainChpaterNum = 1;
         //theSPC.CreateStage();
         theSPC.UpgradeCreateStage();
         UIPageManager.instance.OpenClose(go_StageScreen);

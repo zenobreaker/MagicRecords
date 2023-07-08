@@ -56,14 +56,14 @@ public class StagePosController : MonoBehaviour
     public int maxStageNum;             // 스테이지 최대 수
     public int finalChapterNum;         // 마지막 챕터 번호
 
-    public int cur_MainChpaterNum;      // 메인 챕터 번호 
+    public int curMainChpaterNum;      // 메인 챕터 번호 
     public int selectEventSlotNumber;       // 선택한 이벤트 ID
-    int cur_SelectStageNum;             // 현재 선택한 스테이지
+    int curSelectStageNum;             // 현재 선택한 스테이지
 
-    int cur_Population;                 // 선택한 몬스터 스테이지의 몬스터 수
-                                        // 엘리트가 등장할 수 있는 최솟값 
-    int eliteAppearPoint;
+    int eliteAppearPoint;   // 엘리트가 등장할 수 있는 최솟값 
     bool isSetted;                      // 스테이지 세팅 확인 
+
+    List<List<int>> stageLocateList;       // 스테이지 배치 정보를 가진 리스트 
 
     string[] forestFields = { "Forest1", "Forest2", "Forest3" };
     string[] iceFields = { "Forest1", "Forest2", "Forest3" };
@@ -85,8 +85,8 @@ public class StagePosController : MonoBehaviour
 
 
         // 저장한게 없다면 챕터는 1로 초기화시켜놓는다
-        cur_MainChpaterNum = 1;
-        StageInfoManager.instance.currentChapter = cur_MainChpaterNum;
+        curMainChpaterNum = 1;
+        StageInfoManager.instance.currentChapter = curMainChpaterNum;
 
     }
 
@@ -214,13 +214,20 @@ public class StagePosController : MonoBehaviour
     }
 
     // 길이를 알려주면 그 사이 값을 일정한 비율로 채우는 함수 
-    List<List<int>> SetStagePosOneLine(int length, float rate = 1.0f)
+    void SetStagePosOneLine(int length, float rate = 1.0f)
     {
-        List<List<int>> list = new List<List<int>>();
+        // 이미 만들어 졌다면 따로 생성하지 않는다. 
+        if(stageLocateList != null)
+        {
+            return;
+        }
+
+        stageLocateList = new List<List<int>>();
+
         // 시작과 끝은 고정이다. 
         List<int> start = new List<int>(1) { 1, 1, 1};
         List<int> end = new List<int>(1) { 1 };
-        list.Add(start);
+        stageLocateList.Add(start);
 
         // 먼저 시작과 끝을 뺀 남은 길이를 계산한다. 
         int diff = length - 2;
@@ -290,15 +297,15 @@ public class StagePosController : MonoBehaviour
                     sublist.Add(1);
                 }
 
-            }   
-            
-            list.Add(sublist);
+            }
+
+            stageLocateList.Add(sublist);
         }
 
         // 모든 루프를 돌았으니 마지막은 고정값을 넣어준다. 
-        list.Add(end);
+        stageLocateList.Add(end);
 
-        return list;
+        return;
     }
 
     // StageTableClass 리스트 값을 받으면 스테이지 타입에 따른 몬스터나 이벤트를 배치시킨다.
@@ -330,7 +337,7 @@ public class StagePosController : MonoBehaviour
                     // 몬스터 그룹 만들기 
                     eventInfo.CreateMonsterGroup(eventInfo.monsterType, 1, "", 1);
                     // 몬스터 ID리스트 생성 
-                    monsterDB.GetMonsterIDListFromTargetStage(cur_MainChpaterNum, (int)1,
+                    monsterDB.GetMonsterIDListFromTargetStage(curMainChpaterNum, (int)1,
                         ref eventInfo.monsterGroup.AppearMonsterList);
                 }
 
@@ -354,7 +361,7 @@ public class StagePosController : MonoBehaviour
             //    // 몬스터 그룹 만들기 
             //    mainEventInfo.CreateMonsterGroup(MonsterType.NORMAL, 1, "", 1);
             //    // 몬스터 ID리스트 생성 
-            //    monsterDB.GetMonsterIDListFromTargetStage(cur_MainChpaterNum, (int)1,
+            //    monsterDB.GetMonsterIDListFromTargetStage(curMainChpaterNum, (int)1,
             //        ref mainEventInfo.monsterGroup.AppearMonsterList);
             //    tableClass.eventInfoList.Add(mainEventInfo);
             //}
@@ -395,7 +402,7 @@ public class StagePosController : MonoBehaviour
         }
 
         // 스테이지 배치형 리스트를 생성 
-        List<List<int>> stageLocateList = SetStagePosOneLine(maxStageCount); 
+        SetStagePosOneLine(maxStageCount); 
         // 1-1 스테이지 배치형 리스트 만큼 생성하기
         for(int i = 0; i < stageLocateList.Count; i++)
         {
@@ -404,7 +411,7 @@ public class StagePosController : MonoBehaviour
                 // 스테이지 값 정렬 order 세팅
                 tableOrder = i + 1,
                 // 2.1 스테이지 이름 설정
-                stageName = cur_MainChpaterNum + "-" + i + 1,
+                stageName = curMainChpaterNum + "-" + i + 1,
                 // 2.2 스테이지에 타입 설정 
               //  stageType = (StageType)stageLocateList[i].First(),
                 eventInfoList = new List<StageEventInfo>()
@@ -442,7 +449,7 @@ public class StagePosController : MonoBehaviour
         // 4. 스테이지 잠그기
         LockedAllStage();
         // 스테이지 정보 전달 
-        StageInfoManager.instance.SetStageList(cur_MainChpaterNum, ref stageTables);
+        StageInfoManager.instance.SetStageList(curMainChpaterNum, ref stageTables);
 
         // 스크롤뷰 그리기 
         DrawStageButtonByScrollview();
@@ -458,17 +465,17 @@ public class StagePosController : MonoBehaviour
         SetChpaterText();
         if(clearedCurrentChapter == true)
         {
-            cur_MainChpaterNum++; // 챕터 증가 
-            if (cur_MainChpaterNum < spt_StageBg.Length)
+            curMainChpaterNum++; // 챕터 증가 
+            if (curMainChpaterNum < spt_StageBg.Length)
             {
-                img_StageTheme.sprite = spt_StageBg[cur_MainChpaterNum - 1];
+                img_StageTheme.sprite = spt_StageBg[curMainChpaterNum - 1];
             }
 
             // 2022 08 14 스테이지 리스트 구조를 변경했으므로 굳이 지난 챕터 리스트는 지우지 않는다.
             // 보스스테이지를 클리어 했으므로 스테이지 리스트를 전부 초기화시킨다.
             //StageInfoManager.instance.GetLocatedStageInfoList().Clear();
             Debug.Log("신규 챕터로 배치합니다.====");
-            StageInfoManager.instance.currentChapter = cur_MainChpaterNum;
+            StageInfoManager.instance.currentChapter = curMainChpaterNum;
         }
 
         // 배치한 리스트가 있다면 가져온다. 
@@ -544,7 +551,7 @@ public class StagePosController : MonoBehaviour
             var mapId = 0;
             var stageName = "";
             // 테마별로 등장할 필드 설정 
-            switch (cur_MainChpaterNum)
+            switch (curMainChpaterNum)
             {
                 case 1:
                     // TODO : 맵 id 만드는 기능 필요 
@@ -578,14 +585,14 @@ public class StagePosController : MonoBehaviour
 
             // todo id 만드는 방법을 추후에 연구해야 한다 지금은 챕터 + 스테이지 번호를 더한다.
             // id 설정 
-            //stageTable.stageId = (uint)(stageId + cur_MainChpaterNum + i);
+            //stageTable.stageId = (uint)(stageId + curMainChpaterNum + i);
          
 
             stageTables.Add(stageTable);
         }
         isSetted = false;
         StageInfoManager.instance.
-            SetStageList(cur_MainChpaterNum, ref stageTables);
+            SetStageList(curMainChpaterNum, ref stageTables);
     }
 
 
@@ -621,33 +628,7 @@ public class StagePosController : MonoBehaviour
       //  SetAppearMonster(ref _stageTableClass);
     }
 
-    // 특정 랜덤 이벤트 스테이지 배치 
-    void RandomLocateEventStage(int _slotNum)
-    {
-        int _ran = UnityEngine.Random.Range(0, 10);
-
-        switch (_ran)
-        {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                break;
-            case 4:
-            case 5:
-            case 6:
-                break;
-            case 7:
-            case 8:
-                break;
-            case 9:
-                break;
-
-        }
-    }
-
  
-
     //등장시킬 몬스터 타입 정보 
     void SetAppearMonster(ref StageTableClass stageTable)
     {
@@ -705,7 +686,7 @@ public class StagePosController : MonoBehaviour
     {
         Debug.Log("스테이지 번호 : " + stageNum);
 
-        cur_SelectStageNum = stageNum;
+        curSelectStageNum = stageNum;
 
         selectEventSlotNumber = -1;
 
@@ -746,6 +727,9 @@ public class StagePosController : MonoBehaviour
     // 캐릭터 세팅
     void SetStageCharacters(Character selectPlayer)
     {
+        // 이녀석이 없으면 실행하지 못한다. 
+        if (StageInfoManager.instance == null || InfoManager.instance == null) return; 
+
         // 선택한 캐릭터 정보 저장 
         List<int> idList = new List<int>
                     {
@@ -753,19 +737,22 @@ public class StagePosController : MonoBehaviour
                     };
         InfoManager.instance.SetSelectPlayers(idList.ToArray());
 
+        // 스테이지 선택한 정보로 저장
+        StageInfoManager.instance.ChoiceStageInfoForPlaying(curMainChpaterNum, curSelectStageNum, selectEventSlotNumber);
+        
+        // 지정한 스테이지가 있는지 검사 후 씬을 옮긴다. 
         // 선택한 캐릭터가 있으면 씬 옮기기 
-        if (InfoManager.instance.GetSelectPlayerList().Count > 0)
+        if (InfoManager.instance.GetSelectPlayerList().Count > 0 && 
+            StageInfoManager.instance.GetStageInfo() != null)
         {
-            //StageInfoManager.instance.SetStageInfo(cur_MainChpaterNum, cur_SelectStageNum, selectMonsterNum);
             
             //씬 변경
-           // LoadingSceneController.LoadScene("GameScene");
-
+            LoadingSceneController.LoadScene("GameScene");
         }
         // 없으면 캐릭터를 고르라고 알림 메세지 출력하기 
         else
         {
-
+            // todo 
         }
     }
 
@@ -782,7 +769,7 @@ public class StagePosController : MonoBehaviour
     // 챕터 텍스트 변경 
     void SetChpaterText()
     {
-        txt_Chpater.text = "Stage " + cur_MainChpaterNum;
+        txt_Chpater.text = "Stage " + curMainChpaterNum;
     }
 
 
@@ -804,12 +791,12 @@ public class StagePosController : MonoBehaviour
     // 다음 챕터로 변경 
     public void SetNextChapter()
     {
-        if (cur_MainChpaterNum < finalChapterNum)
+        if (curMainChpaterNum < finalChapterNum)
         {
-            img_StageTheme.sprite = spt_StageBg[cur_MainChpaterNum];
+            img_StageTheme.sprite = spt_StageBg[curMainChpaterNum];
             CreateStage();     // 스테이지 재정렬
         }
-        else if (cur_MainChpaterNum >= finalChapterNum)
+        else if (curMainChpaterNum >= finalChapterNum)
         {
             Debug.Log("이번 챕터가 마지막입니다.");
             RLModeController.instance.EndGameMode(true);
@@ -824,8 +811,8 @@ public class StagePosController : MonoBehaviour
 
     public bool GetIsBoss()
     {
-        Debug.Log("보스 스테이지" + stageTables[cur_SelectStageNum].isBossStage);
-        return stageTables[cur_SelectStageNum].isBossStage;
+        Debug.Log("보스 스테이지" + stageTables[curSelectStageNum].isBossStage);
+        return stageTables[curSelectStageNum].isBossStage;
     }
 
 
@@ -880,7 +867,7 @@ public class StagePosController : MonoBehaviour
 
             slot.gameObject.SetActive(true);
 
-            string stageName = cur_MainChpaterNum.ToString() + "-" + (i + 1).ToString();
+            string stageName = curMainChpaterNum.ToString() + "-" + (i + 1).ToString();
             stageSelectSlot.SetSlotText(stageName);
             int temp = i + 1; 
             if (stageSelectSlot.GetButtonEventCount() == 0)
@@ -915,7 +902,7 @@ public class StagePosController : MonoBehaviour
         {
             for (int j = 0; j < stageTables.Count; j++)
             {
-                string stageName = cur_MainChpaterNum.ToString() + "-" + (i + 1).ToString();
+                string stageName = curMainChpaterNum.ToString() + "-" + (i + 1).ToString();
                 //btn_MonsterSlots[i].SetSlotText(stageName);
                 // if (stageTables[i].stageType == StageType.MONSTER)
                 {

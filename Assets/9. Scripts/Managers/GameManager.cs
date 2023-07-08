@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // 스테이지 초기화
         StageInit();
     }
 
@@ -170,6 +171,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 스테이지 시작 
     IEnumerator StartStageCoroutine()
     {
         if(StageInfoManager.instance == null)
