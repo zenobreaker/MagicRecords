@@ -171,7 +171,7 @@ public class StagePosController : MonoBehaviour
                 if (eventInfo == null) continue;
 
                 // 보스 타입은 제외 
-                if (eventInfo.stageType != StageType.MONSTER)
+                if (eventInfo.stageType != StageType.BATTLE)
                 {
                     continue;
                 }
@@ -331,7 +331,7 @@ public class StagePosController : MonoBehaviour
                 if (eventInfo == null) continue;
 
                 // 스테이지 타입이 몬스터 타입일 경우 
-                if (eventInfo.stageType == StageType.MONSTER)
+                if (eventInfo.stageType == StageType.BATTLE)
                 {
                     // 가져온 몬스터 ID값을 정리 
                     // 몬스터 그룹 만들기 
@@ -743,7 +743,7 @@ public class StagePosController : MonoBehaviour
         // 지정한 스테이지가 있는지 검사 후 씬을 옮긴다. 
         // 선택한 캐릭터가 있으면 씬 옮기기 
         if (InfoManager.instance.GetSelectPlayerList().Count > 0 && 
-            StageInfoManager.instance.GetStageInfo() != null)
+            StageInfoManager.instance.GetStageEventClass() != null)
         {
             
             //씬 변경

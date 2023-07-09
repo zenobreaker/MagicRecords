@@ -52,6 +52,7 @@ public class StageMonsterJson
     public int chapter;
     public string monsterGroup;
     public int monsterGrade;
+    public int mapID;
 }
 
 [System.Serializable]
@@ -61,6 +62,7 @@ public class StageInfo
     public int chapter;
     public List<int> monsterGroup; 
     public int monsterGrade;
+    public int mapID;
 }
 
 public class MonsterDatabase : MonoBehaviour
@@ -313,8 +315,9 @@ public class MonsterDatabase : MonoBehaviour
 
             stageInfo.id = data.id;
             stageInfo.chapter = data.chapter;
-            stageInfo.monsterGroup = new List<int>(); 
+            stageInfo.mapID = data.mapID;
 
+            stageInfo.monsterGroup = new List<int>(); 
             // 몬스터 그룹 
             string[] stringGroup = data.monsterGroup.Split(',');
             for (int i = 0; i < stringGroup.Length; i++)

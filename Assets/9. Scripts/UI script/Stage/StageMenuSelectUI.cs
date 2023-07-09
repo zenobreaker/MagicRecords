@@ -129,7 +129,7 @@ public class StageMenuSelectUI : MonoBehaviour
             var eventInfo = stageTable.eventInfoList[i];
             if (eventInfo != null && slotImage != null)
             {
-                if (eventInfo.stageType == StageType.MONSTER)
+                if (eventInfo.stageType == StageType.BATTLE)
                 {
                     if (eventInfo.monsterType == MonsterType.NORMAL)
                     {
