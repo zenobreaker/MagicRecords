@@ -8,16 +8,16 @@ public enum StageField { NORMAL, GRASS, ICE, DESERT, CAVE };
 [System.Serializable]
 public class Stage
 {
-    public uint stageId;
+    public uint stageID;
     public string stageName;
-  
-    public GameObject go_Stage;
-    public GameObject[] go_EnemyRespawns;
-    public GameObject go_PlayerRespawn;
+    // todo 이벤트 컷신 정보 변수 추가 
+    public GameObject mapObject;
+    public GameObject[] enemyRespawns;
+    public GameObject playerRespawn;
     public int enemyCount;
     public int wave;
 }
-
+// 실제 게임 플레이에 배치될 Stage Map 등의 데이터를 이용하여 배치해주는 매니저
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private RespwanManager theRM = null;
@@ -40,6 +40,12 @@ public class StageManager : MonoBehaviour
     [SerializeField] private GameObject go_UI = null;
     [SerializeField] private Text txt_StageClearText = null;
 
+    // 스테이 관련 클래스 초기화 
+    public void InitializeStageClass()
+    {
+
+    }
+
     public void SavePlayerTransform(Transform p_PlayerTR)
     {
         theRM.SavePlayerTransform(p_PlayerTR);
@@ -58,68 +64,82 @@ public class StageManager : MonoBehaviour
     {
         theRM.InitEnemies(_enemies);
     }
+    
+    
 
-    public void SetStage()
+    // todo 스테이지에 나타날 맵 오브젝트 초기화 
+    public void SetMapObjecct()
     {
-        for (int i = 1; i < stageList.Count; i++)
-        {
-            if (theSPC.GetStageName() == stageList[i].stageName)
-            {
-                selectedStage = stageList[i];
-                break;
-            }
-
-        }
+        
     }
 
-    public void CreateStage(uint _stageid)
+    public void CreateStage()
     {
-        //SetStage();
-        Debug.Log("스테이지 생성 ID : " + _stageid);
+        if (StageInfoManager.instance == null) 
+            return; 
 
-        // 스테이지 정보 가져오기 
-        var stageInfo = StageInfoManager.instance.GetStageInfo();
-        if(stageInfo == null)
+        Debug.Log("스테이지 생성 ID : " );
+        
+        // 스테이지 이벤트 정보 가져오기 
+        var stageEventInfo = StageInfoManager.instance.GetStageEventClass();
+        if(stageEventInfo == null || stageList == null)
         {
             return; 
         }
-
-
-        //switch (stageInfo.mapId)
-        //{
-        //    case 1000:
-        //        selectedStage = stageList[1];
-        //        break;
-        //    case 2000:
-        //        selectedStage = stageList[2];
-        //        break;
-        //    default:    // TEST STAGE 
-        //        selectedStage = stageList[0];
-        //        stageList[0].go_Stage.SetActive(true);
-        //        theRM.RespawnTestMon(stageList[0].go_EnemyRespawns[0].transform);
-        //        return;
-        //}
-
         
-        selectedStage.go_Stage.SetActive(true);
-     
-    
-        //var monterType = stageInfo.monsterType;
-        //theRM.RespawnMonster(selectedStage.go_EnemyRespawns, monterType);
+        // 선택한 스테이지 이벤트! 클래스에서 원하는 것을 가져온다.
+        // 이벤트 클래스의 진행해야할 정보가 들어있다. 
+        switch (stageEventInfo.stageType)
+        {
+            case StageType.BATTLE:
+                // 이 스테이지가 전투스테이지라면 맵과 몬스터를 배치.
+                if (stageEventInfo.monsterGroup == null)
+                    return; 
+
+                int selectMapID = stageEventInfo.monsterGroup.mapID;
+                // 가져온 정보에서 맵 찾기
+                for (int i = 0; i < stageList.Count; i++)
+                {
+                    if (stageList[i].stageID == selectMapID)
+                    {
+                        selectedStage = stageList[i];
+                        break; 
+                    }
+                }
+
+                break;
+            case StageType.EVENT:
+                break;
+            case StageType.SHOP:
+                break;
+            case StageType.MULTY:
+           
+                break; 
+        }
+
+
+        if (selectedStage == null)
+            return;
+        
+        // 해당 클래스의 맵 오브젝트 켜주기 
+        selectedStage.mapObject.SetActive(true);
     }
 
     public void CreateTestStage()
     {
         selectedStage = stageList[0];
-        stageList[0].go_Stage.SetActive(true);
-        theRM.RespawnTestMon(stageList[0].go_EnemyRespawns[0].transform);
+        stageList[0].mapObject.SetActive(true);
+        theRM.RespawnTestMon(stageList[0].enemyRespawns[0].transform);
     }
     
 
     // 스테이지의 캐릭터 생성 위치 값 가져오기 
     public Vector3 GetPlayerSpawnPosition()
     {
-        return selectedStage.go_PlayerRespawn.transform.position;
+        if(selectedStage == null || selectedStage.playerRespawn == null)
+            return Vector3.zero;
+
+        return selectedStage.playerRespawn.transform.position;
     }
    
     // 챕터 설정 (RL모드 한정)
@@ -134,7 +154,7 @@ public class StageManager : MonoBehaviour
     public void DisableStage()
     {
         //currentStageNum = -1;
-        selectedStage.go_Stage.SetActive(false);
+        selectedStage.mapObject.SetActive(false);
         go_UI.SetActive(false);
         theRM.DeleteAllMonster();
     }
@@ -152,7 +172,7 @@ public class StageManager : MonoBehaviour
         {
             txt_StageClearText.text = "Stage Clear!!!";
             // 스테이지 클리어 설정 
-            StageInfoManager.instance.GetStageInfo().isCleared = true;
+            //StageInfoManager.instance.GetStageInfo().isCleared = true;
             ClearStage();
         }
         else
@@ -183,8 +203,8 @@ public class StageManager : MonoBehaviour
         {
             //게임이 멈춰있는 상태라면 다시 재생시킨다. 
             Time.timeScale = 1;
-            stageList[currentStageNum++].go_Stage.SetActive(false);
-            stageList[currentStageNum].go_Stage.SetActive(true);
+            stageList[currentStageNum++].mapObject.SetActive(false);
+            stageList[currentStageNum].mapObject.SetActive(true);
             StageChannel.stageName = stageList[currentStageNum].stageName;  
 
             go_UI.SetActive(false);
@@ -204,17 +224,12 @@ public class StageManager : MonoBehaviour
         //MonsterData[] tempMD = monsterDB.GetRandomNormalMData().ToArray();
         //theRM.Respawn(stages[currentStageNum].go_EnemyRespawns, stages[currentStageNum].isBossStage);
 
-        theRM.RespawnMonster(stageList[currentStageNum].go_EnemyRespawns);
+        theRM.RespawnMonster(stageList[currentStageNum].enemyRespawns);
     }
     
     public GameObject[] GetEnemyRespwans()
     {
-        return stageList[currentStageNum].go_EnemyRespawns;
-    }
-
-    public GameObject GetPlayerRespawn()
-    {
-        return stageList[currentStageNum].go_PlayerRespawn;
+        return stageList[currentStageNum].enemyRespawns;
     }
 
 
@@ -237,10 +252,10 @@ public class StageManager : MonoBehaviour
         // TODO
         // 씬을 나눴으니 해당 함수는 게임 씬에선 호출 못하고 데이터를 저장하고 씬을 새로 그릴 때
         // 반영하도록 해야한다. 
-        var curStage = StageInfoManager.instance.GetStageInfo();
-        if (curStage == null) return;
+        //var curStage = StageInfoManager.instance.GetStageInfo();
+        //if (curStage == null) return;
 
-        curStage.isCleared = true;
+        //curStage.isCleared = true;
     }
 
   

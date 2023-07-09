@@ -20,7 +20,7 @@ public enum GamePlayLevel
 public enum StageType 
 {
     NONE = 0, 
-    MONSTER = 1,
+    BATTLE = 1,
     EVENT, 
     SHOP, 
     MULTY, 
@@ -173,11 +173,11 @@ public class StageInfoManager : MonoBehaviour
     public int currentChapter;      // 진행 중인 챕터 수 
     public int enemyCount;              // 게임 내 적 수 
     public int itemCount;
-    public int selectMonsterStageNum;   // 선택한 몬스터 스테이지 번호 
+    public int selectStageEventNum;   // 선택한 몬스터 스테이지 번호 
     //public MonsterData monsterData;
    
     [SerializeField] List<StageTableClass> stageTables = null;
-    [SerializeField] private StageTableClass selectStage;
+    [SerializeField] private StageTableClass selectStageTable;
 
     // 챕터, stagetable 순 
     private Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>(); 
@@ -207,42 +207,34 @@ public class StageInfoManager : MonoBehaviour
     {
         if(stageDictList.Count <= 0)
         {
-            selectMonsterStageNum = 0; 
+            selectStageEventNum = 0; 
             return;
         }
 
         currentChapter = _chapter;
-        var stageInfo = stageDictList[_chapter];         
+        var stageInfo = stageDictList[_chapter];
 
-        selectStage = stageInfo[_selectStageNumber];    // 선택한 스테이지 정보    
-        selectMonsterStageNum = _selectEventNumber;    // 서브 스테이지 선택한 정보
+        selectStageTable = stageInfo[_selectStageNumber];    // 선택한 스테이지 정보    
+        selectStageEventNum = _selectEventNumber;    // 서브 스테이지 선택한 정보
     }
     public void SetStageInfo(StageTableClass _stage)
     {
-        selectStage = _stage;
+        selectStageTable = _stage;
     }
 
 
-    // 선택한 스테이지 반환 
-    public StageTableClass GetStageInfo()
+    // 선택한 스테이지 테이블 클래스 반환
+    public StageTableClass GetStageTableClass()
     {
-        return selectStage;
+        return selectStageTable;
     }
 
-    public StageTableClass GetStageInfo(uint _id)
+    // 선택한 스테이지 이벤트 클래스 반환 
+    public StageEventInfo GetStageEventClass()
     {
+        if (selectStageTable == null || selectStageTable.eventInfoList == null) return null; 
 
-        StageTableClass info; 
-        for(int i = 0; i < stageTables.Count; i++)
-        {
-            //if(_id == stageTables[i].stageId)
-            //{
-            //    info = stageTables[i];
-            //    return info;
-            //}
-        }
-
-        return null;
+        return selectStageTable.eventInfoList[selectStageEventNum];
     }
 
     // 배치된 스테이지 정보 가져오기 

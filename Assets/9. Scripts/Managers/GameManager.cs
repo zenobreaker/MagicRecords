@@ -179,16 +179,8 @@ public class GameManager : MonoBehaviour
             yield return null; 
         }
 
-        var stage = StageInfoManager.instance.GetStageInfo();
-        if(stage == null)
-        {
-            // 스테이지 정보가 없다면 일단 테스트 스테이지를 생성한다
-            Debug.Log("스테이지 없어서 테스트 스테이지 생성");
-            TestStage();
-        }
-
         // 스테이지 생성  
-       // theSM.CreateStage(stage.stageId);
+        theSM.CreateStage();
         // 캐릭터 생성 
         thePM.CreateCharacter();
         // 캐릭터 위치 조정
