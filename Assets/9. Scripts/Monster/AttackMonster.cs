@@ -39,15 +39,15 @@ public class AttackMonster : MonsterBase
             attackRanges[i].SetDisableCollider();
         }
 
-        switch(status.myType)
+        switch(status.myGrade)
         {
-            case MonsterType.NORMAL:
+            case MonsterGrade.NORMAL:
                 addRange = 1f;
                 break;
-            case MonsterType.ELITE:
+            case MonsterGrade.ELITE:
                 addRange = 1.5f;
                 break;
-            case MonsterType.BOSS:
+            case MonsterGrade.BOSS:
                 addRange = 2f;
                 break;
         }

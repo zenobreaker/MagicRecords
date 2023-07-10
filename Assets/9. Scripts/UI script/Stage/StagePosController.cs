@@ -178,7 +178,7 @@ public class StagePosController : MonoBehaviour
 
                 if(isBossStage == true)
                 {
-                    eventInfo.monsterType = MonsterType.BOSS;
+                    eventInfo.monsterType = MonsterGrade.BOSS;
                     continue; 
                 }
 
@@ -189,7 +189,7 @@ public class StagePosController : MonoBehaviour
                 {
                     currentElitLocateCount++;
 
-                    eventInfo.monsterType = MonsterType.ELITE;
+                    eventInfo.monsterType = MonsterGrade.ELITE;
                 }
                 // 하나 이상 배치 했을 때 
                 else if (possibleElite == true &&  
@@ -201,12 +201,12 @@ public class StagePosController : MonoBehaviour
                     // 8%정도라면 추가로 배치시킨다. 
                     if (eliteCount <= 0.08f)
                     {
-                        eventInfo.monsterType = MonsterType.ELITE;
+                        eventInfo.monsterType = MonsterGrade.ELITE;
                     }
                 }
                 else
                 {
-                    eventInfo.monsterType = MonsterType.NORMAL;
+                    eventInfo.monsterType = MonsterGrade.NORMAL;
                 }
             }
 
@@ -359,7 +359,7 @@ public class StagePosController : MonoBehaviour
 
 
             //    // 몬스터 그룹 만들기 
-            //    mainEventInfo.CreateMonsterGroup(MonsterType.NORMAL, 1, "", 1);
+            //    mainEventInfo.CreateMonsterGroup(MonsterGrade.NORMAL, 1, "", 1);
             //    // 몬스터 ID리스트 생성 
             //    monsterDB.GetMonsterIDListFromTargetStage(curMainChpaterNum, (int)1,
             //        ref mainEventInfo.monsterGroup.AppearMonsterList);
@@ -606,23 +606,23 @@ public class StagePosController : MonoBehaviour
         }
 
         _stageTableClass.isBossStage = false; 
-        //_stageTableClass.monsterType = MonsterType.NORMAL;
+        //_stageTableClass.monsterType = MonsterGrade.NORMAL;
 
      
         int _ran = UnityEngine.Random.Range(0, 10);
         
         if (_ran == 3)
         {
-        //    _stageTableClass.monsterType = MonsterType.ELITE;
+        //    _stageTableClass.monsterType = MonsterGrade.ELITE;
         }
         else
-        //    _stageTableClass.monsterType = MonsterType.NORMAL;
+        //    _stageTableClass.monsterType = MonsterGrade.NORMAL;
 
         // 슬롯이 마지막 슬롯이라면 보스전으로 변경 
         if (_slotNum == 4)
         {
             _stageTableClass.isBossStage = true;
-         //   _stageTableClass.monsterType = MonsterType.BOSS;
+         //   _stageTableClass.monsterType = MonsterGrade.BOSS;
         }
 
       //  SetAppearMonster(ref _stageTableClass);
@@ -640,7 +640,7 @@ public class StagePosController : MonoBehaviour
         // TODO 나중에 스테이지 정보에 어떤 몬스터들이 나오는지 몇마리가 나오는지 등 정보가 전달 필요
         // 몬스터 등장 개수 설정
         int monsterCount = 0; 
-        //if (stageTable.monsterType == MonsterType.NORMAL)
+        //if (stageTable.monsterType == MonsterGrade.NORMAL)
         //{
         //    monsterCount = Random.Range(1, 6);
         //}
@@ -909,13 +909,13 @@ public class StagePosController : MonoBehaviour
                     //switch (stageTables[i].monsterType)
                     //{
 
-                    //    case MonsterType.NORMAL:
+                    //    case MonsterGrade.NORMAL:
                     //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[0]);
                     //        break;
-                    //    case MonsterType.ELITE:
+                    //    case MonsterGrade.ELITE:
                     //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[1]);
                     //        break;
-                    //    case MonsterType.BOSS:
+                    //    case MonsterGrade.BOSS:
                     //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[2]);
                     //        break;
                     //}

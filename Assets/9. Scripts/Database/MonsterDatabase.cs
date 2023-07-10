@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 
-public enum MonsterType { NORMAL = 1, ELITE, BOSS };
+public enum MonsterGrade { NORMAL = 1, ELITE, BOSS };
 
 // 아래의 클래스를 리스트로 담고 있는 클래스
 [System.Serializable]
@@ -21,7 +21,7 @@ public class MonsterJsonAllData
 public class MonsterJson
 {
     public uint monsterID;                 // 고유 식별 id
-    public int monsterType;
+    public int monsterGrade;
     public string monsterName;
     public string monsterImage;
     public string monsterPrefabName;       // 프리팹 위치 경로값에 쓰일 이름 
@@ -31,7 +31,7 @@ public class MonsterJson
 public class MonsterData
 {
     public uint monsterID;                 // 고유 식별 id
-    public MonsterType monsterType;
+    public MonsterGrade monsterGrade;
     public string monsterName;
     public Sprite monsterSprite;
     public string prefabPath;       // 프리팹 위치 경로값
@@ -137,7 +137,7 @@ public class MonsterDatabase : MonoBehaviour
 
             monsterData.monsterID = data.monsterID;
             monsterData.monsterName = data.monsterName;
-            monsterData.monsterType = (MonsterType)data.monsterType;
+            monsterData.monsterGrade = (MonsterGrade)data.monsterGrade;
             string imagePath = "Monster/" + data.monsterImage;
             monsterData.monsterSprite = Resources.Load<Sprite>(imagePath);
             string objectPath = "Prefabs/Monster/" + data.monsterPrefabName;
@@ -216,22 +216,22 @@ public class MonsterDatabase : MonoBehaviour
         return monster; 
     }
 
-    public uint GetRandomMonsterId(MonsterType monsterType)
+    public uint GetRandomMonsterId(MonsterGrade monsterGrade)
     {
         List<MonsterData> randArray;
         int rand;
 
-        switch (monsterType)
+        switch (monsterGrade)
         {
-            case MonsterType.NORMAL:
+            case MonsterGrade.NORMAL:
                 randArray = data_Normals;
                 rand = Random.Range(0, randArray.Count);
                 return randArray[rand].monsterID;
-            case MonsterType.ELITE:
+            case MonsterGrade.ELITE:
                 randArray = data_Elites;
                 rand = Random.Range(0, randArray.Count);
                 return randArray[rand].monsterID;
-            case MonsterType.BOSS:
+            case MonsterGrade.BOSS:
                 randArray = data_Bosses;
                 rand = Random.Range(0, randArray.Count);
                 return randArray[rand].monsterID;
@@ -242,22 +242,22 @@ public class MonsterDatabase : MonoBehaviour
         return 0;
     }
 
-    public MonsterData GetRandomMonster(MonsterType monsterType)
+    public MonsterData GetRandomMonster(MonsterGrade monsterGrade)
     {
         List<MonsterData> randArray;
         int rand; 
 
-        switch (monsterType)
+        switch (monsterGrade)
         {
-            case MonsterType.NORMAL:
+            case MonsterGrade.NORMAL:
                 randArray = data_Normals;
                 rand = Random.Range(0, randArray.Count);
                 return randArray[rand];
-            case MonsterType.ELITE:
+            case MonsterGrade.ELITE:
                 randArray = data_Elites;
                 rand = Random.Range(0, randArray.Count);
                 return randArray[rand];
-            case MonsterType.BOSS:
+            case MonsterGrade.BOSS:
                 randArray = data_Bosses;
                 rand = Random.Range(0, randArray.Count);
                 return randArray[rand];
@@ -338,15 +338,15 @@ public class MonsterDatabase : MonoBehaviour
             stageInfoList.Add(stageInfo);
 
             // 몬스터 등급별로 리스트 분리 
-            if (data.monsterGrade == (int)MonsterType.NORMAL)
+            if (data.monsterGrade == (int)MonsterGrade.NORMAL)
             {
                 stageNormalInfoList.Add(stageInfo);
             }
-            else if (data.monsterGrade == (int)MonsterType.ELITE)
+            else if (data.monsterGrade == (int)MonsterGrade.ELITE)
             {
                 stageEliteInfoList.Add(stageInfo);
             }
-            else if (data.monsterGrade == (int)MonsterType.BOSS)
+            else if (data.monsterGrade == (int)MonsterGrade.BOSS)
             {
                 stageBossInfoList.Add(stageInfo);
             }
@@ -369,15 +369,15 @@ public class MonsterDatabase : MonoBehaviour
 
             
             // 해당 등급에 맞는 리스트에서 해당 값을 가져온다. 
-            if (data.monsterGrade == (int)MonsterType.NORMAL)
+            if (data.monsterGrade == (int)MonsterGrade.NORMAL)
             {
                 targetList = stageNormalInfoList;
             }
-            else if (data.monsterGrade == (int)MonsterType.ELITE)
+            else if (data.monsterGrade == (int)MonsterGrade.ELITE)
             {
                 targetList = stageEliteInfoList;
             }
-            else if (data.monsterGrade == (int)MonsterType.BOSS)
+            else if (data.monsterGrade == (int)MonsterGrade.BOSS)
             {
                 targetList = stageBossInfoList;
             }

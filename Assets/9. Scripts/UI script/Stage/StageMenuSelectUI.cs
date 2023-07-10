@@ -131,15 +131,15 @@ public class StageMenuSelectUI : MonoBehaviour
             {
                 if (eventInfo.stageType == StageType.BATTLE)
                 {
-                    if (eventInfo.monsterType == MonsterType.NORMAL)
+                    if (eventInfo.monsterType == MonsterGrade.NORMAL)
                     {
                         slotImage.sprite = monsterNormalSprite;
                     }
-                    else if (eventInfo.monsterType == MonsterType.ELITE)
+                    else if (eventInfo.monsterType == MonsterGrade.ELITE)
                     {
                         slotImage.sprite = monsterEliteSprite;
                     }
-                    else if (eventInfo.monsterType == MonsterType.BOSS)
+                    else if (eventInfo.monsterType == MonsterGrade.BOSS)
                     {
                         slotImage.sprite = monsterBossSprite;
                     }

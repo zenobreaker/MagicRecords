@@ -49,7 +49,7 @@ public enum EventCategory
 public class StageAppearMonsterGroup
 {
     //일반 / 엘리트 /  보스 스테이지인지? 
-    MonsterType monsterType; 
+    MonsterGrade monsterType; 
     public int wave;
     public int maxWave; // 웨이브 방식이라면 최대 웨이브 값 
     public string stageName;
@@ -58,7 +58,7 @@ public class StageAppearMonsterGroup
     // 등장할 몬스터리스트 ID, 등장 수치 
     public List<int> AppearMonsterList = new List<int>();
 
-    public StageAppearMonsterGroup(MonsterType monsterType = MonsterType.NORMAL, int wave = 0, 
+    public StageAppearMonsterGroup(MonsterGrade monsterType = MonsterGrade.NORMAL, int wave = 0, 
         string stageName = "", int mapID = 0)
     {
         this.monsterType = monsterType;
@@ -96,7 +96,7 @@ public class StageEventInfo
     // 서브 이벤트 
     public EventCategory subEventCategory;
     // 뭘 넣지 
-    public MonsterType monsterType;
+    public MonsterGrade monsterType;
     public EventSlot eventSlot;
     // 스토리 이벤트면 나타날 스토리 컷신 정보 
     // 
@@ -105,7 +105,7 @@ public class StageEventInfo
     public StageAppearMonsterGroup monsterGroup;
 
     // 몬스터 그룹 생성 
-    public void CreateMonsterGroup(MonsterType monsterType = MonsterType.NORMAL, int waveCount = 0,
+    public void CreateMonsterGroup(MonsterGrade monsterType = MonsterGrade.NORMAL, int waveCount = 0,
              string stageName = "", int mapID = 0)
     {
         monsterGroup = new StageAppearMonsterGroup(monsterType, waveCount, stageName, mapID);

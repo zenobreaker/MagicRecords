@@ -17,7 +17,7 @@ public class RespwanManager : MonoBehaviour
     // 적 캐릭터를 생성할 주기 
     public float createTime = 2.0f;
 
-    MonsterType monsterType; 
+    MonsterGrade monsterType; 
 
     public List<GameObject> curMonsters = new List<GameObject>();    // 생성된 몬스터를 담을 변수 
     public GameObject go_Player; // 플레이어 위치 생성자 
@@ -25,7 +25,7 @@ public class RespwanManager : MonoBehaviour
     [SerializeField] Animation bossWarning = null;
     [SerializeField] MStatController mStat = null; 
 
-    public void InitEnemies(GameObject _enemy,MonsterType p_monstertType = MonsterType.NORMAL)
+    public void InitEnemies(GameObject _enemy,MonsterGrade p_monstertType = MonsterGrade.NORMAL)
     {
         enemies = new GameObject[1];
         enemies[0] = _enemy;
@@ -39,14 +39,18 @@ public class RespwanManager : MonoBehaviour
     }
 
     // 몬스터 리스폰 / 생성 
-
-    public void RespawnMonster(GameObject[] _spawns, MonsterType  _monsterType = MonsterType.NORMAL)
+    public void RespwanMonsterFormID(GameObject[] spawnObjects, int id)
     {
-        if (_monsterType != MonsterType.BOSS)
+
+    }
+
+    public void RespawnMonster(GameObject[] _spawns, MonsterGrade  _monsterType = MonsterGrade.NORMAL)
+    {
+        if (_monsterType != MonsterGrade.BOSS)
         {
             StartCoroutine(CreateEnemy(_spawns, _monsterType));
         }
-        else if (_monsterType == MonsterType.BOSS)
+        else if (_monsterType == MonsterGrade.BOSS)
         {
             StartCoroutine(CreateEnemy(_spawns, _monsterType));
         }
@@ -63,7 +67,7 @@ public class RespwanManager : MonoBehaviour
         tr_PlayerTransform = p_Transform;
     }
 
-    public IEnumerator CreateEnemy(GameObject[] _spawns, MonsterType _monsterType = MonsterType.NORMAL)
+    public IEnumerator CreateEnemy(GameObject[] _spawns, MonsterGrade _monsterType = MonsterGrade.NORMAL)
     {
         yield return new WaitForSeconds(createTime);
         //// TODO : 몬스터 관련 정보 수정 
@@ -97,12 +101,12 @@ public class RespwanManager : MonoBehaviour
         //        // 현재 그냥 1과 2로 구분 지어서 한다 1은 일반 2는 보스용 추후에 각 데이터별로 스탯을 구분지어서 보냄
         //        if(Monster.TryGetComponent<Status>(out var status))
         //        {
-        //            if (MonsterType.NORMAL == _monsterType || MonsterType.ELITE == _monsterType)
+        //            if (MonsterGrade.NORMAL == _monsterType || MonsterGrade.ELITE == _monsterType)
         //            {
         //                //mStat.SetStatus(ref status, _monsterType);
         //                SetMonsterStatus(ref status, 0);
         //            }
-        //            else if(MonsterType.BOSS == _monsterType)
+        //            else if(MonsterGrade.BOSS == _monsterType)
         //            {
         //                //mStat.SetStatus(ref status, _monsterType);
         //                SetMonsterStatus(ref status, 1);
@@ -140,18 +144,18 @@ public class RespwanManager : MonoBehaviour
     {
         if (status == null) return;
 
-        MonsterType type;
+        MonsterGrade type;
         if (_num == 1)
-            type = MonsterType.BOSS;
+            type = MonsterGrade.BOSS;
         else
-            type = MonsterType.NORMAL;
+            type = MonsterGrade.NORMAL;
 
         PlayerData data = MonsterDatabase.instance.GetMonsterStatus(_num);
 
         if (data == null) return; 
 
         // todo 여기를 수정하자 
-        status.myType = type;
+        status.myGrade = type;
         status.MyAttack = data.Attack;
         status.MyAttackDelay = data.AttackSpeed;
         status.MyDeffence = data.Defence;

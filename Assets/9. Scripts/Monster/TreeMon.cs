@@ -28,7 +28,7 @@ public class TreeMon : AttackMonster
                 break;
             case 4:
                 // 보스타입이 아니라면 해당 패턴은 넘긴다.
-                if (status.myType != MonsterType.BOSS)
+                if (status.myGrade != MonsterGrade.BOSS)
                 {
                     RandomPattern();
                     break;
