@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Status : MonoBehaviour
 {
-    [Header("몬스터 타입")]
-    public MonsterType myType;
+    [Header("몬스터 등급")]
+    public MonsterGrade myGrade;
 
     [SerializeField] private int maxHp = 0; //대상의 체력 
     private int currentHp;

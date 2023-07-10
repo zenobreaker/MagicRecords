@@ -16,6 +16,8 @@ public class Stage
     public GameObject playerRespawn;
     public int enemyCount;
     public int wave;
+
+    public List<int> appearMonsterIDList;
 }
 // 실제 게임 플레이에 배치될 Stage Map 등의 데이터를 이용하여 배치해주는 매니저
 public class StageManager : MonoBehaviour
@@ -31,7 +33,7 @@ public class StageManager : MonoBehaviour
 
     int currentStageNum = 0;
 
-    Dictionary<uint, MonsterType> saveMonsterDic = new Dictionary<uint, MonsterType>();
+    Dictionary<uint, MonsterGrade> saveMonsterDic = new Dictionary<uint, MonsterGrade>();
   
 
     // 필요한 컴포넌트
@@ -50,14 +52,14 @@ public class StageManager : MonoBehaviour
     {
         theRM.SavePlayerTransform(p_PlayerTR);
     }
-    public void SaveEnemy(MonsterType monsterType, uint id)
+    public void SaveEnemy(MonsterGrade monsterGrade, uint id)
     {
-        saveMonsterDic[id] = monsterType;
+        saveMonsterDic[id] = monsterGrade;
     }
 
-    public void SaveEnemy(GameObject _enemy, MonsterType p_monstertType = MonsterType.NORMAL)
+    public void SaveEnemy(GameObject _enemy, MonsterGrade monstertGrade = MonsterGrade.NORMAL)
     {
-        theRM.InitEnemies(_enemy, p_monstertType);
+        theRM.InitEnemies(_enemy, monstertGrade);
     }
 
     public void SaveEnemies(GameObject[] _enemies)
@@ -97,16 +99,24 @@ public class StageManager : MonoBehaviour
                     return; 
 
                 int selectMapID = stageEventInfo.monsterGroup.mapID;
+                int monsterCount = stageEventInfo.monsterGroup.AppearMonsterList.Count;
+                int wave = stageEventInfo.monsterGroup.wave;
                 // 가져온 정보에서 맵 찾기
                 for (int i = 0; i < stageList.Count; i++)
                 {
                     if (stageList[i].stageID == selectMapID)
                     {
                         selectedStage = stageList[i];
+                        selectedStage.enemyCount = monsterCount;
+                        selectedStage.wave = wave;
                         break; 
                     }
                 }
 
+                if (selectedStage.appearMonsterIDList != null)
+                    selectedStage.appearMonsterIDList.Clear(); 
+
+                selectedStage.appearMonsterIDList = stageEventInfo.monsterGroup.AppearMonsterList;
                 break;
             case StageType.EVENT:
                 break;
@@ -161,7 +171,10 @@ public class StageManager : MonoBehaviour
 
     public int GetEnemyCount()
     {
-        return stageList[currentStageNum].enemyCount;
+        if (selectedStage == null)
+            return 0;
+        
+        return selectedStage.enemyCount;
     }
 
     // 결과창 출력
@@ -218,13 +231,20 @@ public class StageManager : MonoBehaviour
     }
 
     // Spwan매니저와의 징검다리
-    public void Respwan()
+    public void RespwanMonster()
     {
-       // Debug.Log("현재스테이지 " + StageChannel.stageName + "등록된 몬스터 "+ StageChannel.cur_MonsterData.monsterName);
-        //MonsterData[] tempMD = monsterDB.GetRandomNormalMData().ToArray();
-        //theRM.Respawn(stages[currentStageNum].go_EnemyRespawns, stages[currentStageNum].isBossStage);
 
-        theRM.RespawnMonster(stageList[currentStageNum].enemyRespawns);
+        // 선택한 스테이지 정보 
+        if (selectedStage == null)
+            return;
+
+        if (selectedStage.appearMonsterIDList == null)
+            return; 
+
+        //selectedStage.appearMonsterIDList
+
+      
+        //theRM.RespawnMonster(stageList[currentStageNum].enemyRespawns);
     }
     
     public GameObject[] GetEnemyRespwans()

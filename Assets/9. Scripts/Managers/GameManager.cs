@@ -9,8 +9,9 @@ using UnityEngine.SceneManagement;
 public enum GameState
 {
     START,
-    INGAME,
-    STOP,
+    STAND_BY_PLAY,
+    PLAYING,
+    END,
 }
 
 public class GameManager : MonoBehaviour
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
     public int playerCount;                   // 게임 내 아군 수
     public int enemyCount;                    // 게임 내 적 수 
     public int itemCount;
+    public int currentWave;
+    public int maxWave;
 
     public bool isTest = false;
     // 게임 획득 점수 
@@ -69,24 +72,43 @@ public class GameManager : MonoBehaviour
     {
         if(gameState == GameState.START)
         {
-
+            // 인게임 요소 체크 
+            // 1. 캐릭터 
+            // 2. 적 생성할 수 
+            // 3. wave 수치 
+            if(playerCount > 0 && enemyCount > 0 && currentWave >0)
+            {
+                gameState = GameState.STAND_BY_PLAY;
+            }
         }
-        else if(gameState == GameState.INGAME)
+        else if(gameState == GameState.STAND_BY_PLAY)
         {
+            // 게임을 진행한다. 
+            // 웨이브가 0이되면 게임은 끝
+            // 이 스테이트에 오면 전장에 적들을 배치한다. 
+            // 스테이지 매니저에게 스폰 명령 
 
         }
-        else if(gameState == GameState.STOP)
+        else if(gameState == GameState.PLAYING)
+        {
+            if(currentWave <= 0)
+            {
+                gameState = GameState.END;
+            }
+
+        }
+        else if(gameState == GameState.END)
         {
 
         }
     }
 
-    public void SaveEnemyData(MonsterType monsterType, uint id)
+    public void SaveEnemyData(MonsterGrade monsterType, uint id)
     {
         theSM.SaveEnemy(monsterType, id);
     }
 
-    public void SaveEnemyWithGM(GameObject _enemy, MonsterType p_monstertType = MonsterType.NORMAL)
+    public void SaveEnemyWithGM(GameObject _enemy, MonsterGrade p_monstertType = MonsterGrade.NORMAL)
     {
         theSM.SaveEnemy(_enemy, p_monstertType);
     }
@@ -103,6 +125,10 @@ public class GameManager : MonoBehaviour
         enemyCount = 0;
 
         gameScore = 0;
+
+        currentWave = 0;
+        maxWave = 0; 
+
         isStageIn = true;
         isStageClear = false;
         isStageEnd = false;
@@ -114,7 +140,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("게임 스테이지 " + stageName);
 
         StartCoroutine(StartStageCoroutine());
-
     }
 
     public void TestStage()
@@ -189,8 +214,12 @@ public class GameManager : MonoBehaviour
         theCombo.ResetCombo();
         player = thePM.GetPlayer();
 
+        if (player != null)
+            playerCount = 1; 
+
         // 목표 수치 설정
-       // enemyCount = stage.enemyCount;
+        enemyCount = theSM.GetEnemyCount();
+        
 
         yield return new WaitForSeconds(0.5f);
 
@@ -242,8 +271,9 @@ public class GameManager : MonoBehaviour
         //    CharStat.instance.IncreaseExp(gameScore);
 
         theReward.ShowUI();
-       // theSM.ClearStage();
-
+        // theSM.ClearStage();
+        // 게임 진행 스테이트 변경 
+        gameState = GameState.END;
         yield return new WaitUntil(() => theReward.isConfirm == true);
 
         theSM.ShowClearUI(true);
@@ -260,6 +290,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = Time.timeScale > 0 ? 0 : 1;
 
         theSM.ShowClearUI(isStageClear);
+        
+        // 게임 진행 스테이트 변경 
+        gameState = GameState.END;
         yield return null;
     }
 
