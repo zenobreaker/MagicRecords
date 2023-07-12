@@ -1,0 +1,54 @@
+{
+  "characterStatJson": [
+    {
+      "id": "1",
+      "memo": "남생이1831",
+      "hp": "453",
+      "mp": "125",
+      "attack": "14",
+      "defense": "15",
+      "speed": "13",
+      "attackspeed": "1"
+    },
+    {
+      "id": "2",
+      "memo": "황조롱이1758",
+      "hp": "328",
+      "mp": "125",
+      "attack": "17",
+      "defense": "12",
+      "speed": "18",
+      "attackspeed": "1"
+    },
+    {
+      "id": "3",
+      "memo": "미정",
+      "hp": "0",
+      "mp": "0",
+      "attack": "0",
+      "defense": "0",
+      "speed": "0",
+      "attackspeed": "0"
+    },
+    {
+      "id": "1001",
+      "memo": "물덩이",
+      "hp": "0",
+      "mp": "100",
+      "attack": "13",
+      "defense": "13",
+      "speed": "13",
+      "attackspeed": "1"
+    },
+    {
+      "id": "1002",
+      "memo": "나무귀신",
+      "hp": "0",
+      "mp": "100",
+      "attack": "13",
+      "defense": "10",
+      "speed": "13",
+      "attackspeed": "1"
+    }
+  ]
+}

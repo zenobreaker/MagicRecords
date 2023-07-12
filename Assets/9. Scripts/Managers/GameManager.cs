@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
 
     GameState gameState;
 
+    private float spwanDelayTime = 0.23f;
+    private float currentTime = 0;
+    private bool isSpwan = false;
+
     public int MyGameScore
     {
         set { gameScore = value; }
@@ -87,6 +91,17 @@ public class GameManager : MonoBehaviour
             // 웨이브가 0이되면 게임은 끝
             // 이 스테이트에 오면 전장에 적들을 배치한다. 
             // 스테이지 매니저에게 스폰 명령 
+            currentTime += Time.deltaTime;
+            if(currentTime >= spwanDelayTime)
+            {
+                isSpwan = true;
+            }
+
+            if(isSpwan == true)
+            {
+                isSpwan = false; 
+                theSM.RespwanEnemy();
+            }
 
         }
         else if(gameState == GameState.PLAYING)

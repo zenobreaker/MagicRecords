@@ -8,8 +8,11 @@ public class Status : MonoBehaviour
     [Header("몬스터 등급")]
     public MonsterGrade myGrade;
 
-    [SerializeField] private int maxHp = 0; //대상의 체력 
-    private int currentHp;
+    [SerializeField] private int maxHP = 0; //대상의 체력 
+    private int currentHP;
+
+    [SerializeField] private int maxMP = 0; //대상의 체력 
+    private int currentMP;
 
     [SerializeField]
     private int attack = 0; // 공격 대미지
@@ -20,7 +23,7 @@ public class Status : MonoBehaviour
                                                    //  [SerializeField] private float runSpeed = 0f; // 뛰기 스피드
 
     [SerializeField]
-    private int deffence = 0;
+    private int defence = 0;
 
     [SerializeField]
     private int exp = 0;
@@ -33,10 +36,10 @@ public class Status : MonoBehaviour
         get { return attack; }
         set { attack = value; }
     }
-    public int MyDeffence
+    public int MyDefence
     {
-        get { return deffence; }
-        set { deffence = value; }
+        get { return defence; }
+        set { defence = value; }
     }
     public float MyAttackDelay
     {
@@ -46,14 +49,26 @@ public class Status : MonoBehaviour
 
     public int MyHP
     {
-        get { return currentHp; }
-        set { currentHp = value; }
+        get { return currentHP; }
+        set { currentHP = value; }
     }
 
-    public int MyMaxHp
+    public int MyMaxHP
     {
-        get { return maxHp; }
-        set { maxHp = value; }
+        get { return maxHP; }
+        set { maxHP = value; }
+    }
+
+    public int MyMaxMP
+    {
+        get { return maxMP; }
+        set { maxMP = value; }
+    }
+
+    public int MyMP
+    {
+        get { return currentMP; }
+        set { currentMP = value; }
     }
 
     public float MyWalkSpeed
@@ -76,6 +91,7 @@ public class Status : MonoBehaviour
 
     private void Start()
     {
-        currentHp = maxHp;
+        currentHP = maxHP;
+        currentMP = maxMP;
     }
 }

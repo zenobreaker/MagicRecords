@@ -152,6 +152,8 @@ public class StageManager : MonoBehaviour
         return selectedStage.playerRespawn.transform.position;
     }
    
+    // 적 생성하기 
+
     // 챕터 설정 (RL모드 한정)
     public void SetChapterWithRL()
     {
@@ -230,10 +232,9 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // Spwan매니저와의 징검다리
-    public void RespwanMonster()
+    // 적 생성하는 함수 RespwanManager기능을 사용한다.
+    public void RespwanEnemy()
     {
-
         // 선택한 스테이지 정보 
         if (selectedStage == null)
             return;
@@ -241,10 +242,10 @@ public class StageManager : MonoBehaviour
         if (selectedStage.appearMonsterIDList == null)
             return; 
 
-        //selectedStage.appearMonsterIDList
-
-      
-        //theRM.RespawnMonster(stageList[currentStageNum].enemyRespawns);
+        foreach(var id in selectedStage.appearMonsterIDList)
+        {
+            theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, id);
+        }
     }
     
     public GameObject[] GetEnemyRespwans()

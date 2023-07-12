@@ -60,8 +60,8 @@ public class MStatController : MonoBehaviour
         p_Status.myGrade = p_MonsterGrade;
 
         p_Status.MyAttack += Mathf.RoundToInt(p_Status.MyAttack * Level_Incre_Value * rankValue / 100);
-        p_Status.MyDeffence +=  Mathf.RoundToInt(p_Status.MyDeffence * Level_Incre_Value * rankValue  / 100);
-        p_Status.MyMaxHp +=  Mathf.RoundToInt(p_Status.MyMaxHp * Level_Incre_Value * rankValue / 100);
+        p_Status.MyDefence +=  Mathf.RoundToInt(p_Status.MyDefence * Level_Incre_Value * rankValue  / 100);
+        p_Status.MyMaxHP +=  Mathf.RoundToInt(p_Status.MyMaxHP * Level_Incre_Value * rankValue / 100);
         //p_Status.MyMaxHp = p_Status.MyHP;
         p_Status.MyEXP = Mathf.RoundToInt(Level_Incre_Value * rankValue);
         
