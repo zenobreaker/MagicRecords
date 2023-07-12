@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class RespwanManager : MonoBehaviour
 {
@@ -41,7 +43,17 @@ public class RespwanManager : MonoBehaviour
     // 몬스터 리스폰 / 생성 
     public void RespwanMonsterFormID(GameObject[] spawnObjects, int id)
     {
+        if (MonsterDatabase.instance == null || spawnObjects == null) return;
+        // 스폰 랜덤한 위치에서 스폰 시키기 
+        int currentSpwanIndex = UnityEngine.Random.Range(0, spawnObjects.Length);
 
+        // id값으로 적 오브젝트 생성한다 
+        var enemyObject = MonsterDatabase.instance.CreateMonsterUnit(id);
+        if (enemyObject == null || 
+            (currentSpwanIndex > spawnObjects.Length && spawnObjects[currentSpwanIndex] == null))
+            return;
+
+        Instantiate(enemyObject, spawnObjects[currentSpwanIndex].transform);
     }
 
     public void RespawnMonster(GameObject[] _spawns, MonsterGrade  _monsterType = MonsterGrade.NORMAL)
@@ -158,9 +170,9 @@ public class RespwanManager : MonoBehaviour
         status.myGrade = type;
         status.MyAttack = data.Attack;
         status.MyAttackDelay = data.AttackSpeed;
-        status.MyDeffence = data.Defence;
+        status.MyDefence = data.Defence;
         status.MyHP = data.Hp;
-        status.MyMaxHp = data.Hp;
+        status.MyMaxHP = data.Hp;
         status.MyWalkSpeed = data.MoveSpeed;
         status.MyEXP = data.Exp;
         status.MyPattern = data.Pattten;

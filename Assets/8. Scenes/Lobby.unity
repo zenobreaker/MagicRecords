@@ -4095,9 +4095,9 @@ MonoBehaviour:
   currentChapter: 0
   enemyCount: 0
   itemCount: 0
-  selectMonsterStageNum: 0
+  selectStageEventNum: 0
   stageTables: []
-  selectStage:
+  selectStageTable:
     tableOrder: 0
     stageName: 
     eventInfoList: []
@@ -25810,14 +25810,15 @@ MonoBehaviour:
   gameLevel: 0
   cur_SelectMD:
     monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: 
     monsterSprite: {fileID: 0}
     prefabPath: 
     monsterPrefab: {fileID: 0}
   maxStageNum: 0
   finalChapterNum: 1
-  cur_MainChpaterNum: 0
+  curMainChpaterNum: 0
   selectEventSlotNumber: 0
 --- !u!114 &819493052
 MonoBehaviour:
@@ -39576,45 +39577,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data_Normals:
   - monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: TestMon
     monsterSprite: {fileID: 0}
     prefabPath: 
     monsterPrefab: {fileID: 0}
   - monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: Slime
     monsterSprite: {fileID: 0}
     prefabPath: 
     monsterPrefab: {fileID: 0}
   - monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: Treemon
     monsterSprite: {fileID: 0}
     prefabPath: 
     monsterPrefab: {fileID: 0}
   data_Elites:
   - monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: EiiteTreeMon
     monsterSprite: {fileID: 0}
     prefabPath: 
     monsterPrefab: {fileID: 0}
   - monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: EliteSlime
     monsterSprite: {fileID: 0}
     prefabPath: 
     monsterPrefab: {fileID: 0}
   data_Bosses:
   - monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: KingTree
     monsterSprite: {fileID: 0}
     prefabPath: 
     monsterPrefab: {fileID: 0}
   - monsterID: 0
-    monsterType: 0
+    statID: 0
+    monsterGrade: 0
     monsterName: KingSlime
     monsterSprite: {fileID: 0}
     prefabPath: 
@@ -39629,6 +39637,7 @@ MonoBehaviour:
   stageBossInfoList: []
   monsterJsonData: {fileID: 4900000, guid: 78e2d68f256ff5b46bb97f765d581e8d, type: 3}
   stageJsonData: {fileID: 4900000, guid: e4a469c4a0251e34ba29783176d6482a, type: 3}
+  characterStatJson: {fileID: 4900000, guid: 58ed76f77b85d5745a7683b0f6b9062a, type: 3}
 --- !u!4 &1371334446
 Transform:
   m_ObjectHideFlags: 0

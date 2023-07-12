@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b9eaa7ea57cf442956be23e8a3d1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myBody: {fileID: 0}
+  myBody: {fileID: 2730450039709305521}
   myAnim: {fileID: 1661029430158842451}
   myCondition: 0
 --- !u!114 &5038329180906567041
@@ -394,12 +394,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6651f6b8544d4bf459c6ea82547632bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myType: 0
+  myGrade: 1
   maxHp: 224
   attack: 10
   attackDelay: 3
   walkSpeed: 6
-  deffence: 22
+  defence: 0
   exp: 1
   pattern: 0
 --- !u!195 &5038329180906567045
@@ -473,7 +473,11 @@ MonoBehaviour:
   fieldOfView: {fileID: 5038329180906567044}
   myState: 0
   idleTime: 3
-  isAttack: 0
+  isWalking: 0
+  isRunning: 0
+  isChasing: 0
+  isAttacking: 0
+  isDead: 0
   MonsterName: Slime
   item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
     type: 3}
@@ -487,13 +491,8 @@ MonoBehaviour:
   destination: {x: 0, y: 0, z: 0}
   isTest: 0
   isBoss: 0
-  isWalking: 0
-  isRunning: 0
-  isChasing: 0
-  isAttacking: 0
-  isDead: 0
   dangerLine:
-  - {fileID: 9144973564362976019, guid: 7bf863a7043640445a6f84b2a5e7cd74, type: 3}
+  - {fileID: 1493473438567746127, guid: ff3eaf96302e8864ca4df8cbab69115c, type: 3}
   rangeOfEnemy: 10
   baseAttackRange: 3
   status: {fileID: 5038329180906567041}
@@ -521,7 +520,6 @@ MonoBehaviour:
   - attackPattern: 0
     attackCoolTime: 5
   MaxPattern: 0
-  go_JelleyAttack: {fileID: 2744490055673027204}
 --- !u!1 &6865005315957008656
 GameObject:
   m_ObjectHideFlags: 0

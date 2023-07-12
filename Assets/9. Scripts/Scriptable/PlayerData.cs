@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Player Data", menuName = "Scriptable Object/Player Data", order = int.MaxValue)]
 public class PlayerData : ScriptableObject
 {
+    [SerializeField]
+    private string id;
+    public string UnitID { get { return id; } }
+
     // 플레이어 이름 
     [SerializeField]
     private string playerName;
@@ -13,6 +17,11 @@ public class PlayerData : ScriptableObject
     [SerializeField]
     private int type;
     public int Type { get { return type; } }
+
+
+    [SerializeField]
+    private int grade;
+    public int Grade{ get { return grade; } }
 
     // 플레이어 체력 
     [SerializeField]
