@@ -164,13 +164,13 @@ public class StagePosController : MonoBehaviour
             {
                 isBossStage = true;
             }
-
+ 
             // 리스트 내부에 정보에서 monstertype것만 건든다. 
             foreach (var eventInfo in stage.eventInfoList)
             {
                 if (eventInfo == null) continue;
 
-                // 보스 타입은 제외 
+                // 전투 타입이 아니면 안된다.
                 if (eventInfo.stageType != StageType.BATTLE)
                 {
                     continue;
@@ -318,7 +318,6 @@ public class StagePosController : MonoBehaviour
         {
             if(tableClass == null || tableClass.eventInfoList == null) continue;
 
-
             bool isBossStage = false; 
             // 1. 보스 스테이지 인지 검사 
             if (tableClass.isBossStage == true)
@@ -333,12 +332,11 @@ public class StagePosController : MonoBehaviour
                 // 스테이지 타입이 몬스터 타입일 경우 
                 if (eventInfo.stageType == StageType.BATTLE)
                 {
-                    // 가져온 몬스터 ID값을 정리 
-                    // 몬스터 그룹 만들기 
-                    eventInfo.CreateMonsterGroup(eventInfo.monsterType, 1, "", 1);
-                    // 몬스터 ID리스트 생성 
-                    monsterDB.GetMonsterIDListFromTargetStage(curMainChpaterNum, (int)1,
-                        ref eventInfo.monsterGroup.AppearMonsterList);
+                    // 등장할 몬스터 ID 리스트 만들기
+                    // todo 게임 레벨 변수를 전달해야한다.
+                    monsterDB.GetMonsterIDListFromTargetStage(
+                        curMainChpaterNum, (int)1,
+                        eventInfo);
                 }
 
             }
@@ -444,8 +442,8 @@ public class StagePosController : MonoBehaviour
         SetMonsterStageGrade(ref stageTables);
         // 타입별 정보 세팅 
         SetStageTableClassListByStateTypeData(ref stageTables);
-    
 
+        
         // 4. 스테이지 잠그기
         LockedAllStage();
         // 스테이지 정보 전달 
@@ -515,84 +513,7 @@ public class StagePosController : MonoBehaviour
     // 랜덤으로 배치시키게 하는 메소드 
     void RandomLocateStage()
     {
-        // 가져온 리스트가 이미 있다면 청소해놓는다 
-        if (stageTables != null)
-        {
-            stageTables.Clear();
-        }
-        else
-        {
-            stageTables = new List<StageTableClass>();
-        }
-
-        for (int i = 0; i < MAX_STAGE_COUNT; i++)
-        {
-            int _randSelStage = UnityEngine.Random.Range(0, 8);
-            int temp = i; // 문제 때문에 복사해서 사용 
-
-
-            // TODO : 데이터 변경됨에 따라 아래 로직 변경해야됨
-            // 그러네 보스전이 없어졌네..
-            StageTableClass stageTable = new StageTableClass();
-            //stageTable.stageType= StageType.MONSTER;
-
-            // 랜덤 몬스터 배치 
-            RadomLocateMonsterStage(ref stageTable, i);
-
-            // 버튼에 이벤트가 등재되어 있지 않다면 실행 
-            //if (img_StageIcon[temp].GetComponent<Button>().onClick.GetPersistentEventCount() == 0)
-            //{
-            //    img_StageIcon[temp].GetComponent<Button>().onClick.AddListener(() => OpenMonsterStageMenu(temp));
-            //    //img_StageIcon[temp].GetComponent<Button>().interactable = true; 임시 테스트용 
-            //}
-
-
-            var stageId = 0;
-            var mapId = 0;
-            var stageName = "";
-            // 테마별로 등장할 필드 설정 
-            switch (curMainChpaterNum)
-            {
-                case 1:
-                    // TODO : 맵 id 만드는 기능 필요 
-                    stageId = 1000;
-                    mapId = 1000;
-                    stageName = forestFields[Random.Range(0, forestFields.Length)];
-                    break;
-                case 2:
-                    stageId = 1000;
-                    mapId = 1000;
-                    stageName = iceFields[Random.Range(0, forestFields.Length)];
-                    break;
-                case 3:
-                    stageId = 1000;
-                    mapId = 1000;
-                    stageName = desertFields[Random.Range(0, forestFields.Length)];
-                    break;
-            }
-
-            // 첫 스테이지는 잠금 여부 o 
-            if( i == 0 )
-            {
-                stageTable.isLocked = false;
-            }
-            else
-            {
-                stageTable.isLocked = true;
-            }
-
-            stageTable.isCleared = false;
-
-            // todo id 만드는 방법을 추후에 연구해야 한다 지금은 챕터 + 스테이지 번호를 더한다.
-            // id 설정 
-            //stageTable.stageId = (uint)(stageId + curMainChpaterNum + i);
-         
-
-            stageTables.Add(stageTable);
-        }
-        isSetted = false;
-        StageInfoManager.instance.
-            SetStageList(curMainChpaterNum, ref stageTables);
+      
     }
 
 
@@ -632,42 +553,7 @@ public class StagePosController : MonoBehaviour
     //등장시킬 몬스터 타입 정보 
     void SetAppearMonster(ref StageTableClass stageTable)
     {
-        if(stageTable == null)
-        {
-            Debug.Log("해당 데이터 존재 x");
-            return; 
-        }
-        // TODO 나중에 스테이지 정보에 어떤 몬스터들이 나오는지 몇마리가 나오는지 등 정보가 전달 필요
-        // 몬스터 등장 개수 설정
-        int monsterCount = 0; 
-        //if (stageTable.monsterType == MonsterGrade.NORMAL)
-        //{
-        //    monsterCount = Random.Range(1, 6);
-        //}
-        //else
-        //    monsterCount = 1;
-
-        if (stageTable.eventInfoList == null) 
-        {
-           // stageTable.monsterGroups = new List<StageAppearMonsterGroup>();
-        }
-
-
-        //TODO : 나 몬스터 최대 개수로만 나오게 설정하려 했던가??? 
-        // 랜덤값으로 최대 갯수까지 나오게 한다음에 에너ㅌㅣ카운트 변수에 넣던가 하자
-        // 데이터 만들 리스트가 생성되지 않았다면 생성해준다. 
-        for (int i = 0; i < 3; i++)
-        {
-            // 몬스터ID / 몬스터 수 
-            //stageTable.monsterGroups.Add(new StageAppearMonsterGroup());
-            //for (int j = 0; j < monsterCount; j++)
-            //{
-            //    var monsterId = monsterDB.GetRandomMonsterId(stageTable.monsterType);
-            //    uint count = 1;
-                
-            //    stageTable.monsterGroups[i].monsterIdCounts.Add((monsterId, count));
-            //}
-        }
+     
     }
 
 

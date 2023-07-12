@@ -46,22 +46,22 @@ public enum EventCategory
 };
 
 [System.Serializable]
-public class StageAppearMonsterGroup
+public class StageAppearMonsterInfo
 {
     //일반 / 엘리트 /  보스 스테이지인지? 
-    MonsterGrade monsterType; 
+    MonsterGrade monsterGrade; 
     public int wave;
     public int maxWave; // 웨이브 방식이라면 최대 웨이브 값 
     public string stageName;
     public int mapID;   // 어떠한 맵을 그려야하는가 
 
     // 등장할 몬스터리스트 ID, 등장 수치 
-    public List<int> AppearMonsterList = new List<int>();
+    public List<int> appearMonsterList = new List<int>();
 
-    public StageAppearMonsterGroup(MonsterGrade monsterType = MonsterGrade.NORMAL, int wave = 0, 
+    public StageAppearMonsterInfo(MonsterGrade monsterGrade = MonsterGrade.NORMAL, int wave = 1, 
         string stageName = "", int mapID = 0)
     {
-        this.monsterType = monsterType;
+        this.monsterGrade = monsterGrade;
         this.wave = wave;
         this.maxWave = wave;
         this.stageName = stageName;
@@ -72,15 +72,15 @@ public class StageAppearMonsterGroup
     // 매개변수대로 리스트에 몬스터 데이터를 설정한다. 
     public void SetMonsterList(List<int> list)
     {
-        AppearMonsterList.Clear();
+        appearMonsterList.Clear();
         // 리스트에 몬스터 정보를 넣어준다 
-        AppearMonsterList = list.ToList();
+        appearMonsterList = list.ToList();
     }
 
 
-    ~StageAppearMonsterGroup()
+    ~StageAppearMonsterInfo()
     {
-        AppearMonsterList.Clear(); 
+        appearMonsterList.Clear(); 
     }
 }
 
@@ -102,13 +102,12 @@ public class StageEventInfo
     // 
 
     // 몬스터이벤트면 나타날 몬스터 그룹 정보
-    public StageAppearMonsterGroup monsterGroup;
+    public StageAppearMonsterInfo appearMonsterInfo;
 
     // 몬스터 그룹 생성 
-    public void CreateMonsterGroup(MonsterGrade monsterType = MonsterGrade.NORMAL, int waveCount = 0,
-             string stageName = "", int mapID = 0)
+    public void CreateMonsterGroup()
     {
-        monsterGroup = new StageAppearMonsterGroup(monsterType, waveCount, stageName, mapID);
+        appearMonsterInfo = new StageAppearMonsterInfo();
     }
 
 };

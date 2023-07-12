@@ -72,6 +72,7 @@ public class StageInfo
 public class CharacterStatJson
 {
     public int id;
+    public string memo;
     public int hp;
     public int mp;
     public int attack;
@@ -83,7 +84,7 @@ public class CharacterStatJson
 [System.Serializable]
 public class CharacterStatJsonAllData
 {
-    public CharacterStatJson[] statAllData;
+    public CharacterStatJson[] characterStatJson;
 }
 
 
@@ -162,12 +163,14 @@ public class MonsterDatabase : MonoBehaviour
         foreach (var data in allData.monsterJsonData)
         {
             // 클래스 생성 
-            MonsterData monsterData = new MonsterData();
+            MonsterData monsterData = new MonsterData
+            {
+                monsterID = data.monsterID,
+                statID = data.statID,
+                monsterName = data.monsterName,
+                monsterGrade = (MonsterGrade)data.monsterGrade
+            };
 
-            monsterData.monsterID = data.monsterID;
-            monsterData.statID = data.statID;
-            monsterData.monsterName = data.monsterName;
-            monsterData.monsterGrade = (MonsterGrade)data.monsterGrade;
             string imagePath = "Monster/" + data.monsterImage;
             monsterData.monsterSprite = Resources.Load<Sprite>(imagePath);
             string objectPath = "Prefabs/Monster/" + data.monsterPrefabName;
@@ -300,7 +303,7 @@ public class MonsterDatabase : MonoBehaviour
     // 반환하는건 게임오브젝트지만 prefab을 기반으로 구성된 리스트에서 일정 클래스에 데이터를 미리 만들어줘서 전달함
     public GameObject CreateMonsterUnit(int id, MonsterGrade grade = MonsterGrade.NORMAL)
     {
-        if (characterAllData.statAllData == null)
+        if (characterAllData.characterStatJson == null)
             return null;
 
         foreach (var data in data_Monsters)
@@ -313,7 +316,7 @@ public class MonsterDatabase : MonoBehaviour
             if (monsterObject == null) continue;
 
             // id에 맞는 스탯 데이터 가져오기 
-            foreach(var stat in characterAllData.statAllData)
+            foreach(var stat in characterAllData.characterStatJson)
             {
                 if (stat.id != data.statID)
                     continue;
@@ -481,10 +484,16 @@ public class MonsterDatabase : MonoBehaviour
     }
 
     // chapter와 등급 난이도를 받으면 리스트에 해당 몬스터 ID를 넣어 반환 
-    public void GetMonsterIDListFromTargetStage(int chapter, int grade, ref List<int> targetList)
+    public void GetMonsterIDListFromTargetStage(int chapter, int gameLevel, StageEventInfo eventInfo)
     {
+        if (eventInfo == null) return;
+
+        eventInfo.CreateMonsterGroup();
+
+        var targetList = eventInfo.appearMonsterInfo.appearMonsterList;
+
         // 스테이지 ID를 가져온다. 
-        var stageID = GetRandomStageIDFromChapterAndGrade(chapter, grade);
+        var stageID = GetRandomStageIDFromChapterAndGrade(chapter, gameLevel);
 
 
         if (stageID <= 0 || stageAllData == null ||
@@ -493,13 +502,13 @@ public class MonsterDatabase : MonoBehaviour
         foreach(var data in stageInfoList)
         {
             if (data == null || data.id != stageID) continue;
-
+            
             // 해당 데이터에 있는 몬스터 ID 리스트를 순회하면서 정보를 넣어 전달 
             foreach(var monsterID in data.monsterGroup)
             {
                 targetList.Add(monsterID);
             }
-
+            eventInfo.appearMonsterInfo.mapID = data.mapID;
             return; 
         }
     }
@@ -508,9 +517,15 @@ public class MonsterDatabase : MonoBehaviour
     // 캐릭터 스탯 정보 초기화 
     void InitializeCharacterStatData()
     {
-        
         characterAllData = JsonUtility.FromJson<CharacterStatJsonAllData>(characterStatJson.text);
 
+        if (characterAllData.characterStatJson == null)
+            return;
+
+        foreach (var data in characterAllData.characterStatJson)
+        {
+
+        }
     }
 }
 

@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private float spwanDelayTime = 0.23f;
     private float currentTime = 0;
     private bool isSpwan = false;
+    private int spawnCount = 0 ;
 
     public int MyGameScore
     {
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
             // 이 스테이트에 오면 전장에 적들을 배치한다. 
             // 스테이지 매니저에게 스폰 명령 
             currentTime += Time.deltaTime;
-            if(currentTime >= spwanDelayTime)
+            if(currentTime >= spwanDelayTime && spawnCount < enemyCount)
             {
                 isSpwan = true;
             }
@@ -101,6 +102,7 @@ public class GameManager : MonoBehaviour
             {
                 isSpwan = false; 
                 theSM.RespwanEnemy();
+                spawnCount++; 
             }
 
         }
@@ -138,9 +140,9 @@ public class GameManager : MonoBehaviour
         // 플레이어 적 수 초기화 
         playerCount = 0;
         enemyCount = 0;
-
+        spawnCount = 0;
         gameScore = 0;
-
+        currentTime = 0.0f;
         currentWave = 0;
         maxWave = 0; 
 
@@ -234,7 +236,8 @@ public class GameManager : MonoBehaviour
 
         // 목표 수치 설정
         enemyCount = theSM.GetEnemyCount();
-        
+        currentWave = theSM.GetSelectStageWaveCount();
+        maxWave = theSM.GetSelectStageWaveCount();
 
         yield return new WaitForSeconds(0.5f);
 
