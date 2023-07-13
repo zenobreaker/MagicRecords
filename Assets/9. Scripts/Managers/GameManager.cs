@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 // 게임 진행 스테이트 
 public enum GameState
 {
+    NONE,
     START,
     STAND_BY_PLAY,
     PLAYING,
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     private float spwanDelayTime = 0.23f;
     private float currentTime = 0;
-    private bool isSpwan = false;
+    private bool isSpawn = false;
     private int spawnCount = 0 ;
 
     public int MyGameScore
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour
             if(playerCount > 0 && enemyCount > 0 && currentWave >0)
             {
                 gameState = GameState.STAND_BY_PLAY;
+                isSpawn = true;
             }
         }
         else if(gameState == GameState.STAND_BY_PLAY)
@@ -92,27 +94,19 @@ public class GameManager : MonoBehaviour
             // 웨이브가 0이되면 게임은 끝
             // 이 스테이트에 오면 전장에 적들을 배치한다. 
             // 스테이지 매니저에게 스폰 명령 
-            currentTime += Time.deltaTime;
-            if(currentTime >= spwanDelayTime && spawnCount < enemyCount)
+            if (isSpawn == true)
             {
-                isSpwan = true;
-            }
-
-            if(isSpwan == true)
-            {
-                isSpwan = false; 
+                isSpawn = false;
                 theSM.RespwanEnemy();
-                spawnCount++; 
             }
-
+            gameState = GameState.PLAYING;
         }
         else if(gameState == GameState.PLAYING)
         {
-            if(currentWave <= 0)
+            if (currentWave <= 0)
             {
                 gameState = GameState.END;
             }
-
         }
         else if(gameState == GameState.END)
         {
@@ -144,7 +138,9 @@ public class GameManager : MonoBehaviour
         gameScore = 0;
         currentTime = 0.0f;
         currentWave = 0;
-        maxWave = 0; 
+        maxWave = 0;
+        
+        gameState = GameState.NONE;
 
         isStageIn = true;
         isStageClear = false;
@@ -188,7 +184,13 @@ public class GameManager : MonoBehaviour
     // 게임 클리어 확인
     public void CheckGameClaer()
     {
-        if (enemyCount <= 0)
+        // 모든 적을 쓰러뜨렸으면 현재 웨이브 값을 내린다.
+        if(enemyCount <= 0)
+        {
+            currentWave -= 1;
+        }
+        // 웨이브값을 검사해서 게임이 끝났는지 검사 
+        if (currentWave <= 0)
         {
             isStageEnd = true;
             isStageClear = true;
@@ -197,6 +199,11 @@ public class GameManager : MonoBehaviour
         {
             isStageEnd = true;
             isStageClear = false; 
+        }
+        // 검사했는데 웨이브가 아직 남아있으면 스폰을 한 번 더 시켜야한다.
+        else if(currentWave > 0 && isSpawn == false)
+        {
+            gameState = GameState.STAND_BY_PLAY;
         }
 
         if (isStageEnd == true && isStageClear == true && isRoutine == false)
