@@ -53,7 +53,7 @@ public class RespwanManager : MonoBehaviour
             (currentSpwanIndex > spawnObjects.Length && spawnObjects[currentSpwanIndex] == null))
             return;
 
-        Instantiate(enemyObject, spawnObjects[currentSpwanIndex].transform);
+        Instantiate(enemyObject, spawnObjects[currentSpwanIndex].transform.position, Quaternion.identity);
     }
 
     public void RespawnMonster(GameObject[] _spawns, MonsterGrade  _monsterType = MonsterGrade.NORMAL)
