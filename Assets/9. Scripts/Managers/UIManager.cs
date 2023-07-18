@@ -223,7 +223,9 @@ public class UIManager : MonoBehaviour
             return; 
         }
 
-        enemyCounterText.text = "남은적 : " + GameManager.MyInstance.enemyCount.ToString();
+        enemyCounterText.text = 
+            "Wave : " + GameManager.MyInstance.currentWave.ToString() + "/" +
+            GameManager.MyInstance.maxWave.ToString();
     }
 
     public void ActionButtonReset()

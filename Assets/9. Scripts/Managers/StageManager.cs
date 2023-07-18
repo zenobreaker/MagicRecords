@@ -195,9 +195,6 @@ public class StageManager : MonoBehaviour
         if (_isClear)
         {
             txt_StageClearText.text = "Stage Clear!!!";
-            // 스테이지 클리어 설정 
-            //StageInfoManager.instance.GetStageInfo().isCleared = true;
-            ClearStage();
         }
         else
             txt_StageClearText.text = "Stage Fail...";
@@ -211,7 +208,6 @@ public class StageManager : MonoBehaviour
         Debug.Log("타임 : " + Time.timeScale);
         //씬 변경
         LoadingSceneController.LoadScene("Lobby");
-        //DisableStage();
     }
 
     public void NextStageBtn()
@@ -256,36 +252,14 @@ public class StageManager : MonoBehaviour
             theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, id);
         }
     }
-    
-    public GameObject[] GetEnemyRespwans()
-    {
-        return stageList[currentStageNum].enemyRespawns;
-    }
 
 
-    //public IEnumerator SpawnWaves()
-    //{
-    //    for (int i = 0; i < stages[currentStageNum].wave; i++)
-    //    {
-    //        if (i == stages[currentStageNum].wave - 1)
-    //        {
-    //            stages[currentStageNum].isBossStage = true;
-    //        }
-    //        Respwan();
-    //        yield return new WaitForSeconds(5f);
-    //    }
-    //}
 
-    // 보스까지 한 챕터를 클리어한 경우 
+    // 해당 스테이지 클리어한 경우 
     public void ClearStage()
     {
-        // TODO
-        // 씬을 나눴으니 해당 함수는 게임 씬에선 호출 못하고 데이터를 저장하고 씬을 새로 그릴 때
-        // 반영하도록 해야한다. 
-        //var curStage = StageInfoManager.instance.GetStageInfo();
-        //if (curStage == null) return;
-
-        //curStage.isCleared = true;
+        // 스테이지인포매니저의 함수를 호출해준다. 
+        StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
     }
 
   

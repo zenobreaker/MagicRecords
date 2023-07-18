@@ -299,8 +299,9 @@ public class GameManager : MonoBehaviour
         // theSM.ClearStage();
         // 게임 진행 스테이트 변경 
         gameState = GameState.END;
+        theSM.ClearStage(); // 해당 스테이지 클리어함수 호출
         yield return new WaitUntil(() => theReward.isConfirm == true);
-
+        
         theSM.ShowClearUI(true);
 
         // 캐릭터 경험치 지급 

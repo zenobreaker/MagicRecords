@@ -25,7 +25,7 @@ public class RespwanManager : MonoBehaviour
     public GameObject go_Player; // 플레이어 위치 생성자 
 
     [SerializeField] Animation bossWarning = null;
-    [SerializeField] MStatController mStat = null; 
+    //[SerializeField] MStatController mStat = null; 
 
     public void InitEnemies(GameObject _enemy,MonsterGrade p_monstertType = MonsterGrade.NORMAL)
     {

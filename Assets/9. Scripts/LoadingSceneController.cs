@@ -44,12 +44,12 @@ public class LoadingSceneController : MonoBehaviour
 
     private static string loadSceneName;
 
-    public static void LoadScene(string sceneName)
+    public static void LoadScene(string sceneName, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
     { 
         //gameObject.SetActive(true);
         //SceneManager.sceneLoaded += OnSceneLoaded;
         loadSceneName = sceneName;
-        SceneManager.LoadScene("LoadingScene");
+        SceneManager.LoadScene("LoadingScene", loadSceneMode);
     }
 
     private void Start()
