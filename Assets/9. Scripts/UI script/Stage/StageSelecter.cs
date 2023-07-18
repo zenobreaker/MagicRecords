@@ -48,14 +48,9 @@ public class StageSelecter : MonoBehaviour
         Debug.Log("현재 사용중?");
         theSPC.curMainChpaterNum = 1;
         //theSPC.CreateStage();
-        theSPC.UpgradeCreateStage();
+        //theSPC.UpgradeCreateStage();
+        StageInfoManager.instance.CreateStageTableList();
         UIPageManager.instance.OpenClose(go_StageScreen);
-        //UIPageManager.instance.ChangeButtonAtoB(LobbyManager.MyInstance.btn_ModeSelect, LobbyManager.MyInstance.btn_IntotheStage);
-     
-        //RLModeController.instance.InitGameMode();
-        //theSPC.LockedAllStage();
-        //theSPC.OpenAlert();
-        //LobbyManager.MyInstance.OpenClose(go_StageScreen);
     }
 
     public void EndToRLMode()

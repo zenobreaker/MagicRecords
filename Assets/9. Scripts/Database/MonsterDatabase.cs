@@ -66,6 +66,7 @@ public class StageInfo
     public List<int> monsterGroup; 
     public int monsterGrade;
     public int mapID;
+    public int wave;
 }
 
 [System.Serializable]
@@ -488,6 +489,7 @@ public class MonsterDatabase : MonoBehaviour
     {
         if (eventInfo == null) return;
 
+        // 몬스터 그룹 생성 
         eventInfo.CreateMonsterGroup();
 
         var targetList = eventInfo.appearMonsterInfo.appearMonsterList;
@@ -508,7 +510,17 @@ public class MonsterDatabase : MonoBehaviour
             {
                 targetList.Add(monsterID);
             }
+            // 등장하는 map id 연결 
             eventInfo.appearMonsterInfo.mapID = data.mapID;
+            // 게임에 진행할 wave 수 설정
+            if(data.wave == 0 )
+            {
+                eventInfo.appearMonsterInfo.wave = 1;
+            }
+            else
+            {
+                eventInfo.appearMonsterInfo.wave = data.wave;
+            }
             return; 
         }
     }

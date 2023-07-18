@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 434290}
   - component: {fileID: 434292}
   - component: {fileID: 434291}
+  - component: {fileID: 434293}
   m_Layer: 5
   m_Name: StageBase
   m_TagString: Untagged
@@ -236,7 +237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -71.00003}
+  m_AnchoredPosition: {x: 0, y: -71}
   m_SizeDelta: {x: 0, y: -142}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &434291
@@ -277,6 +278,73 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434289}
   m_CullTransparentMesh: 0
+--- !u!114 &434293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5009b90b51b92f54f80743fe2c32f1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageMenuUI: {fileID: 2145902407}
+  img_StageTheme: {fileID: 649318897}
+  spt_StageBg:
+  - {fileID: 21300000, guid: 48cc765f72d0e9642a6e578954086dfa, type: 3}
+  - {fileID: 21300000, guid: c5f9aa9f7e6888d499660589e4af6666, type: 3}
+  - {fileID: 21300000, guid: ed4e5e3411bcee940887038a1eff290f, type: 3}
+  spt_stageMIcon:
+  - {fileID: 21300000, guid: bfc7907a8a07a2949a75f70b11bd76ff, type: 3}
+  - {fileID: 21300000, guid: 4f9e9ca6a3a0a4c4f9d2733e09d26be5, type: 3}
+  - {fileID: 21300000, guid: fb064a9a247a4d4479226e8851bf05c2, type: 3}
+  img_MonsterIcon:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  txt_Chpater: {fileID: 24447129}
+  scrollview: {fileID: 335109035}
+  contentObject: {fileID: 207340968}
+  stageSlot: {fileID: 3221107794746724553, guid: b4ecdc8500d8d3f49800d2c2d8849642,
+    type: 3}
+  choiceAlert: {fileID: 2147168776}
+  go_Alert: {fileID: 0}
+  stageTables:
+  - tableOrder: 0
+    stageName: 
+    eventInfoList: []
+    isBossStage: 0
+    isLocked: 0
+    isCleared: 0
+  - tableOrder: 0
+    stageName: 
+    eventInfoList: []
+    isBossStage: 0
+    isLocked: 0
+    isCleared: 0
+  - tableOrder: 0
+    stageName: 
+    eventInfoList: []
+    isBossStage: 0
+    isLocked: 0
+    isCleared: 0
+  - tableOrder: 0
+    stageName: 
+    eventInfoList: []
+    isBossStage: 0
+    isLocked: 0
+    isCleared: 0
+  - tableOrder: 0
+    stageName: 
+    eventInfoList: []
+    isBossStage: 0
+    isLocked: 0
+    isCleared: 0
+  finalChapterNum: 1
+  curMainChpaterNum: 0
+  selectEventSlotNumber: 0
 --- !u!1 &2749156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,7 +1587,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 165.00249, y: -71.47702}
+  m_AnchoredPosition: {x: 165.00244, y: -71.47705}
   m_SizeDelta: {x: -329.995, y: -142.95398}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &46681889
@@ -3150,7 +3218,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 819493051}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StagePosController, Assembly-CSharp
         m_MethodName: GototheTestStage
         m_Mode: 1
@@ -4096,7 +4164,6 @@ MonoBehaviour:
   enemyCount: 0
   itemCount: 0
   selectStageEventNum: 0
-  stageTables: []
   selectStageTable:
     tableOrder: 0
     stageName: 
@@ -4104,6 +4171,8 @@ MonoBehaviour:
     isBossStage: 0
     isLocked: 0
     isCleared: 0
+  stageTables: []
+  gameLevel: 0
 --- !u!4 &122702523
 Transform:
   m_ObjectHideFlags: 0
@@ -5813,7 +5882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 165.00244, y: -71.477}
+  m_AnchoredPosition: {x: 165.00244, y: -71.47705}
   m_SizeDelta: {x: -329.995, y: -142.954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &160117385
@@ -14782,7 +14851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 509.6324, y: -74.339935}
+  m_AnchoredPosition: {x: 509.6324, y: -74.339966}
   m_SizeDelta: {x: -1019.2646, y: -148.6799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &470408624
@@ -16613,13 +16682,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 22, z: -7}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &534669906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19862,7 +19931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 167.05, y: -53.55}
+  m_AnchoredPosition: {x: 167.05, y: -53.550003}
   m_SizeDelta: {x: 234.1, y: 97.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &588460792
@@ -21192,7 +21261,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 165.00244, y: -71.477}
+  m_AnchoredPosition: {x: 165.00244, y: -71.47702}
   m_SizeDelta: {x: -329.995, y: -142.954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &634275962
@@ -25147,7 +25216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 8.1}
+  m_AnchoredPosition: {x: 0, y: 8.100006}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &807032926
@@ -25708,7 +25777,6 @@ GameObject:
   m_Component:
   - component: {fileID: 819493050}
   - component: {fileID: 819493052}
-  - component: {fileID: 819493051}
   m_Layer: 5
   m_Name: StageMenu
   m_TagString: Untagged
@@ -25740,86 +25808,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &819493051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 819493049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5009b90b51b92f54f80743fe2c32f1f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterDB: {fileID: 1371334445}
-  stageMenuUI: {fileID: 2145902407}
-  img_StageTheme: {fileID: 649318897}
-  spt_StageBg:
-  - {fileID: 21300000, guid: 48cc765f72d0e9642a6e578954086dfa, type: 3}
-  - {fileID: 21300000, guid: c5f9aa9f7e6888d499660589e4af6666, type: 3}
-  - {fileID: 21300000, guid: ed4e5e3411bcee940887038a1eff290f, type: 3}
-  spt_stageMIcon:
-  - {fileID: 21300000, guid: bfc7907a8a07a2949a75f70b11bd76ff, type: 3}
-  - {fileID: 21300000, guid: 4f9e9ca6a3a0a4c4f9d2733e09d26be5, type: 3}
-  - {fileID: 21300000, guid: fb064a9a247a4d4479226e8851bf05c2, type: 3}
-  img_MonsterIcon:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  txt_Chpater: {fileID: 24447129}
-  scrollview: {fileID: 335109035}
-  contentObject: {fileID: 207340968}
-  stageSlot: {fileID: 3221107794746724553, guid: b4ecdc8500d8d3f49800d2c2d8849642,
-    type: 3}
-  choiceAlert: {fileID: 2147168776}
-  go_Alert: {fileID: 0}
-  img_SelectFrame: {fileID: 0}
-  monsterNames: []
-  stageTables:
-  - tableOrder: 0
-    stageName: 
-    eventInfoList: []
-    isBossStage: 0
-    isLocked: 0
-    isCleared: 0
-  - tableOrder: 0
-    stageName: 
-    eventInfoList: []
-    isBossStage: 0
-    isLocked: 0
-    isCleared: 0
-  - tableOrder: 0
-    stageName: 
-    eventInfoList: []
-    isBossStage: 0
-    isLocked: 0
-    isCleared: 0
-  - tableOrder: 0
-    stageName: 
-    eventInfoList: []
-    isBossStage: 0
-    isLocked: 0
-    isCleared: 0
-  - tableOrder: 0
-    stageName: 
-    eventInfoList: []
-    isBossStage: 0
-    isLocked: 0
-    isCleared: 0
-  gameLevel: 0
-  cur_SelectMD:
-    monsterID: 0
-    statID: 0
-    monsterGrade: 0
-    monsterName: 
-    monsterSprite: {fileID: 0}
-    prefabPath: 
-    monsterPrefab: {fileID: 0}
-  maxStageNum: 0
-  finalChapterNum: 1
-  curMainChpaterNum: 0
-  selectEventSlotNumber: 0
 --- !u!114 &819493052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25834,7 +25822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStageScreenOpen: 0
   isSignOpen: 0
-  theSPC: {fileID: 819493051}
+  theSPC: {fileID: 434293}
   go_GModeScreen: {fileID: 819184324}
   btn_RMode: {fileID: 1312986987}
   go_StageScreen: {fileID: 434289}
@@ -26919,7 +26907,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 819493051}
+      - m_Target: {fileID: 434293}
         m_TargetAssemblyTypeName: StagePosController, Assembly-CSharp
         m_MethodName: SelectEventStage
         m_Mode: 1
@@ -26928,7 +26916,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Normal
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &869016960
@@ -30651,7 +30639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 166.71558, y: -142.95407}
+  m_AnchoredPosition: {x: 166.71558, y: -142.9541}
   m_SizeDelta: {x: -326.5689, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1038917655
@@ -31560,7 +31548,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 432.5, y: -77.500015}
+  m_AnchoredPosition: {x: 432.5, y: -77.5}
   m_SizeDelta: {x: 865, y: 135}
   m_Pivot: {x: 0.5, y: 0.49999988}
 --- !u!114 &1055282710
@@ -32779,7 +32767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -74.33992}
+  m_AnchoredPosition: {x: 0, y: -74.339966}
   m_SizeDelta: {x: 0, y: -148.6799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1103961728
@@ -37697,7 +37685,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -75.00003}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 0, y: -149.99994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1294305624 stripped
@@ -50170,7 +50158,7 @@ Canvas:
   m_GameObject: {fileID: 1768421491}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 534669904}
   m_PlaneDistance: 10
   m_PixelPerfect: 0
@@ -56626,7 +56614,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 329.9999, y: -142.95404}
+  m_AnchoredPosition: {x: 329.99988, y: -142.95398}
   m_SizeDelta: {x: -346.995, y: -142.95398}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1924539522
@@ -57121,8 +57109,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 819493051}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 434293}
+        m_TargetAssemblyTypeName: StagePosController, Assembly-CSharp
         m_MethodName: CloseMonsterMenu
         m_Mode: 1
         m_Arguments:
@@ -62811,7 +62799,7 @@ PrefabInstance:
     - target: {fileID: 8643190435434853142, guid: 481d314715000c14383dbcbb4b6f0a11,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -509.97617
+      value: -509.9762
       objectReference: {fileID: 0}
     - target: {fileID: 8643190435434853142, guid: 481d314715000c14383dbcbb4b6f0a11,
         type: 3}

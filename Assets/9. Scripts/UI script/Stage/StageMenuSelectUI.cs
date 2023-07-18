@@ -118,9 +118,10 @@ public class StageMenuSelectUI : MonoBehaviour
 
             // 버튼 기능 넣기 
             var button = slot.GetComponent<Button>();
-            if (button != null && button.onClick.GetPersistentEventCount() == 0)
+            if (button != null)
             {
-                int index = i; 
+                int index = i;
+                button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(() => SelectEventIcon(index));
             }
 
