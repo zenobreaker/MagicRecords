@@ -286,15 +286,18 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    public List<StageTableClass> GetLocatedStageInfoList(int chpapter = 1)
+    // 배치된 스테이지 정보리스트를 가져온다. 
+    public void GetLocatedStageInfoList(ref List<StageTableClass> list, int chpapter = 1)
     {
+        list.Clear(); 
+
         if(stageDictList.TryGetValue(chpapter, out List<StageTableClass> stageTable) == false)
         {
-            return null;
+            
         }
         else
         {
-            return stageTable;
+            list = stageTable;
         }
     }
 
@@ -328,8 +331,9 @@ public class StageInfoManager : MonoBehaviour
     // 배치된 스테이지의 마지막 스테이지 반환
     public StageTableClass GetLoacatedStageLastStageInfo()
     {
-        var stageList = GetLocatedStageInfoList();
-        if(stageList == null || stageList.Count <= 0 )
+        List<StageTableClass> stageList = new List<StageTableClass>();
+        GetLocatedStageInfoList(ref stageList);
+        if (stageList == null || stageList.Count <= 0 )
         {
             return null;
         }
