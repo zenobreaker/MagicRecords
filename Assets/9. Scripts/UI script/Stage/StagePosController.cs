@@ -57,7 +57,7 @@ public class StagePosController : MonoBehaviour
     private void OnEnable()
     {
         // 스테이지 인포 매니저에서 등록된 정보를 가져온다. 
-        StageInfoManager.instance.GetLocatedStageInfoList(ref stageTables, curMainChpaterNum);
+        StageInfoManager.instance.GetLocatedStageInfoList(out stageTables, curMainChpaterNum);
 
         // 오브젝트가 켜질 때마다 스테이지 정보대로 그려준다.
         DrawStageButtonByScrollview();

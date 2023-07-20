@@ -287,11 +287,11 @@ public class StageInfoManager : MonoBehaviour
 
 
     // 배치된 스테이지 정보리스트를 가져온다. 
-    public void GetLocatedStageInfoList(ref List<StageTableClass> list, int chpapter = 1)
+    public void GetLocatedStageInfoList(out List<StageTableClass> list, int chpapter = 1)
     {
-        list.Clear(); 
+        list = new List<StageTableClass>();
 
-        if(stageDictList.TryGetValue(chpapter, out List<StageTableClass> stageTable) == false)
+        if (stageDictList.TryGetValue(chpapter, out List<StageTableClass> stageTable) == false)
         {
             
         }
@@ -331,8 +331,8 @@ public class StageInfoManager : MonoBehaviour
     // 배치된 스테이지의 마지막 스테이지 반환
     public StageTableClass GetLoacatedStageLastStageInfo()
     {
-        List<StageTableClass> stageList = new List<StageTableClass>();
-        GetLocatedStageInfoList(ref stageList);
+        List<StageTableClass> stageList;
+        GetLocatedStageInfoList(out stageList);
         if (stageList == null || stageList.Count <= 0 )
         {
             return null;
@@ -641,6 +641,10 @@ public class StageInfoManager : MonoBehaviour
         // 스테이지 노드는 최대 5개 (일반), 하드는 7개 
 
         // 이미 스테이지들을 만들어놨다면 별도로 만들지않는다. 
+        if (stageDictList.ContainsKey(currentChapter) == true && 
+            stageDictList[currentChapter] != null && 
+            stageDictList[currentChapter].Count > 0)
+            return; 
 
         // 1. 난이도에 따른 최대 스테이지를 생성한다 
         int maxStageCount = LEVEL_NORMAL_MAX_STAGE_COUNT;
