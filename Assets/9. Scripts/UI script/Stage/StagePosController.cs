@@ -57,12 +57,7 @@ public class StagePosController : MonoBehaviour
     private void OnEnable()
     {
         // 스테이지 인포 매니저에서 등록된 정보를 가져온다. 
-        var infoList = StageInfoManager.instance.GetLocatedStageInfoList(curMainChpaterNum);
-        if (infoList == null) return;
-
-        // 스테이지 테이블을 다시 정정
-        stageTables.Clear();
-        stageTables = infoList;
+        StageInfoManager.instance.GetLocatedStageInfoList(ref stageTables, curMainChpaterNum);
 
         // 오브젝트가 켜질 때마다 스테이지 정보대로 그려준다.
         DrawStageButtonByScrollview();
@@ -110,6 +105,12 @@ public class StagePosController : MonoBehaviour
         curSelectStageNum = stageNum;
 
         selectEventSlotNumber = -1;
+
+        if (stageTables == null || stageTables.Count <= 0)
+        {
+            Debug.Log("stage table info list size 0 or null");
+            return;
+        }
 
         if (UIPageManager.instance != null && stageMenuUI != null)
         {
