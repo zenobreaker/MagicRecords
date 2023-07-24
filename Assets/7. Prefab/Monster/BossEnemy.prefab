@@ -55,6 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1207882158829498116
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +120,7 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207882158829498116}
-  serializedVersion: 6
+  serializedVersion: 7
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
@@ -2262,6 +2264,62 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  LifetimeByEmitterSpeedModule:
+    enabled: 0
+    m_Curve:
+      serializedVersion: 2
+      minMaxState: 1
+      scalar: 1
+      minScalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: -0.8
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0.2
+          inSlope: -0.8
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    m_Range: {x: 0, y: 1}
   ForceModule:
     enabled: 0
     x:
@@ -3692,19 +3750,20 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
-    serializedVersion: 3
+    serializedVersion: 4
     type: 0
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    plane0: {fileID: 0}
-    plane1: {fileID: 0}
-    plane2: {fileID: 0}
-    plane3: {fileID: 0}
-    plane4: {fileID: 0}
-    plane5: {fileID: 0}
+    m_Planes:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -3878,17 +3937,20 @@ ParticleSystem:
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
-    collisionShape0: {fileID: 0}
-    collisionShape1: {fileID: 0}
-    collisionShape2: {fileID: 0}
-    collisionShape3: {fileID: 0}
-    collisionShape4: {fileID: 0}
-    collisionShape5: {fileID: 0}
+    serializedVersion: 2
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+    colliderQueryMode: 0
     radiusScale: 1
+    primitives:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -4843,6 +4905,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4885,6 +4948,8 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
+  m_FreeformStretching: 0
+  m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
@@ -4973,7 +5038,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866f27e2c7571004e914d8104a371473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossMonster: {fileID: 1500233717830983072}
 --- !u!114 &7525011419639529543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4986,8 +5050,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a6a593c719d0349b1a0d9a511cc5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  power: 0
+  disableTime: 0
   status: {fileID: 2063838632392399177}
   collider: {fileID: 7433329946594204512}
+  ani: {fileID: 0}
 --- !u!1 &4810848905455784947
 GameObject:
   m_ObjectHideFlags: 0
@@ -5043,6 +5110,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5067,6 +5135,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5903495396300406522
 GameObject:
   m_ObjectHideFlags: 0
@@ -5167,7 +5236,7 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6897212544630649638}
-  serializedVersion: 6
+  serializedVersion: 7
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
@@ -7311,6 +7380,62 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+  LifetimeByEmitterSpeedModule:
+    enabled: 0
+    m_Curve:
+      serializedVersion: 2
+      minMaxState: 1
+      scalar: 1
+      minScalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: -0.8
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0.2
+          inSlope: -0.8
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    m_Range: {x: 0, y: 1}
   ForceModule:
     enabled: 0
     x:
@@ -8741,19 +8866,20 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
-    serializedVersion: 3
+    serializedVersion: 4
     type: 0
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    plane0: {fileID: 0}
-    plane1: {fileID: 0}
-    plane2: {fileID: 0}
-    plane3: {fileID: 0}
-    plane4: {fileID: 0}
-    plane5: {fileID: 0}
+    m_Planes:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -8927,17 +9053,20 @@ ParticleSystem:
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
-    collisionShape0: {fileID: 0}
-    collisionShape1: {fileID: 0}
-    collisionShape2: {fileID: 0}
-    collisionShape3: {fileID: 0}
-    collisionShape4: {fileID: 0}
-    collisionShape5: {fileID: 0}
+    serializedVersion: 2
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+    colliderQueryMode: 0
     radiusScale: 1
+    primitives:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -9892,6 +10021,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9934,6 +10064,8 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
+  m_FreeformStretching: 0
+  m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
@@ -10027,6 +10159,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -10051,6 +10184,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7897749335563501550
 GameObject:
   m_ObjectHideFlags: 0
@@ -10062,7 +10196,6 @@ GameObject:
   - component: {fileID: 7897749335563501551}
   - component: {fileID: 4502527002829451713}
   - component: {fileID: 2063838632392399177}
-  - component: {fileID: 1500233717830983072}
   - component: {fileID: 3651164290986783584}
   - component: {fileID: 6292096075685765096}
   - component: {fileID: 6970656621956941237}
@@ -10122,107 +10255,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6651f6b8544d4bf459c6ea82547632bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 500
+  myGrade: 0
+  maxHP: 0
+  maxMP: 0
   attack: 20
   attackDelay: 3
   walkSpeed: 4
-  deffence: 3
+  defence: 0
   exp: 20
---- !u!114 &1500233717830983072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7897749335563501550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ab4e3774aecf764fb5f42bc5bdcb21b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MonsterName: Boss
-  item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
-    type: 3}
-  item_prefabs:
-  - itemUID: 
-    itemName: 
-    itemDesc: 
-    itemType: 0
-    itemRank: 0
-    itemImgID: 
-    itemImage: {fileID: 0}
-    itemSound: 
-    itemValue: 0
-    equipType: 0
-    itemEnchantRank: 0
-    isEquiped: 0
-    isSale: 0
-    itemMainAbility: 0
-    itemAbilities: []
-  - itemUID: 
-    itemName: 
-    itemDesc: 
-    itemType: 0
-    itemRank: 0
-    itemImgID: 
-    itemImage: {fileID: 0}
-    itemSound: 
-    itemValue: 0
-    equipType: 0
-    itemEnchantRank: 0
-    isEquiped: 0
-    isSale: 0
-    itemMainAbility: 0
-    itemAbilities: []
-  itemNumber: 0
-  isBoss: 1
-  ChaseTime: 3
-  chaseDelayTime: 0.1
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 4096
-  destination: {x: 0, y: 0, z: 0}
-  isWalking: 0
-  isRunning: 0
-  isChasing: 0
-  isAttacking: 0
-  isDead: 0
-  currentState: 0
-  walkTime: 3
-  waitTime: 5
-  runTime: 1
-  currentTime: 0
-  rangeOfEnemy: 10
-  baseAttackRange: 5
-  dangerLine: {fileID: 9144973564362976019, guid: 7bf863a7043640445a6f84b2a5e7cd74,
-    type: 3}
-  status: {fileID: 2063838632392399177}
-  anim: {fileID: 8149764176935936644}
-  rigid: {fileID: 6292096075685765096}
-  boxCol: {fileID: 7897749335872766728}
-  sound_Normal: []
-  sound_Hurt: {fileID: 0}
-  sound_Dead: {fileID: 0}
-  theCondition: {fileID: 6970656621956941237}
-  attackRange: {fileID: 3249812614434634066}
-  attackEffect: []
-  bossAttack1: {fileID: 493856806918163330, guid: 4a8a4c2d080ee61459578abbcc6b4d8b,
-    type: 3}
-  bossAttack2: {fileID: 1417741763436550108, guid: 42e68d414143ac94c9946a5b40df82ad,
-    type: 3}
-  leftShot: {fileID: 6790438319302192209}
-  rightShot: {fileID: 7956190495451559169}
-  SlashEffectL: {fileID: 8115236833474317155}
-  SlashEffectR: {fileID: 5903495396300406522}
-  shadow: {fileID: 4810848905455784947}
-  bossAttack3: {fileID: 3217928415909342058, guid: a89c6a1dc23632f499dbcead24246246,
-    type: 3}
-  attack1Delay: 7
-  attack2Delay: 10
-  attack3Delay: 10
-  armR: {fileID: 3249812614434634066}
-  armL: {fileID: 4397425888572260872}
-  bodyCol: {fileID: 7433329946594204512}
+  pattern: 0
 --- !u!114 &3651164290986783584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10238,6 +10279,7 @@ MonoBehaviour:
   viewAngle: 120
   viewDistance: 10
   meeleAttackDistance: 5
+  target: {fileID: 0}
   targetMask:
     serializedVersion: 2
     m_Bits: 4096
@@ -10270,7 +10312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b9eaa7ea57cf442956be23e8a3d1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentCond: 0
+  myBody: {fileID: 0}
+  myAnim: {fileID: 0}
+  myCondition: 0
 --- !u!1 &7897749335763275890
 GameObject:
   m_ObjectHideFlags: 0
@@ -10330,6 +10374,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -10354,6 +10399,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &3249812614434634066
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10380,8 +10426,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a6a593c719d0349b1a0d9a511cc5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  power: 0
+  disableTime: 0
   status: {fileID: 2063838632392399177}
   collider: {fileID: 3249812614434634066}
+  ani: {fileID: 0}
 --- !u!1 &7897749335872766723
 GameObject:
   m_ObjectHideFlags: 0
@@ -10440,6 +10489,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -10464,6 +10514,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7897749335872766728
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10536,6 +10587,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -10560,6 +10612,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &455361120901780889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10572,8 +10625,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a6a593c719d0349b1a0d9a511cc5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  power: 0
+  disableTime: 0
   status: {fileID: 2063838632392399177}
   collider: {fileID: 4397425888572260872}
+  ani: {fileID: 0}
 --- !u!136 &4397425888572260872
 CapsuleCollider:
   m_ObjectHideFlags: 0

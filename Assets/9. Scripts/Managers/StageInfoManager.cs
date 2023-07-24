@@ -46,6 +46,17 @@ public enum EventCategory
     SPECIAL, 
 };
 
+// 이벤트 보상 타입
+public enum EventRewardType
+{
+    NONE = 0, 
+    GAME_MONEY,     // 게임재화 
+    RELIC,          // 유물
+    MEMORY,         // 메모리 
+    PRIVATE_REWRAD, // 해당 이벤트 전용 
+};
+
+
 [System.Serializable]
 public class StageAppearMonsterInfo
 {
@@ -117,6 +128,7 @@ public class StageEventInfo
 /// 이 클래스는 스테이지에 배치되는 노드들에 대한 정보를 가진 클래스이다.
 /// 이벤트마다 상이하며 몬스터 전투 외에 여러 이벤트들을 배치하여 보여준다 
 /// 몬스터 - 몬스터를 배치 시킨다.
+/// 
 /// </summary>
 [System.Serializable]
 public class StageTableClass

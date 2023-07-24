@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour
         else if(instance != null)
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
