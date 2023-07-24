@@ -81,21 +81,6 @@ public class StagePosController : MonoBehaviour
     }
 
 
-
-
-
-    public void UpgradeCreateStage(int level = 1)
-    {
-
-        // 스테이지 정보 전달 
-        StageInfoManager.instance.SetStageList(curMainChpaterNum, ref stageTables);
-
-
-        // 스크롤뷰 그리기 
-        DrawStageButtonByScrollview();
-    }
-
-
     // 스테이지에 맵에서 스테이지를 선택하면 뜨는 팝업 
     // 몬스터 스테이지 메뉴 열기 
     public void OpenMonsterStageMenu(int stageNum)
@@ -175,6 +160,7 @@ public class StagePosController : MonoBehaviour
         else
         {
             // todo 
+            Debug.Log("Please Choose the character for play");
         }
     }
 
