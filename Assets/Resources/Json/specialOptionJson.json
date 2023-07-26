@@ -1,0 +1,52 @@
+{
+  "specialOptionJson": [
+    {
+      "id": "100001",
+      "namekeycode": "name_crit12dur12",
+      "description": null,
+      "conditionType": "1",
+      "conditionValue": "12",
+      "value": "0.12"
+    },
+    {
+      "id": "100002",
+      "namekeycode": "name_hpregen5dur5",
+      "description": null,
+      "conditionType": "1",
+      "conditionValue": "5",
+      "value": "5"
+    },
+    {
+      "id": "100003",
+      "namekeycode": "name_speed50dur10",
+      "description": null,
+      "conditionType": "1",
+      "conditionValue": "10",
+      "value": "0.3"
+    },
+    {
+      "id": "100004",
+      "namekeycode": "name_atk10dur30",
+      "description": null,
+      "conditionType": "1",
+      "conditionValue": "30",
+      "value": "0.1"
+    },
+    {
+      "id": "100005",
+      "namekeycode": "name_def10dur30",
+      "description": null,
+      "conditionType": "1",
+      "conditionValue": "30",
+      "value": "0.1"
+    },
+    {
+      "id": "100006",
+      "namekeycode": "name_atkspd10dur12",
+      "description": null,
+      "conditionType": "1",
+      "conditionValue": "12",
+      "value": "0.1"
+    }
+  ]
+}
