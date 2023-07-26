@@ -9,12 +9,7 @@ using UnityEngine.UIElements;
 
 public enum MonsterGrade { NORMAL = 1, ELITE, BOSS };
 
-// 아래의 클래스를 리스트로 담고 있는 클래스
-[System.Serializable]
-public class MonsterJsonAllData
-{
-    public MonsterJson[] monsterJsonData; 
-}
+
 
 // json으로 이루어진 데이터를 가공하는 용도의 클래스 
 [System.Serializable]
@@ -26,6 +21,13 @@ public class MonsterJson
     public string monsterImage;
     public string monsterPrefabName;       // 프리팹 위치 경로값에 쓰일 이름 
     public int statID;  
+}
+
+// MonsterJson 클래스를 리스트로 담고 있는 클래스
+[System.Serializable]
+public class MonsterJsonAllData
+{
+    public MonsterJson[] monsterJsonData;
 }
 
 // 인게임에 보여줄 오브젝트나 UI를 저장하는 클래스 
