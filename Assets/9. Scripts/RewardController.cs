@@ -3,19 +3,76 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using static ChoiceAlert;
 
-public enum RewardType { NONE = 0, COIN, EXP, ITEM }
+public enum RewardType { NONE = 0, COIN, EXP, ITEM, MEMORY}
 [System.Serializable]
 public class RewardCard
 {
     public RewardType rewardType;
-    public int value;
+    public Sprite rewardSprite; // 보상 이미지 
+    public float value;         // 보상 수치 
+    public string description;
+    public int memoryID;
+
+    public RewardCard(RewardType rewardType, Sprite rewardSprite, float value)
+    {
+        this.rewardType = rewardType;
+        this.rewardSprite = rewardSprite;
+        this.value = value;
+        SetDescriptionByType();
+    }
+
+    public void CreateMemoryReward(int memoryID)
+    {
+        this.memoryID = memoryID;
+        SetDescriptionByType();
+    }
+
+    // 특정 대상의 설명 스크립트를 가져온다
+    private void SetDescriptionByType()
+    {
+        switch (rewardType)
+        {
+            case RewardType.COIN:
+                break;
+            case RewardType.ITEM:
+                break;
+            case RewardType.EXP:
+                break;
+            case RewardType.MEMORY:
+                // 메모리라면 해당 메모리의 문구를 가져온다.
+                if (MemoryManager.instance != null)
+                {
+                    var memory = MemoryManager.instance.GetMemoryInfoByID(memoryID);
+                    if (memory == null)
+                    {
+                        break; 
+                    }
+
+                    description = memory.description;
+                }
+
+                break;
+
+        }
+
+    }
 }
+
+// 게임 클리어 보상이나 메모리 선택 UI를 컨트롤하는 클래스 
 
 public class RewardController : MonoBehaviour
 {
     [Header("보상 UI")]
     [SerializeField] GameObject go_BaseUI = null;
+
+    [Header("보상 카드 부모그룹 오브젝트")]
+    [SerializeField] GameObject cardParent = null;
+
+    [Header("보상 카드 슬롯")]
+    [SerializeField] GameObject rewardCardSlot = null;
+
     [SerializeField] GameObject[] go_RewardCard = null;     // 보상 카드들 
     [SerializeField] Image[] img_RewardIcon = null;         // 보상 카드내 이미지
     [SerializeField] Text[] txt_RewardName = null;          // 보상 이름 텍스트 
@@ -24,17 +81,33 @@ public class RewardController : MonoBehaviour
     [SerializeField] Image img_Selecter = null;             // 선택자 
 
 
-    
-    int[] values;       // 보상 값 
-    
     public int maxRewardType = 4;
     public int maxRewardCardCount = 2;
     public int minValue;
     public int maxValue;
+
+
+    public int selectIndex = 0;
+
     public bool isConfirm = false; 
 
-    [SerializeField] List<RewardCard> rewardCards;  // 직렬화 안한다고 오브젝트를 찾을 수 없다니 ㄷ 
+
+    [SerializeField] List<RewardCard> rewardCards = new List<RewardCard>();  // 직렬화 안한다고 오브젝트를 찾을 수 없다니 ㄷ 
     RewardCard cur_RewardCard;
+
+    private void OnEnable()
+    {
+        InitializeRewardUI();
+    }
+
+    public void InitializeRewardUI()
+    {
+        // 선택자 꺼두기 
+        img_Selecter.gameObject.SetActive(false);
+
+        // 인덱스값 초기화
+        selectIndex = 0;
+    }
 
     // 보상 카드 선택자 표시
     public void ViewSelecterImage()
@@ -56,17 +129,122 @@ public class RewardController : MonoBehaviour
             btn_Confirm.interactable = true;
         }
     }
-    
+
+
+
+
+    // 보상 카드리스트 세팅
     public void SetRewardCardList(int _max)
     {
-        if (rewardCards.Count < _max)
+        rewardCards.Clear();
+
+        for (int i = 0; i < _max; i++)
         {
-            for (int i = rewardCards.Count; i < _max; i++)
+            // 뭐라 말할 수 없는 그 아름다움... 
+        }
+
+    }
+
+    // 해당 오브젝트를 선택하면 오브젝트의 선택자 UI가 나타나도록 설정 및 선택한 정보 저장
+    private void SelectRewardCardUI(int index)
+    {   
+        // 하하 셀렉트 값에 값을 넣엇어
+        //selectIndex = index;
+
+        if (cardParent == null) return;
+
+        // 같은 대상을 선택했을 경우 
+        if (selectIndex == index)
+        {
+            selectIndex = -1;
+        }
+        // 선택하지 않은 다른 대상 
+        else
+        {
+            selectIndex = index;
+        }
+
+
+        for (int i = 0; i < cardParent.transform.childCount; i++)
+        {
+            int targetIndex = i;
+            // 뷰포트에있는 슬롯의 설정 UI를 보이게한다. 
+            var card = cardParent.transform.GetChild(targetIndex).gameObject;
+            if (card == null) continue;
+
+            var rewardCard = card.GetComponent<RewardCardSlot>();
+            if (rewardCard == null) continue; 
+           
+            if (selectIndex == targetIndex)
             {
-                rewardCards.Add(new RewardCard());
+                rewardCard.DrawSelectUI(true);
+            }
+            else
+            {
+                rewardCard.DrawSelectUI(false);
             }
         }
-        
+    }
+
+    // 메모리 보상 리스트 세팅
+    public void SetMemoryRewardList(int count)
+    {
+        if (MemoryManager.instance == null)
+            return;
+
+        //  보상 리스트를 받는다. 
+        var list = MemoryManager.instance.GetRandomRewardMemory(count);
+
+        rewardCards.Clear();
+        // 보상 카드 리스트 세팅
+        foreach(var memory in list)
+        {
+            if (memory == null) continue;
+
+            Sprite sprite = Resources.Load<Sprite>(memory.spritePath);
+            // 카드에 데이터 넣어준다. 
+            RewardCard rewardCard = new RewardCard(RewardType.MEMORY, sprite, 0.0f);
+            rewardCard.CreateMemoryReward(memory.id);
+            rewardCards.Add(rewardCard);
+        }
+
+        if (cardParent == null)
+            return;
+
+        int childCount = cardParent.transform.childCount;
+
+        // 개수 검사
+        if(childCount != rewardCards.Count)
+        {
+            int diff = Mathf.Abs(childCount - rewardCards.Count);
+            // 개수가 다르면 오브젝트를 그 수치만큼 생성한다.
+            for (int i = 0; i < diff; i++)
+            {
+                Instantiate(rewardCardSlot, cardParent.transform);
+            }
+        }
+
+        int index = 0;
+        foreach (RewardCard rewardCard in rewardCards)
+        {
+            if (rewardCard == null) continue;
+            
+            var cardSlot = cardParent.transform.GetChild(index);
+            // 특정 컴포넌트를 찾아 기능을 던진다. 
+            if (cardSlot.TryGetComponent<RewardCardSlot>(out var slot))
+            {
+                if (slot != null)
+                {
+                    // 슬롯 UI 그리기
+                    slot.DrawUiObject(rewardCard.rewardSprite, rewardCard.description);
+
+                    // 슬롯을 찾아서 슬롯에 버튼 기능을 넣어준다.
+                    var targetIndex = index;
+                    slot.SetButtonListener(()=>SelectRewardCardUI(targetIndex));
+                }
+            }
+            index++;
+        }
     }
 
 
@@ -131,7 +309,7 @@ public class RewardController : MonoBehaviour
             case RewardType.COIN:
                 Debug.Log("코인 획득! : " + cur_RewardCard.value);
                 //LobbyManager.MyInstance.IncreseCoin(cur_RewardCard.value);
-                InfoManager.instance.money += cur_RewardCard.value;
+                //InfoManager.instance.money += cur_RewardCard.value;
                 break;
             case RewardType.EXP:
                 // 경험치 추가 로직 

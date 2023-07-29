@@ -131,6 +131,24 @@ public class OptionManager : MonoBehaviour
             // 딕셔너리에 값 추가
             specialOptionsDictionary.Add(data.namekeycode.ToString(), specialOption);
         }
-
     }
+
+    // id 값을 통해 스페셜 옵션을 반환
+    public SpecialOption GetSpecialOption(int id)
+    {
+        if (id < 0) return null;
+
+        foreach(var option in specialOptionsDictionary)
+        {
+            if (option.Value == null) continue;
+
+            if(option.Value.effectID == id)
+            {
+                return option.Value;
+            }
+        }
+
+        return null; 
+    }
+
 }
