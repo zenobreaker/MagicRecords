@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -15,6 +16,7 @@ public class MemoryInfo
     public string description; // 메모리 설명 
     public int grade;       // 메모리 등급
     public int optionID;
+    public string spritePath;   // 메모리 스프라이트 경로
     public SpecialOption specialOption; // 메모리 효과 
 
     public MemoryInfo(int id, string name, string description, int grade, int optionID)
@@ -111,6 +113,66 @@ public class MemoryManager : MonoBehaviour
             // 리스트에 추가하기 
             memoryInfoDictionary.Add(memInfoJson.id, memoryInfo);   
         }
+    }
+
+    // 특정 ID 값을 받으면 해당 메모리를 반환하는 함수
+    public MemoryInfo GetMemoryInfoByID(int id)
+    {
+        return memoryInfoDictionary[id];
+    }
+
+    // 메모리를 랜덤으로 받는 매개변수만큼 반환해주는 함수 
+    public List<MemoryInfo> GetRandomRewardMemory(int count)
+    {
+        List<MemoryInfo> rewardList = new List<MemoryInfo>();
+
+
+        // 1. 생성할 메모리 id를 딕셔너리에서 중복 없이 가져온다. 
+        List<int> keys= new List<int>(memoryInfoDictionary.Keys);
+        int min = keys.Min();
+        int maxCount = keys.Count;
+
+        // 중복없이 갯수만큼 리스트에 추가하기 
+        int prevIndx = 0; 
+        while (true)
+        {
+
+            int idx = Random.Range(min, maxCount);
+
+            if(prevIndx == idx || rewardList.Contains(memoryInfoDictionary[keys[idx]]) == true)
+            {
+                continue; 
+            }
+
+            if(memoryInfoDictionary.ContainsKey(idx) == true)
+            {
+                // 2. 만든 리스트를 토대로 메모리를 가져와 전달한다.
+                rewardList.Add(memoryInfoDictionary[idx]);
+            }
+
+            if(rewardList.Count >= count)
+                break; 
+        }
+
+
+        // 메모리를 검사해서 옵션 데이터가 있는지 검사 없으면 만들어서 전달
+        for (int i = 0; i < count; i++)
+        {
+            if (rewardList[i].specialOption != null) continue;
+
+            // id 정보는 있을터이니 그것을 통해 optionmanager에게서 가져온다. 
+            if(OptionManager.instance == null)
+            {
+                Debug.Log("옵션매니저가 없습니다.");
+                break; 
+            }
+
+            int id = rewardList[i].optionID;
+
+            rewardList[i].specialOption = OptionManager.instance.GetSpecialOption(id);
+        }
+
+        return rewardList;
     }
 
 }

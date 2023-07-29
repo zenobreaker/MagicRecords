@@ -90,6 +90,7 @@ public class MyBullet : Bullet
 
                             skillArea.enabled = true;
                             skillArea.skillDamage = MyDamage;
+                            // 콜라이더를 찾아서 콜라이더 기능을 켠다.
                             if(boomEffect.TryGetComponent<SphereCollider>(out var collider))
                             {
                                 collider.enabled = true;
