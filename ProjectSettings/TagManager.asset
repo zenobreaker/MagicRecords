@@ -20,6 +20,7 @@ TagManager:
   - Info
   - SelectAlert
   - Land
+  - RewardUISlot
   layers:
   - Default
   - TransparentFX
