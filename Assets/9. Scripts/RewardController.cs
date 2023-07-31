@@ -42,9 +42,9 @@ public class RewardCard
                 break;
             case RewardType.MEMORY:
                 // 메모리라면 해당 메모리의 문구를 가져온다.
-                if (MemoryManager.instance != null)
+                if (RecordManager.instance != null)
                 {
-                    var memory = MemoryManager.instance.GetMemoryInfoByID(memoryID);
+                    var memory = RecordManager.instance.GetRecordInfoByID(memoryID);
                     if (memory == null)
                     {
                         break; 
@@ -80,12 +80,10 @@ public class RewardController : MonoBehaviour
     [SerializeField] Button btn_Confirm = null;           // 결정 버튼
     [SerializeField] Image img_Selecter = null;             // 선택자 
 
-
     public int maxRewardType = 4;
     public int maxRewardCardCount = 2;
     public int minValue;
     public int maxValue;
-
 
     public int selectIndex = 0;
 
@@ -129,9 +127,6 @@ public class RewardController : MonoBehaviour
             btn_Confirm.interactable = true;
         }
     }
-
-
-
 
     // 보상 카드리스트 세팅
     public void SetRewardCardList(int _max)
@@ -187,13 +182,18 @@ public class RewardController : MonoBehaviour
     }
 
     // 메모리 보상 리스트 세팅
-    public void SetMemoryRewardList(int count)
+    public void SetRecordRewardList(int count)
     {
-        if (MemoryManager.instance == null)
+        if (RecordManager.instance == null)
             return;
 
         //  보상 리스트를 받는다. 
-        var list = MemoryManager.instance.GetRandomRewardMemory(count);
+        var list = RecordManager.instance.GetRandomRewardMemory(count);
+        if (list == null)
+        {
+            Debug.Log("SetRecordRewardList Error : list null");
+            return;
+        }
 
         rewardCards.Clear();
         // 보상 카드 리스트 세팅
@@ -245,8 +245,22 @@ public class RewardController : MonoBehaviour
             }
             index++;
         }
+
+        // 결과
     }
 
+
+    // 결과 카드들을 그려주게 하는 함수 .
+    public void DrawRewardCards()
+    {
+        if (UIPageManager.instance == null) return;
+
+        if (rewardCards.Count <= 0) return;
+
+        UIPageManager.instance.OpenClose(go_BaseUI);
+
+        cardParent.SetActive(true);
+    }
 
     // 보상 카드 값 설정 
     public void SetRewardCard()
@@ -302,23 +316,26 @@ public class RewardController : MonoBehaviour
     {
         // TODO : LobbyManager는 로비에서만 쓰이니 해당 결과는 게임매니저나 기타 다른 오브젝트에서
         // 처리하도록 한다.
-        if (cur_RewardCard == null) return; 
 
-        switch (cur_RewardCard.rewardType)
-        {
-            case RewardType.COIN:
-                Debug.Log("코인 획득! : " + cur_RewardCard.value);
-                //LobbyManager.MyInstance.IncreseCoin(cur_RewardCard.value);
-                //InfoManager.instance.money += cur_RewardCard.value;
-                break;
-            case RewardType.EXP:
-                // 경험치 추가 로직 
-                Debug.Log("경험치 획득! : " + cur_RewardCard.value);
-                //InfoManager.instance.GetPlayerInfo()
-                break;
-            case RewardType.ITEM:
-                break;
-        }
+        //switch (cur_RewardCard.rewardType)
+        //{
+        //    case RewardType.COIN:
+        //        Debug.Log("코인 획득! : " + cur_RewardCard.value);
+        //        //LobbyManager.MyInstance.IncreseCoin(cur_RewardCard.value);
+        //        //InfoManager.instance.money += cur_RewardCard.value;
+        //        break;
+        //    case RewardType.EXP:
+        //        // 경험치 추가 로직 
+        //        Debug.Log("경험치 획득! : " + cur_RewardCard.value);
+        //        //InfoManager.instance.GetPlayerInfo()
+        //        break;
+        //    case RewardType.ITEM:
+        //        break;
+        //}
+
+
+
+
 
         go_BaseUI.SetActive(false);
         isConfirm = true;

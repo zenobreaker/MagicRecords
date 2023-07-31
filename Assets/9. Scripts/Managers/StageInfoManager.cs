@@ -182,6 +182,7 @@ public class StageInfoManager : MonoBehaviour
     public static StageInfoManager instance;
 
     // 최대 스테이지 수 
+    public static bool initJoinPlayGameModeFlag = false;    // 첫 진입인지 플래그 
     public static readonly int LEVEL_NORMAL_MAX_STAGE_COUNT = 5;
     public static readonly int LEVEL_HARD_MAX_STAGE_COUNT = 7;
     public const int MAX_STAGE_COUNT = 5;
@@ -651,6 +652,11 @@ public class StageInfoManager : MonoBehaviour
         // 0. 하나의 라인만 생각한다. 한 스테이지 노드에서 이벤트 최대 3개를 출력. 
         // 3개의 이벤트는 몬스터 전투, 특정 사건, 상점 등의 이벤트들로 나뉘어진다. 
         // 스테이지 노드는 최대 5개 (일반), 하드는 7개 
+
+        // todo 저장된게 있는지 검사해야한다. 
+
+        // 저장된게 없다면 데이터를 처음부터 만들어야하므로 플래그도 켜준다. 
+        initJoinPlayGameModeFlag = true; 
 
         // 이미 스테이지들을 만들어놨다면 별도로 만들지않는다. 
         if (stageDictList.ContainsKey(currentChapter) == true && 

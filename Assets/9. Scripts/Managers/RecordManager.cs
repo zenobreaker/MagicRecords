@@ -9,7 +9,7 @@ using UnityEngine;
 
 // 게임내 사용될 메모리 클래스
 [System.Serializable]
-public class MemoryInfo
+public class RecordInfo
 {
     public int id;          // 식별 id
     public string name;     // 메모리 이름
@@ -19,7 +19,7 @@ public class MemoryInfo
     public string spritePath;   // 메모리 스프라이트 경로
     public SpecialOption specialOption; // 메모리 효과 
 
-    public MemoryInfo(int id, string name, string description, int grade, int optionID)
+    public RecordInfo(int id, string name, string description, int grade, int optionID)
     {
         this.id = id;
         this.name = name;
@@ -28,7 +28,7 @@ public class MemoryInfo
         this.optionID = optionID;
     }
 
-    public MemoryInfo(int id, string name, string description, int grade,
+    public RecordInfo(int id, string name, string description, int grade,
         SpecialOption specialEffect)
     {
         this.id = id;
@@ -41,7 +41,7 @@ public class MemoryInfo
 
 // Memory 정보를 가진 Json 클래스
 [System.Serializable]
-public class MemoryInfoJson
+public class RecordInfoJson
 {
     public int id;
     public string namekeycode;
@@ -50,29 +50,27 @@ public class MemoryInfoJson
     public int optionID;
 }
 
-// MemoryInfoJson 클래스를 리스트로 담고 있는 클래스 
+// RecordInfoJson 클래스를 리스트로 담고 있는 클래스 
 [System.Serializable]
-public class MemoryInfoJsonAllData
+public class RecordInfoJsonAllData
 {
-    public MemoryInfoJson[] memoryInfoJson;
+    public RecordInfoJson[] recordInfoJson;
 }
-
-
 
 // 게임 내 출현하는 메모리 관리하는 매니저
 
-public class MemoryManager : MonoBehaviour
+public class RecordManager : MonoBehaviour
 {
 
-    public static MemoryManager instance; 
+    public static RecordManager instance; 
 
     [Header("메모리 정보 JSON 데이터")]
     public TextAsset memoryInfoJsonData;
 
-    private MemoryInfoJsonAllData memoyInfoJsonAlldata;
+    private RecordInfoJsonAllData memoyInfoJsonAlldata;
 
 
-    public Dictionary<int, MemoryInfo> memoryInfoDictionary = new Dictionary<int, MemoryInfo>();
+    public Dictionary<int, RecordInfo> memoryInfoDictionary = new Dictionary<int, RecordInfo>();
 
     private void Awake()
     {
@@ -81,23 +79,23 @@ public class MemoryManager : MonoBehaviour
         else
             Destroy(instance.gameObject);
 
-        InitializeMemoryInfo();
+        InitializeRecordInfo();
     }
 
 
-    // MemoryInfo 초기화 
-    public void InitializeMemoryInfo()
+    // RecordInfo 초기화 
+    public void InitializeRecordInfo()
     {
-        memoyInfoJsonAlldata = JsonUtility.FromJson<MemoryInfoJsonAllData>(memoryInfoJsonData.text);
+        memoyInfoJsonAlldata = JsonUtility.FromJson<RecordInfoJsonAllData>(memoryInfoJsonData.text);
         if (memoyInfoJsonAlldata == null ||
-            memoyInfoJsonAlldata.memoryInfoJson == null)
+            memoyInfoJsonAlldata.recordInfoJson == null)
             return; 
 
-        foreach(MemoryInfoJson memInfoJson in memoyInfoJsonAlldata.memoryInfoJson)
+        foreach(RecordInfoJson memInfoJson in memoyInfoJsonAlldata.recordInfoJson)
         {
             if(memInfoJson == null) continue;
 
-            MemoryInfo memoryInfo = new MemoryInfo(memInfoJson.id, memInfoJson.namekeycode, 
+            RecordInfo memoryInfo = new RecordInfo(memInfoJson.id, memInfoJson.namekeycode, 
                 memInfoJson.description, memInfoJson.grade, memInfoJson.optionID);
 
             // 옵션매니저에서 가져올려는 옵션이 있는지 검사
@@ -116,21 +114,30 @@ public class MemoryManager : MonoBehaviour
     }
 
     // 특정 ID 값을 받으면 해당 메모리를 반환하는 함수
-    public MemoryInfo GetMemoryInfoByID(int id)
+    public RecordInfo GetRecordInfoByID(int id)
     {
+        if (memoryInfoDictionary.ContainsKey(id) == false)
+            return null; 
+
         return memoryInfoDictionary[id];
     }
 
     // 메모리를 랜덤으로 받는 매개변수만큼 반환해주는 함수 
-    public List<MemoryInfo> GetRandomRewardMemory(int count)
+    public List<RecordInfo> GetRandomRewardMemory(int count)
     {
-        List<MemoryInfo> rewardList = new List<MemoryInfo>();
+        List<RecordInfo> rewardList = new List<RecordInfo>();
 
 
         // 1. 생성할 메모리 id를 딕셔너리에서 중복 없이 가져온다. 
         List<int> keys= new List<int>(memoryInfoDictionary.Keys);
+        if (keys.Count <= 0)
+        {
+            Debug.Log("키값이 없습니다 게임 진행 불가");
+            return null;
+        }
         int min = keys.Min();
         int maxCount = keys.Count;
+      
 
         // 중복없이 갯수만큼 리스트에 추가하기 
         int prevIndx = 0; 
