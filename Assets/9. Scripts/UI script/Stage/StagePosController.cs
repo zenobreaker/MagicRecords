@@ -39,7 +39,10 @@ public class StagePosController : MonoBehaviour
     [SerializeField] GameObject go_Alert;
 
     [SerializeField] List<StageTableClass> stageTables = null;
-    // 변수 
+
+    [SerializeField] RewardController rewardController = null;
+
+    // 변수
     public int finalChapterNum;         // 마지막 챕터 번호
 
     public int curMainChpaterNum;      // 메인 챕터 번호 
@@ -59,8 +62,28 @@ public class StagePosController : MonoBehaviour
         // 스테이지 인포 매니저에서 등록된 정보를 가져온다. 
         StageInfoManager.instance.GetLocatedStageInfoList(out stageTables, curMainChpaterNum);
 
+
         // 오브젝트가 켜질 때마다 스테이지 정보대로 그려준다.
         DrawStageButtonByScrollview();
+
+        // 첫 진입 플래그가 켜져있다면. 
+        if (StageInfoManager.initJoinPlayGameModeFlag == true)
+        {
+            // RewardController에서 첫 메모리 선택 UI를 보여준다.
+            Debug.Log("여기서 호출함니다????");
+
+            if(rewardController == null)
+            {
+                return; 
+            }
+
+            // todo 임시로 3개를 줘본다.
+            rewardController.SetRecordRewardList(3);
+
+            rewardController.DrawRewardCards();
+        }
+
+     
     }
 
     // 현재 진행중인 챕터의 (마지막) 보스 스테이지를 클리어 했는지 검사

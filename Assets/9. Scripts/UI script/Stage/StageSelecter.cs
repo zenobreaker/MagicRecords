@@ -49,7 +49,10 @@ public class StageSelecter : MonoBehaviour
         theSPC.curMainChpaterNum = 1;
         //theSPC.CreateStage();
         //theSPC.UpgradeCreateStage();
-        StageInfoManager.instance.CreateStageTableList();
+        if (StageInfoManager.instance != null)
+        {
+            StageInfoManager.instance.CreateStageTableList();
+        }
         UIPageManager.instance.OpenClose(go_StageScreen);
     }
 
