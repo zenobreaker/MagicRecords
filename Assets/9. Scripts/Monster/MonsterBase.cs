@@ -30,23 +30,12 @@ public class MonsterBase : CharacterController
 
     protected bool isAction = false; // 행동중인지 아닌지 판별
 
- 
-    // 상위 부모에서 state 값이 있으므로 주석 
-    //public enum state { WALK, IDLE, CHASE, ATTACK };
-    //public state currentState;
-    //[SerializeField] protected float walkTime = 0f; // 걷기 시간
-    //[SerializeField] protected float runTime = 0f; // 뛰기 시간
-    //public float waitTime = 0f; // 대기 시간
-    //public float currentTime;
-
     [Header("패턴 오브젝트")]
     public DangerLine[] dangerLine;
     public float rangeOfEnemy;
     public float baseAttackRange;
 
     // 필요한 컴포넌트
-    [SerializeField] protected Status status = null;
-
     [SerializeField] protected Animator anim = null;
     [SerializeField] protected BoxCollider boxCol = null;
 
@@ -153,7 +142,7 @@ public class MonsterBase : CharacterController
 
     public override void Move()
     {   
-        nav.speed = status.MyWalkSpeed;
+        nav.speed = player.MyStat.speed;
     }
 
     // 아래 함수가 호출되지 않는다 수정이 필요하다
@@ -220,7 +209,7 @@ public class MonsterBase : CharacterController
 
     public override void Damage(int _damage)
     {
-        status.MyHP -= _damage;
+        player.MyCurrentMP -= _damage;
     }
 
     public override void Damage(int _damage, Vector3 _targetPos)
@@ -233,7 +222,7 @@ public class MonsterBase : CharacterController
             {
                 UIManager.instance.CreateFloatingText(this.gameObject.transform.position, 
                     _damage.ToString());
-                UIManager.instance.ShowHealthBar(status);
+                UIManager.instance.ShowHealthBar(player);
 
                 if (theCondition != null)
                     theCondition.AbnormalCondition();
@@ -243,7 +232,7 @@ public class MonsterBase : CharacterController
                 }
             }
 
-            if (status.MyHP <= 0 && !isTest)
+            if (player.MyCurrentHP <= 0 && !isTest)
             {
                 Dead();
                 return;
@@ -260,14 +249,13 @@ public class MonsterBase : CharacterController
 
     public virtual void Damaged(int _dmg, Vector3 _targetPos)
     {
-        if (!isDead)
+        if (!isDead && player != null)
         {
-            status.MyHP -= _dmg;
-
+            player.MyCurrentHP -= _dmg;
             if (UIManager.instance != null)
             {
                 UIManager.instance.CreateFloatingText(this.gameObject.transform.position, _dmg.ToString());
-                UIManager.instance.ShowHealthBar(status);
+                UIManager.instance.ShowHealthBar(player);
 
                 // 그냥 일반적인 공격에 해당 루틴이 돌면서 컨디션을 NONE으로 변경해버린다
                 // 일반 공격은 타이머값을 던져주지않기때문에 0초로 들어와서 바로 NONE화되버린다.
@@ -279,7 +267,7 @@ public class MonsterBase : CharacterController
          //   transform.LookAt(_targetPos - transform.position.normalized);
          //     currentState = state.CHASE;
 
-            if (status.MyHP <= 0 && !isTest)
+            if (player.MyCurrentHP <= 0 && !isTest)
             {
                 Dead();
                 return;
@@ -311,11 +299,11 @@ public class MonsterBase : CharacterController
         // 게임 매니저 기능 함수 호출 
         if (GameManager.MyInstance != null)
         {
-            GameManager.MyInstance.ChangeGameScore(1, status.MyEXP);
+            GameManager.MyInstance.ChangeGameScore(1, player.GetExp);
         }
 
         // ㅅtodo 경험치 기능 및 레벨업 기능 수정 
-        Debug.Log(status.MyEXP + "경험치 획득!");
+        Debug.Log(player.GetExp + "경험치 획득!");
         DropItem();
         Destroy(gameObject, 0.5f);
 
@@ -346,9 +334,9 @@ public class MonsterBase : CharacterController
 
     public override void AddBuffStatAtk(int _value)
     {
-        if(status != null)
+        if(player != null)
         {
-            status.MyAttack += _value; 
+            player.MyTotalAttack += _value; 
         }
 
     }
@@ -356,48 +344,33 @@ public class MonsterBase : CharacterController
     // 방어 관련 스탯 버프 
     public override void AddBuffStatDef(int _value)
     {
-        if (status != null)
-        {
-            status.MyAttack += _value;
-        }
+        
     }
 
     // 이동속도 관련 스탯 버프
     public override void AddBuffStatMoveSpd(int _value)
     {
-        if (status != null)
-        {
-            status.MyWalkSpeed += _value;
-        }
+        
     }
 
 
     // 공격속도 관련 스탯 버프 
     public override void AddBuffStatAtkSpd(int _value)
     {
-        if (status != null)
-        {
-            status.MyAttack += _value;
-        }
+       
     }
 
 
     // 체력 관련 스탯 버프 
     public override void AddBuffStatHp(int _value)
     {
-        if (status != null)
-        {
-            status.MyAttack += _value;
-        }
+       
     }
 
     // 마나 관련 스탯 버프
     public override void AddBuffStatMp(int _value)
     {
-        if (status != null)
-        {
-            status.MyAttack += _value;
-        }
+      
     }
 
     public override void Think()

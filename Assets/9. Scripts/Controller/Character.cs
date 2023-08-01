@@ -64,6 +64,10 @@ public class Character
             charStat = value;
         }
     }
+    public void InitCurrentHP()
+    {
+        MyCurrentHP = MyMaxHP;
+    }
 
     public int MyCurrentHP
     {
@@ -74,11 +78,21 @@ public class Character
 
         set
         {
-
             playerHP = value;
-
         }
     }
+
+
+    public void InitCurrentMP()
+    {
+        MyCurrentMP = MyMaxMP;
+    }
+
+    public int MyMaxHP
+    {
+        get { return MyStat.totalHP; }
+    }
+
 
     public int MyCurrentMP
     {
@@ -93,6 +107,16 @@ public class Character
         }
     }
 
+    public int MyMaxMP
+    {
+        get { return MyStat.totalMP; }
+    }
+
+    public int GetExp 
+    { 
+        get { return MyStat.giveChanceExp; } 
+    }
+
     public int MyTotalAttack
     {
         get
@@ -104,6 +128,8 @@ public class Character
 
             return MyStat.totalATK;
         }
+
+        set { MyStat.totalATK += value; }
     }
 
 

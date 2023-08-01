@@ -82,7 +82,7 @@ public class Slime : AttackMonster
 
         if(attackRanges[currentPattern] != null)
         {
-            attackRanges[currentPattern].SetPower( Mathf.RoundToInt(status.MyAttack * 1.3f));
+            attackRanges[currentPattern].SetPower( Mathf.RoundToInt(player.MyTotalAttack * 1.3f));
         }
 
         //rigid.AddForce( Vector3.up * 5f,ForceMode.Impulse);

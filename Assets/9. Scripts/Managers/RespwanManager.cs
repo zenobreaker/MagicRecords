@@ -53,7 +53,8 @@ public class RespwanManager : MonoBehaviour
             (currentSpwanIndex > spawnObjects.Length && spawnObjects[currentSpwanIndex] == null))
             return;
 
-        Instantiate(enemyObject, spawnObjects[currentSpwanIndex].transform.position, Quaternion.identity);
+        // 오브젝트 위치 조정 
+        enemyObject.transform.position = spawnObjects[currentSpwanIndex].transform.position;
     }
 
     public void RespawnMonster(GameObject[] _spawns, MonsterGrade  _monsterType = MonsterGrade.NORMAL)

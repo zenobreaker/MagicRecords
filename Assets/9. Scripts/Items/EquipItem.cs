@@ -15,6 +15,8 @@ public enum AbilityType
     HPR = 6,
     MP = 7,
     MPR = 8,
+    CRITRATE = 9,
+    CRITDMG = 10,
 }
 
 [System.Serializable]

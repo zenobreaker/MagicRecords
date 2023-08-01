@@ -17,17 +17,7 @@ public enum ComboState
 
 public class PlayerControl : CharacterController
 {
-    Character player;
-
-    public Character MyPlayer
-    {
-        get {  return player; }
-        set { player = value;
-            speed = player.MyStat.speed;
-        }
-    }
-
- 
+  
     [Header("속도 관련 변수")]
     public float speed;
 
@@ -86,8 +76,11 @@ public class PlayerControl : CharacterController
         current_Combo_State = ComboState.NONE;
         current_Combo_Timer = default_Combo_Timer;
 
-
         //myAnimator.SetFloat("AttackSpeed", 1);
+        if (player != null)
+        {
+            speed = player.MyStat.speed;
+        }
 
         dashTime = startDashTime;
         dashEffect = Instantiate(go_DashEffect, this.transform.position, Quaternion.identity);

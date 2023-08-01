@@ -354,7 +354,7 @@ public class MonsterController : MonoBehaviour
         {
             Debug.Log("쳐맞네 이걸 ");
             status.MyHP -= _dmg;
-            UIManager.instance.ShowHealthBar(status);
+            //UIManager.instance.ShowHealthBar(player);
 
             transform.localPosition -= (_targetPos - transform.position).normalized;
             transform.LookAt(_targetPos - transform.position.normalized);

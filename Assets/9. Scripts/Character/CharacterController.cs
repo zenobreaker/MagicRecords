@@ -42,6 +42,15 @@ public abstract class CharacterController : MonoBehaviour, IDamage
     [HideInInspector] public bool isAttacking = false; // 공격중인지 판별
     [HideInInspector] public bool isDead = false; // 죽었는지 판별
 
+    protected Character player;
+    public Character MyPlayer
+    {
+        get { return player; }
+        set
+        {
+            player = value;
+        }
+    }
 
     // 패턴을 결정하는 추상 메소드 
     public abstract void Think(); 

@@ -82,6 +82,11 @@ public class CharacterStatJson
     public int defense;
     public int speed;
     public int attackSpeed;
+    public int hpRegen;
+    public int mpRegen;
+    public float critRate;
+    public float critDmg;
+
 }
 
 [System.Serializable]
@@ -314,33 +319,49 @@ public class MonsterDatabase : MonoBehaviour
             if (data.monsterID != id)
                 continue;
 
-            // 프리팹 오브젝트 가져오기 
-            var monsterObject = data.monsterPrefab;
+            // 프리팹 오브젝트 만들기
+            // 오브젝트를 생성하고 그 오브젝트의 
+            var monsterObject = Instantiate(data.monsterPrefab);
             if (monsterObject == null) continue;
+            
+            // 모든 처리를 다하기 전까진 비활성화
+            monsterObject.SetActive(false);
 
             // id에 맞는 스탯 데이터 가져오기 
-            foreach(var stat in characterAllData.characterStatJson)
+            foreach(CharacterStatJson stat in characterAllData.characterStatJson)
             {
                 if (stat.id != data.statID)
                     continue;
 
                 // 프리팹에 스텟 데이터를 넣어준다. 
-                if (!monsterObject.TryGetComponent(out Status charStat))
+                // reference : TryGetComponent는 특정한 클래스를 지목하면 해당 컴포넌트를 가져오지만
+                // 상속받는 대상이 같이 붙어있을 경우 정확히 지목된 것만 가져온다. 
+                // CharacterController가 부모 클래스이므로 이것을 참조 
+                if (!monsterObject.TryGetComponent(out CharacterController characterController))
                     break;
 
-                charStat.myGrade = grade;
-                charStat.MyAttack = stat.attack;
-                charStat.MyDefence = stat.defense;
-                charStat.MyAttackDelay = stat.attackSpeed;
-                charStat.MyHP = stat.hp;
-                charStat.MyMaxHP = stat.hp;
-                charStat.MyMP = stat.mp;
-                charStat.MyMaxMP = stat.mp;
+                if (characterController.MyPlayer == null)
+                {
+                    Character player = new Character();
+                    
+                    // 고민이다.. 딕셔너리에 character를 저장해서 넣을까..
+                    characterController.MyPlayer = player; 
+                }
 
+                // 스탯 관련
+                CharStat charStat = new CharStat(grade, 1, stat.attack,
+                    stat.defense, stat.attackSpeed, stat.hp, stat.hpRegen, stat.mp,
+                    stat.mpRegen, stat.speed, stat.critRate, stat.critDmg);
+                characterController.MyPlayer.MyStat = charStat;
+                characterController.MyPlayer.InitCurrentHP();
+                characterController.MyPlayer.InitCurrentMP();
+
+                // 찾아서 할당했으면 루프 탈출 
+                break; 
             }
-
-
-            return data.monsterPrefab;
+            // 처리를 다했으니 켜준다. 
+            monsterObject.SetActive(true);
+            return monsterObject;
         }
 
         return null;

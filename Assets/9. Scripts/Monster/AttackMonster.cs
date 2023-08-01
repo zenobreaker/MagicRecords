@@ -28,7 +28,7 @@ public class AttackMonster : MonsterBase
     protected MonsterAttackStat[] monsterAttackStat;
     protected int currentPattern = 0;
     public int MaxPattern;
-
+    public float delayTime; 
     protected override void Start()
     {
         base.Start();
@@ -39,7 +39,13 @@ public class AttackMonster : MonsterBase
             attackRanges[i].SetDisableCollider();
         }
 
-        switch(status.myGrade)
+        if(player.MyStat == null)
+        {
+            Debug.Log("스탯 데이터 없음");
+            return; 
+        }
+
+        switch(player.MyStat.myGrade)
         {
             case MonsterGrade.NORMAL:
                 addRange = 1f;
@@ -217,7 +223,7 @@ public class AttackMonster : MonsterBase
         SetAction(currentPattern);
 
         StartCoroutine(CoolDownAttackDelay(currentPattern));
-        yield return new WaitForSeconds(status.MyAttackDelay);
+        yield return new WaitForSeconds(player.MyStat.totalASPD);
         isAttacking = false;
         isComplete = false;
 
@@ -252,7 +258,7 @@ public class AttackMonster : MonsterBase
             p_currentPattern < attackRanges.Length &&
             attackRanges[p_currentPattern] != null)
         {
-            attackRanges[p_currentPattern].SetPower(status.MyAttack);
+            attackRanges[p_currentPattern].SetPower(player.MyTotalAttack);
         }
 
         anim.SetFloat("AttackSpeed", 1.0f);

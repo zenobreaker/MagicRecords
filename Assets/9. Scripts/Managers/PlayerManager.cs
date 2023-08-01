@@ -46,8 +46,8 @@ public class PlayerManager : MonoBehaviour
                     // 능력치 적용 
                     playerControl.MyPlayer.MyStat.ApplyOption();
                     //메인캐릭터에 hud 적용하기 
-                    playerControl.MyPlayer.MyCurrentHP = playerControl.MyPlayer.MyStat.totalHP;
-                    playerControl.MyPlayer.MyCurrentMP = playerControl.MyPlayer.MyStat.totalMP;
+                    playerControl.MyPlayer.InitCurrentHP();
+                    playerControl.MyPlayer.InitCurrentMP();
                     //targetPlayer = InfoManager.instance.GetPlayerInfo(1001);
                     playerableObjectList.Add(player);
                     if (count == 1)
