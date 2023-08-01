@@ -15,31 +15,31 @@ public class TreeMon : AttackMonster
         {
             case 0:
                 baseAttackRange = 3.5f * addRange;
-                status.MyAttackDelay = 3f;
+                delayTime = 3f;
                 break;
             case 1:
                 baseAttackRange = 5f * addRange;
-                status.MyAttackDelay = 5f;
+                delayTime = 5f;
                 break;
             case 2:
             case 3:
                 baseAttackRange = 7f * addRange;
-                status.MyAttackDelay = 7f;
+                delayTime = 7f;
                 break;
             case 4:
                 // 보스타입이 아니라면 해당 패턴은 넘긴다.
-                if (status.myGrade != MonsterGrade.BOSS)
+                if (player.MyStat.myGrade != MonsterGrade.BOSS)
                 {
                     RandomPattern();
                     break;
                 }
                 baseAttackRange = 7f * addRange;
-                status.MyAttackDelay = 7f;
+                delayTime = 7f;
 
                 break;
             default:
                 baseAttackRange = 3.5f * addRange;
-                status.MyAttackDelay = 7.5f;
+                delayTime = 7.5f;
                 break;
         }
     }
@@ -113,7 +113,7 @@ public class TreeMon : AttackMonster
         yield return new WaitForSeconds(1f);
 
         var tree = Instantiate(go_TreeAttack, t_Pos + transform.forward*3f, Quaternion.identity);
-        tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(status.MyAttack * 1.5f);
+        tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack* 1.5f);
         //tree.GetComponent<AttackArea>().PlayAnim();
         Destroy(tree, 1f);
         
@@ -132,7 +132,7 @@ public class TreeMon : AttackMonster
         while (count < 5)
         {
             var tree = Instantiate(go_TreeAttack, treePos + trForward, Quaternion.identity);
-            tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(status.MyAttack * 1.7f);
+            tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack * 1.7f);
             //tree.GetComponent<AttackArea>().PlayAnim();
             treePos = tree.transform.localPosition;
             count++;
@@ -180,11 +180,11 @@ public class TreeMon : AttackMonster
             
            // Vector3 t_pos2 = new Vector3(treePos2.x + Mathf.Cos(Mathf.PI * 15), 0, treePos2.z + Mathf.Cos(Mathf.PI * 15));
             var tree1 = Instantiate(go_TreeAttack, treePos1, Quaternion.identity);
-            tree1.GetComponentInChildren<AttackArea>().power = status.MyAttack + Mathf.RoundToInt(status.MyAttack * 0.7f);
+            tree1.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
             var tree2 = Instantiate(go_TreeAttack, treePos2, Quaternion.identity);
-            tree2.GetComponentInChildren<AttackArea>().power = status.MyAttack + Mathf.RoundToInt(status.MyAttack * 0.7f);
+            tree2.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
             var tree3 = Instantiate(go_TreeAttack, treePos3, Quaternion.identity);
-            tree3.GetComponentInChildren<AttackArea>().power = status.MyAttack + Mathf.RoundToInt(status.MyAttack * 0.7f);
+            tree3.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
 
             // 이전에 소환한 나무 위치 + 차이 만큼 다음 위치 값 세팅 
             treePos1 = tree1.transform.localPosition + trForward;
@@ -250,7 +250,7 @@ public class TreeMon : AttackMonster
                 t_Pos.z = distance * z + transform.localPosition.z;
 
                 var tree = Instantiate(go_TreeAttack, t_Pos, Quaternion.identity);
-                tree.GetComponentInChildren<AttackArea>().power = status.MyAttack + Mathf.RoundToInt(status.MyAttack * 0.7f);
+                tree.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
                 Destroy(tree, 3.5f);
             }
             distance += 3;

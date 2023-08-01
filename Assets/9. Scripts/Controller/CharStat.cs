@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class CharStat
 {
+    public MonsterGrade myGrade;
     public int level;
-
     // 통상 장비나 레벨업 같은 스탯이 적용되어 보이는 스탯들 
     public int totalATK;
     public int totalDEF;
@@ -16,6 +16,8 @@ public class CharStat
     public int totalHPR;
     public int totalMPR;
     public int totalSPD;
+    public float totalCritRate;
+    public float totalCritDmg;
 
 
     // 기본적으로 갖고 있는 스탯 
@@ -24,12 +26,16 @@ public class CharStat
     public float attackSpeed;
     public int hp;
     public int mp;
-    public int hpRecovery;
-    public int mpRecovery;
+    public int hpRegen;
+    public int mpRegen;
     public int speed;
+    public float critRate;
+    public float critDmg;
+
 
     public int exp;
     public int maxExp;
+    public int giveChanceExp;
 
     public ExtraStat extraStat = new ExtraStat();
 
@@ -41,9 +47,11 @@ public class CharStat
         attackSpeed = _target.attackSpeed;
         hp = _target.hp;
         mp = _target.mp;
-        hpRecovery = _target.hpRecovery;
-        mpRecovery = _target.mpRecovery;
+        hpRegen = _target.hpRegen;
+        mpRegen = _target.mpRegen;
         speed = _target.speed;
+        critRate = _target.critRate;
+        critDmg = _target.critDmg;
 
         ApplyOption(); 
     }
@@ -57,6 +65,26 @@ public class CharStat
         hp = _hp;
         mp = _mp;
         speed = _spd;
+
+        ApplyOption();
+    }
+
+    public CharStat(MonsterGrade grade, int level, int atk, int def, float aspd, 
+        int hp, int hpRegen, int mp, int mpRegen, int spd,
+        float critRate, float critDmg)
+    {
+        this.myGrade = grade;
+        this.level = level;
+        this.attack = atk;
+        this.attackSpeed = aspd;
+        this.defense = def;
+        this.hp = hp;
+        this.hpRegen = hpRegen;
+        this.mp = mp;
+        this.mpRegen = mpRegen;
+        this.speed = spd;
+        this.critRate = critRate;
+        this.critDmg = critDmg;
 
         ApplyOption();
     }
@@ -101,21 +129,23 @@ public class CharStat
             resultAtk = InfoManager.instance.GetGrowUpAttack(this.level, attack);
             resultDef = InfoManager.instance.GetGrowUpDefense(this.level, defense);
             resultHP = InfoManager.instance.GetGrowUpHP(this.level, hp);
-            resultHPR = InfoManager.instance.GetGrowUpHPRecovery(this.level, hpRecovery);
+            resultHPR = InfoManager.instance.GetGrowUpHPRecovery(this.level, hpRegen);
             resultMP = InfoManager.instance.GetGrowUpMP(this.level, mp);
-            resultMPR = InfoManager.instance.GetGrowUpMPRecovery(this.level, mpRecovery);
+            resultMPR = InfoManager.instance.GetGrowUpMPRecovery(this.level, mpRegen);
             resultAspd = InfoManager.instance.GetGrowUpAttackSpeed(this.level, attackSpeed);
             resultSPD = InfoManager.instance.GetGrowUpSpeed(this.level, speed);
         }
 
         totalATK = extraStat.extraAttack + resultAtk;
-        totalASPD = extraStat.extraAttackSpeed + attackSpeed;
+        totalASPD = extraStat.extraAttackSpeed + resultAspd;
         totalDEF = extraStat.extraDefense + resultDef;
         totalHP = extraStat.extraHP + resultHP;
         totalMP = extraStat.extraMP + resultMP;
         totalHPR = extraStat.extraHPR + resultHPR;
         totalMPR = extraStat.extraMPR + resultMPR;
         totalSPD = extraStat.extraSpeed + resultSPD;
+        totalCritRate = extraStat.extraCritRate + critRate;
+        totalCritDmg = extraStat.extraCritDmg + critDmg;
     }
 
 }

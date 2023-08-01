@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 0
   disableTime: 0
-  status: {fileID: 4438525794821121839}
+  status: {fileID: 0}
   collider: {fileID: 4955227350068759216}
   ani: {fileID: 0}
 --- !u!65 &4955227350068759216
@@ -709,7 +709,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4123433398264677183}
-  - component: {fileID: 4438525794821121839}
   - component: {fileID: 4999055226221871404}
   - component: {fileID: 7272818212670496066}
   - component: {fileID: 5217542009992933858}
@@ -739,26 +738,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4438525794821121839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569200012176572667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6651f6b8544d4bf459c6ea82547632bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myType: 0
-  maxHp: 350
-  attack: 10
-  attackDelay: 3
-  walkSpeed: 6
-  deffence: 39
-  exp: 1
-  pattern: 0
 --- !u!114 &4999055226221871404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,7 +866,6 @@ MonoBehaviour:
   - {fileID: 1493473438567746127, guid: ff3eaf96302e8864ca4df8cbab69115c, type: 3}
   rangeOfEnemy: 10
   baseAttackRange: 5
-  status: {fileID: 4438525794821121839}
   anim: {fileID: 9140126834733272458}
   boxCol: {fileID: 7054368208174049310}
   sound_Normal: []
@@ -917,6 +895,7 @@ MonoBehaviour:
   - attackPattern: 0
     attackCoolTime: 15
   MaxPattern: 0
+  delayTime: 0
   go_TreeAttack: {fileID: 2653462365812280479, guid: f6e6e7221e0b42643b81417b7cf8ed7f,
     type: 3}
 --- !u!1 &5056532667211443140

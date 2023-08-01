@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 0
   disableTime: 0
-  status: {fileID: 5038329180906567041}
+  status: {fileID: 0}
   collider: {fileID: 1661029430172429421}
   ani: {fileID: 0}
 --- !u!1 &2166243959236582757
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 0
   disableTime: 0
-  status: {fileID: 5038329180906567041}
+  status: {fileID: 0}
   collider: {fileID: 5593078786926289141}
   ani: {fileID: 0}
 --- !u!136 &5593078786926289141
@@ -320,7 +320,6 @@ GameObject:
   - component: {fileID: 8336414057653159827}
   - component: {fileID: 5038329180906567044}
   - component: {fileID: 5038329180906567046}
-  - component: {fileID: 5038329180906567041}
   - component: {fileID: 5038329180906567045}
   - component: {fileID: 4706341031898307540}
   - component: {fileID: 5370353294607772870}
@@ -382,26 +381,6 @@ MonoBehaviour:
   myBody: {fileID: 0}
   myAnim: {fileID: 1661029430158842451}
   myCondition: 0
---- !u!114 &5038329180906567041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5038329180906567040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6651f6b8544d4bf459c6ea82547632bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myType: 0
-  maxHp: 224
-  attack: 10
-  attackDelay: 3
-  walkSpeed: 6
-  deffence: 22
-  exp: 1
-  pattern: 0
 --- !u!195 &5038329180906567045
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -473,7 +452,11 @@ MonoBehaviour:
   fieldOfView: {fileID: 5038329180906567044}
   myState: 0
   idleTime: 3
-  isAttack: 0
+  isWalking: 0
+  isRunning: 0
+  isChasing: 0
+  isAttacking: 0
+  isDead: 0
   MonsterName: Slime
   item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
     type: 3}
@@ -487,16 +470,10 @@ MonoBehaviour:
   destination: {x: 0, y: 0, z: 0}
   isTest: 0
   isBoss: 0
-  isWalking: 0
-  isRunning: 0
-  isChasing: 0
-  isAttacking: 0
-  isDead: 0
   dangerLine:
   - {fileID: 9144973564362976019, guid: 7bf863a7043640445a6f84b2a5e7cd74, type: 3}
   rangeOfEnemy: 10
   baseAttackRange: 3
-  status: {fileID: 5038329180906567041}
   anim: {fileID: 1661029430158842451}
   boxCol: {fileID: 4706341031898307540}
   sound_Normal: []
@@ -521,7 +498,7 @@ MonoBehaviour:
   - attackPattern: 0
     attackCoolTime: 5
   MaxPattern: 0
-  go_JelleyAttack: {fileID: 2744490055673027204}
+  delayTime: 0
 --- !u!1 &6865005315957008656
 GameObject:
   m_ObjectHideFlags: 0

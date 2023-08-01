@@ -168,10 +168,10 @@ public class UIManager : MonoBehaviour
     }
 
  
-    public void ShowHealthBar(Status _status)
+    public void ShowHealthBar(Character _status)
     {
         enemyHealthBar.SetActive(true);
-        enemyHealthStat.Initalize(_status.MyHP, _status.MyMaxHP);
+        enemyHealthStat.Initalize(_status.MyCurrentHP, _status.MyMaxHP);
     }
 
     public void HideHealthBar()

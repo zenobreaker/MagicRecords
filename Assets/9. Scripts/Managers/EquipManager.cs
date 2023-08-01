@@ -79,8 +79,8 @@ public class EquipManager : MonoBehaviour
         p_Extra.extraDefense = Mathf.FloorToInt(t_stat.defense * (p_Extra.extraDefense / 100));
         p_Extra.extraHP = Mathf.FloorToInt((float)t_stat.hp *((float)p_Extra.extraHP/100));
         p_Extra.extraMP = Mathf.FloorToInt((float)t_stat.mp *((float)p_Extra.extraMP/100));
-        p_Extra.extraHPR = Mathf.FloorToInt((float)t_stat.hpRecovery * ((float)p_Extra.extraHPR/100));
-        p_Extra.extraMPR = Mathf.FloorToInt((float)t_stat.mpRecovery * ((float)p_Extra.extraMPR/100));
+        p_Extra.extraHPR = Mathf.FloorToInt((float)t_stat.hpRegen * ((float)p_Extra.extraHPR/100));
+        p_Extra.extraMPR = Mathf.FloorToInt((float)t_stat.mpRegen* ((float)p_Extra.extraMPR/100));
 
 
         return p_Extra;

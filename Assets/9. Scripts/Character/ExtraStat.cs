@@ -13,7 +13,9 @@ public class ExtraStat
     public int extraMP;
     public int extraHPR;
     public int extraMPR;
- 
+    public float extraCritRate;
+    public float extraCritDmg;
+
     public ExtraStat()
     {
         extraAttack = 0;
@@ -24,6 +26,8 @@ public class ExtraStat
         extraMP = 0;
         extraHPR = 0;
         extraMPR = 0;
+        extraCritRate = 0;
+        extraCritDmg = 0; 
     }
 
     public ExtraStat(int _atk, float _atkspd, int _def, int _spd, int _hp, int _hpr, int _mp, int _mpr)
@@ -76,6 +80,16 @@ public class ExtraStat
         extraSpeed += _value;
     }
 
+    public void IncreaseCritRate(float _value)
+    {
+        extraCritRate += _value; 
+    }
+
+    public void IncreaseCritDmg(float _value)
+    {
+        extraCritDmg += _value;
+    }
+
     public void ClearStat()
     {
         extraAttack = 0;
@@ -86,6 +100,8 @@ public class ExtraStat
         extraHPR = 0;
         extraMP = 0;
         extraMPR = 0;
+        extraCritRate = 0;
+        extraCritDmg = 0;
     }
 
 
@@ -111,6 +127,8 @@ public class ExtraStat
         extraMP += extraStat.extraMP;
         extraHPR += extraStat.extraHPR;
         extraMPR += extraStat.extraMPR;
+        extraCritRate += extraStat.extraCritRate;
+        extraCritDmg += extraStat.extraCritDmg;
     }
 
     public void SubbedStatus(ExtraStat extraStat)
@@ -123,38 +141,46 @@ public class ExtraStat
         extraMP -= extraStat.extraMP;
         extraHPR -= extraStat.extraHPR;
         extraMPR -= extraStat.extraMPR;
+        extraCritRate -= extraStat.extraCritRate;
+        extraCritDmg -= extraStat.extraCritDmg;
     }
 
 
-    public void ApplyOptionExtraStat(AbilityType abilityType, int value)
+    public void ApplyOptionExtraStat(AbilityType abilityType, float value)
     {
         if (abilityType == AbilityType.NONE) return;
 
         switch (abilityType)
         {
             case AbilityType.ATK:
-                IncreaseAtk(value);
+                IncreaseAtk((int)value);
                 break;
             case AbilityType.DEF:
-                IncreaseDef(value);
+                IncreaseDef((int)value);
                 break;
             case AbilityType.ASPD:
-                IncreaseAtkSpd(value);
+                IncreaseAtkSpd((int)value);
                 break;
             case AbilityType.SPD:
-                IncreaseSpd(value);
+                IncreaseSpd((int)value);
                 break;
             case AbilityType.HP:
-                IncreaseHP(value);
+                IncreaseHP((int)value);
                 break;
             case AbilityType.HPR:
-                IncreaseHPR(value);
+                IncreaseHPR((int)value);
                 break;
             case AbilityType.MP:
-                IncreaseMP(value);
+                IncreaseMP((int)value);
                 break;
             case AbilityType.MPR:
-                IncreaseMPR(value);
+                IncreaseMPR((int)value);
+                break;
+            case AbilityType.CRITRATE:
+                IncreaseCritRate(value); 
+                break;
+            case AbilityType.CRITDMG:
+                IncreaseCritDmg(value);
                 break;
         }
     }
