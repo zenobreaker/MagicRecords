@@ -45,6 +45,9 @@ public class Character
     // 장착한 드론
     public MagicalDrone drone;
 
+    // 해당 캐릭터가 적용받는 레코드 목록 < 이건 추후에 유물로 변경 
+    public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
+
     public Character()
     {
         InitailizeEquipment(); 
@@ -381,5 +384,59 @@ public class Character
         // 이 캐릭터의 스탯클래스에 경험치 지급
         this.MyStat.GrowUp(_exp);
 
+    }
+
+
+
+    // 레코드 능력 적용 
+    public void ApplyRecordAbility(RecordInfo record)
+    {
+        if (record == null || selectRecordInfos.Contains(record) == true) return;
+
+        // 효과 정보가 있는지 검사 
+        if (record.specialOption == null)
+        {
+            // 없다면 매니저를 통해 할당시킨다. 
+            if (RecordManager.instance == null) return;
+
+            record.specialOption = RecordManager.instance.GetSpecialOptionToRecordInfo(record.optionID);
+        }
+
+
+        // 레코드의 옵션의 적용 타입에 따라 적용하는 순간이 다르므로 구분하여 적용시키기 
+
+        switch(record.specialOption.conditionType)
+        {
+            case ConditionType.NONE:
+                this.MyStat.extraStat.ApplyOptionExtraStat(
+                record.specialOption.abilityType, record.specialOption.value);
+
+                break;
+            case ConditionType.DURATION:
+                break;
+            case ConditionType.ADJOIN:
+                break;
+            case ConditionType.TRY_ATTACK:
+                break;
+            case ConditionType.TRY_HIT:
+                break;
+            case ConditionType.COST:
+                break;
+        }
+
+        MyStat.ApplyOption();
+    }
+
+    // 레코드 능력 적용 제거
+    public void RemoveRecordAbility(RecordInfo record)
+    {
+        if (record == null) return;
+
+        this.MyStat.extraStat.ApplyOptionExtraStat(
+            record.specialOption.abilityType, -record.specialOption.value);
+
+        //selectRecordInfos.Remove(record);
+
+        MyStat.ApplyOption();
     }
 }

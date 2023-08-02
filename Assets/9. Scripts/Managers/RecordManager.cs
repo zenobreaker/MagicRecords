@@ -18,7 +18,6 @@ public class RecordInfo
     public int optionID;
     public string spritePath;   // 메모리 스프라이트 경로
     public SpecialOption specialOption; // 메모리 효과 
-
     public RecordInfo(int id, string name, string description, int grade, int optionID)
     {
         this.id = id;
@@ -70,7 +69,10 @@ public class RecordManager : MonoBehaviour
     private RecordInfoJsonAllData memoyInfoJsonAlldata;
 
 
-    public Dictionary<int, RecordInfo> memoryInfoDictionary = new Dictionary<int, RecordInfo>();
+    public Dictionary<int, RecordInfo> recordInfoDictionary = new Dictionary<int, RecordInfo>();
+
+    // 게임 중에 선택한 레코드 리스트
+    public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
     private void Awake()
     {
@@ -99,27 +101,24 @@ public class RecordManager : MonoBehaviour
                 memInfoJson.description, memInfoJson.grade, memInfoJson.optionID);
 
             // 옵션매니저에서 가져올려는 옵션이 있는지 검사
-            if(OptionManager.instance != null)
+            if (OptionManager.instance != null)
             {
-                if(OptionManager.instance.specialOptionsDictionary.ContainsKey(memInfoJson.namekeycode) == true)
-                {
-                    // 해당 info 클래스에 옵션 클래스를 넣어둔다.
-                    memoryInfo.specialOption = OptionManager.instance.specialOptionsDictionary[memInfoJson.namekeycode];
-                }
+                // 해당 info 클래스에 옵션 클래스를 넣어둔다.
+                memoryInfo.specialOption = OptionManager.instance.GetSpecialOption(memInfoJson.optionID);
             }
 
             // 리스트에 추가하기 
-            memoryInfoDictionary.Add(memInfoJson.id, memoryInfo);   
+            recordInfoDictionary.Add(memInfoJson.id, memoryInfo);   
         }
     }
 
     // 특정 ID 값을 받으면 해당 메모리를 반환하는 함수
     public RecordInfo GetRecordInfoByID(int id)
     {
-        if (memoryInfoDictionary.ContainsKey(id) == false)
+        if (recordInfoDictionary.ContainsKey(id) == false)
             return null; 
 
-        return memoryInfoDictionary[id];
+        return recordInfoDictionary[id];
     }
 
     // 메모리를 랜덤으로 받는 매개변수만큼 반환해주는 함수 
@@ -129,7 +128,7 @@ public class RecordManager : MonoBehaviour
 
 
         // 1. 생성할 메모리 id를 딕셔너리에서 중복 없이 가져온다. 
-        List<int> keys= new List<int>(memoryInfoDictionary.Keys);
+        List<int> keys= new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
             Debug.Log("키값이 없습니다 게임 진행 불가");
@@ -146,15 +145,15 @@ public class RecordManager : MonoBehaviour
 
             int idx = Random.Range(min, maxCount);
 
-            if(prevIndx == idx || rewardList.Contains(memoryInfoDictionary[keys[idx]]) == true)
+            if(prevIndx == idx || rewardList.Contains(recordInfoDictionary[keys[idx]]) == true)
             {
                 continue; 
             }
 
-            if(memoryInfoDictionary.ContainsKey(idx) == true)
+            if(recordInfoDictionary.ContainsKey(idx) == true)
             {
                 // 2. 만든 리스트를 토대로 메모리를 가져와 전달한다.
-                rewardList.Add(memoryInfoDictionary[idx]);
+                rewardList.Add(recordInfoDictionary[idx]);
             }
 
             if(rewardList.Count >= count)
@@ -182,4 +181,91 @@ public class RecordManager : MonoBehaviour
         return rewardList;
     }
 
+    public SpecialOption GetSpecialOptionToRecordInfo(int id)
+    {
+        var record = recordInfoDictionary[id];
+        if (record == null) return null;
+
+
+        record.specialOption =  OptionManager.instance.GetSpecialOption(record.optionID);
+
+        return record.specialOption;
+    }
+
+
+    // 아래 코드는 레코드가 개별로 적용할 때 사용할 코드였다. 지금은 모든 플레이어에게 적용할 예정이기에 
+    // 효용성이 떨어지므로 주석처리한다. 
+    // 필드에 나와있는 플레이어들에게 레코드를 적용하는 함수
+    //public void ApplyRecordAbilityToAllPlayers(List<Character> players)
+    //{
+    //    for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
+    //    {
+    //        RecordInfo record = selectRecordInfos[i];
+    //        record.specialOption ??= GetSpecialOptionToRecordInfo(record.optionID);
+    //        foreach (Character player in players)
+    //        {
+    //            player.ApplyRecordAbility(record);
+    //            record.specialOption.SetCoolTime();
+    //        }
+    //    }
+    //}
+
+    // 레코드를 선택하는 함수
+    public void SelectRecord(RecordInfo selectedRecord)
+    {
+        selectRecordInfos.Add(selectedRecord);
+    }
+
+    // 플레이어들에게 레코드 적용하기
+    public void ApplyRecordToPlayers(List<Character> players)
+    {
+        for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
+        {
+            RecordInfo record = selectRecordInfos[i];
+            // ?? specialOption 가 null 이라면 오른쪽에 연산을 통하라는 뜻 
+            record.specialOption ??= GetSpecialOptionToRecordInfo(record.optionID);
+
+            foreach (var player in players)
+            {
+                player.ApplyRecordAbility(record);
+            }
+        }
+    }
+
+
+
+    public IEnumerator ManageRecordTimer(List<Character> players, RecordInfo record)
+    {
+        if (record.specialOption == null)
+            yield return null;
+
+        yield return new WaitForSeconds(record.specialOption.duration);
+
+        foreach(Character player in players)
+        {
+            player.RemoveRecordAbility(record);
+        }
+
+        yield return new WaitForSeconds(record.specialOption.coolTime);
+
+        // todo 쿨타임이 끝난 후 처리 로직 추가 자리 
+    }
+
+    // 업데이트 문에서 동작하는 함수 
+    // 적용한 레코드들을 순회하며 쿨타임을 잰다 
+    public void UpdateRecordTiemers()
+    {
+        //for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
+        //{
+        //    RecordInfo record = selectRecordInfos[i];
+        //    // ?? specialOption 가 null 이라면 오른쪽에 연산을 통하라는 뜻 
+        //    record.specialOption ??= GetSpecialOptionToRecordInfo(record.optionID);
+
+        //    if(record.specialOption.coolTime <= 0)
+        //    {
+
+        //    }
+
+        //}
+    }
 }
