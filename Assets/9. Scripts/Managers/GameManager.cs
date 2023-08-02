@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] ComboManager theCombo = null;
     [SerializeField] private RewardController theReward = null;
 
+    // 이번 게임에 등장하는 모든 아군 플레이어 
+    List<Character> team = new List<Character>();
 
     private void Awake()
     {
@@ -99,6 +101,13 @@ public class GameManager : MonoBehaviour
                 isSpawn = false;
                 theSM.RespwanEnemy();
             }
+
+            // 레코드매니저에게 유저가 선택한 레코드를 적용시키라고 명령한다. 
+            if(RecordManager.instance != null)
+            {
+                RecordManager.instance.ApplyRecordToPlayers(team);
+            }
+
             gameState = GameState.PLAYING;
         }
         else if(gameState == GameState.PLAYING)
@@ -141,6 +150,8 @@ public class GameManager : MonoBehaviour
         maxWave = 0;
         
         gameState = GameState.NONE;
+
+        team.Clear(); 
 
         isStageIn = true;
         isStageClear = false;
@@ -237,6 +248,7 @@ public class GameManager : MonoBehaviour
         // 콤보 초기화
         theCombo.ResetCombo();
         player = thePM.GetPlayer();
+        team.Add(player.MyPlayer);
 
         if (player != null)
             playerCount = 1; 

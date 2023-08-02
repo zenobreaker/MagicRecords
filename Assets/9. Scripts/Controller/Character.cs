@@ -403,26 +403,8 @@ public class Character
         }
 
 
-        // 레코드의 옵션의 적용 타입에 따라 적용하는 순간이 다르므로 구분하여 적용시키기 
-
-        switch(record.specialOption.conditionType)
-        {
-            case ConditionType.NONE:
-                this.MyStat.extraStat.ApplyOptionExtraStat(
-                record.specialOption.abilityType, record.specialOption.value);
-
-                break;
-            case ConditionType.DURATION:
-                break;
-            case ConditionType.ADJOIN:
-                break;
-            case ConditionType.TRY_ATTACK:
-                break;
-            case ConditionType.TRY_HIT:
-                break;
-            case ConditionType.COST:
-                break;
-        }
+        this.MyStat.extraStat.ApplyOptionExtraStat(
+        record.specialOption.abilityType, record.specialOption.value);
 
         MyStat.ApplyOption();
     }
