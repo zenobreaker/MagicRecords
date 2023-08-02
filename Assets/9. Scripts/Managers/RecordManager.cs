@@ -228,23 +228,22 @@ public class RecordManager : MonoBehaviour
             foreach (var player in players)
             {
                 player.ApplyRecordAbility(record);
+                // 아래 코루틴 실행 
+                StartCoroutine(ManageRecordTimer(player, record));
             }
         }
     }
 
 
 
-    public IEnumerator ManageRecordTimer(List<Character> players, RecordInfo record)
+    public IEnumerator ManageRecordTimer(Character player, RecordInfo record)
     {
-        if (record.specialOption == null)
+        if (record.specialOption == null || player == null)
             yield return null;
 
         yield return new WaitForSeconds(record.specialOption.duration);
 
-        foreach(Character player in players)
-        {
-            player.RemoveRecordAbility(record);
-        }
+        player.RemoveRecordAbility(record);
 
         yield return new WaitForSeconds(record.specialOption.coolTime);
 
@@ -255,17 +254,17 @@ public class RecordManager : MonoBehaviour
     // 적용한 레코드들을 순회하며 쿨타임을 잰다 
     public void UpdateRecordTiemers()
     {
-        //for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
-        //{
-        //    RecordInfo record = selectRecordInfos[i];
-        //    // ?? specialOption 가 null 이라면 오른쪽에 연산을 통하라는 뜻 
-        //    record.specialOption ??= GetSpecialOptionToRecordInfo(record.optionID);
+        for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
+        {
+            RecordInfo record = selectRecordInfos[i];
+            // ?? specialOption 가 null 이라면 오른쪽에 연산을 통하라는 뜻 
+            record.specialOption ??= GetSpecialOptionToRecordInfo(record.optionID);
 
-        //    if(record.specialOption.coolTime <= 0)
-        //    {
+            if (record.specialOption.coolTime <= 0)
+            {
 
-        //    }
+            }
 
-        //}
+        }
     }
 }
