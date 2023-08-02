@@ -120,4 +120,18 @@ public abstract class CharacterController : MonoBehaviour, IDamage
     {
 
     }
+
+    // 크리티컬 확률 버프 
+    public virtual void AddBuffStatCritRate(float value)
+    {
+
+    }
+
+    // 크티리컬 데미지 버프 
+    public virtual void AddBuffStatCritDmg(float value)
+    {
+
+    }
+
+    
 }
