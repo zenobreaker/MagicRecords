@@ -12,12 +12,14 @@ public class RewardCard
     public RewardType rewardType;
     public Sprite rewardSprite; // 보상 이미지 
     public float value;         // 보상 수치 
+    public string name; 
     public string description;
     public int memoryID;
 
-    public RewardCard(RewardType rewardType, Sprite rewardSprite, float value)
+    public RewardCard(RewardType rewardType, Sprite rewardSprite, string name, float value)
     {
         this.rewardType = rewardType;
+        this.name = name; 
         this.rewardSprite = rewardSprite;
         this.value = value;
         SetDescriptionByType();
@@ -85,9 +87,10 @@ public class RewardController : MonoBehaviour
     public int minValue;
     public int maxValue;
 
-    public int selectIndex = 0;
+    private static readonly int initSelectIndex = -1; 
+    public int selectIndex = initSelectIndex;
 
-    public bool isConfirm = false; 
+    public bool isConfirm = false;
 
 
     [SerializeField] List<RewardCard> rewardCards = new List<RewardCard>();  // 직렬화 안한다고 오브젝트를 찾을 수 없다니 ㄷ 
@@ -104,7 +107,7 @@ public class RewardController : MonoBehaviour
         img_Selecter.gameObject.SetActive(false);
 
         // 인덱스값 초기화
-        selectIndex = 0;
+        selectIndex = initSelectIndex;
     }
 
     // 보상 카드 선택자 표시
@@ -151,7 +154,7 @@ public class RewardController : MonoBehaviour
         // 같은 대상을 선택했을 경우 
         if (selectIndex == index)
         {
-            selectIndex = -1;
+            selectIndex = initSelectIndex;
         }
         // 선택하지 않은 다른 대상 
         else
@@ -203,7 +206,7 @@ public class RewardController : MonoBehaviour
 
             Sprite sprite = Resources.Load<Sprite>(memory.spritePath);
             // 카드에 데이터 넣어준다. 
-            RewardCard rewardCard = new RewardCard(RewardType.MEMORY, sprite, 0.0f);
+            RewardCard rewardCard = new RewardCard(RewardType.MEMORY, sprite, memory.name, 0.0f);
             rewardCard.CreateMemoryReward(memory.id);
             rewardCards.Add(rewardCard);
         }
@@ -236,7 +239,8 @@ public class RewardController : MonoBehaviour
                 if (slot != null)
                 {
                     // 슬롯 UI 그리기
-                    slot.DrawUiObject(rewardCard.rewardSprite, rewardCard.description);
+                    slot.DrawUiObject(
+                        rewardCard.rewardSprite, rewardCard.name, rewardCard.description);
 
                     // 슬롯을 찾아서 슬롯에 버튼 기능을 넣어준다.
                     var targetIndex = index;
@@ -314,28 +318,18 @@ public class RewardController : MonoBehaviour
     // 결정 버튼에 첨부될 이벤트 
     public void ConfirmReward()
     {
-        // TODO : LobbyManager는 로비에서만 쓰이니 해당 결과는 게임매니저나 기타 다른 오브젝트에서
-        // 처리하도록 한다.
+        // 현재 보여주는 보상에 따라 기능이 달라지게 해본다.
+        if (selectIndex <= initSelectIndex || rewardCards.Count <= selectIndex) return;
 
-        //switch (cur_RewardCard.rewardType)
-        //{
-        //    case RewardType.COIN:
-        //        Debug.Log("코인 획득! : " + cur_RewardCard.value);
-        //        //LobbyManager.MyInstance.IncreseCoin(cur_RewardCard.value);
-        //        //InfoManager.instance.money += cur_RewardCard.value;
-        //        break;
-        //    case RewardType.EXP:
-        //        // 경험치 추가 로직 
-        //        Debug.Log("경험치 획득! : " + cur_RewardCard.value);
-        //        //InfoManager.instance.GetPlayerInfo()
-        //        break;
-        //    case RewardType.ITEM:
-        //        break;
-        //}
-
-
-
-
+        var reward = rewardCards[selectIndex];
+        // todo. 타입별로 기능이 추가되면 여기도 추가해야한다. 
+        if(reward.rewardType == RewardType.MEMORY)
+        { 
+            if(RecordManager.instance != null)
+            {
+                RecordManager.instance.SelectRecord(reward.memoryID);
+            }
+        }
 
         go_BaseUI.SetActive(false);
         isConfirm = true;

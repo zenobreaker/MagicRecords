@@ -15,16 +15,16 @@ public class RecordInfo
     public string name;     // 메모리 이름
     public string description; // 메모리 설명 
     public int grade;       // 메모리 등급
-    public int optionID;
+    public int specialOptionID;
     public string spritePath;   // 메모리 스프라이트 경로
     public SpecialOption specialOption; // 메모리 효과 
-    public RecordInfo(int id, string name, string description, int grade, int optionID)
+    public RecordInfo(int id, string name, string description, int grade, int specialOptionID)
     {
         this.id = id;
         this.name = name;
         this.description = description;
         this.grade = grade;
-        this.optionID = optionID;
+        this.specialOptionID = specialOptionID;
     }
 
     public RecordInfo(int id, string name, string description, int grade,
@@ -46,7 +46,7 @@ public class RecordInfoJson
     public string namekeycode;
     public string description;
     public int grade;
-    public int optionID;
+    public int specialOptionID;
 }
 
 // RecordInfoJson 클래스를 리스트로 담고 있는 클래스 
@@ -98,13 +98,13 @@ public class RecordManager : MonoBehaviour
             if(memInfoJson == null) continue;
 
             RecordInfo memoryInfo = new RecordInfo(memInfoJson.id, memInfoJson.namekeycode, 
-                memInfoJson.description, memInfoJson.grade, memInfoJson.optionID);
+                memInfoJson.description, memInfoJson.grade, memInfoJson.specialOptionID);
 
             // 옵션매니저에서 가져올려는 옵션이 있는지 검사
             if (OptionManager.instance != null)
             {
                 // 해당 info 클래스에 옵션 클래스를 넣어둔다.
-                memoryInfo.specialOption = OptionManager.instance.GetSpecialOption(memInfoJson.optionID);
+                memoryInfo.specialOption = OptionManager.instance.GetSpecialOption(memInfoJson.specialOptionID);
             }
 
             // 리스트에 추가하기 
@@ -173,7 +173,7 @@ public class RecordManager : MonoBehaviour
                 break; 
             }
 
-            int id = rewardList[i].optionID;
+            int id = rewardList[i].specialOptionID;
 
             rewardList[i].specialOption = OptionManager.instance.GetSpecialOption(id);
         }
@@ -187,7 +187,7 @@ public class RecordManager : MonoBehaviour
         if (record == null) return null;
 
 
-        record.specialOption =  OptionManager.instance.GetSpecialOption(record.optionID);
+        record.specialOption =  OptionManager.instance.GetSpecialOption(record.specialOptionID);
 
         return record.specialOption;
     }
@@ -211,6 +211,15 @@ public class RecordManager : MonoBehaviour
     //}
 
     // 레코드를 선택하는 함수
+    public void SelectRecord(int recordID)
+    {
+        if (recordID == 0) return;
+
+        if (recordInfoDictionary.ContainsKey(recordID) == false) return;
+
+        SelectRecord(recordInfoDictionary[recordID]);
+    }
+
     public void SelectRecord(RecordInfo selectedRecord)
     {
         selectRecordInfos.Add(selectedRecord);
@@ -223,7 +232,7 @@ public class RecordManager : MonoBehaviour
         {
             RecordInfo record = selectRecordInfos[i];
             // ?? specialOption 가 null 이라면 오른쪽에 연산을 통하라는 뜻 
-            record.specialOption ??= GetSpecialOptionToRecordInfo(record.optionID);
+            record.specialOption ??= GetSpecialOptionToRecordInfo(record.specialOptionID);
 
             foreach (var player in players)
             {
@@ -258,7 +267,7 @@ public class RecordManager : MonoBehaviour
         {
             RecordInfo record = selectRecordInfos[i];
             // ?? specialOption 가 null 이라면 오른쪽에 연산을 통하라는 뜻 
-            record.specialOption ??= GetSpecialOptionToRecordInfo(record.optionID);
+            record.specialOption ??= GetSpecialOptionToRecordInfo(record.specialOptionID);
 
             if (record.specialOption.coolTime <= 0)
             {

@@ -8,6 +8,8 @@ public class RewardCardSlot : MonoBehaviour
 {
     // 아이콘 이미지 
     public Image icon;
+    // 카드 이름 텍스트
+    public Text nameText; 
     // 아이콘 설명 텍스트
     public Text text;
     // 카드 선택자 
@@ -45,11 +47,13 @@ public class RewardCardSlot : MonoBehaviour
         icon.sprite = null;
     }
 
-    public void DrawUiObject(Sprite sprite, string desc)
+    public void DrawUiObject(Sprite sprite, string name, string desc)
     {
         if (icon == null || text == null) return;
 
         icon.sprite = sprite;
+
+        nameText.text = name;
 
         text.text = desc; 
     }

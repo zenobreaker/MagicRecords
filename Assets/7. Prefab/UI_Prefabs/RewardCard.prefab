@@ -379,7 +379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 7748161744358574200}
-  text: {fileID: 7748161744706131148}
+  nameText: {fileID: 7748161744706131148}
+  text: {fileID: 7748161745813290755}
   selectUI: {fileID: 3905822792596307771}
   button: {fileID: 7748161745798243499}
 --- !u!1 &7748161745813290754

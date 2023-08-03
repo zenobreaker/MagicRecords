@@ -1,0 +1,67 @@
+{
+  "optionInfoJson": [
+    {
+      "id": "1",
+      "keycode": "name_normal_crit",
+      "description": "desc_normal_crit",
+      "abilityType": "9",
+      "value": "6"
+    },
+    {
+      "id": "2",
+      "keycode": "name_normal_crit",
+      "description": "desc_normal_crit",
+      "abilityType": "9",
+      "value": "12"
+    },
+    {
+      "id": "3",
+      "keycode": "name_normal_crit",
+      "description": "desc_normal_crit",
+      "abilityType": "9",
+      "value": "24"
+    },
+    {
+      "id": "4",
+      "keycode": "name_normal_hpregen",
+      "description": "desc_normal_hpregen",
+      "abilityType": "6",
+      "value": "2"
+    },
+    {
+      "id": "5",
+      "keycode": "name_normal_hpregen",
+      "description": "desc_normal_hpregen",
+      "abilityType": "6",
+      "value": "4"
+    },
+    {
+      "id": "6",
+      "keycode": "name_normal_hpregen",
+      "description": "desc_normal_hpregen",
+      "abilityType": "6",
+      "value": "6"
+    },
+    {
+      "id": "7",
+      "keycode": "name_normal_mpregen",
+      "description": "desc_normal_mpregen",
+      "abilityType": "8",
+      "value": "2"
+    },
+    {
+      "id": "8",
+      "keycode": "name_normal_mpregen",
+      "description": "desc_normal_mpregen",
+      "abilityType": "8",
+      "value": "4"
+    },
+    {
+      "id": "9",
+      "keycode": "name_normal_mpregen",
+      "description": "desc_normal_mpregen",
+      "abilityType": "8",
+      "value": "6"
+    }
+  ]
+}

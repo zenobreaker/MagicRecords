@@ -12850,6 +12850,7 @@ MonoBehaviour:
     objectID: 0
     playerID: 0
     charStat:
+      myGrade: 0
       level: 0
       totalATK: 0
       totalDEF: 0
@@ -12859,16 +12860,21 @@ MonoBehaviour:
       totalHPR: 0
       totalMPR: 0
       totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
       attack: 0
       defense: 0
       attackSpeed: 0
       hp: 0
       mp: 0
-      hpRecovery: 0
-      mpRecovery: 0
+      hpRegen: 0
+      mpRegen: 0
       speed: 0
+      critRate: 0
+      critDmg: 0
       exp: 0
       maxExp: 0
+      giveChanceExp: 0
       extraStat:
         extraAttack: 0
         extraAttackSpeed: 0
@@ -12878,6 +12884,9 @@ MonoBehaviour:
         extraMP: 0
         extraHPR: 0
         extraMPR: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+    selectRecordInfos: []
 --- !u!1 &364384027 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3912769956927481650, guid: fc6992726f9bced4287b73b99a852907,
@@ -44537,7 +44546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93439973c7ffaf4386f46614fb4cabf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optionInfoJsonData: {fileID: 0}
+  optionInfoJsonData: {fileID: 4900000, guid: f2e3804dc3e6693428bd25ab139fbeb6, type: 3}
   specialOptionJsonData: {fileID: 4900000, guid: 4960cc754b0daf046ab2303c8a0bfad0,
     type: 3}
 --- !u!1 &1515112959
@@ -47781,6 +47790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   memoryInfoJsonData: {fileID: 4900000, guid: 207f8a38daa662a448842c076a0a3e33, type: 3}
+  selectRecordInfos: []
 --- !u!1001 &1649210814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51111,16 +51121,19 @@ MonoBehaviour:
   - rewardType: 0
     rewardSprite: {fileID: 0}
     value: 0
+    name: 
     description: 
     memoryID: 0
   - rewardType: 0
     rewardSprite: {fileID: 0}
     value: 0
+    name: 
     description: 
     memoryID: 0
   - rewardType: 0
     rewardSprite: {fileID: 0}
     value: 0
+    name: 
     description: 
     memoryID: 0
 --- !u!1 &1779576331
