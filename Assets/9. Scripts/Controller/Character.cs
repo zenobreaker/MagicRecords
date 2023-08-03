@@ -399,7 +399,7 @@ public class Character
             // 없다면 매니저를 통해 할당시킨다. 
             if (RecordManager.instance == null) return;
 
-            record.specialOption = RecordManager.instance.GetSpecialOptionToRecordInfo(record.optionID);
+            record.specialOption = RecordManager.instance.GetSpecialOptionToRecordInfo(record.specialOptionID);
         }
 
 

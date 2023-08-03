@@ -26,12 +26,13 @@ public class SpecialOption
     public float value;         // 효과 수치
     public float duration;      // 효과 유지 시간
     public AbilityType abilityType; // 효과 타입 
-
+    public bool isPercentage;
     public float coolTime;
 
     public SpecialOption(int effectID, string effectName, string description,
-         float value, ConditionType conditionType = ConditionType.NONE, 
-         float duration = 0, AbilityType abilityType = AbilityType.NONE)
+        ConditionType conditionType = ConditionType.NONE, 
+         float duration = 0, AbilityType abilityType = AbilityType.NONE,
+         float value = 0.0f, int isPercentage = 1)
     {
         this.effectID = effectID;      
         this.effectName = effectName;
@@ -40,6 +41,7 @@ public class SpecialOption
         this.value = value;
         this.duration = duration;
         this.abilityType = abilityType;
+        this.isPercentage = isPercentage == 1 ? true : false;
     }
 
     public void SetCoolTime()
@@ -58,8 +60,9 @@ public class SpecialOptionJson
     public string description;
     public int conditionType;
     public float conditionValue;
-    public float value;
     public int abilityType;
+    public float value;
+    public int isPercentage;
 }
 
 
@@ -76,8 +79,9 @@ public class OptionInfoJson
 {
     public int id;
     public string keycode;
-    public float value;
     public string description;
+    public int abilityType;
+    public float value;
 }
 
 
@@ -133,13 +137,13 @@ public class OptionManager : MonoBehaviour
 
             // data에서 conditionType 수정
             ConditionType type = (ConditionType)data.conditionType;
-            float conditionValue = data.value;
             AbilityType abilityType = (AbilityType)data.abilityType;
 
             // 클래스 생성
             SpecialOption specialOption = new SpecialOption(data.id,
-                data.namekeycode, data.description, data.value, type, conditionValue,
-                abilityType);
+                data.namekeycode, data.description, 
+                type, data.conditionValue,
+                abilityType, data.value);
 
             // 딕셔너리에 값 추가
             specialOptionsDictionary.Add(data.namekeycode.ToString(), specialOption);

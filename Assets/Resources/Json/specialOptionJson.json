@@ -2,51 +2,63 @@
   "specialOptionJson": [
     {
       "id": "100001",
-      "namekeycode": "name_crit12dur12",
+      "namekeycode": "name_dur_crit",
       "description": null,
       "conditionType": "1",
       "conditionValue": "12",
-      "value": "0.12"
+      "abilityType": "9",
+      "value": "0.12",
+      "isPercentage": "1"
     },
     {
       "id": "100002",
-      "namekeycode": "name_hpregen5dur5",
+      "namekeycode": "name_dur_hpregen",
       "description": null,
       "conditionType": "1",
-      "conditionValue": "5",
-      "value": "5"
+      "conditionValue": "30",
+      "abilityType": "6",
+      "value": "0.05",
+      "isPercentage": "1"
     },
     {
       "id": "100003",
-      "namekeycode": "name_speed50dur10",
+      "namekeycode": "name_dur_speed",
       "description": null,
       "conditionType": "1",
       "conditionValue": "10",
-      "value": "0.3"
+      "abilityType": "4",
+      "value": "0.3",
+      "isPercentage": "1"
     },
     {
       "id": "100004",
-      "namekeycode": "name_atk10dur30",
+      "namekeycode": "name_dur_atk",
       "description": null,
       "conditionType": "1",
       "conditionValue": "30",
-      "value": "0.1"
+      "abilityType": "1",
+      "value": "0.1",
+      "isPercentage": "1"
     },
     {
       "id": "100005",
-      "namekeycode": "name_def10dur30",
+      "namekeycode": "name_dur_def",
       "description": null,
       "conditionType": "1",
       "conditionValue": "30",
-      "value": "0.1"
+      "abilityType": "3",
+      "value": "0.1",
+      "isPercentage": "1"
     },
     {
       "id": "100006",
-      "namekeycode": "name_atkspd10dur12",
+      "namekeycode": "name_dur_atkspd",
       "description": null,
       "conditionType": "1",
       "conditionValue": "12",
-      "value": "0.1"
+      "abilityType": "2",
+      "value": "0.1",
+      "isPercentage": "1"
     }
   ]
 }
