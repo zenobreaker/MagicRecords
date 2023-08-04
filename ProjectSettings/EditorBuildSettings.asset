@@ -9,12 +9,13 @@ EditorBuildSettings:
     path: Assets/8. Scenes/StartScene.unity
     guid: d721a15f8c2a8b44ba530c3b1e61603f
   - enabled: 1
-    path: Assets/8. Scenes/GameScene.unity
+    path: Assets/8. Scenes/Lobby.unity
     guid: 41ef232e5f6f5984bac1163cfab10f0e
   - enabled: 1
     path: Assets/8. Scenes/LoadingScene.unity
     guid: 2483f375559c9da489bbaf1e340c3eb8
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 23f1d7fedad493e41b808d2084f08669,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 9e6825ef3e7abac4cae4f98f9aa76cbb,
+      type: 2}
