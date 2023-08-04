@@ -131,12 +131,12 @@ public class InfoManual : UiBase
             // 추가로 만들 개수 만큼 만들었다면 탈출 
             if (maxCount <= count) break; 
 
-            var slot = Instantiate(charSlot);
+            var slot = Instantiate(charSlot, tabObject.transform);
             slot.gameObject.SetActive(true);
             charSlotList.Add(slot);
             if (slot.TryGetComponent<CharSlot> (out var _charSlot))
             {
-                _charSlot.gameObject.transform.SetParent(tabObject.transform);
+                //_charSlot.gameObject.transform.SetParent(tabObject.transform);
                 // 플레이어 정보 세팅
                 _charSlot.SetPlayer(player);
                 // 콜백 함수 연결 
