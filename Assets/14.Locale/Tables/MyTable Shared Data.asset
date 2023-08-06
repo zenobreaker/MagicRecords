@@ -15,8 +15,96 @@ MonoBehaviour:
   m_TableCollectionName: MyTable
   m_TableCollectionNameGuidString: a5096bdddee18684689f866c548eab8b
   m_Entries:
-  - m_Id: 278823546880
+  - m_Id: 360667407036416
     m_Key: name_pond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360667407036417
+    m_Key: 'name_falco '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360667411230720
+    m_Key: name_noname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446336
+    m_Key: name_lackofsleep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446337
+    m_Key: name_bumpertobumper
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446338
+    m_Key: name_overconsumption
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446339
+    m_Key: name_kindguidance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446340
+    m_Key: name_boost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446341
+    m_Key: name_crime
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446342
+    m_Key: name_unshinystar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446343
+    m_Key: name_swiftness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095670640640
+    m_Key: name_delusion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095670640641
+    m_Key: name_starsmemory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095670640642
+    m_Key: name_slipstream
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997376
+    m_Key: name_dur_crit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997377
+    m_Key: name_dur_hpregen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997378
+    m_Key: name_dur_speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997379
+    m_Key: name_dur_atk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997380
+    m_Key: name_dur_def
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997381
+    m_Key: name_dur_atkspd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997382
+    m_Key: name_normal_crit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997383
+    m_Key: name_normal_hpregen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997384
+    m_Key: name_normal_mpregen
     m_Metadata:
       m_Items: []
   m_Metadata:

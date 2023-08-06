@@ -53,7 +53,16 @@ public class RewardCardSlot : MonoBehaviour
 
         icon.sprite = sprite;
 
-        nameText.text = name;
+        // 받는건 키코드기 때문에 랭귀지매니저에게 변역요청을 해본다 .
+        if(LanguageManager.Instance == null)
+        {
+            // 없다면 그냥 키코드채로 부활시켜놓기 
+            nameText.text = name;
+        }
+        else
+        {
+            nameText.text = LanguageManager.Instance.GetLocaliztionValue(name);
+        }
 
         text.text = desc; 
     }
