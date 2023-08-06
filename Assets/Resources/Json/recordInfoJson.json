@@ -5,77 +5,77 @@
       "namekeycode": "name_lackofsleep",
       "description": null,
       "grade": "1",
-      "optionID": "100001"
+      "specialOptionID": "100001"
     },
     {
       "id": "2",
       "namekeycode": "name_bumpertobumper",
       "description": null,
       "grade": "1",
-      "optionID": "100001"
+      "specialOptionID": "100001"
     },
     {
       "id": "3",
       "namekeycode": "name_overconsumption",
       "description": null,
       "grade": "2",
-      "optionID": "100001"
+      "specialOptionID": "100001"
     },
     {
       "id": "4",
       "namekeycode": "name_kindguidance",
       "description": null,
       "grade": "2",
-      "optionID": "100002"
+      "specialOptionID": "100002"
     },
     {
       "id": "5",
       "namekeycode": "name_boost",
       "description": null,
       "grade": "2",
-      "optionID": "100002"
+      "specialOptionID": "100002"
     },
     {
       "id": "6",
       "namekeycode": "name_crime",
       "description": null,
       "grade": "2",
-      "optionID": "100002"
+      "specialOptionID": "100002"
     },
     {
       "id": "7",
       "namekeycode": "name_unshinystar",
       "description": null,
       "grade": "3",
-      "optionID": "100002"
+      "specialOptionID": "100002"
     },
     {
       "id": "8",
       "namekeycode": "name_swiftness",
       "description": null,
       "grade": "3",
-      "optionID": "100002"
+      "specialOptionID": "100002"
     },
     {
       "id": "9",
       "namekeycode": "name_delusion",
       "description": null,
       "grade": "3",
-      "optionID": "100003"
+      "specialOptionID": "100003"
     },
     {
       "id": "10",
       "namekeycode": "name_starsmemory",
       "description": null,
       "grade": "3",
-      "optionID": "100003"
+      "specialOptionID": "100003"
     },
     {
       "id": "11",
       "namekeycode": "name_slipstream",
       "description": null,
       "grade": "3",
-      "optionID": "100003"
+      "specialOptionID": "100003"
     }
   ]
 }

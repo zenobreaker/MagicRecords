@@ -22,7 +22,7 @@ public class RewardCardSlot : MonoBehaviour
 
     private void OnEnable()
     {
-        DrawInitUI();
+       // DrawInitUI();
     }
 
     private void OnDisable()
@@ -58,13 +58,14 @@ public class RewardCardSlot : MonoBehaviour
         {
             // 없다면 그냥 키코드채로 부활시켜놓기 
             nameText.text = name;
+            text.text = desc;
         }
         else
         {
             nameText.text = LanguageManager.Instance.GetLocaliztionValue(name);
+            text.text = LanguageManager.Instance.GetLocaliztionValue(desc); 
         }
 
-        text.text = desc; 
     }
 
     public void DrawSelectUI(bool active)

@@ -12,12 +12,12 @@ using UnityEngine;
 public class RecordInfo
 {
     public int id;          // 식별 id
-    public string name;     // 메모리 이름
-    public string description; // 메모리 설명 
-    public int grade;       // 메모리 등급
+    public string name;     // 레코드 이름
+    public string description; // 레코드설명 
+    public int grade;       // 레코드 등급
     public int specialOptionID;
-    public string spritePath;   // 메모리 스프라이트 경로
-    public SpecialOption specialOption; // 메모리 효과 
+    public string spritePath;   // 레코드 스프라이트 경로
+    public SpecialOption specialOption; // 레코드 효과 
     public RecordInfo(int id, string name, string description, int grade, int specialOptionID)
     {
         this.id = id;

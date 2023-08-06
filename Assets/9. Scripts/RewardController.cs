@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using static ChoiceAlert;
+using Newtonsoft.Json.Serialization;
 
-public enum RewardType { NONE = 0, COIN, EXP, ITEM, MEMORY}
+public enum RewardType { NONE = 0, COIN, EXP, ITEM, RECORD}
 [System.Serializable]
 public class RewardCard
 {
@@ -14,7 +15,7 @@ public class RewardCard
     public float value;         // 보상 수치 
     public string name; 
     public string description;
-    public int memoryID;
+    public int recordID;
 
     public RewardCard(RewardType rewardType, Sprite rewardSprite, string name, float value)
     {
@@ -25,9 +26,9 @@ public class RewardCard
         SetDescriptionByType();
     }
 
-    public void CreateMemoryReward(int memoryID)
+    public void CreateMemoryReward(int recordID)
     {
-        this.memoryID = memoryID;
+        this.recordID = recordID;
         SetDescriptionByType();
     }
 
@@ -42,19 +43,23 @@ public class RewardCard
                 break;
             case RewardType.EXP:
                 break;
-            case RewardType.MEMORY:
+            case RewardType.RECORD:
                 // 메모리라면 해당 메모리의 문구를 가져온다.
                 if (RecordManager.instance != null)
                 {
-                    var memory = RecordManager.instance.GetRecordInfoByID(memoryID);
-                    if (memory == null)
+                    var record = RecordManager.instance.GetRecordInfoByID(recordID);
+                    if (record == null)
                     {
                         break; 
                     }
 
-                    description = memory.description;
-                }
+                    if(record.specialOption == null)
+                    {
+                        record.specialOption = RecordManager.instance.GetSpecialOptionToRecordInfo(recordID);
+                    }
 
+                    description = record.specialOption.effectName;
+                }
                 break;
 
         }
@@ -200,14 +205,14 @@ public class RewardController : MonoBehaviour
 
         rewardCards.Clear();
         // 보상 카드 리스트 세팅
-        foreach(var memory in list)
+        foreach(var record in list)
         {
-            if (memory == null) continue;
+            if (record == null) continue;
 
-            Sprite sprite = Resources.Load<Sprite>(memory.spritePath);
+            Sprite sprite = Resources.Load<Sprite>(record.spritePath);
             // 카드에 데이터 넣어준다. 
-            RewardCard rewardCard = new RewardCard(RewardType.MEMORY, sprite, memory.name, 0.0f);
-            rewardCard.CreateMemoryReward(memory.id);
+            RewardCard rewardCard = new RewardCard(RewardType.RECORD, sprite, record.name, 0.0f);
+            rewardCard.CreateMemoryReward(record.id);
             rewardCards.Add(rewardCard);
         }
 
@@ -323,11 +328,11 @@ public class RewardController : MonoBehaviour
 
         var reward = rewardCards[selectIndex];
         // todo. 타입별로 기능이 추가되면 여기도 추가해야한다. 
-        if(reward.rewardType == RewardType.MEMORY)
+        if(reward.rewardType == RewardType.RECORD)
         { 
             if(RecordManager.instance != null)
             {
-                RecordManager.instance.SelectRecord(reward.memoryID);
+                RecordManager.instance.SelectRecord(reward.recordID);
             }
         }
 
