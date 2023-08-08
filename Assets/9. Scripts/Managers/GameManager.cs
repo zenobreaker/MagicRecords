@@ -441,4 +441,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 방어자에게 공격자 정보(Transform) 전달하기 
+
+    public void SetAttakerTrasnform(Character attacker, Character defender)
+    {
+        if (attacker == null && defender == null) return; 
+
+        
+    }
+
 }

@@ -8,9 +8,10 @@ public class BulletRainTrigger : MonoBehaviour
 
     int damage;
 
-    public void ExecutexBulletRain(int _count = 10)
+    public void ExecutexBulletRain(int _count = 10, Character own = null,
+        Transform transform = null, float damageRate = 1.0f)
     {
-        StartCoroutine(BulletRain(_count));
+        StartCoroutine(BulletRain(_count, own, transform, damageRate));
     }
 
     public void SetDamage(int _damage)
@@ -18,7 +19,8 @@ public class BulletRainTrigger : MonoBehaviour
         damage = _damage;
     }
 
-    IEnumerator BulletRain(int count = 10)
+    IEnumerator BulletRain(int count = 10, Character own = null, 
+        Transform transform = null, float damageRate= 1.0f)
     {
         while (count > 0)
         {
@@ -29,6 +31,7 @@ public class BulletRainTrigger : MonoBehaviour
             //Instantiate(go_Bullet, randPos, Quaternion.Euler(new Vector3(-90,0,0)));
             // 총알 생성 
             var bullet = ObjectPooler.SpawnFromPool<MyBullet>("BulletRain", randPos);
+
             bullet.MyDamage = damage;
            // bullet.GetComponent<SkillAttackArea>().skillDamage = damage;
             //clone.transform.position = randPos;

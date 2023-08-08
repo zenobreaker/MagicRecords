@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-
+    public Character weaponOwn;     // 무기 소유주
     public Animator MyAnim { get; set; }
 
-    public int power = 0; 
+    public float dmageRate = 1.0f;
+    public int damage = 0;
+    public float critRate = 0.0f;
+    public float critDamage = 0.0f;
+
 
     [Header("총")]
     [SerializeField]
@@ -41,6 +45,19 @@ public class WeaponController : MonoBehaviour
     {
         FireRateCalc();
         //TryFire();
+    }
+
+    public void SetWeaponOwn(Character own)
+    {
+        weaponOwn = own; 
+    }
+
+    public void SetDamageAndCrit(float dmageRate, int damage, float chance, float critDmamge)
+    {
+        this.dmageRate = dmageRate;
+        this.damage = damage;
+        this.critRate = chance;
+        this.critDamage = critDmamge;
     }
 
     void FireRateCalc()
@@ -83,12 +100,12 @@ public class WeaponController : MonoBehaviour
     }
 
 
-    private void CreateBullet(int _dmg)
+    private void CreateBullet()
     {
         //float pc_Rotation = 10.0f;// PlayerControl.MyInstance.TargetRotation;
-        var clone = ObjectPooler.SpawnFromPool<MyBullet>("Bullet", currentGun.go_Muzzle.transform.position,
-            currentGun.go_Muzzle.transform.rotation);
-        clone.MyDamage = _dmg;
+        var clone = ObjectPooler.SpawnFromPool<MyBullet>("Bullet", currentGun.go_Muzzle.transform);
+        //clone.SetDamageAndCrit(dmageRate, damage, critRate, critDamage);
+        clone.AttackOwn = weaponOwn;
         //clone.transform.position = currentGun.go_Muzzle.transform.position;
         //clone.transform.rotation = currentGun.go_Muzzle.transform.rotation;
         //clone.GetComponent<MyBullet>().MyDamage = _dmg;
@@ -119,7 +136,7 @@ public class WeaponController : MonoBehaviour
     {
         ShotSoundPlay();
         currentGun.ps_MuzzleFlash.Play();
-        CreateBullet(power);
+        CreateBullet();
     }
 
 
@@ -127,6 +144,6 @@ public class WeaponController : MonoBehaviour
     {
         SoundManager.instance.PlaySE(currentGun.sound_Fire2);
         currentGun.ps_MuzzleFlash.Play();
-        CreateBullet((int)(power * 1.2f));
+        CreateBullet();
     }
 }

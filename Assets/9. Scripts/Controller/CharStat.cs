@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class CharStat
 {
+    public float baseCritDamage = 150.0f;
+
     public MonsterGrade myGrade;
     public int level;
     // 통상 장비나 레벨업 같은 스탯이 적용되어 보이는 스탯들 
@@ -145,7 +147,7 @@ public class CharStat
         totalMPR = extraStat.extraMPR + resultMPR;
         totalSPD = extraStat.extraSpeed + resultSPD;
         totalCritRate = extraStat.extraCritRate + critRate;
-        totalCritDmg = extraStat.extraCritDmg + critDmg;
+        totalCritDmg =  baseCritDamage + extraStat.extraCritDmg + critDmg;
     }
 
 }

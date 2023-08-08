@@ -209,7 +209,7 @@ public class MonsterBase : CharacterController
 
     public override void Damage(int _damage)
     {
-        player.MyCurrentMP -= _damage;
+        player.MyCurrentHP -= _damage;
     }
 
     public override void Damage(int _damage, Vector3 _targetPos)
