@@ -127,9 +127,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a6a593c719d0349b1a0d9a511cc5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackOwnTransform: {fileID: 0}
+  damageRate: 1
+  damage: 0
+  critRate: 0
+  critDamage: 0
+  recoveryTime: 0
+  hitCount: 0
+  isContiued: 0
+  notPool: 1
   power: 0
   disableTime: 1.2
-  status: {fileID: 0}
+  attackOwn:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 0
+      myGrade: 0
+      level: 0
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraAttackSpeed: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+    selectRecordInfos: []
   collider: {fileID: 2693930549956227256}
   ani: {fileID: 8051155896949976787}
 --- !u!1 &2653462365812280479
@@ -177,10 +227,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6651f6b8544d4bf459c6ea82547632bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myType: 0
-  maxHp: 0
+  myGrade: 0
+  maxHP: 0
+  maxMP: 0
   attack: 0
   attackDelay: 0
   walkSpeed: 0
-  deffence: 0
+  defence: 0
   exp: 0
+  pattern: 0

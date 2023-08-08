@@ -1332,3 +1332,31 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 12617.867613 seconds.
+  path: Assets/7. Prefab/Effects/TreeAttack.prefab
+  artifactKey: Guid(f6e6e7221e0b42643b81417b7cf8ed7f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/7. Prefab/Effects/TreeAttack.prefab using Guid(f6e6e7221e0b42643b81417b7cf8ed7f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2b7d4f02eeb0ecec53fe8be1f855cdd2') in 0.687665 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 80.927505 seconds.
+  path: Assets/Resources/Prefabs/Monster/Enemy02.prefab
+  artifactKey: Guid(c15387e2d5ae19544b059f013fb7d825) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Prefabs/Monster/Enemy02.prefab using Guid(c15387e2d5ae19544b059f013fb7d825) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7ba10972d5fa833087a071922f35d95b') in 0.328935 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/Resources/Prefabs/Monster/Slime.prefab
+  artifactKey: Guid(241524eec4421d34b8c8054987bf62ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Prefabs/Monster/Slime.prefab using Guid(241524eec4421d34b8c8054987bf62ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7492a1b2b8fb601e92171d095e7f96d9') in 0.111958 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/Resources/Prefabs/Monster/TestMon.prefab
+  artifactKey: Guid(78bce09bef096a8468a64662e7dd984e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Prefabs/Monster/TestMon.prefab using Guid(78bce09bef096a8468a64662e7dd984e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36f1c185a6b40855ce6f94742f23741d') in 0.016081 seconds 
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0

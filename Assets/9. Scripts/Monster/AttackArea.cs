@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackArea : MonoBehaviour
+public class AttackArea : AttackObject
 {
     // todo skillattackarea와 개념이 비슷한거같으니 공용으로 쓸 수 있도록 합치는 작업이 필요할거같다. 
     // 적들이 쓰는 공격 판정 클래스.. 
@@ -11,14 +11,9 @@ public class AttackArea : MonoBehaviour
     public Character attackOwn; 
 
     [SerializeField]
-    private Status status = null;
-
-    [SerializeField]
     private new Collider collider = null;
 
     [SerializeField] Animation ani = null;
-
-    public BuffStock buff;
 
 
     public void SetPower(int _power)
