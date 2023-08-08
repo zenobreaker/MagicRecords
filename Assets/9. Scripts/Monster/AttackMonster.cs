@@ -36,7 +36,7 @@ public class AttackMonster : MonsterBase
         // 공격범위 초기화 
         for (int i = 0; i < attackRanges.Length; i++)
         {
-            attackRanges[i].SetDisableCollider();
+            //attackRanges[i].SetDisableCollider();
         }
 
         if(player.MyStat == null)
@@ -258,8 +258,8 @@ public class AttackMonster : MonsterBase
             p_currentPattern < attackRanges.Length &&
             attackRanges[p_currentPattern] != null)
         {
-            attackRanges[p_currentPattern].attackOwn = player;
-            attackRanges[p_currentPattern].SetPower(player.MyTotalAttack);
+            //attackRanges[p_currentPattern].attackOwn = player;
+            attackRanges[p_currentPattern].SetAttackInfo(player, transform);
         }
 
         anim.SetFloat("AttackSpeed", 1.0f);

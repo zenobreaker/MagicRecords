@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1910226018534452871}
   - {fileID: 782276965181103463}
@@ -38,7 +39,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1661029430158842451
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -51,10 +52,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &4026217738647017148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +99,7 @@ Transform:
   m_LocalRotation: {x: -0.06537146, y: 2.0486904e-10, z: -0.000000015585778, w: 0.997861}
   m_LocalPosition: {x: 0, y: 1.0723541, z: 0.8299999}
   m_LocalScale: {x: 1, y: 1.0129638, z: 0.9926413}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1661029430158842450}
   m_RootOrder: 2
@@ -125,9 +129,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a6a593c719d0349b1a0d9a511cc5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackOwnTransform: {fileID: 0}
+  damageRate: 1
+  damage: 0
+  critRate: 0
+  critDamage: 0
+  recoveryTime: 0
+  hitCount: 0
+  isContiued: 0
+  notPool: 1
   power: 0
   disableTime: 0
-  status: {fileID: 0}
+  attackOwn:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 0
+      myGrade: 0
+      level: 0
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraAttackSpeed: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+    selectRecordInfos: []
   collider: {fileID: 1661029430172429421}
   ani: {fileID: 0}
 --- !u!1 &2166243959236582757
@@ -156,6 +210,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0.000000083185554, z: -0.000000085401865, w: 0.7071067}
   m_LocalPosition: {x: -0, y: 0, z: 0.00029092416}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7671412701949614420}
   m_Father: {fileID: 1910226018534452871}
@@ -189,6 +244,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1661029430158842450}
   m_RootOrder: 3
@@ -205,9 +261,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a6a593c719d0349b1a0d9a511cc5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackOwnTransform: {fileID: 0}
+  damageRate: 1
+  damage: 0
+  critRate: 0
+  critDamage: 0
+  recoveryTime: 0
+  hitCount: 0
+  isContiued: 0
+  notPool: 1
   power: 0
   disableTime: 0
-  status: {fileID: 0}
+  attackOwn:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 0
+      myGrade: 0
+      level: 0
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraAttackSpeed: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+    selectRecordInfos: []
   collider: {fileID: 5593078786926289141}
   ani: {fileID: 0}
 --- !u!136 &5593078786926289141
@@ -251,6 +357,7 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1661029430158842450}
   m_RootOrder: 1
@@ -266,6 +373,7 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -342,6 +450,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1661029430158842450}
   m_Father: {fileID: 0}
@@ -543,6 +652,7 @@ Transform:
   m_LocalRotation: {x: -2.230258e-28, y: 0.00000011920929, z: -4.4564356e-23, w: 1}
   m_LocalPosition: {x: -3.469426e-19, y: 0.011663909, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1331147167919614485}
   m_Father: {fileID: 811223407731147835}
@@ -574,6 +684,7 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 67.10007, y: 100, z: 56.76558}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 811223407731147835}
   m_Father: {fileID: 1661029430158842450}
@@ -605,6 +716,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0.00867298, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7671412701949614420}
   m_RootOrder: 0

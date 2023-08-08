@@ -42,7 +42,7 @@ public class Slime : AttackMonster
         yield return new WaitForSeconds(1.2f);  
          Vector3 t_Pos = transform.localPosition + (transform.forward * 1.5f );
         var clone = Instantiate(attackEffect[0], t_Pos, transform.localRotation);
-        
+        attackRanges[currentPattern].SetAttackInfo(player, transform);
         clone.Play();
         yield return new WaitForSeconds(0.8f);
         
@@ -57,7 +57,7 @@ public class Slime : AttackMonster
         if (attackRanges.Length > 0 &&
            MaxPattern != 0 &&
            attackRanges[currentPattern] != null && 
-           currentPattern <= attackRanges.Length)
+           currentPattern < attackRanges.Length)
         {
             // AttackMonster에서 호출하니 여긴 주석
             //attackRange.GetComponent<AttackArea>().power = status.MyAttack;
@@ -67,7 +67,7 @@ public class Slime : AttackMonster
             }
             else if(attackRanges[currentPattern] != null  && isOn  == false)
             {
-                attackRanges[currentPattern].SetDisableCollider();
+               attackRanges[currentPattern].SetDisableCollider();
             }
 
         }
@@ -82,7 +82,8 @@ public class Slime : AttackMonster
 
         if(attackRanges[currentPattern] != null)
         {
-            attackRanges[currentPattern].SetPower( Mathf.RoundToInt(player.MyTotalAttack * 1.3f));
+            //attackRanges[currentPattern].SetPower( Mathf.RoundToInt(player.MyTotalAttack * 1.3f));
+            attackRanges[currentPattern].SetAttackInfo(player, transform, 1.3f);
         }
 
         //rigid.AddForce( Vector3.up * 5f,ForceMode.Impulse);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,9 +25,10 @@ public class AttackObject : MonoBehaviour
     // 이 공격 기술이 가질 버프들 
     public BuffStock buff = new BuffStock(Buff.NONE, Debuff.NONE, false, 0, 0, false);
 
-
     public delegate void Callback();
     protected Callback callback;
+
+    public bool notPool = false;
 
     public Character AttackOwn
     {
@@ -41,7 +43,12 @@ public class AttackObject : MonoBehaviour
     }
 
     protected void OnDisable()
-    {
+    {    
+        if(notPool == true)
+        {
+            return; 
+        }
+
         ObjectPooler.ReturnToPool(gameObject);
         if (callback != null)
         {
