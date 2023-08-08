@@ -15,9 +15,6 @@ public class MyBullet : Bullet
 
     [SerializeField] Type myType = Type.NORMAL;
 
-    // 버프
-    public BuffStock buff;
-
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -59,7 +56,10 @@ public class MyBullet : Bullet
                     if (other.transform.CompareTag("Monster")) //닿은 대상에 태그가 "Monster"라면
                     {
                         IncreaseCP();
-                        other.transform.GetComponentInParent<MonsterBase>().Damaged(damage, pos);
+                        if (other.transform.TryGetComponent<CharacterController>(out CharacterController component))
+                        {
+                            component.DealDamage(AttackOwn, attackOwnTransform);
+                        }
                         // 해당 transform에 들어있는 Object컴포넌트에 Damgaed메소드를 호출하여 damge값 전달
                     }
                     if (Type.ICE == myType)
@@ -89,7 +89,7 @@ public class MyBullet : Bullet
                         {
 
                             skillArea.enabled = true;
-                            skillArea.skillDamage = MyDamage;
+                            skillArea.damage = MyDamage;
                             // 콜라이더를 찾아서 콜라이더 기능을 켠다.
                             if(boomEffect.TryGetComponent<SphereCollider>(out var collider))
                             {

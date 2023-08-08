@@ -43,8 +43,10 @@ public class ObjectPooler : MonoBehaviour
 		"    CancelInvoke();    // Monobehaviour에 Invoke가 있다면 \n}";
 
 
+	public static GameObject SpawnFromPool(string tag, Transform trasnform) =>
+		Instance._SpawnFromPool(tag, trasnform.position, trasnform.rotation);
 
-	public static GameObject SpawnFromPool(string tag, Vector3 position) =>
+    public static GameObject SpawnFromPool(string tag, Vector3 position) =>
 		Instance._SpawnFromPool(tag, position, Quaternion.identity);
 
 	public static GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation) =>
@@ -62,7 +64,7 @@ public class ObjectPooler : MonoBehaviour
 		}
 	}
 
-	public static T SpawnFromPool<T>(string tag, Vector3 position, Quaternion rotation) where T : Component
+    public static T SpawnFromPool<T>(string tag, Vector3 position, Quaternion rotation) where T : Component
 	{
 		GameObject obj = Instance._SpawnFromPool(tag, position, rotation);
 		if (obj.TryGetComponent(out T component))
@@ -74,7 +76,19 @@ public class ObjectPooler : MonoBehaviour
 		}
 	}
 
-	public static List<GameObject> GetAllPools(string tag)
+    public static T SpawnFromPool<T>(string tag, Transform trasnform) where T : Component
+    {
+        GameObject obj = Instance._SpawnFromPool(tag, trasnform.position, trasnform.rotation);
+        if (obj.TryGetComponent(out T component))
+            return component;
+        else
+        {
+            obj.SetActive(false);
+            throw new Exception($"Component not found");
+        }
+    }
+
+    public static List<GameObject> GetAllPools(string tag)
 	{
 		if (!Instance.poolDictionary.ContainsKey(tag))
 			throw new Exception($"Pool with tag {tag} doesn't exist.");

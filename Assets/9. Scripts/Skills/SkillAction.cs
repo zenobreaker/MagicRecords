@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SkillAction : MonoBehaviour
 {
+    public Character skillOwn; 
 
     public bool isAction = false;
 
@@ -96,10 +97,9 @@ public class SkillAction : MonoBehaviour
         isAction = true;
 
         var clone1 = ObjectPooler.SpawnFromPool<Bullet>("Reinforced",
-            weaponController.MyWeapon.go_Muzzle.transform.position,
-            weaponController.MyWeapon.go_Muzzle.transform.rotation);
+            weaponController.MyWeapon.go_Muzzle.transform);
 
-
+        clone1.SetAttackInfo(skillOwn, transform, (float)selectedSkill.MyDamage / 100);
         clone1.MyDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
         yield return null;
 
@@ -114,11 +114,12 @@ public class SkillAction : MonoBehaviour
         float actionTime = selectedSkill.MyCastTime;
 
         var clone1 = ObjectPooler.SpawnFromPool<SkillAttackArea>("PlasmaRay",
-            weaponController.MyWeapon.go_Muzzle.transform.position,
-            weaponController.MyWeapon.go_Muzzle.transform.rotation);
+            weaponController.MyWeapon.go_Muzzle.transform);
         clone1.hitCount = selectedSkill.hitCount;
-        clone1.skillDamage = Mathf.RoundToInt(power * (float)selectedSkill.MyDamage / 100);
+        clone1.damage = Mathf.RoundToInt(power * (float)selectedSkill.MyDamage / 100);
+        clone1.SetAttackInfo(skillOwn, transform, (float)selectedSkill.MyDamage / 100);
 
+        // todo 아래 로직은 수정이 필요하다.?
         myAnimator.SetFloat("AttackSpeed", 0f);
 
         if (clone1 != null)
@@ -145,13 +146,12 @@ public class SkillAction : MonoBehaviour
         float actionTime = selectedSkill.MyCastTime;
         yield return new WaitForSeconds(actionTime);
 
-        var clone1 = ObjectPooler.SpawnFromPool("IceBullet", weaponController.MyWeapon.go_Muzzle.transform.position,
-            weaponController.MyWeapon.go_Muzzle.transform.rotation);
+        var clone1 = ObjectPooler.SpawnFromPool("IceBullet", 
+            weaponController.MyWeapon.go_Muzzle.transform);
         if (clone1.TryGetComponent<MyBullet>(out var bullet))
         {
             bullet.MyDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
-
-
+            bullet.SetAttackInfo(skillOwn, transform);
             // 디버프 생성 
             // 빙결 디버프 기준  - 어차피 삭제할 스킬 
             // 빙결 지속 시간 - Sqrt(스킬 레벨 비례 (기본 1초) * 10)
@@ -199,15 +199,13 @@ public class SkillAction : MonoBehaviour
         for (int i = 0; i < qAngles.Length; i++)
         {
             myAnimator.SetTrigger("FinalAttack");
-            var clone = ObjectPooler.SpawnFromPool<MyBullet>("SpreadBullet", weaponController.MyWeapon.go_Muzzle.transform.position,
+            var clone = ObjectPooler.SpawnFromPool<MyBullet>(
+                "SpreadBullet", weaponController.MyWeapon.go_Muzzle.transform.position,
             qAngles[i] * weaponController.MyWeapon.go_Muzzle.transform.rotation);
-            clone.MyDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
-            //Debug.Log(i + "번 보냄" + clone.name);
-            //  clone.transform.position = weaponController.MyWeapon.go_Muzzle.transform.position;
-            //clone.transform.rotation = 
-            //clone.SetActive(true);
-        }
+            clone.SetAttackInfo(skillOwn, transform, (float)selectedSkill.MyDamage / 100);
 
+            clone.MyDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
+        }
 
         yield return null;
         RunSkillFinsihCallback();
@@ -222,12 +220,12 @@ public class SkillAction : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             myAnimator.SetTrigger("Attack");
-            var clone = ObjectPooler.SpawnFromPool<MyBullet>("Consecutive", weaponController.MyWeapon.go_Muzzle.transform.position,
+            var clone = ObjectPooler.SpawnFromPool<MyBullet>(
+                "Consecutive", weaponController.MyWeapon.go_Muzzle.transform.position,
                 weaponController.MyWeapon.go_Muzzle.transform.rotation);
+
+            clone.SetAttackInfo(skillOwn, transform, (float)selectedSkill.MyDamage / 100);
             clone.MyDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
-            //clone.transform.position = weaponController.MyWeapon.go_Muzzle.transform.position;
-            //clone.transform.localRotation = weaponController.MyWeapon.go_Muzzle.transform.rotation;
-            //clone.SetActive(true);
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -240,15 +238,12 @@ public class SkillAction : MonoBehaviour
     {
         yield return new WaitForSeconds(selectedSkill.MyCastTime);
 
-        var clone = ObjectPooler.SpawnFromPool<MyBullet>("SprialBullet", weaponController.MyWeapon.go_Muzzle.transform.position,
+        var clone = ObjectPooler.SpawnFromPool<MyBullet>("SprialBullet", 
+            weaponController.MyWeapon.go_Muzzle.transform.position,
              weaponController.MyWeapon.go_Muzzle.transform.rotation);
+        clone.SetAttackInfo(skillOwn, transform, (float)selectedSkill.MyDamage / 100);
         clone.MyDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
-        //clone1.transform.position = weaponController.MyWeapon.go_Muzzle.transform.position;
-        //clone1.transform.rotation = weaponController.MyWeapon.go_Muzzle.transform.rotation;
-        //clone1.GetComponent<SkillAttackArea>().hitCount = 10;
         Debug.Log("스킬댐 " + (float)selectedSkill.MyDamage / 100);
-        //  clone1.GetComponent<SkillAttackArea>().skillDamage =  Mathf.RoundToInt((float)CharStat.instance.c_attack * ((float)selectedSkill.MyDamage / 100));
-        // clone1.SetActive(true);
 
         yield return null;
         RunSkillFinsihCallback();
@@ -267,8 +262,8 @@ public class SkillAction : MonoBehaviour
         var clone = Instantiate(selectedSkill.MySkillPrefab, pos, Quaternion.identity);
 
         // clone.GetComponent<BulletRainTrigger>().SetDamage(Mathf.RoundToInt((float)CharStat.instance.c_attack * ((float)selectedSkill.MyDamage / 100)));
-        clone.GetComponent<BulletRainTrigger>().ExecutexBulletRain();
-        clone.GetComponent<BulletRainTrigger>().SetDamage(power);
+        clone.GetComponent<BulletRainTrigger>().ExecutexBulletRain(10, 
+            skillOwn, transform);
 
         yield return null;
         RunSkillFinsihCallback();
@@ -282,9 +277,8 @@ public class SkillAction : MonoBehaviour
         Vector3 pos = new Vector3(weaponController.MyWeapon.go_Muzzle.transform.position.x, 0, weaponController.MyWeapon.go_Muzzle.transform.position.z);
         pos = pos + transform.forward * 3f;
         var clone = ObjectPooler.SpawnFromPool<SkillAttackArea>("Extream", pos);
-        clone.MasterTR = transform;
-        clone.skillDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
-
+        clone.SetAttackInfo(skillOwn, transform, (float)selectedSkill.MyDamage / 100);
+        //clone.MyDamage = Mathf.RoundToInt((float)power * ((float)selectedSkill.MyDamage / 100));
 
         yield return null;
         RunSkillFinsihCallback();

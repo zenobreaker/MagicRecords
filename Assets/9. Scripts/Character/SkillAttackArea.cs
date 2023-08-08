@@ -5,25 +5,10 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SkillAttackArea : MonoBehaviour
+public class SkillAttackArea : AttackObject
 {
-    public Transform MasterTR { get; set; }
-
-    public int skillDamage;
-    public int hitCount;
-    
-    public bool isContiued; // 연속공격인가?
-    
-    public float recoveryTime;
-    private bool isAction = false;
-    private int curHitCount = 0;
-
-    public delegate void Callback();
-    private Callback callback;
-
     [SerializeField] private ParticleSystem ps_SkillMainEffect;
 
-    public BuffStock buff;
 
     private void Start()
     {
@@ -51,20 +36,6 @@ public class SkillAttackArea : MonoBehaviour
     }
 
 
-    protected void OnDisable()
-    {
-        ObjectPooler.ReturnToPool(gameObject);
-        if (callback != null)
-        {
-            callback.Invoke();
-        }
-    }
-
-    public void SetFinishCallback(Callback _callback)
-    {
-        callback = _callback;
-    }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -73,7 +44,7 @@ public class SkillAttackArea : MonoBehaviour
             Debug.Log("여기 검사  :" + this.gameObject.name);
         
             Debug.Log("대미지 줌");
-            other.transform.GetComponentInParent<MonsterBase>().Damage(skillDamage, this.transform.position);
+            other.transform.GetComponentInParent<CharacterController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
             // 디버프가 있다면 던진다. 
             if (other.TryGetComponent<CharacterController>(out var chararcter))
             {
@@ -103,7 +74,8 @@ public class SkillAttackArea : MonoBehaviour
                 isAction = false;
 
                 Debug.Log("대미지 줌");
-                other.transform.GetComponentInParent<MonsterBase>().Damage(skillDamage, this.transform.position);
+                //other.transform.GetComponentInParent<CharacterController>().Damage(damage, this.transform.position);
+                other.transform.GetComponent<CharacterController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
                 // 디버프가 있다면 던진다. 
                 if (other.TryGetComponent<CharacterController>(out var chararcter))
                 {

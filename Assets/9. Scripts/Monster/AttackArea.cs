@@ -8,6 +8,7 @@ public class AttackArea : MonoBehaviour
     // 적들이 쓰는 공격 판정 클래스.. 
     public int power;
     public float disableTime;
+    public Character attackOwn; 
 
     [SerializeField]
     private Status status = null;
@@ -54,7 +55,7 @@ public class AttackArea : MonoBehaviour
         if (other.transform.CompareTag("Player"))
         {
             Debug.Log("캐릭터 히트됨!");
-            other.GetComponent<PlayerControl>().Damage(power);
+            other.GetComponent<PlayerControl>().DealDamage(attackOwn);
             collider.enabled = false;
 
             // 디버프가 있다면 던진다. 

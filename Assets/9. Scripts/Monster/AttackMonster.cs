@@ -258,6 +258,7 @@ public class AttackMonster : MonsterBase
             p_currentPattern < attackRanges.Length &&
             attackRanges[p_currentPattern] != null)
         {
+            attackRanges[p_currentPattern].attackOwn = player;
             attackRanges[p_currentPattern].SetPower(player.MyTotalAttack);
         }
 

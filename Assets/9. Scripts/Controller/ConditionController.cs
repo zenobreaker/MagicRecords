@@ -37,6 +37,17 @@ public class BuffStock
     public int applyValue;  // 버프/디버프 값
 
     public bool isApply;    // 적용 중인 버프인지 체크
+
+    public BuffStock(Buff myBuff, Debuff myDebuff, bool buffSwitch,
+        float applyTime, int applyValue, bool isApply)
+    {
+        this.myBuff = myBuff;
+        this.myDebuff = myDebuff;
+        this.buffSwitch = buffSwitch;
+        this.applyTime = applyTime;
+        this.applyValue = applyValue;
+        this.isApply = isApply;
+    }
 }
 
 public enum Condition
@@ -61,14 +72,7 @@ public class ConditionController : MonoBehaviour
 
     public static BuffStock CreateBuffStock()
     {
-        BuffStock buff = new BuffStock();
-
-        buff.myBuff = Buff.NONE;
-        buff.myDebuff = Debuff.NONE;
-        buff.applyValue = 0;
-        buff.applyTime = 0.0f;
-        buff.buffSwitch = false;
-        buff.isApply = false; 
+        BuffStock buff = new BuffStock(Buff.NONE, Debuff.NONE, false, 0, 0, false);
         return buff; 
     }
 
@@ -76,14 +80,7 @@ public class ConditionController : MonoBehaviour
         bool _isSwitch = false,  
         int value = 0, float _time = 0.0f, bool isApply = false)
     {
-        BuffStock buff = new BuffStock();
-
-        buff.myBuff = _buff;
-        buff.myDebuff = _debuff;
-        buff.applyValue = value;
-        buff.applyTime = _time;
-        buff.buffSwitch = _isSwitch;
-        buff.isApply = isApply;
+        BuffStock buff = new BuffStock(_buff, _debuff, _isSwitch, _time, value, isApply);
 
         return buff;
     }

@@ -80,6 +80,16 @@ public class PlayerControl : CharacterController
         if (player != null)
         {
             speed = player.MyStat.speed;
+
+            if(theWeaponController != null)
+            {
+                theWeaponController.SetWeaponOwn(player);
+            }
+        }
+
+        if(skillAction != null)
+        {
+            skillAction.skillOwn = player;
         }
 
         dashTime = startDashTime;
@@ -199,6 +209,9 @@ public class PlayerControl : CharacterController
             return;
         }
 
+        // todo 임시 변수 나중에 따로 빼야함
+        float damageRate = 1.0f; 
+
         if (theWeaponController.currentFireRate <= 0)
         {
             SearchtoAttack();
@@ -227,13 +240,15 @@ public class PlayerControl : CharacterController
                     myAnimator.SetTrigger("Attack");
                     break;
                 case ComboState.ATTACK_4:
+                    damageRate = 1.2f;
                     myAnimator.SetTrigger("FinalAttack");
                     break;
             }
 
             if (player != null)
             {
-                theWeaponController.power = player.MyTotalAttack;
+                theWeaponController.SetDamageAndCrit(damageRate, 
+                    player.MyTotalAttack, player.MyStat.totalCritRate, player.MyStat.totalCritDmg);
             }
 
             theWeaponController.TryFire(current_Combo_State);
@@ -422,35 +437,7 @@ public class PlayerControl : CharacterController
 
     public override void Damage(int _damage)
     {
-        // todo : 데미지 계산 공식 수정 
-        var result = 0;
-        // 현재 데미지와 방어력이 같아서 딜이 안박히므로 방어력 계산식을 제외한다. 
-        if (player.MyStat.totalDEF > _damage)
-        {
-            //result = 0;
-            result = _damage;
-        }
-        else
-        {
-            //result =  _damage - player.MyStat.totalDEF;
-            result = _damage;
-        }
-
-        player.MyCurrentHP -= result;
-        Debug.Log("플레이어 방어력 : " + player.MyStat.totalDEF);
-        Debug.Log("데미지 입음 현재 체력 : " + player.MyCurrentHP);
-        if(player.MyCurrentHP <= 0)
-        {
-
-            Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
-            isDead = true; 
-            if(GameManager.MyInstance != null)
-            {
-                // 게임매니저에게 점수 하락을 전달 하자 
-                GameManager.MyInstance.ChanagePlayerTeeamCount(1);
-            }
-        }
-
+        base.Damage(_damage);
     }
 
 

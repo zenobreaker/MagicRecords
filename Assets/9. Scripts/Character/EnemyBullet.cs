@@ -24,7 +24,7 @@ public class EnemyBullet : Bullet
         Debug.Log(other.transform.name);
         if (other.transform.CompareTag("Player")) //닿은 대상에 태그가 "Monster"라면
         {
-            other.GetComponent<PlayerControl>().Damage(damage); // 해당 transform에 들어있는 Object컴포넌트에 Damgaed메소드를 호출하여 damge값 전달
+            other.GetComponent<PlayerControl>().DealDamage(AttackOwn, attackOwnTransform, 1.0f); // 해당 transform에 들어있는 Object컴포넌트에 Damgaed메소드를 호출하여 damge값 전달
             Destroy(clone, 0.5f);
             //Destroy(gameObject);
             this.gameObject.SetActive(false);

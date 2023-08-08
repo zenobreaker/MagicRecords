@@ -60,9 +60,64 @@ public abstract class CharacterController : MonoBehaviour, IDamage
 
     public abstract void Wait();
 
+    // 데미지 계산처리 하는 함수 
+    public void DealDamage(Character attackOwn, Transform attackTrasnform = null, float damageRate = 1.0f)
+    {
+        if (attackOwn == null && attackOwn.MyStat == null) return; 
+
+        float damage = attackOwn.MyStat.totalATK * damageRate;
+        float critRate = attackOwn.MyStat.totalCritRate;
+        float critDamage = attackOwn.MyStat.totalCritDmg;
+        // 공격한 대상의 크리티컬 확률 계산
+        float chance = Random.Range(0.0f, 1.0f);
+        // 크리티컬 확률 
+        if(chance  <= critRate)
+        {
+            // 데미지 공식 
+            // 공격력 * 계수 * 크리티컬 데미지 
+            damage = damage * damageRate * critDamage;
+        }
+
+        // 데미지로 내 체력을 깎는 로직
+        // 방어력으로 상회 
+        // 방어력 공식  = 방어상수(100)  / (방어력 + 방어상수{100})
+        float damageReduction = 1.0f; // 데미지 감소율 변수
+        if (player.MyStat != null)
+        {
+            float myDefense = player.MyStat.totalDEF;
+            const float DEFENSE = 100;
+            damageReduction = DEFENSE / ( myDefense + DEFENSE);
+        }
+
+        // 총계산
+        damage = damage * (1 - damageReduction);
+
+        Vector3 pos = Vector3.zero;
+        if(attackTrasnform != null)
+        {
+            pos =attackTrasnform.position;
+        }
+        Damage((int)damage, pos);
+    }
+
     public virtual void Damage(int damage)
     {
-       // DamageObjectPooler.instance.GetObject(this.transform.position, damage.ToString());
+        int result = 0;
+
+        player.MyCurrentHP -= result;
+        Debug.Log("플레이어 방어력 : " + player.MyStat.totalDEF);
+        Debug.Log("데미지 입음 현재 체력 : " + player.MyCurrentHP);
+        if (player.MyCurrentHP <= 0)
+        {
+
+            Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
+            isDead = true;
+            if (GameManager.MyInstance != null)
+            {
+                // 게임매니저에게 점수 하락을 전달 하자 
+                GameManager.MyInstance.ChanagePlayerTeeamCount(1);
+            }
+        }
     }
 
     public virtual void Damage(int _damage, Vector3 _targetPos)
