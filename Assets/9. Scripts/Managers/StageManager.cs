@@ -250,7 +250,7 @@ public class StageManager : MonoBehaviour
 
         foreach(var id in selectedStage.appearMonsterIDList)
         {
-            theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, id);
+            theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, id, TeamTag.ENEMY);
         }
     }
 
