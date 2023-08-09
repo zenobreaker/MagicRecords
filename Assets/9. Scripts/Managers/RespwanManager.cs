@@ -41,7 +41,7 @@ public class RespwanManager : MonoBehaviour
     }
 
     // 몬스터 리스폰 / 생성 
-    public void RespwanMonsterFormID(GameObject[] spawnObjects, int id)
+    public void RespwanMonsterFormID(GameObject[] spawnObjects, int id, TeamTag tag)
     {
         if (MonsterDatabase.instance == null || spawnObjects == null) return;
         // 스폰 랜덤한 위치에서 스폰 시키기 
@@ -49,6 +49,11 @@ public class RespwanManager : MonoBehaviour
 
         // id값으로 적 오브젝트 생성한다 
         var enemyObject = MonsterDatabase.instance.CreateMonsterUnit(id);
+        if(enemyObject.TryGetComponent<CharacterController>(out var characterController) == true)
+        {
+            characterController.teamTag = tag;
+        }
+
         if (enemyObject == null || 
             (currentSpwanIndex > spawnObjects.Length && spawnObjects[currentSpwanIndex] == null))
             return;

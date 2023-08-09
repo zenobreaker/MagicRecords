@@ -42,6 +42,7 @@ public class PlayerManager : MonoBehaviour
                 if (player.TryGetComponent<PlayerControl>(out var playerControl))
                 {
                     // 데이터 세팅 
+                    playerControl.teamTag = TeamTag.TEAM;
                     playerControl.MyPlayer = data;
                     // 능력치 적용 
                     playerControl.MyPlayer.MyStat.ApplyOption();
