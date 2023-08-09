@@ -435,9 +435,9 @@ public class PlayerControl : CharacterController
         }
     }
 
-    public override void Damage(int _damage)
+    public override void Damage(int _damage, bool isCrit = false)
     {
-        base.Damage(_damage);
+        base.Damage(_damage, isCrit);
     }
 
 

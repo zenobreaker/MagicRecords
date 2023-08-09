@@ -44,6 +44,7 @@ public class InfoManager : MonoBehaviour
         tempPlayer.MyID = 1001;
         tempPlayer.objectID = 1;
         tempPlayer.MyStat = new CharStat(1, 10, 10, 20, 150, 100, 10);
+        tempPlayer.MyStat.critRate = 0.5f;
         AddPlayerInfo(tempPlayer.MyID, tempPlayer);
         AddMyPlayerInfo(tempPlayer.MyID);
 

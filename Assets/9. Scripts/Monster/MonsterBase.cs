@@ -207,31 +207,23 @@ public class MonsterBase : CharacterController
         */
     }
 
-    public override void Damage(int _damage)
-    {
-        player.MyCurrentHP -= _damage;
-    }
-
-    public override void Damage(int _damage, Vector3 _targetPos)
+    public override void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
     {
 
         if (!isDead)
         {
-            base.Damage(_damage, _targetPos);
+            base.Damage(_damage, _targetPos, isCrit);
+
             if (UIManager.instance != null)
             {
-                UIManager.instance.CreateFloatingText(this.gameObject.transform.position, 
-                    _damage.ToString());
                 UIManager.instance.ShowHealthBar(player);
-
-                if (theCondition != null)
-                    theCondition.AbnormalCondition();
-                if (GameManager.MyInstance != null)
-                {
-                    GameManager.MyInstance.IncreaseCombo();
-                }
             }
 
+            if (GameManager.MyInstance != null)
+            {
+                GameManager.MyInstance.IncreaseCombo();
+            }
+            
             if (player.MyCurrentHP <= 0 && !isTest)
             {
                 Dead();

@@ -403,7 +403,7 @@ public class GameManager : MonoBehaviour
     }
 
     // 게임 내 아군 수 변경하기 
-    public void ChanagePlayerTeeamCount(int downCount)
+    public void ChanagePlayerTeamCount(int downCount)
     {
         playerCount -= downCount;
         // 게임 클리어 확인 

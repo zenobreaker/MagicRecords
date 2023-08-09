@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Networking.UnityWebRequest;
 
 public enum PlayType
 {
     None,
     Playerable,
+}
+
+public enum TeamTag
+{
+    NONE,
+    TEAM,
+    ENEMY,
 }
 
 public enum PlayerState
@@ -23,6 +31,7 @@ public abstract class CharacterController : MonoBehaviour, IDamage
     protected LayerMask m_LayerMask;
     protected StateMachine stateMachine;    // 상태 변환기 
     public PlayType myPlayType;
+    public TeamTag teamTag;
 
     [SerializeField] protected Rigidbody m_rigid;
     [SerializeField] protected NavMeshAgent m_agent;
@@ -70,12 +79,14 @@ public abstract class CharacterController : MonoBehaviour, IDamage
         float critDamage = attackOwn.MyStat.totalCritDmg;
         // 공격한 대상의 크리티컬 확률 계산
         float chance = Random.Range(0.0f, 1.0f);
+        bool isCrit = false;
         // 크리티컬 확률 
         if(chance  <= critRate)
         {
+            isCrit = true;
             // 데미지 공식 
             // 공격력 * 계수 * 크리티컬 데미지 
-            damage = damage * damageRate * critDamage;
+            damage = damage * critDamage;
         }
 
         // 데미지로 내 체력을 깎는 로직
@@ -89,22 +100,34 @@ public abstract class CharacterController : MonoBehaviour, IDamage
             damageReduction = DEFENSE / ( myDefense + DEFENSE);
         }
 
+        damage = damage * (damageReduction);
         // 총계산
-        damage = damage * (1 - damageReduction);
 
         Vector3 pos = Vector3.zero;
         if(attackTrasnform != null)
         {
-            pos =attackTrasnform.position;
+            pos = attackTrasnform.position;
         }
-        Damage((int)damage, pos);
+      
+        Damage((int)damage, pos, isCrit);
     }
 
-    public virtual void Damage(int damage)
+    public virtual void Damage(int damage, bool isCrit = false)
     {
-        int result = 0;
+      
+        // 컨디션 상태에 따라 효과 관리
+        if (theCondition != null)
+            theCondition.AbnormalCondition();
+        // 데미지에 따른 체력 감소해보기 
+        player.MyCurrentHP -=  damage;
 
-        player.MyCurrentHP -= result;
+        // 데미지 폰트 띄우기 
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.CreateFloatingText(this.gameObject.transform.position,
+                damage.ToString(), isCrit);
+        }
+
         Debug.Log("플레이어 방어력 : " + player.MyStat.totalDEF);
         Debug.Log("데미지 입음 현재 체력 : " + player.MyCurrentHP);
         if (player.MyCurrentHP <= 0)
@@ -115,14 +138,21 @@ public abstract class CharacterController : MonoBehaviour, IDamage
             if (GameManager.MyInstance != null)
             {
                 // 게임매니저에게 점수 하락을 전달 하자 
-                GameManager.MyInstance.ChanagePlayerTeeamCount(1);
+                if (teamTag == TeamTag.TEAM)
+                {
+                    GameManager.MyInstance.ChanagePlayerTeamCount(1);
+                }
+                else if(teamTag == TeamTag.ENEMY)
+                {
+
+                }
             }
         }
     }
 
-    public virtual void Damage(int _damage, Vector3 _targetPos)
+    public virtual void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
     {
-        Damage(_damage);       
+        Damage(_damage, isCrit);       
     }
 
     public virtual void SetBuff(BuffStock _buffStcok)
