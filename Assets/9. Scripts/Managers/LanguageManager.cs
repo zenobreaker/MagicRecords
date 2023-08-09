@@ -40,11 +40,11 @@ public class LanguageManager : MonoBehaviour
 
         string currentLanguageCode = GetUserSelectedLanguage();
 
-        LoadLanguageFile(currentLanguageCode);
+        //LoadLanguageFile(currentLanguageCode);
 
         if (localizedTextDict.Count == 0)
         {
-            LoadLanguageFile(defaultLanguageCode);
+          //  LoadLanguageFile(defaultLanguageCode);
         }
     }
 

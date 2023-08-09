@@ -236,14 +236,14 @@ public class UIManager : MonoBehaviour
         }
     }
    
-    public void CreateFloatingText(Vector3 _pos, string _dmg)
+    public void CreateFloatingText(Vector3 _pos, string _dmg, bool isCrit = false)
     {
         var clone = DamageObjectPooler.instance.GetObject(_pos);
         //var clone = DamageObjectPooler.instance.GetObject();
         if (clone.TryGetComponent(out FloatingDynamicText floatingText))
         {
             Debug.Log("대미지 " + _dmg);
-            floatingText.SetText(_dmg,_pos);
+            floatingText.SetText(_dmg, _pos, isCrit);
         }
     }
 

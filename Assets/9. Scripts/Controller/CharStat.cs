@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class CharStat
 {
-    public float baseCritDamage = 150.0f;
+    public float baseCritDamage = 1.50f;
 
     public MonsterGrade myGrade;
     public int level;

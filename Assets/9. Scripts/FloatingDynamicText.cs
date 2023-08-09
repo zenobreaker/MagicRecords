@@ -14,9 +14,14 @@ public class FloatingDynamicText : MonoBehaviour
     private Vector3 wtsPos; // 월드좌표에서 스크린좌표로 온 값 
     private Vector3 poollerPos;  // 오브젝트 풀러의 좌표값 
 
-    public void SetText(string text, Vector3 wts = default(Vector3))
+    public void SetText(string text, Vector3 wts = default(Vector3), bool isCrit = false)
     {
         myDamageText.text = text;
+        myDamageText.color = Color.white;
+        if(isCrit == true)
+        {
+            myDamageText.color = Color.red;
+        }
         this.gameObject.SetActive(true);
         wtsPos = wts;
         life = lifeTime; 

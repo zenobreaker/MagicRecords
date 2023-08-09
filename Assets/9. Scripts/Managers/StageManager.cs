@@ -112,6 +112,7 @@ public class StageManager : MonoBehaviour
 
                         selectedStage.appearMonsterIDList.Clear();
                         selectedStage.appearMonsterIDList = stageEventInfo.appearMonsterInfo.appearMonsterList;
+                        selectedStage.enemyCount = selectedStage.appearMonsterIDList.Count;
                         break; 
                     }
                 }

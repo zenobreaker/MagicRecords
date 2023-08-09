@@ -211,8 +211,6 @@ public class AttackMonster : MonsterBase
         Debug.Log("공격");
        
         nav.ResetPath();
-        //currentChaseTime = ChaseTime;
-        //yield return new WaitForSeconds(0.5f);
 
         transform.LookAt(fieldOfView.target); // 플레이어를 바라보게 함
 
@@ -288,6 +286,7 @@ public class AttackMonster : MonsterBase
     {
         base.Damaged(_dmg, _targetPos);
 
+        Debug.Log("DAMGED 함수 호출?");
 
         if (!isDead)
         {
