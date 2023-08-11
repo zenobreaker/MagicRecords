@@ -93,7 +93,8 @@ public class LanguageManager : MonoBehaviour
         return "ko-KR"; // 임시로 "ko-KR"을 반환하는 예시
     }
 
-    private string ReplaceVariables(string text, Dictionary<string, object> variables)
+    private string ReplaceVariables(string text, Dictionary<string, object> variables,
+         bool isValuePercentage = false)
     {
         string pattern = @"\{(\w+)\}";
         MatchEvaluator evaluator = (match) =>
@@ -101,6 +102,10 @@ public class LanguageManager : MonoBehaviour
             string variableName = match.Groups[1].Value;
             if (variables.TryGetValue(variableName, out object value))
             {
+                if (variableName == "value" && isValuePercentage == true)
+                {
+                    return value.ToString() + "%";
+                }
                 return value.ToString();
             }
             return match.Value;
@@ -122,7 +127,8 @@ public class LanguageManager : MonoBehaviour
     }
 
     // 변수들을 받으면 해당 변수값을 치환해서 반환하는 함수
-    public string GetLocalizationWithValues(string key, float duration, float value)
+    public string GetLocalizationWithValues(string key, float duration, float value,
+         bool isPercentage = false)
     {
         string result = "";
 
@@ -132,7 +138,7 @@ public class LanguageManager : MonoBehaviour
             {
                 { "duration", duration },
                 { "value", value }
-            });
+            }, isPercentage);
 
         return result; 
     }
