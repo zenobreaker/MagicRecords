@@ -15,6 +15,42 @@ MonoBehaviour:
   m_TableCollectionName: MyTable
   m_TableCollectionNameGuidString: a5096bdddee18684689f866c548eab8b
   m_Entries:
+  - m_Id: 206963424997376
+    m_Key: name_dur_crit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997377
+    m_Key: name_dur_hpregen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997378
+    m_Key: name_dur_speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997379
+    m_Key: name_dur_atk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997380
+    m_Key: name_dur_def
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997381
+    m_Key: name_dur_atkspd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997382
+    m_Key: name_normal_crit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997383
+    m_Key: name_normal_hpregen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997384
+    m_Key: name_normal_mpregen
+    m_Metadata:
+      m_Items: []
   - m_Id: 360667407036416
     m_Key: name_pond
     m_Metadata:
@@ -69,42 +105,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 361095670640642
     m_Key: name_slipstream
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997376
-    m_Key: name_dur_crit
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997377
-    m_Key: name_dur_hpregen
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997378
-    m_Key: name_dur_speed
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997379
-    m_Key: name_dur_atk
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997380
-    m_Key: name_dur_def
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997381
-    m_Key: name_dur_atkspd
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997382
-    m_Key: name_normal_crit
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997383
-    m_Key: name_normal_hpregen
-    m_Metadata:
-      m_Items: []
-  - m_Id: 206963424997384
-    m_Key: name_normal_mpregen
     m_Metadata:
       m_Items: []
   m_Metadata:

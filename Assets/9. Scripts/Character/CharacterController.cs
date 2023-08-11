@@ -72,7 +72,7 @@ public abstract class CharacterController : MonoBehaviour, IDamage
     // 데미지 계산처리 하는 함수 
     public void DealDamage(Character attackOwn, Transform attackTrasnform = null, float damageRate = 1.0f)
     {
-        if (attackOwn == null && attackOwn.MyStat == null) return; 
+        if (attackOwn == null || attackOwn.MyStat == null) return; 
 
         float damage = attackOwn.MyStat.totalATK * damageRate;
         float critRate = attackOwn.MyStat.totalCritRate;

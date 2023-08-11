@@ -307,12 +307,11 @@ public class GameManager : MonoBehaviour
         //if (CharStat.instance != null)
         //    CharStat.instance.IncreaseExp(gameScore);
 
-        theReward.ShowUI();
-        // theSM.ClearStage();
+        //theReward.ShowUI();
         // 게임 진행 스테이트 변경 
         gameState = GameState.END;
         theSM.ClearStage(); // 해당 스테이지 클리어함수 호출
-        yield return new WaitUntil(() => theReward.isConfirm == true);
+        //yield return new WaitUntil(() => theReward.isConfirm == true);
         
         theSM.ShowClearUI(true);
 
