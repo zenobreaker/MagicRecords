@@ -70,7 +70,7 @@ public class RewardCardSlot : MonoBehaviour
         var duration = record.specialOption.duration;
         // 문자열 보간 형식으로 전달 받으면 위 변수로 처리하게한다.
         text.text = LanguageManager.Instance.GetLocalizationWithValues(
-            rewardCard.description, duration, value);
+            rewardCard.description, duration, value, record.specialOption.isPercentage);
     }
 
     public void DrawUiObject(Sprite sprite, string name, string desc)

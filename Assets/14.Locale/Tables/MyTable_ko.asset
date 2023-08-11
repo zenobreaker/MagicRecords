@@ -19,13 +19,13 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 206963424997377
-    m_Localized: "{duration} \uB3D9\uC548 \uCD08\uB2F9 \uCCB4\uB825 \uC7AC\uC0DD
-      {value}  \uC99D\uAC00"
+    m_Localized: "{duration}\uCD08 \uB3D9\uC548 \uCD08\uB2F9 \uCCB4\uB825 \uC7AC\uC0DD
+      {value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997376
-    m_Localized: "{duration} \uB3D9\uC548 \uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960 {value}
-      \uC99D\uAC00"
+    m_Localized: "{duration}\uCD08 \uB3D9\uC548 \uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960
+      {value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 361095666446337
@@ -73,31 +73,31 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997378
-    m_Localized: "{duration} \uB3D9\uC548 \uC774\uB3D9 \uC18D\uB3C4 {value}  \uC99D\uAC00"
+    m_Localized: "{duration}\uCD08 \uB3D9\uC548 \uC774\uB3D9 \uC18D\uB3C4 {value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997379
-    m_Localized: "{duration} \uB3D9\uC548 \uACF5\uACA9\uB825 {value}  \uC99D\uAC00"
+    m_Localized: "{duration}\uCD08 \uB3D9\uC548 \uACF5\uACA9\uB825 {value}  \uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997380
-    m_Localized: "{duration} \uB3D9\uC548 \uBC29\uC5B4\uB825 {value}  \uC99D\uAC00"
+    m_Localized: "{duration}\uCD08 \uB3D9\uC548 \uBC29\uC5B4\uB825 {value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997381
-    m_Localized: "{duration} \uB3D9\uC548 \uACF5\uACA9 \uC18D\uB3C4{value}  \uC99D\uAC00"
+    m_Localized: "{duration}\uCD08 \uB3D9\uC548 \uACF5\uACA9 \uC18D\uB3C4{value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997382
-    m_Localized: "\uCE58\uBA85\uD0C0 \uD655\uB960 {value} \uC99D\uAC00"
+    m_Localized: "\uCE58\uBA85\uD0C0 \uD655\uB960 {value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997383
-    m_Localized: "\uCD08\uB2F9 \uCCB4\uB825 \uC7AC\uC0DD {value} \uC99D\uAC00"
+    m_Localized: "\uCD08\uB2F9 \uCCB4\uB825 \uC7AC\uC0DD {value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 206963424997384
-    m_Localized: "\uCD08\uB2F9 \uB9C8\uB098 \uD68C\uBCF5 {value} \uC99D\uAC00"
+    m_Localized: "\uCD08\uB2F9 \uB9C8\uB098 \uD68C\uBCF5 {value}\uC99D\uAC00"
     m_Metadata:
       m_Items: []
   - m_Id: 360667407036416
