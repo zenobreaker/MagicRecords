@@ -46,11 +46,11 @@ public class TreeMon : AttackMonster
 
     protected override void SetAction(int p_currentPattern)
     {
+        base.SetAction(p_currentPattern);
         switch (p_currentPattern)
         {
             case 0:
                 anim.SetTrigger("Attack");
-               
                 break;
             case 1:
                 anim.SetTrigger("Attack2");
@@ -69,7 +69,6 @@ public class TreeMon : AttackMonster
                 StartCoroutine(TreeAroundWave());
                 break;
         }
-        base.SetAction(p_currentPattern);
     }
 
     public override void AttackEableObject(bool isOn)
@@ -80,6 +79,7 @@ public class TreeMon : AttackMonster
             //attackRange.GetComponent<AttackArea>().power = status.MyAttack;
             if (attackRanges[currentPattern] != null)
             {
+                attackRanges[currentPattern].SetAttackInfo(player, transform);
                 attackRanges[currentPattern].SetOnEnableCollider();
             }
         }
@@ -89,9 +89,7 @@ public class TreeMon : AttackMonster
     IEnumerator NormalAttack()
     {
         yield return new WaitForSeconds(1.2f);
-      
-        //
-        
+
         Vector3 t_Pos = transform.localPosition + (transform.forward * 1.5f + transform.up * 1.5f);
         var clone = Instantiate(attackEffect[0], t_Pos, transform.localRotation);
         clone.Play();
@@ -113,7 +111,8 @@ public class TreeMon : AttackMonster
         yield return new WaitForSeconds(1f);
 
         var tree = Instantiate(go_TreeAttack, t_Pos + transform.forward*3f, Quaternion.identity);
-        tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack* 1.5f);
+        //tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack* 1.5f);
+        tree.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.5f);
         //tree.GetComponent<AttackArea>().PlayAnim();
         Destroy(tree, 1f);
         
@@ -132,7 +131,8 @@ public class TreeMon : AttackMonster
         while (count < 5)
         {
             var tree = Instantiate(go_TreeAttack, treePos + trForward, Quaternion.identity);
-            tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack * 1.7f);
+            //tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack * 1.7f);
+            tree.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
             //tree.GetComponent<AttackArea>().PlayAnim();
             treePos = tree.transform.localPosition;
             count++;
@@ -164,9 +164,6 @@ public class TreeMon : AttackMonster
         DangerMarkerShoot(0, myPos, treePos1);
         DangerMarkerShoot(0, myPos, myPos + treePos2);
         DangerMarkerShoot(0, myPos, myPos + treePos3);
-        //dangerLine[0].GetComponent<DangerLine>().TempDangerMarkerShoot(t_Pos, trForward, transform.localRotation, 5f);
-        //dangerLine[0].GetComponent<DangerLine>().TempDangerMarkerShoot(t_Pos, treePos2, transform.localRotation, 5f);
-        //dangerLine[0].GetComponent<DangerLine>().TempDangerMarkerShoot(t_Pos, treePos3, transform.localRotation, 5f);
         
         treePos2 += myPos;  // 원래 위치를 더해줘서 원하는 위치로 이동 
         treePos3 += myPos;
@@ -180,11 +177,14 @@ public class TreeMon : AttackMonster
             
            // Vector3 t_pos2 = new Vector3(treePos2.x + Mathf.Cos(Mathf.PI * 15), 0, treePos2.z + Mathf.Cos(Mathf.PI * 15));
             var tree1 = Instantiate(go_TreeAttack, treePos1, Quaternion.identity);
-            tree1.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+            //tree1.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+            tree1.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
             var tree2 = Instantiate(go_TreeAttack, treePos2, Quaternion.identity);
-            tree2.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+            //tree2.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+            tree2.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
             var tree3 = Instantiate(go_TreeAttack, treePos3, Quaternion.identity);
-            tree3.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+            //tree3.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+            tree3.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
 
             // 이전에 소환한 나무 위치 + 차이 만큼 다음 위치 값 세팅 
             treePos1 = tree1.transform.localPosition + trForward;
@@ -250,7 +250,8 @@ public class TreeMon : AttackMonster
                 t_Pos.z = distance * z + transform.localPosition.z;
 
                 var tree = Instantiate(go_TreeAttack, t_Pos, Quaternion.identity);
-                tree.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+                //tree.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
+                tree.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
                 Destroy(tree, 3.5f);
             }
             distance += 3;

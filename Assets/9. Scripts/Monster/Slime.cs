@@ -13,9 +13,11 @@ public class Slime : AttackMonster
         {
             case 0:
                 baseAttackRange = 3.5f * addRange;
+                delayTime = 1.2f;
                 break;
             case 1:
                 baseAttackRange = 5f * addRange;
+                delayTime = 3.2f;
                 break;
         }
     }
@@ -60,7 +62,6 @@ public class Slime : AttackMonster
            currentPattern < attackRanges.Length)
         {
             // AttackMonster에서 호출하니 여긴 주석
-            //attackRange.GetComponent<AttackArea>().power = status.MyAttack;
             if(attackRanges[currentPattern] != null && isOn == true)
             {
                 attackRanges[currentPattern].SetOnEnableCollider();         

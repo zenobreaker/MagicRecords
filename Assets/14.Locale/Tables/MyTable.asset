@@ -19,8 +19,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d1b2bae976ffeb647bf4e651e8a8f672, type: 2}
   m_Extensions:
   - rid: 8333067879292862464
-  - rid: 8333067879292862473
   - rid: 8333067879292862480
+  - rid: 8333067879292862473
   m_Group: String Table
   references:
     version: 2

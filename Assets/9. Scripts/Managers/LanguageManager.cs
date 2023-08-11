@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -39,6 +41,7 @@ public class LanguageManager : MonoBehaviour
         }
 
         string currentLanguageCode = GetUserSelectedLanguage();
+
 
         //LoadLanguageFile(currentLanguageCode);
 
@@ -88,6 +91,50 @@ public class LanguageManager : MonoBehaviour
         // 사용자가 선택한 언어 코드를 가져오는 로직
         // 예시: 플레이어 프로필, 게임 설정 등에서 언어 설정을 가져옴
         return "ko-KR"; // 임시로 "ko-KR"을 반환하는 예시
+    }
+
+    private string ReplaceVariables(string text, Dictionary<string, object> variables)
+    {
+        string pattern = @"\{(\w+)\}";
+        MatchEvaluator evaluator = (match) =>
+        {
+            string variableName = match.Groups[1].Value;
+            if (variables.TryGetValue(variableName, out object value))
+            {
+                return value.ToString();
+            }
+            return match.Value;
+        };
+
+        return Regex.Replace(text, pattern, evaluator);
+    }
+
+
+    public string GetLocaliztionWithSpecialOption(string key, SpecialOption option)
+    {
+        if (option == null) return "" ;
+
+        string result = "";
+
+
+
+        return result; 
+    }
+
+    // 변수들을 받으면 해당 변수값을 치환해서 반환하는 함수
+    public string GetLocalizationWithValues(string key, float duration, float value)
+    {
+        string result = "";
+
+        result = GetLocaliztionValue(key);
+
+        result = ReplaceVariables(result, new Dictionary<string, object>
+            {
+                { "duration", duration },
+                { "value", value }
+            });
+
+        return result; 
     }
 
     // 키값을 받으면 로컬관련한 테이블에서 찾아서 해당 언어로 변환된 값을 반환

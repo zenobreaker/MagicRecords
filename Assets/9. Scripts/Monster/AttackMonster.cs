@@ -208,6 +208,7 @@ public class AttackMonster : MonsterBase
 
     protected IEnumerator AttackCoroutine()
     {
+        // todo 여기가 중첩되서 실행되니 여기를 수정해야한다. 
         Debug.Log("공격");
        
         nav.ResetPath();
@@ -221,7 +222,8 @@ public class AttackMonster : MonsterBase
         SetAction(currentPattern);
 
         StartCoroutine(CoolDownAttackDelay(currentPattern));
-        yield return new WaitForSeconds(player.MyStat.totalASPD);
+        // todo 이 아래가 문제였다.. 공속??? 그런거 몰루일텐데 ㅠ
+        yield return new WaitForSeconds(delayTime);
         isAttacking = false;
         isComplete = false;
 

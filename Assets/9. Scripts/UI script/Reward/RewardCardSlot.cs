@@ -47,6 +47,32 @@ public class RewardCardSlot : MonoBehaviour
         icon.sprite = null;
     }
 
+    public void DrawUiObjectByRecord(RewardCard rewardCard)
+    {
+        if (rewardCard == null) return;
+
+        // 리코드 카드를 바라노니 그려지게 하라
+        DrawUiObject(rewardCard.rewardSprite, rewardCard.name, "");
+
+        // 설명문은 따로 처리한다. 
+
+        // 레코드의 정보가져오기
+        var record = RecordManager.instance.GetRecordInfoByID(rewardCard.recordID);
+        if (record == null || record.specialOption == null)
+            return;
+
+        var value = record.specialOption.value;
+        if(record.specialOption.isPercentage == true)
+        {
+            value *= 100.0f;
+        }
+
+        var duration = record.specialOption.duration;
+        // 문자열 보간 형식으로 전달 받으면 위 변수로 처리하게한다.
+        text.text = LanguageManager.Instance.GetLocalizationWithValues(
+            rewardCard.description, duration, value);
+    }
+
     public void DrawUiObject(Sprite sprite, string name, string desc)
     {
         if (icon == null || text == null) return;
@@ -63,6 +89,7 @@ public class RewardCardSlot : MonoBehaviour
         else
         {
             nameText.text = LanguageManager.Instance.GetLocaliztionValue(name);
+
             text.text = LanguageManager.Instance.GetLocaliztionValue(desc); 
         }
 

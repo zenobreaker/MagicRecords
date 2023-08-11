@@ -244,9 +244,9 @@ public class RewardController : MonoBehaviour
                 if (slot != null)
                 {
                     // 슬롯 UI 그리기
-                    slot.DrawUiObject(
-                        rewardCard.rewardSprite, rewardCard.name, rewardCard.description);
-
+                    //slot.DrawUiObject(
+                    //    rewardCard.rewardSprite, rewardCard.name, rewardCard.description);
+                    slot.DrawUiObjectByRecord(rewardCard);
                     // 슬롯을 찾아서 슬롯에 버튼 기능을 넣어준다.
                     var targetIndex = index;
                     slot.SetButtonListener(()=>SelectRewardCardUI(targetIndex));
