@@ -415,7 +415,7 @@ public class Character
         if (record == null) return;
 
         this.MyStat.extraStat.ApplyOptionExtraStat(
-            record.specialOption.abilityType, -record.specialOption.value);
+            record.specialOption.abilityType, -record.specialOption.value, record.specialOption.isPercentage);
 
         //selectRecordInfos.Remove(record);
 
