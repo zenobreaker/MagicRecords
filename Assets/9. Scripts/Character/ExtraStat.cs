@@ -6,16 +6,26 @@ using UnityEngine;
 public class ExtraStat 
 {
     public int extraAttack;
-    public float extraAttackSpeed;
     public int extraDefense;
     public int extraSpeed;
     public int extraHP;
     public int extraMP;
     public int extraHPR;
     public int extraMPR;
+    public float extraAttackSpeed;
     public float extraCritRate;
     public float extraCritDmg;
 
+
+    // 퍼센트 증가 비율 총합 수치를 담는 변수들 
+    public float increaseAttackRate;         // 공격력 증가률 
+    public float increaseDefenseRate;        // 방어력 증가율
+    public float increaseSpeedRate;          // 이동속도 증가율
+    public float increaseHPRate;             // 체력 증가율
+    public float increaseHPRegenRate;        // 초당 체력 회복 증가율
+    public float increaseMPRate;         // 마나 증가율
+    public float increaseMPRegenRate;         // 초당 마나 회복 증가율 
+    
     public ExtraStat()
     {
         extraAttack = 0;
@@ -27,7 +37,15 @@ public class ExtraStat
         extraHPR = 0;
         extraMPR = 0;
         extraCritRate = 0;
-        extraCritDmg = 0; 
+        extraCritDmg = 0;
+
+        increaseAttackRate = 1;
+        increaseDefenseRate = 1;        // 방어력 증가율
+        increaseSpeedRate = 1;          // 이동속도 증가율
+        increaseHPRate = 1;             // 체력 증가율
+        increaseHPRegenRate = 1;        // 초당 체력 회복 증가율
+        increaseMPRate = 1;         // 마나 증가율
+        increaseMPRegenRate = 1;         // 초당 마나 회복 증가율 
     }
 
     public ExtraStat(int _atk, float _atkspd, int _def, int _spd, int _hp, int _hpr, int _mp, int _mpr)
@@ -40,6 +58,14 @@ public class ExtraStat
         extraMP = _mp;
         extraHPR = _hpr;
         extraMPR = _mpr;
+
+        increaseAttackRate = 1;
+        increaseDefenseRate = 1;        // 방어력 증가율
+        increaseSpeedRate = 1;          // 이동속도 증가율
+        increaseHPRate = 1;             // 체력 증가율
+        increaseHPRegenRate = 1;        // 초당 체력 회복 증가율
+        increaseMPRate = 1;         // 마나 증가율
+        increaseMPRegenRate = 1;         // 초당 마나 회복 증가율 
     }
 
     public void IncreaseHP(int _value)
@@ -146,7 +172,15 @@ public class ExtraStat
     }
 
 
-    public void ApplyOptionExtraStat(AbilityType abilityType, float value)
+    public void CalcOptionIncreaseStat(CharStat stat, AbilityType abilityType, float value, bool isPercentage = false)
+    {
+
+    }
+
+    // 나는 그렇게 살다간.. 망할거야..
+    // 증가율 수치를 계산하는 함수 
+    // 여긴 고정된 수치 값을 총합시키는 함수
+    public void CalcExtraStat(AbilityType abilityType, float value)
     {
         if (abilityType == AbilityType.NONE) return;
 
@@ -177,11 +211,64 @@ public class ExtraStat
                 IncreaseMPR((int)value);
                 break;
             case AbilityType.CRITRATE:
-                IncreaseCritRate(value); 
+                IncreaseCritRate(value);
                 break;
             case AbilityType.CRITDMG:
                 IncreaseCritDmg(value);
                 break;
+        }
+    }
+
+
+    // 여기선 백분율 값을 전부 더하는 기능을 한다. 
+    public void CalcIncreaseRateStat(AbilityType abilityType, float value)
+    {
+        switch (abilityType)
+        {
+            case AbilityType.ATK:
+                increaseAttackRate += value;
+                break;
+            case AbilityType.DEF:
+                increaseDefenseRate += value;
+                break;
+            case AbilityType.ASPD:
+                break;
+            case AbilityType.SPD:
+                increaseSpeedRate += value;
+                break;
+            case AbilityType.HP:
+                increaseHPRate += value;
+                break;
+            case AbilityType.HPR:
+                increaseHPRegenRate += value;
+                break;
+            case AbilityType.MP:
+                increaseMPRate += value;
+                break;
+            case AbilityType.MPR:
+                increaseMPRegenRate += value;
+                break;
+            case AbilityType.CRITRATE:
+                // 크리티컬확률과 크리티컬 데미지 증가는 이미 별도로 계산처리함
+                break;
+            case AbilityType.CRITDMG:
+
+                break;
+        }
+    }
+
+    public void ApplyOptionExtraStat(AbilityType abilityType, float value, bool isPercent = false)
+    {
+        if (abilityType == AbilityType.NONE) return;
+
+        // 백분율이므로 
+        if(isPercent == true)
+        {
+            CalcIncreaseRateStat(abilityType, value);
+        }
+        else
+        {
+            CalcExtraStat(abilityType, value);
         }
     }
 

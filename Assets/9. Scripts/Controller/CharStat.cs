@@ -137,15 +137,24 @@ public class CharStat
             resultAspd = InfoManager.instance.GetGrowUpAttackSpeed(this.level, attackSpeed);
             resultSPD = InfoManager.instance.GetGrowUpSpeed(this.level, speed);
         }
-
-        totalATK = extraStat.extraAttack + resultAtk;
+        
+        totalATK = (int)Mathf.Round(resultAtk * 1.0f * extraStat.increaseAttackRate) 
+            + extraStat.extraAttack;
+        totalDEF = (int)Mathf.Round(resultDef * 1.0f * extraStat.increaseDefenseRate) 
+            + extraStat.extraDefense;
+        totalHP = (int)Mathf.Round(resultHP * 1.0f * extraStat.increaseHPRate)
+           + extraStat.extraHP;
+        totalHPR = (int)Mathf.Round(resultHPR * 1.0f * extraStat.increaseHPRegenRate)
+           + extraStat.extraMPR;
+        totalMP = (int)Mathf.Round(resultMP * 1.0f * extraStat.increaseMPRate)
+           + extraStat.extraMP;
+        totalMPR = (int)Mathf.Round(resultMPR * 1.0f * extraStat.increaseMPRegenRate)
+           + extraStat.extraMPR;
+        totalSPD = (int)Mathf.Round(resultSPD * 1.0f * extraStat.increaseSpeedRate)
+           + extraStat.extraSpeed;
+       
+        // 성격이 다른 스탯 
         totalASPD = extraStat.extraAttackSpeed + resultAspd;
-        totalDEF = extraStat.extraDefense + resultDef;
-        totalHP = extraStat.extraHP + resultHP;
-        totalMP = extraStat.extraMP + resultMP;
-        totalHPR = extraStat.extraHPR + resultHPR;
-        totalMPR = extraStat.extraMPR + resultMPR;
-        totalSPD = extraStat.extraSpeed + resultSPD;
         totalCritRate = extraStat.extraCritRate + critRate;
         totalCritDmg =  baseCritDamage + extraStat.extraCritDmg + critDmg;
     }
