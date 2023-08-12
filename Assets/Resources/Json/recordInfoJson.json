@@ -12,14 +12,14 @@
       "namekeycode": "name_bumpertobumper",
       "description": null,
       "grade": "1",
-      "specialOptionID": "100001"
+      "specialOptionID": "100004"
     },
     {
       "id": "3",
       "namekeycode": "name_overconsumption",
       "description": null,
       "grade": "2",
-      "specialOptionID": "100001"
+      "specialOptionID": "100006"
     },
     {
       "id": "4",
@@ -40,14 +40,14 @@
       "namekeycode": "name_crime",
       "description": null,
       "grade": "2",
-      "specialOptionID": "100002"
+      "specialOptionID": "100005"
     },
     {
       "id": "7",
       "namekeycode": "name_unshinystar",
       "description": null,
       "grade": "3",
-      "specialOptionID": "100002"
+      "specialOptionID": "100005"
     },
     {
       "id": "8",
@@ -68,7 +68,7 @@
       "namekeycode": "name_starsmemory",
       "description": null,
       "grade": "3",
-      "specialOptionID": "100003"
+      "specialOptionID": "100004"
     },
     {
       "id": "11",

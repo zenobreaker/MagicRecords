@@ -404,7 +404,7 @@ public class Character
 
 
         this.MyStat.extraStat.ApplyOptionExtraStat(
-        record.specialOption.abilityType, record.specialOption.value);
+        record.specialOption.abilityType, record.specialOption.value, record.specialOption.isPercentage);
 
         MyStat.ApplyOption();
     }
