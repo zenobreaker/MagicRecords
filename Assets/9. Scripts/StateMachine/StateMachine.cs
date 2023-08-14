@@ -16,6 +16,7 @@ public class StateMachine
         set { stateDic = value; }
     }
 
+ 
     public void ChangeState(BaseState nextState)
     {
         if (nextState == null)
@@ -29,6 +30,12 @@ public class StateMachine
         CurrentState = nextState;
         CurrentState.EnterState();
     }
+
+    public void ChangeState(PlayerState state)
+    {
+        ChangeState(States[state]);
+    }
+
 
     public void OperateState()
     {

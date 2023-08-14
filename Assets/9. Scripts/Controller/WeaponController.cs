@@ -102,15 +102,8 @@ public class WeaponController : MonoBehaviour
 
     private void CreateBullet()
     {
-        //float pc_Rotation = 10.0f;// PlayerControl.MyInstance.TargetRotation;
         var clone = ObjectPooler.SpawnFromPool<MyBullet>("Bullet", currentGun.go_Muzzle.transform);
-        //clone.SetDamageAndCrit(dmageRate, damage, critRate, critDamage);
-        clone.AttackOwn = weaponOwn;
-        //clone.transform.position = currentGun.go_Muzzle.transform.position;
-        //clone.transform.rotation = currentGun.go_Muzzle.transform.rotation;
-        //clone.GetComponent<MyBullet>().MyDamage = _dmg;
-        //clone.GetComponent<MyBullet>().tr_CreatersTR = this.GetComponentInParent<PlayerControl>().transform;
-        //clone.SetActive(true);
+        clone.SetAttackInfo(weaponOwn, transform);
     }
 
     void ShotSoundPlay()
