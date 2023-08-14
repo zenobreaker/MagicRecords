@@ -226,7 +226,7 @@ public class RecordManager : MonoBehaviour
     }
 
     // 플레이어들에게 레코드 적용하기
-    public void ApplyRecordToPlayers(List<Character> players)
+    public void ApplyRecordToPlayers(List<CharacterController> players)
     {
         for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
         {
@@ -236,9 +236,10 @@ public class RecordManager : MonoBehaviour
 
             foreach (var player in players)
             {
-                player.ApplyRecordAbility(record);
+                if (player.MyPlayer == null) continue;
+                player.MyPlayer.ApplyRecordAbility(record);
                 // 아래 코루틴 실행 
-                StartCoroutine(ManageRecordTimer(player, record));
+                StartCoroutine(ManageRecordTimer(player.MyPlayer, record));
             }
         }
     }

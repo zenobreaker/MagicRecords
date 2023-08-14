@@ -62,10 +62,10 @@ public class AttackObject : MonoBehaviour
     }
 
     // 시전자 정보 저장
-    public void SetAttackInfo(Character attacker, Transform trasnform, float damageRate = 1.0f)
+    public void SetAttackInfo(Character attacker, Transform paraTrasnform, float damageRate = 1.0f)
     {
         attackOwn = attacker;
-        attackOwnTransform = transform; 
+        attackOwnTransform = paraTrasnform; 
         this.damageRate = damageRate;
     }
 

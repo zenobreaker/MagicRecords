@@ -69,10 +69,18 @@ public abstract class CharacterController : MonoBehaviour, IDamage
 
     public abstract void Wait();
 
+    // 공격한 대상의 정보를 저장하는 함수
+    public void SetTargetInfo(Transform target)
+    {
+        if (fieldOfView == null) return;
+
+        fieldOfView.target = target;
+    }
+
     // 데미지 계산처리 하는 함수 
     public void DealDamage(Character attackOwn, Transform attackTrasnform = null, float damageRate = 1.0f)
     {
-        if (attackOwn == null || attackOwn.MyStat == null) return; 
+        if (attackOwn == null || attackOwn.MyStat == null) return;
 
         float damage = attackOwn.MyStat.totalATK * damageRate;
         float critRate = attackOwn.MyStat.totalCritRate;
@@ -81,7 +89,7 @@ public abstract class CharacterController : MonoBehaviour, IDamage
         float chance = Random.Range(0.0f, 1.0f);
         bool isCrit = false;
         // 크리티컬 확률 
-        if(chance  <= critRate)
+        if (chance <= critRate)
         {
             isCrit = true;
             // 데미지 공식 
@@ -97,19 +105,22 @@ public abstract class CharacterController : MonoBehaviour, IDamage
         {
             float myDefense = player.MyStat.totalDEF;
             const float DEFENSE = 100;
-            damageReduction = DEFENSE / ( myDefense + DEFENSE);
+            damageReduction = DEFENSE / (myDefense + DEFENSE);
         }
 
         damage = damage * (damageReduction);
         // 총계산
 
         Vector3 pos = Vector3.zero;
-        if(attackTrasnform != null)
+        if (attackTrasnform != null)
         {
             pos = attackTrasnform.position;
+            // 공격자의 정보 세팅 정보전달
+            SetTargetInfo(attackTrasnform);
         }
-      
+        
         Damage((int)damage, pos, isCrit);
+
     }
 
     public virtual void Damage(int damage, bool isCrit = false)
@@ -148,6 +159,8 @@ public abstract class CharacterController : MonoBehaviour, IDamage
                 }
             }
         }
+        
+        
     }
 
     public virtual void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)

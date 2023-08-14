@@ -20,11 +20,6 @@ public class FieldOfViewAngle : MonoBehaviour
         if(thePlayer == null)
             thePlayer = FindObjectOfType<PlayerControl>();
     }
-    void Update()
-    {
-        if (thePlayer == null)
-            thePlayer = FindObjectOfType<PlayerControl>();
-    }
 
     public Vector3 GetTargetPos()
     {
@@ -45,6 +40,7 @@ public class FieldOfViewAngle : MonoBehaviour
                     {
                         if (_hit.transform.CompareTag("Player"))
                         {
+                           
                             Debug.DrawRay(transform.position + transform.up, _direction, Color.blue);
                             return _hit.transform.position;
                         }
@@ -64,6 +60,8 @@ public class FieldOfViewAngle : MonoBehaviour
 
     public bool View()
     {
+        if (target != null) return true; 
+
          Vector3 _leftBoundary = BoundaryAngle(-viewAngle * 0.5f);
          Vector3 _rightBoundary  = BoundaryAngle(viewAngle * 0.5f);
 
@@ -87,6 +85,7 @@ public class FieldOfViewAngle : MonoBehaviour
                     {
                         if (_hit.transform.tag == "Player")
                         {
+                            target = _hit.transform;
                             Debug.DrawRay(transform.position + transform.up, _direction, Color.blue);
                             return true;
                         }

@@ -57,10 +57,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StageManager theSM = null;
     [SerializeField] private PlayerManager thePM = null;
     [SerializeField] ComboManager theCombo = null;
-    [SerializeField] private RewardController theReward = null;
 
     // 이번 게임에 등장하는 모든 아군 플레이어 
-    List<Character> team = new List<Character>();
+    List<CharacterController> team = new List<CharacterController>();
 
     private void Awake()
     {
@@ -248,7 +247,7 @@ public class GameManager : MonoBehaviour
         // 콤보 초기화
         theCombo.ResetCombo();
         player = thePM.GetPlayer();
-        team.Add(player.MyPlayer);
+        team.Add(player);
 
         if (player != null)
             playerCount = 1; 
@@ -439,14 +438,4 @@ public class GameManager : MonoBehaviour
             pair.Value.GrowUp(resultExp);
         }
     }
-
-    // 방어자에게 공격자 정보(Transform) 전달하기 
-
-    public void SetAttakerTrasnform(Character attacker, Character defender)
-    {
-        if (attacker == null && defender == null) return; 
-
-        
-    }
-
 }

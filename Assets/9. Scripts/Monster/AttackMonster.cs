@@ -140,12 +140,6 @@ public class AttackMonster : MonsterBase
        */
     }
 
-    public void SetTarget(Transform p_Target)
-    {
-        fieldOfView.target = p_Target;
-    }
-
-  
     protected void Chase()
     {
         if (!isChasing)
@@ -282,6 +276,18 @@ public class AttackMonster : MonsterBase
         Debug.Log("쿨타임 끝" + p_PatternNum);
         monsterAttackStat[p_PatternNum].attackPattern = false;
     }
+
+    public override void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
+    {
+        base.Damage(_damage, _targetPos, isCrit);
+        if(!isDead)
+        {
+            ResetBehaviour();
+            myState = PlayerState.Chase;
+            stateMachine.ChangeState(stateMachine.States[myState]);
+        }
+    }
+    
 
 
     public override void Damaged(int _dmg, Vector3 _targetPos)
