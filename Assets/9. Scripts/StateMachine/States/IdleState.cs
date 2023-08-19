@@ -50,7 +50,8 @@ public class IdleState : BaseState
             var isAlive = CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance);
 
             // 대상이 인식 범위에 보였다면 추적 스테이트로 변경 후 탈출 
-            if (owner.fieldOfView.View() && isAlive == false)
+            if ((owner.fieldOfView.View() && isAlive == false) 
+                || owner.fieldOfView.GetTargetTransform() != null)
             {
                 owner.myState = PlayerState.Chase;
                 return; 
