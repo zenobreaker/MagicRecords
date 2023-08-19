@@ -21,10 +21,22 @@ public class FieldOfViewAngle : MonoBehaviour
             thePlayer = FindObjectOfType<PlayerControl>();
     }
 
+    public Transform GetTargetTransform()
+    {
+        return target;
+    }
+
     public Vector3 GetTargetPos()
     {
         Collider[] _target = Physics.OverlapSphere(transform.position, viewDistance, targetMask);
 
+        // 타겟값이 있다면 대상을 따르도록 
+        if(target != null)
+        {
+            return target.transform.position;
+        }
+
+        // 없으면 일정 범위 내에 적이 있는지 검사 
         for (int i = 0; i < _target.Length; i++)
         {
             Transform _targetTf = _target[i].transform;
