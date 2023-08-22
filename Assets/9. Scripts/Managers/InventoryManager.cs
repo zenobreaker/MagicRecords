@@ -157,14 +157,10 @@ public class InventoryManager:MonoBehaviour
             DataItem t_DataItem = new DataItem(t_idx, t_item);
             equipItems.Add(t_DataItem);
 
-            //p_targetPlayer.SetEquip(t_item);
-            EquipManager.instance.ApplyAbilityEquip(p_targetPlayer, t_item, true);
-            //t_item.equipTarget = p_targetPlayer;
+            //p_targetPlayer.EquipItem(t_item);
             _invenSlot.EquipingItemSlot();
             t_item.uniqueID = p_targetPlayer.MyID;
-            //InfoManual.MyInstance.SetEquipSlot();
         }
-
 
     }
 

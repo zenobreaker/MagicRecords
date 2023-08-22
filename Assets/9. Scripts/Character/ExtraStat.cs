@@ -272,4 +272,16 @@ public class ExtraStat
         }
     }
 
+
+    public void ApplyOptionExtraStat(ItemAbility itemAbility, bool isSubbed = false)
+    {
+        float value = itemAbility.power;
+        if(isSubbed == true)
+        {
+            value *= -1; 
+        }
+
+        ApplyOptionExtraStat(itemAbility.abilityType, value, itemAbility.isPercent);
+    }
+
 }

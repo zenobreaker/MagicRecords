@@ -234,11 +234,17 @@ public class SlotTooltip : MonoBehaviour
         if (selectedItem != null && selectedItem is EquipItem)
         {
             slotType = (selectedItem as EquipItem).equipType;
+            // 아이템 해제니 장비면 변경
+            (selectedItem as EquipItem).isEquip = false; 
         }
 
         var player = InfoManager.instance.GetPlayerInfo(id);
         if (player == null) return;
 
+        // 아이템 정보 갱신 
+        InventoryManager.instance.RefreshItemInfo(ref selectedItem); 
+        
+        // 장착 해제로 값 전달
         EquipManager.instance.RunEquipItem(player, slotType, null);
 
         ShowToolTip(selectedSlot);
