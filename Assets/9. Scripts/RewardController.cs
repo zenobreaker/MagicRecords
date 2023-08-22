@@ -336,7 +336,8 @@ public class RewardController : MonoBehaviour
             }
         }
 
-        go_BaseUI.SetActive(false);
+        //go_BaseUI.SetActive(false);
+        UIPageManager.instance.OpenClose(go_BaseUI);
         isConfirm = true;
     }
 

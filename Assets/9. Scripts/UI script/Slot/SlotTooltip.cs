@@ -5,7 +5,8 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
-public class SlotTooltip : MonoBehaviour
+// 장착 관련 기능이나 아이템 툴팁 
+public class SlotTooltip : UiBase
 {
     [SerializeField] protected GameObject go_Base = null;
 
@@ -31,6 +32,8 @@ public class SlotTooltip : MonoBehaviour
     public Slot selectedSlot;
     protected int itemCount;
 
+    public Character selectedCharacter; 
+
     public delegate void EndDelegate();
     EndDelegate endDelegate;    // 팝업이 종료 시에 실행되는 델리게이트 
 
@@ -51,6 +54,14 @@ public class SlotTooltip : MonoBehaviour
         }
     }
 
+    public override void RefreshUI()
+    {
+        base.RefreshUI();
+
+        // 현재 보여준 아이템 갱신해서 다시 그리기 위한 소스
+        ShowToolTip(selectedItem);
+    }
+
     public void SetDelegate(EndDelegate _callback)
     {
         if(_callback != null)
@@ -62,6 +73,8 @@ public class SlotTooltip : MonoBehaviour
     // 아이템의 이미지를 보여주는 메소드
     public void ShowToolTip(Item p_item)
     {
+        if (p_item == null) return; 
+
         selectedItem = p_item;
 
         if (!go_Base.activeSelf)
@@ -194,30 +207,45 @@ public class SlotTooltip : MonoBehaviour
         //HideToolTip();
 
         // 캐릭터 선택 UI 호출
-        UIPageManager.instance.OpenSelectCharacter((selectPlayer) =>
+        if (selectedCharacter == null || selectedCharacter.MyID == 0)
         {
-            if (selectPlayer != null && selectedItem != null)
+            UIPageManager.instance.OpenSelectCharacter((selectPlayer) =>
             {
-                if (selectedItem is EquipItem == true)
+                if (selectPlayer != null && selectedItem != null)
                 {
-                    //selectPlayer.SetEquip(selectedItem as EquipItem);
-                    // todo 장착시 변경되는 기능 추가하기 ..
-                    // 위 기능을 할려면.. 장착 매커니즘을 더 추가 수정해야한다.
-                    //(selectedItem as EquipItem).isEquiped = true;
-                    EquipManager.instance.RunEquipItem(selectPlayer, 
-                        (selectedItem as EquipItem).equipType,
-                        selectedItem);
-                    ShowToolTip(selectedSlot);
+                    if (selectedItem is EquipItem == true)
+                    {
+                        (selectedItem as EquipItem).isEquip = true;
+                        // 장비 장착시키기 
+                        EquipManager.instance.RunEquipItem(selectPlayer,
+                            (selectedItem as EquipItem).equipType,
+                            selectedItem);
+
+                        // 툴팁창을 다시 그린다. 
+                        ShowToolTip(selectedSlot);
+                    }
                 }
-            }
-        });
+            });
+        }
+        else
+        {
+            // 선택된 캐릭터가 있으면 바로 장착시킨다. 
+            (selectedItem as EquipItem).isEquip = true;
+            // 장비 장착시키기 
+            EquipManager.instance.RunEquipItem(selectedCharacter,
+                (selectedItem as EquipItem).equipType,
+                selectedItem);
+
+            // 툴팁창을 다시 그린다. 
+            ShowToolTip(selectedSlot);
+        }
     }
 
     // 아이템 변경 
     public void ChangeItem()
     {
         // 아이템의 장착자 id 가져오기
-        var id = selectedItem.uniqueID;
+        var id = selectedItem.userID;
 
         var player = InfoManager.instance.GetPlayerInfo(id);
         if (player == null) return; 
@@ -229,21 +257,22 @@ public class SlotTooltip : MonoBehaviour
     public void TakeOffItem()
     {
         // 아이템의 장착자 id 가져오기
-        var id = selectedItem.uniqueID;
+        var id = selectedItem.userID;
         var slotType = EquipType.NONE;
         if (selectedItem != null && selectedItem is EquipItem)
         {
             slotType = (selectedItem as EquipItem).equipType;
             // 아이템 해제니 장비면 변경
             (selectedItem as EquipItem).isEquip = false; 
+            selectedItem.userID = 0;
         }
 
         var player = InfoManager.instance.GetPlayerInfo(id);
         if (player == null) return;
 
         // 아이템 정보 갱신 
-        InventoryManager.instance.RefreshItemInfo(ref selectedItem); 
-        
+        InventoryManager.instance.RefreshItemInfo(ref selectedItem);
+
         // 장착 해제로 값 전달
         EquipManager.instance.RunEquipItem(player, slotType, null);
 
@@ -276,6 +305,8 @@ public class SlotTooltip : MonoBehaviour
 
     public void EnchantBtn()
     {
+        if (theEnchant == null) return; 
+
         UIPageManager.instance.OpenClose(theEnchant.go_BaseUI);
         theEnchant.SetEquip(selectedItem as EquipItem);
         //HideToolTip();

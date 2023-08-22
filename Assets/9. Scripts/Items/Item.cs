@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 
@@ -24,7 +28,7 @@ public enum ItemRank
 }
 
 [System.Serializable]
-public class Item
+public class Item : ICloneable
 {
     //게임 오브젝트에 붙일 필요가 없는  스크립트 생성 
 
@@ -40,7 +44,7 @@ public class Item
     public string itemDesc;     // 아이템의 설명
 
     // #. 게임 내에서 리소스로 받아올 정보 
-    public int uniqueID;        // 소지자 ID
+    public int userID;        // 소지자 ID
     public bool isSale;         // 아이템 판매 여부 (상점 한)
     public string itemImgID;    // 아이템 이미지 아이디 
     public string itemSound;    // 아이템 획득 시, 사운드 
@@ -64,7 +68,7 @@ public class Item
         itemEach = _item.itemEach;
         itemImgID = _item.itemImgID;
         isSale = _item.isSale;
-        uniqueID = _item.uniqueID;
+        this.userID = _item.userID;
         // equipType = _item.equipType;
         //   itemEnchantRank = _item.itemEnchantRank;
         //   isEquiped = _item.isEquiped;
@@ -72,7 +76,7 @@ public class Item
         //itemAbilities[ADD1] = _item.itemAbilities[ADD1];
         //itemAbilities[ADD2] = _item.itemAbilities[ADD2];
         //itemAbilities[ADD3] = _item.itemAbilities[ADD3];
-        
+
 
         itemImage = Resources.Load("ItemImage/" + _item.itemImgID.ToString(), typeof(Sprite)) as Sprite;
     }
@@ -86,7 +90,7 @@ public class Item
 
     public Item(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye, ItemRank _itemRank,
         string _itemDesc, int _itemEach, int _itemValue, string _itemIMG, 
-        bool _isSale = false,int _uniqueID = 0)
+        bool _isSale = false,int userID = 0)
     {
         itemUID = _itemUID;
         itemKeycode = _keycode; 
@@ -106,7 +110,7 @@ public class Item
         //    itemEnchantRank = _echantRank;
         //  isEquiped = _isEquiped;
         isSale = _isSale;
-        uniqueID = _uniqueID;
+        this.userID = userID;
 
 
         //itemAbilities[ADD1] = _add1;
@@ -120,7 +124,7 @@ public class Item
 
     public void SetItem(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye, 
         ItemRank _itemRank, string _itemIMG, string _itemDesc,
-        bool _isSale = false, int _uniqueID = 0)
+        bool _isSale = false, int userID = 0)
     {
         itemUID = _itemUID;
         itemKeycode= _keycode;
@@ -131,7 +135,15 @@ public class Item
         itemImgID = _itemIMG;
 
         isSale = _isSale;
-        uniqueID = _uniqueID;
+        this.userID = userID;
+    }
+
+    public virtual object Clone()
+    {
+        Item item = new(itemUID, itemKeycode, itemName, itemType, 
+            itemRank, itemDesc, itemEach, itemValue,itemImgID, false, userID);
+
+        return item;
     }
 
     public Item MyItem

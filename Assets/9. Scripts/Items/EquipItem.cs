@@ -136,13 +136,24 @@ public class EquipItem : Item
         this.itemAbilities = _itemAbilities;
     }
 
+
+    public override object Clone()
+    {
+        Item item = (Item)base.Clone(); 
+
+        EquipItem equipItem = new(item, equipType, itemEnchantRank, isEquip, itemMainAbility,
+            itemAbilities);
+
+        return equipItem;
+    }
+
     //public void SetEquipItem( EquipType _equipType,
     //                 int _itemEnchantRank,
     //                 bool _isEquiped,
     //                 int _itemMainAbility,
     //                 ItemAbility[] _itemAbilities)
     //{
-       
+
     //    this.equipType = _equipType;
     //    this.itemEnchantRank = _itemEnchantRank;
     //    this.isEquiped = _isEquiped;

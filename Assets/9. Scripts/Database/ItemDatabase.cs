@@ -244,7 +244,7 @@ public class ItemDatabase : MonoBehaviour
         {
             if(pair.Value.itemKeycode.Equals(_keycode))
             {
-                return pair.Value;
+                return (Item)pair.Value.Clone();
             }
         }
 
