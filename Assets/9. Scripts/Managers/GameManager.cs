@@ -296,7 +296,6 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitUntil(() => itemCount <= 0);
-
        
         isStageIn = false;
         isStageClear = false;
@@ -311,7 +310,7 @@ public class GameManager : MonoBehaviour
         gameState = GameState.END;
         theSM.ClearStage(); // 해당 스테이지 클리어함수 호출
         //yield return new WaitUntil(() => theReward.isConfirm == true);
-        
+        StageInfoManager.initJoinPlayGameModeFlag = true; 
         theSM.ShowClearUI(true);
 
         // 캐릭터 경험치 지급 

@@ -183,6 +183,23 @@ public class EnchantManual : MonoBehaviour
         }
     }
 
+    // 장비 업그레이드 함수
+    private void UpgradeEquipment(EquipItem equipItem)
+    {
+        if (equipItem == null) return; 
+
+        (equipItem).itemEnchantRank += 1;
+
+        IncreaseAbility(ref equipItem.itemMainAbility);
+        if ((equipItem).itemEnchantRank % 3 == 0)
+        {
+            int t_idx = 
+                selectedItem.itemEnchantRank <= 9 
+                ? equipItem.itemEnchantRank / 3 - 1 : equipItem.itemEnchantRank / 3 - 2;
+            IncreaseAbility(ref equipItem.itemAbilities[t_idx]);
+        }
+    }
+
     public void EchantEquipment()
     {
         int t_enchantCost;
@@ -195,37 +212,33 @@ public class EnchantManual : MonoBehaviour
             {
                 Debug.Log("강화 불가능! 코인 부족");
             }
+            // 강화 가능
             else if (LobbyManager.coin >= t_enchantCost)
             {
                 LobbyManager.coin -= t_enchantCost;
 
+                // 장착된 아이템인지 검사 
                 if ((selectedItem).isEquip)
                 {
                     Debug.Log("장착된 장비 옵션 변경 루틴 ");
-                    (selectedItem).itemEnchantRank += 1;
-
-                    IncreaseAbility(ref selectedItem.itemMainAbility);
-                    if ((selectedItem).itemEnchantRank % 3 == 0)
+                    // 장착한 대상에게서 장비를 때넨다. 
+                    var user = InfoManager.instance.GetMyPlayerInfo(selectedItem.userID);
+                    if (user != null)
                     {
-                        int t_idx = selectedItem.itemEnchantRank <= 9 ? selectedItem.itemEnchantRank / 3 - 1 : selectedItem.itemEnchantRank / 3 - 2;
-                        IncreaseAbility(ref selectedItem.itemAbilities[t_idx]);
+                        // 기존에 장착된 슬롯에게서 해제 
+                         user.RemoveEquipment(selectedItem.equipType);
+                        // 장비 업그레이드 
+                        UpgradeEquipment(selectedItem);
+                        // 강화된 아이템으로 다시 장착 
+                        user.EquipItem(selectedItem); 
                     }
-
-                    UpdateView();
                 }
                 else
                 {
-                    (selectedItem).itemEnchantRank += 1;
-                    IncreaseAbility(ref selectedItem.itemMainAbility);
-                    if ((selectedItem).itemEnchantRank % 3 == 0)
-                    {
-                        
-                        int t_idx = selectedItem.itemEnchantRank <= 9 ? selectedItem.itemEnchantRank / 3 - 1 : selectedItem.itemEnchantRank / 3 - 2;
-                        IncreaseAbility(ref selectedItem.itemAbilities[t_idx]);
-                    }
-                    UpdateView();
+                    // 장비 업그레이드 
+                    UpgradeEquipment(selectedItem);
                 }
-               
+                UpdateView();
             }
 
         }

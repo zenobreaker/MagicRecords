@@ -71,15 +71,27 @@ public class ExtraStat
     public void IncreaseHP(int _value)
     {
         extraHP += _value;
+        if (extraHP < 0)
+        {
+            extraHP = 0;
+        }
     }
     public void IncreaseMP(int _value)
     {
         extraMP += _value;
+        if (extraMP < 0)
+        {
+            extraMP = 0;
+        }
     }
 
     public void IncreaseAtk(int _value)
     {
         extraAttack += _value;
+        if (extraAttack < 0)
+        {
+            extraAttack = 0; 
+        }
     }
 
     public void IncreaseAtkSpd(int _value)
@@ -90,6 +102,10 @@ public class ExtraStat
     public void IncreaseDef(int _value)
     {
         extraDefense += _value;
+        if (extraDefense < 0)
+        {
+            extraDefense = 0;
+        }
     }
     public void IncreaseSpd(int _value)
     {
@@ -99,11 +115,19 @@ public class ExtraStat
     public void IncreaseHPR(int _value)
     {
         extraHPR += _value;
+        if (extraHPR < 0)
+        {
+            extraHPR = 0;
+        }
     }
 
     public void IncreaseMPR(int _value)
     {
         extraSpeed += _value;
+        if (extraSpeed < 0)
+        {
+            extraSpeed = 0;
+        }
     }
 
     public void IncreaseCritRate(float _value)
@@ -114,6 +138,10 @@ public class ExtraStat
     public void IncreaseCritDmg(float _value)
     {
         extraCritDmg += _value;
+        if (extraCritDmg < 0)
+        {
+            extraCritDmg = 0;
+        }
     }
 
     public void ClearStat()

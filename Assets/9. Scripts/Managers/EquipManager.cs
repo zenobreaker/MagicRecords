@@ -29,15 +29,15 @@ public class EquipManager : MonoBehaviour
     {
         if (target == null || slotType == EquipType.NONE) return;
 
-        //// 대상에 장착하려는 슬롯에 자리를 비워놓는다.
-        //var prevItem = _target.GetEquipItemSlot(_slot);
+        // 대상에 장착하려는 슬롯에 자리를 비워놓는다.
+        var prevItem = target.GetEquipItemSlot(slotType);
 
-        //if (prevItem != null && (prevItem is EquipItem) == true)
-        //{
-        //    (prevItem as EquipItem).isEquip = false;
-        //    // 인벤토리에서 해당 아이템의 데이터를 수정
-        //    InventoryManager.instance.RefreshItemInfo(ref prevItem);
-        //}
+        if (prevItem != null && (prevItem is EquipItem) == true)
+        {
+            (prevItem as EquipItem).isEquip = false;
+            // 인벤토리에서 해당 아이템의 데이터를 수정
+            InventoryManager.instance.RefreshItemInfo(ref prevItem);
+        }
 
         // 대상에게 아이템을 장착시킨다. 
         if (item != null)
@@ -58,7 +58,6 @@ public class EquipManager : MonoBehaviour
         {
             target.RemoveEquipment(slotType);
         }
-
     }
 
 
