@@ -215,76 +215,71 @@ public class InfoManager : MonoBehaviour
 
 
     // 레벨 값을 받으면 계수만큼 계산해서 반환 
+    // 기본 공식 : 기본 스탯 + (성장 계수 * (level - 1)) 
     // 공격력 
-    public int GetGrowUpAttack(int _level,  int _attack = 5, double _rate = 1.0)
+    public int GetGrowUpAttack(int _level,  int _attack = 5, float _rate = 1.0f)
     {
         // 공식 todo 공식값이 성립되면 수정해야한다. 
-        // level * rate  + base attack(5) 
         int result = 0;
-        result = (int)(_level * _rate ) + _attack ;
+        result = _attack + Mathf.RoundToInt(_rate * (_level-1));
 
         return result; 
     }
     // 방어력 
-    public int GetGrowUpDefense(int _level, int _defense = 5, double _rate =  1.0)
+    public int GetGrowUpDefense(int _level, int _defense = 5, float _rate =  1.0f)
     {
-        // 공식 level * rate + defense 5 
         int result = 0;
-        result = (int)(_level * _rate) + _defense;
+        result =  _defense + Mathf.RoundToInt(_rate * (_level - 1));
 
         return result; 
     }
 
     // HP
-    public int GetGrowUpHP(int _level, int _hp = 10, double _rate = 1.0)
+    public int GetGrowUpHP(int _level, int _hp = 10, float _rate = 1.0f)
     {
 
-        // 공식 level * rate + HP(10)
         int result = 0;
-        result = (int)(_level * _rate) + _hp;
+        result =  _hp + Mathf.RoundToInt(_rate * (_level - 1));
 
         return result; 
     }
 
     // 체력 재생
 
-    public int GetGrowUpHPRecovery(int _level, int _hpr = 2, double _rate = 1.0)
+    public int GetGrowUpHPRecovery(int _level, int _hpr = 2, float _rate = 1.0f)
     {
         // 공식 level * rate + HPR(2)
         int result = 0;
-        result = (int)(_level * _rate) +_hpr;
+        result = _hpr + Mathf.RoundToInt(_rate * (_level - 1));
 
         return result;
     }
     // MP
 
-    public int GetGrowUpMP(int _level, int _mp = 10, double _rate = 1.0)
+    public int GetGrowUpMP(int _level, int _mp = 10, float _rate = 1.0f)
     {
-        // 공식 level * rate + MP(10)
         int result = 0;
-        result = (int)(_level * _rate) + _mp;
+        result =  _mp + Mathf.RoundToInt(_rate * (_level - 1));
 
         return result;
     }
     // 마나 재생 
-    public int GetGrowUpMPRecovery(int _level, int _mpr = 1, double _rate = 1.0)
+    public int GetGrowUpMPRecovery(int _level, int _mpr = 1, float _rate = 1.0f)
     {
-        // 공식 level * rate + MPR(1)
         int result = 0;
-        result = (int)(_level * _rate) + _mpr;
+        result = _mpr + Mathf.RoundToInt(_rate * (_level - 1));
 
         return result;
     }
 
     // 공격 속도 (todo 2023 04 24일까지 없음 추가되면 여기도 수정) 
-    public float GetGrowUpAttackSpeed(int _level, float _aspd = 1.0f, double _rate = 1.0)
+    public float GetGrowUpAttackSpeed(int _level, float _aspd = 1.0f, float _rate = 1.0f)
     {
         // 특정 레벨일 때만 증가 
-        // 공식 level * rate + SPD(1)
         float result = 0;
         if (_level % 3 == 0)
         {
-            result = (float)(_level * _rate) + _aspd;
+            result =  _aspd + Mathf.Round(_rate * (_level - 1));
         }
 
 
@@ -293,14 +288,14 @@ public class InfoManager : MonoBehaviour
 
 
     // 이동 속도 
-    public int GetGrowUpSpeed(int _level, int _spd = 1, double _rate = 1.0)
+    public int GetGrowUpSpeed(int _level, int _spd = 1, float _rate = 1.0f)
     {
         // 특정 레벨일 때만 증가 
-        // 공식 level * rate + SPD(1)
+        // 공식 SPD(1) + Mathf.RoundToInt(_rate * (_level - 1))
         int result = 0;
         if (_level % 3 == 0)
         {
-            result = (int)(_level * _rate) + _spd; 
+            result = _spd+ Mathf.RoundToInt(_rate * (_level - 1));  
         }
 
         return result;

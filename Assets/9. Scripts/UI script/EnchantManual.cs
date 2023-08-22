@@ -203,8 +203,6 @@ public class EnchantManual : MonoBehaviour
                     Debug.Log("장착된 장비 옵션 변경 루틴 ");
                     (selectedItem).itemEnchantRank += 1;
 
-                    EquipManager.instance.ApplyAbilityEquip(selectedItem, false);
-
                     IncreaseAbility(ref selectedItem.itemMainAbility);
                     if ((selectedItem).itemEnchantRank % 3 == 0)
                     {
@@ -212,7 +210,6 @@ public class EnchantManual : MonoBehaviour
                         IncreaseAbility(ref selectedItem.itemAbilities[t_idx]);
                     }
 
-                    EquipManager.instance.ApplyAbilityEquip(selectedItem, true);
                     UpdateView();
                 }
                 else

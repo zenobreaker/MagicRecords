@@ -34,8 +34,7 @@ public class Character
 
     //[SerializeField]
     // 캐릭터가 장착한 장비 
-    private Dictionary<EquipType, EquipItem> equipItems = new Dictionary<EquipType, EquipItem>();
-    public Dictionary<EquipType, int> equipSlotList = new Dictionary<EquipType, int>();
+    public Dictionary<EquipType, EquipItem> equipItems = new Dictionary<EquipType, EquipItem>();
 
     // 캐릭터가 장착한 스킬 
     private int chainIdx;
@@ -151,21 +150,13 @@ public class Character
     public void InitailizeEquipment()
     {
         equipItems.Clear();
-        equipSlotList.Clear();
         equipItems.Add(EquipType.WEAPON, null);
-        equipSlotList.Add(EquipType.WEAPON, 0);
         equipItems.Add(EquipType.ARMOR, null);
-        equipSlotList.Add(EquipType.ARMOR, 0);
         equipItems.Add(EquipType.WHEEL, null);
-        equipSlotList.Add(EquipType.WHEEL, 0);
         equipItems.Add(EquipType.ACCSESORRY_1, null);
-        equipSlotList.Add(EquipType.ACCSESORRY_1, 0);
         equipItems.Add(EquipType.ACCSESORRY_2, null);
-        equipSlotList.Add(EquipType.ACCSESORRY_2, 0);
         equipItems.Add(EquipType.ACCSESORRY_3, null);
-        equipSlotList.Add(EquipType.ACCSESORRY_3, 0);
         equipItems.Add(EquipType.DRONE, null);
-        equipSlotList.Add(EquipType.DRONE, 0);
     }
 
     // 장착 스킬 초기화 
@@ -189,154 +180,53 @@ public class Character
     }
 
 
-
-    //public void ChangeEquimnet(EquipType _typeSlot, ref EquipItem _equipItem, bool isEquip)
-    //{
-    //    if (isEquip == true)
-    //    {
-    //        SetEquipment(_typeSlot, ref _equipItem);
-    //    }
-    //    else
-    //    {
-    //        SetEmptyEquip(_typeSlot, ref _equipItem);
-    //    }
-            
-    //}
-
     // 장비 장착 
-    public void SetEquipment(EquipType _typeSlot, ref EquipItem _equipItem)
+    public void EquipItem(EquipItem equipItem)
     {
-        if (_equipItem == null) return; 
+        if (equipItem == null) return;
 
-        switch (_typeSlot)
+        // 기존에 해당 부위에 장비를 장착했는지 검사
+        if (equipItems.ContainsKey(equipItem.equipType) == true)
         {
-            case EquipType.WEAPON:
-                {
-                    equipItems[EquipType.WEAPON] = _equipItem;
-                    equipSlotList[EquipType.WEAPON] = _equipItem.itemUID;
-                }
-                break;
-            case EquipType.ARMOR:
-                {
-                    equipItems[EquipType.ARMOR] = _equipItem;
-                    equipSlotList[EquipType.ARMOR] = _equipItem.itemUID;
-                }
-                break;
-            case EquipType.WHEEL:
-                {
-                    equipItems[EquipType.WHEEL] = _equipItem;
-                    equipSlotList[EquipType.WHEEL] = _equipItem.itemUID;
-                }
-                break;
-            case EquipType.ACCSESORRY_1:
-                {
-                    equipItems[EquipType.ACCSESORRY_1] = _equipItem;
-                    equipSlotList[EquipType.ACCSESORRY_1] = _equipItem.itemUID;
-                }
-                break;
-            case EquipType.ACCSESORRY_2:
-                {
-                    equipItems[EquipType.ACCSESORRY_2] = _equipItem;
-                    equipSlotList[EquipType.ACCSESORRY_2] = _equipItem.itemUID;
-                }
-                break;
-            case EquipType.ACCSESORRY_3:
-                {
-                    equipItems[EquipType.ACCSESORRY_3] = _equipItem;
-                    equipSlotList[EquipType.ACCSESORRY_3] = _equipItem.itemUID;
-                }
-                break;
-            case EquipType.DRONE:
-                {
-                    equipItems[EquipType.DRONE] = _equipItem;
-                    equipSlotList[EquipType.DRONE] = _equipItem.itemUID;
-                }
-                break;
-
+            // 기존에 장착한 장비 정보 해제
+            RemoveEquipment(equipItem.equipType);
         }
-        _equipItem.uniqueID = this.MyID;
-        _equipItem.isEquip = true;
+        
+        // 장비 장착
+        equipItems[equipItem.equipType] = equipItem;
 
         // 아이템 능력치 적용 
-        
+        // 메인
+        MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility);
+        // 서브
+        foreach (var ability in equipItem.itemAbilities)
+        {
+            MyStat.extraStat.ApplyOptionExtraStat(ability);
+        }
+
+        MyStat.ApplyOption();
     }
 
-    // 아이템 장착 해제 
-
+    // 장비 해제 
     public void RemoveEquipment(EquipType _typeSlot)
     {
-        var _equipItem = equipItems[_typeSlot];
+        var equipItem = equipItems[_typeSlot];
+        // 아이템 능력치 적용 
+        if (equipItem != null)
+        {
+            // 메인
+            MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility, true);
+            // 서브
+            foreach (var ability in equipItem.itemAbilities)
+            {
+                MyStat.extraStat.ApplyOptionExtraStat(ability, true);
+            }
+
+            MyStat.ApplyOption();
+        }
         equipItems[_typeSlot] = null;
-        equipSlotList[_typeSlot] = 0;
-        // todo db 관련 통신 후 처리하게 해보기 
-        if (_equipItem != null)
-        {
-            _equipItem.isEquip = false; 
-        }
     }
-    public void SetEmptyEquip(EquipType _typeSlot, ref EquipItem _equipItem)
-    {
-        switch (_typeSlot)
-        {
-            case EquipType.WEAPON:
-                {
-                    _equipItem = equipItems[EquipType.WEAPON];
-                    equipItems[EquipType.WEAPON] = null;
-                    equipSlotList[EquipType.WEAPON] = 0;
-                }
-                break;
-            case EquipType.ARMOR:
-                {
-                    _equipItem = equipItems[EquipType.ARMOR];
-                    equipItems[EquipType.ARMOR] = null;
-                    equipSlotList[EquipType.ARMOR] = 0;
-                }
-                break;
-            case EquipType.WHEEL:
-                {
-
-                    _equipItem = equipItems[EquipType.WHEEL];
-                    equipItems[EquipType.WHEEL] = null;
-                    equipSlotList[EquipType.WHEEL] = 0;
-                }
-                break;
-            case EquipType.ACCSESORRY_1:
-                {
-                    _equipItem = equipItems[EquipType.ACCSESORRY_1];
-                    equipItems[EquipType.ACCSESORRY_1] = null;
-                    equipSlotList[EquipType.ACCSESORRY_1] = 0;
-                }
-                break;
-            case EquipType.ACCSESORRY_2:
-                {
-                    _equipItem = equipItems[EquipType.ACCSESORRY_2];
-                    equipItems[EquipType.ACCSESORRY_2] = null;
-                    equipSlotList[EquipType.ACCSESORRY_2] = 0;
-                }
-                break;
-            case EquipType.ACCSESORRY_3:
-                {
-                    _equipItem = equipItems[EquipType.ACCSESORRY_3];
-                    equipItems[EquipType.ACCSESORRY_3] = null;
-                    equipSlotList[EquipType.ACCSESORRY_3] = 0;
-                }
-                break;
-            case EquipType.DRONE:
-                {
-                    _equipItem = equipItems[EquipType.DRONE];
-                    equipItems[EquipType.DRONE] = null;
-                    equipSlotList[EquipType.DRONE] = 0;
-                }
-                break;
-
-        }
-
-        if (_equipItem != null)
-        {
-            _equipItem.isEquip = false; 
-        }
-    }
-
+ 
     // 스킬 장착 
     public void SetSkills(Skill[] p_Skills, Skill[] p_Chains)
     {
@@ -383,7 +273,6 @@ public class Character
 
         // 이 캐릭터의 스탯클래스에 경험치 지급
         this.MyStat.GrowUp(_exp);
-
     }
 
 

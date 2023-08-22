@@ -22,37 +22,40 @@ public class EquipManager : MonoBehaviour
 
         // DontDestroyOnLoad(this.gameObject);
     }
-    
+
 
     // 아이템 장착실행 
-    public void RunEquipItem(Character _target, EquipType _slot , Item _item)
+    public void RunEquipItem(Character target, EquipType slotType, Item item)
     {
-        if (_target == null || _slot == EquipType.NONE) return;
+        if (target == null || slotType == EquipType.NONE) return;
 
-        // 대상에 장착하려는 슬롯에 자리를 비워놓는다.
-        var prevItem = _target.GetEquipItemSlot(_slot);
+        //// 대상에 장착하려는 슬롯에 자리를 비워놓는다.
+        //var prevItem = _target.GetEquipItemSlot(_slot);
 
-        var equipment = _item as EquipItem;
-        if (prevItem != null && (prevItem is EquipItem) == true)
-        {
-            (prevItem as EquipItem).isEquip = false;
-            // 장착 해제한 아이템 옵션 적용 
-            ApplyAbilityEquip(prevItem as EquipItem, (prevItem as EquipItem).isEquip);  
-            // 인벤토리에서 해당 아이템의 데이터를 수정
-            InventoryManager.instance.RefreshItemInfo(ref prevItem);
-        }
-        _target.RemoveEquipment(_slot);
+        //if (prevItem != null && (prevItem is EquipItem) == true)
+        //{
+        //    (prevItem as EquipItem).isEquip = false;
+        //    // 인벤토리에서 해당 아이템의 데이터를 수정
+        //    InventoryManager.instance.RefreshItemInfo(ref prevItem);
+        //}
 
         // 대상에게 아이템을 장착시킨다. 
-        if (_item != null && (_item is EquipItem) == true)
+        if (item != null)
         {
-        
-            // 캐릭터에게 장착 
-            _target.SetEquipment(_slot, ref equipment);
-            // 장착한 아이템 능력치 적용 
-            ApplyAbilityEquip(equipment, equipment.isEquip);
-            // 해당 아이템 정보 갱신 
-            InventoryManager.instance.RefreshItemInfo(ref _item); 
+            var equipment = item as EquipItem;
+            if (item != null && (item is EquipItem) == true)
+            {
+                // 캐릭터에게 장착 
+                target.EquipItem(equipment);
+                // 장착한 아이템 능력치 적용 
+                // 해당 아이템 정보 갱신 
+                InventoryManager.instance.RefreshItemInfo(ref item);
+            }
+        }
+        // 아이템이 없다면 
+        else
+        {
+            target.RemoveEquipment(slotType);
         }
 
     }
@@ -63,136 +66,24 @@ public class EquipManager : MonoBehaviour
         targetPlayer.MyStat = _target;
     }
 
-    public void ClearOption()
-    {
-        //CharStat.instance.extraStat.ClearStat();
-        // extraAtk  = extraAtkSpd = extraDef = extraSpd = extraHP = extraHPR = extraMP = extraMPR =0 ; 
-    }
     public ExtraStat CalcStatToPercent(Character p_TargetPlayer, ExtraStat p_Extra)
     {
-        if (p_TargetPlayer == null || p_Extra == null) return null; 
+        if (p_TargetPlayer == null || p_Extra == null) return null;
 
         CharStat t_stat = new CharStat(p_TargetPlayer.MyStat);
 
         p_Extra.extraAttack = Mathf.FloorToInt((float)t_stat.attack * ((float)p_Extra.extraAttack / 100));
         p_Extra.extraAttackSpeed = Mathf.Floor((float)t_stat.attackSpeed * ((float)p_Extra.extraAttackSpeed / 100));
         p_Extra.extraDefense = Mathf.FloorToInt(t_stat.defense * (p_Extra.extraDefense / 100));
-        p_Extra.extraHP = Mathf.FloorToInt((float)t_stat.hp *((float)p_Extra.extraHP/100));
-        p_Extra.extraMP = Mathf.FloorToInt((float)t_stat.mp *((float)p_Extra.extraMP/100));
-        p_Extra.extraHPR = Mathf.FloorToInt((float)t_stat.hpRegen * ((float)p_Extra.extraHPR/100));
-        p_Extra.extraMPR = Mathf.FloorToInt((float)t_stat.mpRegen* ((float)p_Extra.extraMPR/100));
+        p_Extra.extraHP = Mathf.FloorToInt((float)t_stat.hp * ((float)p_Extra.extraHP / 100));
+        p_Extra.extraMP = Mathf.FloorToInt((float)t_stat.mp * ((float)p_Extra.extraMP / 100));
+        p_Extra.extraHPR = Mathf.FloorToInt((float)t_stat.hpRegen * ((float)p_Extra.extraHPR / 100));
+        p_Extra.extraMPR = Mathf.FloorToInt((float)t_stat.mpRegen * ((float)p_Extra.extraMPR / 100));
 
 
         return p_Extra;
-        
+
         //InfoManual.MyInstance.GetSelectedPlayer().MyStat.extraStat.SetStatus(p_Extra);
-    }
-
-    public void ApplyAbilityEquip(EquipItem p_item, bool isEquip)
-    {
-        if (p_item == null) return; 
-
-        var targetPlayer = InfoManager.instance.GetMyPlayerInfo((int)p_item.uniqueID);
-        if (targetPlayer !=  null)
-        {
-            ApplyAbilityEquip(targetPlayer, p_item, isEquip);
-        }
-    }
-
-    public void ApplyAbilityEquip(Character _targetPlayer, EquipItem p_item, bool isEquip)
-    {
-        //Player targetPlayer = InfoManual.MyInstance.GetSelectedPlayer();
-        if(_targetPlayer == null)
-        {
-            Debug.Log("플레이가 없습니다.");
-            return; 
-        }
-        
-        // ClearOption();
-        int extraAtk, extraAtkSpd , extraDef, extraSpd, extraHP, extraHPR, extraMP, extraMPR ;
-        extraAtk = extraAtkSpd = extraDef = extraSpd = extraHP = extraHPR = extraMP = extraMPR  = 0;
-        
-        // 서브 능력치 수치 계산
-        for (int i = 0; i < p_item.itemAbilities.Length; i++)
-        {
-            switch (p_item.itemAbilities[i].abilityType)
-            {
-                case AbilityType.ATK:
-                    extraAtk += p_item.itemAbilities[i].power;
-                    break;
-                case AbilityType.ASPD:
-                    extraAtkSpd += p_item.itemAbilities[i].power;
-                    break;
-                case AbilityType.DEF:
-                    extraDef += p_item.itemAbilities[i].power;
-                    break;
-                case AbilityType.SPD:
-                    extraSpd += p_item.itemAbilities[i].power;
-                    break;
-                case AbilityType.HP:
-                    extraHP += p_item.itemAbilities[i].power;
-                    break;
-                case AbilityType.HPR:
-                    extraMPR += p_item.itemAbilities[i].power;
-                    break;
-                case AbilityType.MP:
-                    extraMP += p_item.itemAbilities[i].power;
-                    break;
-                case AbilityType.MPR:
-                    extraMPR += p_item.itemAbilities[i].power;
-                    break;
-            }
-        }
-
-        ExtraStat finalStat = CalcStatToPercent(_targetPlayer,
-            new ExtraStat(extraAtk, extraAtkSpd, extraDef, extraSpd, extraHP, extraHPR, extraMP, extraMPR));
-
-        // 아이템 장착시 능력치 상승 구현 
-        switch (p_item.itemMainAbility.abilityType)
-        {
-            case AbilityType.ATK:
-                extraAtk = p_item.itemMainAbility.power;
-                break;
-            case AbilityType.DEF:
-                extraDef = p_item.itemMainAbility.power;
-                break;
-            case AbilityType.ASPD:
-                extraAtkSpd = p_item.itemMainAbility.power;
-                break;
-            case AbilityType.HP:
-                extraHP = p_item.itemMainAbility.power;
-                break;
-            case AbilityType.HPR:
-                extraHPR = p_item.itemMainAbility.power;
-                break;
-            case AbilityType.MP:
-                extraMP = p_item.itemMainAbility.power;
-                break;
-            case AbilityType.MPR:
-                extraMPR = p_item.itemMainAbility.power;
-                break;
-            case AbilityType.SPD:
-                extraSpd = p_item.itemMainAbility.power;
-                break;
-
-        }
-
-        if (finalStat != null)
-        {
-            finalStat.AddedStatus(new ExtraStat(
-                extraAtk, extraAtkSpd, extraDef, extraSpd, extraHP, extraHPR, extraMP, extraMPR));
-        }
-
-        if (isEquip) {
-            Debug.Log("낄때 스탯 : " + extraAtkSpd);
-            _targetPlayer.MyStat.extraStat.AddedStatus(finalStat);
-        }
-        else {
-            Debug.Log("뺄때 스탯 : " + extraAtkSpd);
-            _targetPlayer.MyStat.extraStat.SubbedStatus(finalStat);
-        }
-
-        _targetPlayer.MyStat.ApplyOption();
     }
 
 }
