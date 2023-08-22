@@ -32,6 +32,7 @@ public class EnchantManual : MonoBehaviour
     [SerializeField] Text txt_IncreasedAbility = null;  // 상승된 능력치
     [SerializeField] Text[] txt_IncreaseAddedAb = null;   // 상승된 추가 능력치 
 
+
     // UI 보이기
     public void ShowUI()
     {

@@ -46,6 +46,7 @@ public class EquipManager : MonoBehaviour
             if (item != null && (item is EquipItem) == true)
             {
                 // 캐릭터에게 장착 
+                equipment.userID = target.MyID;
                 target.EquipItem(equipment);
                 // 장착한 아이템 능력치 적용 
                 // 해당 아이템 정보 갱신 

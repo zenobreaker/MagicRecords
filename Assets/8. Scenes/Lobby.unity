@@ -12949,6 +12949,7 @@ MonoBehaviour:
     objectID: 0
     playerID: 0
     charStat:
+      baseCritDamage: 0
       myGrade: 0
       level: 0
       totalATK: 0
@@ -12976,15 +12977,22 @@ MonoBehaviour:
       giveChanceExp: 0
       extraStat:
         extraAttack: 0
-        extraAttackSpeed: 0
         extraDefense: 0
         extraSpeed: 0
         extraHP: 0
         extraMP: 0
         extraHPR: 0
         extraMPR: 0
+        extraAttackSpeed: 0
         extraCritRate: 0
         extraCritDmg: 0
+        increaseAttackRate: 1
+        increaseDefenseRate: 1
+        increaseSpeedRate: 1
+        increaseHPRate: 1
+        increaseHPRegenRate: 1
+        increaseMPRate: 1
+        increaseMPRegenRate: 1
     selectRecordInfos: []
 --- !u!1 &364384027 stripped
 GameObject:
@@ -21121,7 +21129,7 @@ MonoBehaviour:
     itemEach: 0
     itemValue: 0
     itemDesc: 
-    uniqueID: 0
+    userID: 0
     isSale: 0
     itemImgID: 
     itemSound: 
@@ -31138,7 +31146,7 @@ MonoBehaviour:
     itemEach: 1
     itemValue: 0
     itemDesc: 
-    uniqueID: 0
+    userID: 0
     isSale: 0
     itemImgID: NormalGun
     itemSound: 
@@ -31169,7 +31177,7 @@ MonoBehaviour:
     itemEach: 1
     itemValue: 0
     itemDesc: "\uD3C9\uBC94\uD55C \uAC00\uC774\uB4DC \uB4DC\uB860\uC785\uB2C8\uB2E4."
-    uniqueID: 1000
+    userID: 0
     isSale: 0
     itemImgID: NormalGun
     itemSound: 
@@ -31214,7 +31222,7 @@ MonoBehaviour:
     itemEach: 0
     itemValue: 0
     itemDesc: "\uB0A1\uC544 \uB2F3\uC740 \uCD1D"
-    uniqueID: 0
+    userID: 0
     isSale: 0
     itemImgID: 
     itemSound: 
@@ -35332,7 +35340,7 @@ MonoBehaviour:
     itemEach: 0
     itemValue: 0
     itemDesc: 
-    uniqueID: 0
+    userID: 0
     isSale: 0
     itemImgID: 
     itemSound: 
@@ -42917,8 +42925,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 2039695528}
+        m_TargetAssemblyTypeName: SlotTooltip, Assembly-CSharp
         m_MethodName: EnchantBtn
         m_Mode: 1
         m_Arguments:
@@ -60654,12 +60662,61 @@ MonoBehaviour:
     itemEach: 0
     itemValue: 0
     itemDesc: 
-    uniqueID: 0
+    userID: 0
     isSale: 0
     itemImgID: 
     itemSound: 
     itemImage: {fileID: 0}
   selectedSlot: {fileID: 0}
+  selectedCharacter:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 0
+      myGrade: 0
+      level: 0
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraAttackSpeed: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+        increaseAttackRate: 1
+        increaseDefenseRate: 1
+        increaseSpeedRate: 1
+        increaseHPRate: 1
+        increaseHPRegenRate: 1
+        increaseMPRate: 1
+        increaseMPRegenRate: 1
+    selectRecordInfos: []
 --- !u!1 &2041277728
 GameObject:
   m_ObjectHideFlags: 0

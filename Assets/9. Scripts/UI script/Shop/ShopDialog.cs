@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ShopDialog : MonoBehaviour
 {
@@ -106,18 +108,19 @@ public class ShopDialog : MonoBehaviour
 
         if (LobbyManager.coin >= selectedItem.itemValue)
         {
-            Item buyedItem = null;
+            Item boughtItem = null;
             // todo 나중에 아이템의 타입별로 아이템을 만드는 팩토리같은거 만들자
-            if(selectedItem.itemType == ItemType.Equipment)
-            {
-                //selectedItem.uniqueID = 
-                buyedItem = selectedItem as EquipItem;
-            }
-            InventoryManager.instance.AddItemToInven(buyedItem, itemCount);
+            boughtItem = (Item)selectedItem.Clone();
+
+            // todo 방식 변경할 수도? item의 uid를 변경한다.
+            boughtItem.itemUID = HashCode.Combine(selectedItem.itemUID, 
+                selectedItem.itemName, selectedItem.itemType);
+
+            InventoryManager.instance.AddItemToInven(boughtItem, itemCount);
             LobbyManager.MyInstance.IncreseCoin(-selectedItem.itemValue);
 
             UIPageManager.instance.Cancel(go_Base);
-            Debug.Log("구입 완료" + buyedItem.itemName);
+            Debug.Log("구입 완료" + boughtItem.itemName);
         }
         else
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,6 +72,8 @@ public class InventoryManager:MonoBehaviour
     // 아이템 넣기 
     public void AddItemToInven(Item _item, int _count = 1)
     {
+        if (inventory == null) return;
+
         inventory.AddItem(_item);
     }
 
@@ -102,7 +105,7 @@ public class InventoryManager:MonoBehaviour
         {
             if(item.itemUID == _item.itemUID)
             {
-                item.uniqueID = _item.uniqueID;
+                item.userID = _item.userID;
                 var equipItem = item as EquipItem;
                 var refEquipItem = _item as EquipItem;
                 //  장비면 ? 
@@ -159,7 +162,7 @@ public class InventoryManager:MonoBehaviour
 
             //p_targetPlayer.EquipItem(t_item);
             _invenSlot.EquipingItemSlot();
-            t_item.uniqueID = p_targetPlayer.MyID;
+            t_item.userID = p_targetPlayer.MyID;
         }
 
     }
@@ -168,7 +171,7 @@ public class InventoryManager:MonoBehaviour
     {
         if (p_item == null) return;
 
-        var player = InfoManager.instance.GetMyPlayerInfo((int)p_item.uniqueID);
+        var player = InfoManager.instance.GetMyPlayerInfo((int)p_item.userID);
         if(player == null) return;
 
         TakeOffEquipment(player, p_item);

@@ -20,6 +20,7 @@ public class UIPageManager : MonoBehaviour
 
 
     public delegate void Callback<T>(T t);
+    public delegate void Callback();
 
     private void Awake()
     {
@@ -69,6 +70,8 @@ public class UIPageManager : MonoBehaviour
     }
 
     // UI들을 전반적으로 stack에 넣어서 관리하도록 한다.
+
+   
     public void OpenClose(GameObject _gameObject)
     {
         if (_gameObject == null)
@@ -92,8 +95,8 @@ public class UIPageManager : MonoBehaviour
         }
         else
         {
-            _gameObject.SetActive(true);
             popupList.Push(_gameObject);
+            _gameObject.SetActive(true);
             Debug.Log("열린 페이지 oc: " + popupList.Peek().name + popupList.Count);
             SoundManager.instance.PlaySE("Confirm_Click");
             if (btn_Back != null)
@@ -102,6 +105,24 @@ public class UIPageManager : MonoBehaviour
             }
 
         }
+
+        // todo 한시적으로 uibase의 refreshui 함수를 호출하도록 한다.
+        if (popupList.Count > 0)
+        {
+            var ui = popupList.Peek();
+            if(ui.TryGetComponent<UiBase>(out var uiBase))
+            {
+                uiBase.RefreshUI();
+            }
+        }
+    }
+
+    // 위 함수에서 콜백이 있다면 실행하는 함수 
+    public void OpenClose(GameObject _gameObject, Callback callback = null)
+    {
+        OpenClose(_gameObject);
+        // 콜백이 있다면 실행
+        callback?.Invoke();
     }
 
     public void BackPage()
