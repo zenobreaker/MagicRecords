@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class StageSelecter : MonoBehaviour
 {
+    public static bool FLAG_ADVENTURE_MODE = false;     // 탐사 모드 진행 중인지 플래그 
+
     public bool isStageScreenOpen = false; // 스테이지 선택창
     public bool isSignOpen = false; // 선택 안내문 
 
@@ -17,7 +19,6 @@ public class StageSelecter : MonoBehaviour
     
     [Header("스테이지 화면")]
     [SerializeField] private GameObject go_GModeScreen = null;
-    [SerializeField] private Button btn_RMode = null;
 
     [SerializeField] private GameObject go_StageScreen = null; // 스테이지 선택 화면
                                                                //   [SerializeField]
@@ -34,26 +35,33 @@ public class StageSelecter : MonoBehaviour
 
 
 
+    private void Start()
+    {
+        // 씬이 호출될 때마다 호출되는 함수이므로 프로세싱 관련 함수 호출    
+        ProcessingAdventureMode();
+    }
+
     public void OpenModeSelectScreen()
     {
         UIPageManager.instance.OpenClose(go_GModeScreen);
     }
 
-    // RLMode 시작 
+    // 탐사 UI 켜주는 것부터 시작해주는 함수 
     public void StartStageSelect()
     {
         if (go_SignBase.activeSelf)
             go_SignBase.SetActive(false);
 
-        Debug.Log("현재 사용중?");
-        theSPC.curMainChpaterNum = 1;
-        //theSPC.CreateStage();
-        //theSPC.UpgradeCreateStage();
         if (StageInfoManager.instance != null)
         {
-            StageInfoManager.instance.CreateStageTableList();
+            // 챕터를 다 클리어하면 열지 않는다. 
+            if (StageInfoManager.instance.currentChapter <=
+                StageInfoManager.instance.maxChapter)
+            {
+                StageInfoManager.instance.CreateStageTableList();
+                UIPageManager.instance.OpenClose(go_StageScreen);
+            }
         }
-        UIPageManager.instance.OpenClose(go_StageScreen);
     }
 
     public void EndToRLMode()
@@ -78,34 +86,60 @@ public class StageSelecter : MonoBehaviour
         }
     }
 
-    // 스테이지 선택
-    public void SelectStage(string _stageName)
+
+    // 탐사 안내창 열기 
+    public void OpenPopupTryAdenvturePopup()
     {
-        if (!isSignOpen)
+        // 플래그가 켜져 있으면 여부 상관 없이 진행한 화면을 표출한다. 
+        if(FLAG_ADVENTURE_MODE == true)
         {
-            SignOpen(_stageName);
+            // 탐사 UI 켜주기
+            StartStageSelect();
+        }
+        //플래그가 꺼져 있다면 탐사할 것인지 팝업을 띄워 여부를 확인하게 한다. 
+        else
+        {
+            // 팝업을 키고 특정 컴포넌트를 가지고 있는지 검사 
+            UIPageManager.instance.OpenClose(go_SignBase);
+            if (go_SignBase.TryGetComponent<NoticePopup>(out var noticePopup))
+            {
+                if (noticePopup.confirmButton != null)
+                {
+                    //확인버튼 기능 할당 
+                    noticePopup.Confirm(() =>
+                    {
+                        // 팝업을 끈다 
+                        UIPageManager.instance.OpenClose(go_SignBase);
+
+                        // 변수 플래그 변경
+                        FLAG_ADVENTURE_MODE = true;
+
+                        // 탐사 UI 켜주기
+                        StartStageSelect();
+                    });
+                }
+            }
         }
     }
 
-    // 안내창 열기 
-    public void SignOpen(string _stageName)
+
+    // 탐사 모드 진행 모듈 프로세스 함수 
+    public void ProcessingAdventureMode()
     {
-        isSignOpen = true;
-        text_SignText.text = _stageName + "\n"
-            + "스테이지에 입장하시겠습니까?";
-        go_SignBase.SetActive(true);
-        StageChannel.stageName = _stageName;
+        // 이 함수는 게임씬에서 로비씬으로 왔을 때 호출 된다. 
+        // 플래그가 켜져 있으면 다시 탐사 UI를 켜줘서 게임을 진행하도록 한다. 
+        if (FLAG_ADVENTURE_MODE == false)
+        {
+            return;
+        }
+
+        // 게임 진행 관련 UI를 먼저 켜준다. 
+        OpenModeSelectScreen();
+
+        // 탐사 UI 켜주기
+        StartStageSelect();
     }
 
-    //public void OpenRLModeUI()
-    //{
-    //    text_SignText.text =  "로그라이트 모드 실행하겠습니까?";
-
-    //    btn_EnrollToRL.gameObject.SetActive(true);
-
-    //    go_SignBase.SetActive(true);
-       
-    //}
 
     public void OpenTest()
     {

@@ -191,6 +191,7 @@ public class StageInfoManager : MonoBehaviour
 
     public string stageName;
     public int currentChapter;      // 진행 중인 챕터 수 
+    public int maxChapter; 
     public int enemyCount;              // 게임 내 적 수 
     public int itemCount;
     public int selectStageEventNum;   // 선택한 몬스터 스테이지 번호 
@@ -234,7 +235,9 @@ public class StageInfoManager : MonoBehaviour
             playLevelPair.Add(GamePlayLevel.SPECIAL, 0.3f);
         }
 
-        currentChapter = 1; 
+        currentChapter = 1;
+        // todo 임시로 하나만 해놓음.
+        maxChapter = 1; 
     }
 
     public void SetStageList(int _chapter, ref List<StageTableClass> _stageTableList)
@@ -314,6 +317,11 @@ public class StageInfoManager : MonoBehaviour
         }
     }
 
+    public void GetLocatedStageInfoListByCurrenChapter(out List<StageTableClass> list)
+    {
+        GetLocatedStageInfoList(out list, currentChapter);
+    }
+
 
     // 스테이지 클리어 후 다른 스테이지 정보 갱신시킨다
     public void RefreshCurrentChapterStageTableClass()
@@ -330,6 +338,24 @@ public class StageInfoManager : MonoBehaviour
             {
                 stageTable.isCleared = true;
                 stageTable.isLocked = true;
+
+                // 선택한 스테이지가 마지막이고 클리어 했다면 다음 챕터로 넘어간다.
+                if(stageTables.Last().isCleared == true)
+                {
+                    currentChapter += 1;
+                    // 넘어갈 챕터가 없으면 진행이 불가능하므로 게임 모드 플래그를 끈다.
+                    if(currentChapter > maxChapter)
+                    {
+                        StageSelecter.FLAG_ADVENTURE_MODE = false; 
+                        // 게임모드가 꺼짐에 따라 그동안 받아왔던 레코드들 삭제 
+                        if(RecordManager.instance != null)
+                        {
+                            RecordManager.instance.ClearRecords();
+                        }
+                    }
+
+                    break;
+                }
             }
             // 선택한 스테이지에 다음  스테이지 잠금 해제
             else if(selectStageTable.tableOrder + 1 == stageTable.tableOrder)
@@ -338,33 +364,10 @@ public class StageInfoManager : MonoBehaviour
             }
         }
     }
-        
-
-
-    // 배치된 스테이지의 마지막 스테이지 반환
-    public StageTableClass GetLoacatedStageLastStageInfo()
-    {
-        List<StageTableClass> stageList;
-        GetLocatedStageInfoList(out stageList);
-        if (stageList == null || stageList.Count <= 0 )
-        {
-            return null;
-        }
-
-        var stageTable = GetLocatedStageInfo(stageList.Count-1);
-        if (stageTable != null)
-        {
-            return stageTable;
-        }
-            
-
-        return null;
-    }
-
-
+    
+    
 
     // 스테이지 생성 관련  
-
     // 길이를 알려주면 그 사이 값을 일정한 비율로 채우는 함수 
     void SetStagePosOneLine(int length, float rate = 1.0f)
     {

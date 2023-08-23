@@ -262,10 +262,5 @@ public class StageManager : MonoBehaviour
         // 스테이지인포매니저의 함수를 호출해준다. 
         StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
     }
-
-  
-    
-  
-
    
 }
