@@ -4180,6 +4180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageName: 
   currentChapter: 0
+  maxChapter: 0
   enemyCount: 0
   itemCount: 0
   selectStageEventNum: 0
@@ -6510,6 +6511,7 @@ GameObject:
   - component: {fileID: 178725939}
   - component: {fileID: 178725941}
   - component: {fileID: 178725940}
+  - component: {fileID: 178725942}
   m_Layer: 5
   m_Name: Sign_Base
   m_TagString: Alert
@@ -6579,6 +6581,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178725938}
   m_CullTransparentMesh: 0
+--- !u!114 &178725942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178725938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0660d31012d83b946b4b3118e78362f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirmButton: {fileID: 594055737}
+  cancelButton: {fileID: 259449365}
 --- !u!224 &187855883 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1913273301340704334, guid: fc6992726f9bced4287b73b99a852907,
@@ -26212,7 +26228,6 @@ MonoBehaviour:
   isSignOpen: 0
   theSPC: {fileID: 434293}
   go_GModeScreen: {fileID: 819184324}
-  btn_RMode: {fileID: 1312986987}
   go_StageScreen: {fileID: 434289}
   go_SignBase: {fileID: 178725938}
   text_SignText: {fileID: 497277342}
@@ -35776,7 +35791,7 @@ GameObject:
   - component: {fileID: 1199572125}
   - component: {fileID: 1199572127}
   m_Layer: 5
-  m_Name: Stage_Stroy
+  m_Name: Stage_Story
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35887,7 +35902,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 819493052}
         m_TargetAssemblyTypeName: StageSelecter, Assembly-CSharp
-        m_MethodName: StartStageSelect
+        m_MethodName: OpenPopupTryAdenvturePopup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

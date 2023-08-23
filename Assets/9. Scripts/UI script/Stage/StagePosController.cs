@@ -53,15 +53,13 @@ public class StagePosController : MonoBehaviour
     private void Start()
     {
         // 저장한게 없다면 챕터는 1로 초기화시켜놓는다
-        curMainChpaterNum = 1;
-        StageInfoManager.instance.currentChapter = curMainChpaterNum;
+        curMainChpaterNum = StageInfoManager.instance.currentChapter;
     }
 
     private void OnEnable()
     {
         // 스테이지 인포 매니저에서 등록된 정보를 가져온다. 
-        StageInfoManager.instance.GetLocatedStageInfoList(out stageTables, curMainChpaterNum);
-
+        StageInfoManager.instance.GetLocatedStageInfoListByCurrenChapter(out stageTables);
 
         // 오브젝트가 켜질 때마다 스테이지 정보대로 그려준다.
         DrawStageButtonByScrollview();
@@ -84,23 +82,6 @@ public class StagePosController : MonoBehaviour
         }
 
      
-    }
-
-    // 현재 진행중인 챕터의 (마지막) 보스 스테이지를 클리어 했는지 검사
-    public bool CheckCurrentChapterBossStageClear()
-    {
-        var lastStage = StageInfoManager.instance.GetLoacatedStageLastStageInfo();
-        if (lastStage == null) return false; 
-
-        if (lastStage.isBossStage == true)
-        {
-            if(lastStage.isCleared == true)
-            {
-                return true; 
-            }
-        }
-
-        return false; 
     }
 
 

@@ -79,7 +79,7 @@ public class RecordManager : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(instance.gameObject);
+            Destroy(this);
 
         InitializeRecordInfo();
     }
@@ -237,7 +237,7 @@ public class RecordManager : MonoBehaviour
             foreach (var player in players)
             {
                 if (player.MyPlayer == null) continue;
-                player.MyPlayer.ApplyRecordAbility(record);
+                
                 // 아래 코루틴 실행 
                 StartCoroutine(ManageRecordTimer(player.MyPlayer, record));
             }
@@ -250,6 +250,8 @@ public class RecordManager : MonoBehaviour
     {
         if (record.specialOption == null || player == null)
             yield return null;
+
+        player.ApplyRecordAbility(record);
 
         yield return new WaitForSeconds(record.specialOption.duration);
 
@@ -276,5 +278,10 @@ public class RecordManager : MonoBehaviour
             }
 
         }
+    }
+    // 선택한 레코드들을 다 초기화한다. 
+    public void ClearRecords()
+    {
+        selectRecordInfos.Clear();  
     }
 }
