@@ -7,34 +7,25 @@ public enum InventoryCategory
 {
     NONE = 0, 
     WEAPON = 1, 
-    ARMOR,
-    TIRE,
-    ACCESORY, 
-    ETC,
-    DRONE,
-    RUNE,
-    TOTAL,
+    ARMOR = 2,
+    WHEEL = 3,
+    ACCSESORRY = 4, 
+    DRONE = 5,
+    RUNE = 6,
+    USED = 7,
+    ETC = 8,
     MAX = 8,
 }
 
 // 유저의 아이템을 담아놓는 인벤토리 클래스
 public class Inventory : MonoBehaviour
 {
-    public static Inventory instance; 
+    public static Inventory instance;
 
+    public int defaultSlotCount = 100; 
     public int maxSlotCount;        // 최대 인벤 슬롯 개수 
 
-    //[SerializeField] List<Item> totalItems = new List<Item>();
-    [SerializeField] List<Item> weaponItems = new List<Item>();
-    [SerializeField] List<Item> armorItems = new List<Item>();
-    [SerializeField] List<Item> tireItems = new List<Item>();
-    [SerializeField] List<Item> accessoryItems = new List<Item>();
-    [SerializeField] List<Item> usedItems = new List<Item>();
-    [SerializeField] List<Item> etcItems = new List<Item>();
-    [SerializeField] List<Item> droneItems = new List<Item>();
-    [SerializeField] List<Item> runItems = new List<Item>();
-
-    Dictionary<ItemType, List<Item>> itemList = new Dictionary<ItemType, List<Item>>();
+    public Dictionary<InventoryCategory, List<Item>> itemList = new Dictionary<InventoryCategory, List<Item>>();
 
     //int selectedItem;
     public Item testItem;
@@ -49,22 +40,25 @@ public class Inventory : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+
+        itemList.Add(InventoryCategory.WEAPON, new List<Item>());
+        itemList.Add(InventoryCategory.ARMOR, new List<Item>());
+        itemList.Add(InventoryCategory.WHEEL, new List<Item>());
+        itemList.Add(InventoryCategory.ACCSESORRY, new List<Item>());
+        itemList.Add(InventoryCategory.DRONE, new List<Item>());
+        itemList.Add(InventoryCategory.RUNE, new List<Item>());
+        itemList.Add(InventoryCategory.USED, new List<Item>());
+        itemList.Add(InventoryCategory.ETC, new List<Item>());
     }
 
     void Start()
     {
-
-        //TabSetting(0);
-        //Debug.Log("탭세팅");
-        // TabSlotOpen(selectedTab);
-
-
-        // todo total item list 살려서 조작시키기 
-        //itemList.Add(ItemType.Equipment, )
+        maxSlotCount = defaultSlotCount;
     }
 
 
-    public List<Item> GetItemsByInventoryType(ItemType _type)
+    public List<Item> GetItemsByInventoryType(InventoryCategory _type)
     {
         return itemList[_type];
     }
@@ -72,7 +66,7 @@ public class Inventory : MonoBehaviour
     // 아이템이 담긴 리스트 반환
     public List<Item> GetItems()
     {
-        return weaponItems; // 기능 변경으로 주석 //totalItems;
+        return itemList[InventoryCategory.WEAPON]; 
     }
 
     public List<Item> GetItemByInventory(Item _item)
@@ -82,6 +76,8 @@ public class Inventory : MonoBehaviour
             return null; 
         }
 
+        InventoryCategory inventoryCategory = InventoryCategory.NONE;
+
         if (_item.itemType == ItemType.Equipment)
         {
             var equipItem = _item as EquipItem;
@@ -89,27 +85,29 @@ public class Inventory : MonoBehaviour
             {
                 if (equipItem.equipType == EquipType.WEAPON)
                 {
-                    return weaponItems;
+                    inventoryCategory = InventoryCategory.WEAPON;
                 }
                 else if (equipItem.equipType == EquipType.ARMOR)
                 {
-                    return armorItems;
+                    inventoryCategory = InventoryCategory.ARMOR;
                 }
-                else if (equipItem.equipType == EquipType.ACCSESORRY_1)
+                else if (equipItem.equipType == EquipType.ACCSESORRY_1 ||
+                    equipItem.equipType == EquipType.ACCSESORRY_2 ||
+                    equipItem.equipType == EquipType.ACCSESORRY_3)
                 {
-                    return accessoryItems;
+                    inventoryCategory = InventoryCategory.ACCSESORRY;
                 }
                 else if (equipItem.equipType == EquipType.WHEEL)
                 {
-                    return tireItems;
+                    inventoryCategory = InventoryCategory.WHEEL;
                 }
                 else if (equipItem.equipType == EquipType.DRONE)
                 {
-                    return droneItems;
+                    inventoryCategory = InventoryCategory.DRONE;
                 }
                 else if (equipItem.equipType == EquipType.RUNE)
                 {
-                    return runItems;
+                    inventoryCategory = InventoryCategory.RUNE;
                 }
 
             }
@@ -117,67 +115,78 @@ public class Inventory : MonoBehaviour
         // 소모품일 경우
         else if (_item.itemType == ItemType.Used)
         {
-            return usedItems;
+            inventoryCategory = InventoryCategory.USED;
         }
         // 기타
         else if (_item.itemType == ItemType.ETC)
         {
-            return etcItems;
+            inventoryCategory = InventoryCategory.RUNE;
         }
 
-        return null;
+        return GetItemsByInventoryType(inventoryCategory);
     }
 
     // 리스트에 아이템을 넣는다. 아이템의 타입을 확인해서 세부 리스트에 추가한다 
-    public void AddItem(Item _item)
+    public void AddItem(Item item)
     {
-        // 기능 변경으로 주석 
-        //totalItems.Add(_item);
-        
+        InventoryCategory inventoryCategory = InventoryCategory.NONE;
+
         // 아이템 타입 검사 장비라면 장비 타입별로 검사한다.
-        if(_item.itemType == ItemType.Equipment)
+        if (item.itemType == ItemType.Equipment)
         {
-            var equipItem = _item as EquipItem;
+            var equipItem = item as EquipItem;
             if (equipItem != null)
             {
                 if (equipItem.equipType == EquipType.WEAPON)
                 {
-                    weaponItems.Add(_item);
+                    inventoryCategory = InventoryCategory.WEAPON;
                 }
                 else if (equipItem.equipType == EquipType.ARMOR)
                 {
-                    armorItems.Add(_item);
+                    inventoryCategory = InventoryCategory.ARMOR;
                 }
-                else if (equipItem.equipType == EquipType.ACCSESORRY_1)
+                else if (equipItem.equipType == EquipType.ACCSESORRY_1 ||
+                    equipItem.equipType == EquipType.ACCSESORRY_2 ||
+                    equipItem.equipType == EquipType.ACCSESORRY_3)
                 {
-                    accessoryItems.Add(_item);
+                    inventoryCategory = InventoryCategory.ACCSESORRY;
                 }
                 else if (equipItem.equipType == EquipType.WHEEL)
                 {
-                    tireItems.Add(_item);
+                    inventoryCategory = InventoryCategory.WHEEL;
                 }
                 else if (equipItem.equipType == EquipType.DRONE)
                 {
-                    droneItems.Add(_item);
+                    inventoryCategory = InventoryCategory.DRONE;
                 }
                 else if (equipItem.equipType == EquipType.RUNE)
                 {
-                    runItems.Add(_item);
+                    inventoryCategory = InventoryCategory.RUNE;
                 }
 
             }
         }
         // 소모품일 경우
-        else if(_item.itemType == ItemType.Used)
+        else if(item.itemType == ItemType.Used)
         {
-            usedItems.Add(_item);
+            inventoryCategory = InventoryCategory.USED;
         }
         // 기타
-        else if(_item.itemType == ItemType.ETC)
+        else if(item.itemType == ItemType.ETC)
         {
-            etcItems.Add(_item);
+            inventoryCategory = InventoryCategory.ETC;
         }
 
+        // 아이템 데이터 넣기
+        if (itemList[inventoryCategory].Count < maxSlotCount)
+        {
+            itemList[inventoryCategory].Add(item);
+        }
+        else
+        {
+            // todo 해당 아이템을 넣을 공간이 없다고 메세지를 전달한다.
+            Debug.Log(inventoryCategory + "가 꽉차서 넣을 수 없습니다.");
+        }
     }
 
     //public void SetInvenSlot(List<Item> p_itemList)
@@ -191,60 +200,12 @@ public class Inventory : MonoBehaviour
     //}
 
 
-    public List<Item> GetWeaponItems()
+    public List<Item> GetItemList(InventoryCategory category)
     {
-        return weaponItems;
-    }
-
-    public List<Item> GetArmorItems()
-    {
-        return armorItems;
-    }
-    public List<Item> GetTireItems()
-    {
-        return tireItems;
-    }
-    public List<Item> GetAccessoryItems()
-    {
-        return accessoryItems;
-    }
-
-    public List<Item> GetUsedItems()
-    {
-        return usedItems;
-    }
-
-    public List<Item> GetDroneItems()
-    {
-        return droneItems;
-    }
-
-    public List<Item> GetRunItems()
-    {
-        return runItems;
-    }
-
-    public List<Item> GetItemList(InventoryCategory _category)
-    {
-        switch(_category )
-        {
-            case InventoryCategory.WEAPON:
-                return GetWeaponItems();
-            case InventoryCategory.ARMOR:
-                return GetArmorItems();
-            case InventoryCategory.TIRE:
-                return GetTireItems(); 
-            case InventoryCategory.ACCESORY:
-                return GetAccessoryItems(); 
-            case InventoryCategory.ETC:
-                return GetUsedItems(); 
-            case InventoryCategory.DRONE:
-                return GetDroneItems();
-            case InventoryCategory.RUNE:
-                return GetRunItems() ;
-        }
-
-        return GetWeaponItems(); 
+        if (itemList.ContainsKey(category) == true)
+            return itemList[category];
+        else
+            return null;
     }
 
     // 장비 장착 
@@ -260,44 +221,7 @@ public class Inventory : MonoBehaviour
     // 저장하기위한 데이터 반환 
     // 모든 아이템 
 
-    // 무기
-    public Item[] GetSaveWeaponData()
-    {
-        return weaponItems.ToArray();
-    }
-
-    // 방어구  
-    public Item[] GetSaveArmorData()
-    {
-        return armorItems.ToArray();
-    }
-
-
-    // 타이어  
-    public Item[] GetSaveTireData()
-    {
-        return tireItems.ToArray();
-    }
-
-
-    // 악세사리 
-    public Item[] GetSaveAccessoryItemData()
-    {
-        return accessoryItems.ToArray();
-    }
-
-    // 소모품 
-    public Item[] GetSaveUsedItemData()
-    {
-        return usedItems.ToArray();
-    }
-
-    // 기타 아이템  
-    public Item[] GetSaveETCItemData()
-    {
-        return etcItems.ToArray();
-    }
-
+ 
 
 
 #endregion

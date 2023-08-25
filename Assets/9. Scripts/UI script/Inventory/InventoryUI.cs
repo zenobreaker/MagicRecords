@@ -141,7 +141,7 @@ public class InventoryUI : TabManual
 
     public void SettingSlot(List<Item> p_Items)
     {
-        //SplitListWithTotal();
+        if (p_Items == null) return; 
 
         if (p_Items.Count != invenSlots.Count)
         {
@@ -187,43 +187,8 @@ public class InventoryUI : TabManual
     // 아이템을 슬롯에 등록 
     public void TabSetting(int p_TabNumber)
     {
-       
+        SettingSlot(Inventory.instance.GetItemList((InventoryCategory)p_TabNumber));
 
-        switch ((InventoryCategory)p_TabNumber)
-        {
-            //case InventoryCategory.TOTAL:
-            //    selectedPage = 0;
-            //    SettingSlot(Inventory.instance.GetSlotList());
-            //    break;
-            case InventoryCategory.WEAPON:
-                selectedPage = 1;
-                SettingSlot(Inventory.instance.GetWeaponItems());
-                break;
-            case InventoryCategory.ARMOR:
-                selectedPage = 2;
-                SettingSlot(Inventory.instance.GetArmorItems());
-                break;
-            case InventoryCategory.TIRE:
-                selectedPage = 3;
-                SettingSlot(Inventory.instance.GetTireItems());
-                break;
-            case InventoryCategory.ACCESORY:
-                selectedPage = 4;
-                SettingSlot(Inventory.instance.GetAccessoryItems());
-                break;
-            case InventoryCategory.ETC:
-                selectedPage = 5;
-                SettingSlot(Inventory.instance.GetUsedItems());
-                break;
-            case InventoryCategory.DRONE:
-                selectedPage = 6;
-                SettingSlot(Inventory.instance.GetItemList(InventoryCategory.DRONE));
-                break;
-            case InventoryCategory.RUNE:
-                selectedPage = 7;
-                SettingSlot(Inventory.instance.GetItemList(InventoryCategory.RUNE));
-                break;
-        }
     }
 
     // 세팅한 탭을 기준으로 인벤토리를 오픈한다
