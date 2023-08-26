@@ -99,7 +99,7 @@ public class CharacterStatJsonAllData
 
 public class MonsterDatabase : MonoBehaviour
 {
-    public static MonsterDatabase instance; 
+    public static MonsterDatabase instance;
 
     [Header("일반몬스터")]
     public List<MonsterData> data_Normals;
@@ -189,16 +189,91 @@ public class MonsterDatabase : MonoBehaviour
         }
     }
 
+    // 스테이지 관련
+    // 챕터별 몬스터 json 정보 세팅
+    private void InitializeStageDataFromJson()
+    {
+        stageAllData = JsonUtility.FromJson<StageMonsterJsonAllData>(stageJsonData.text);
+        if (stageAllData == null) return;
 
-    public int[] getRandomData(int length,int min, int max)
+        stageInfoList = new List<StageInfo>();
+
+        stageNormalInfoList = new List<StageInfo>();
+        stageEliteInfoList = new List<StageInfo>();
+        stageBossInfoList = new List<StageInfo>();
+
+        if (stageAllData.stageMonsterJsons == null) return;
+
+        foreach (var data in stageAllData.stageMonsterJsons)
+        {
+            // 클래스 생성 
+            StageInfo stageInfo = new StageInfo();
+
+            stageInfo.id = data.id;
+            stageInfo.chapter = data.chapter;
+            stageInfo.mapID = data.mapID;
+
+            stageInfo.monsterGroup = new List<int>();
+            // 몬스터 그룹 
+            string[] stringGroup = data.monsterGroup.Split(',');
+            for (int i = 0; i < stringGroup.Length; i++)
+            {
+                print(stringGroup[i]);
+                // 대상 int로 변경하기
+                if (int.TryParse(stringGroup[i], out int target))
+                {
+                    stageInfo.monsterGroup.Add(target);
+                }
+            }
+
+
+            // 스테이지 등급 
+            stageInfo.monsterGrade = data.monsterGrade;
+
+            // 데이터 넣어주기 
+            stageInfoList.Add(stageInfo);
+
+            // 몬스터 등급별로 리스트 분리 
+            if (data.monsterGrade == (int)MonsterGrade.NORMAL)
+            {
+                stageNormalInfoList.Add(stageInfo);
+            }
+            else if (data.monsterGrade == (int)MonsterGrade.ELITE)
+            {
+                stageEliteInfoList.Add(stageInfo);
+            }
+            else if (data.monsterGrade == (int)MonsterGrade.BOSS)
+            {
+                stageBossInfoList.Add(stageInfo);
+            }
+        }
+    }
+
+    // 캐릭터 스탯 정보 초기화 
+    void InitializeCharacterStatData()
+    {
+        characterAllData = JsonUtility.FromJson<CharacterStatJsonAllData>(characterStatJson.text);
+
+        if (characterAllData.characterStatJson == null)
+            return;
+
+        foreach (var data in characterAllData.characterStatJson)
+        {
+
+        }
+    }
+
+
+    public int[] getRandomData(int length, int min, int max)
     {
         int[] randArray = new int[length];
-        
-        for (int i=0; i < length; i++){
+
+        for (int i = 0; i < length; i++)
+        {
             randArray[i] = Random.Range(min, max);
             for (int j = 0; j < i; j++)
             {
-               if(randArray[i] == randArray[j])
+                if (randArray[i] == randArray[j])
                 {
                     i++;
                     break;
@@ -219,7 +294,7 @@ public class MonsterDatabase : MonoBehaviour
         {
             int rand = Random.Range(0, randArray.Count);
             resultArray.Add(randArray[rand]);
-            if(randArray.Count > 1)
+            if (randArray.Count > 1)
                 randArray.RemoveAt(rand);
         }
 
@@ -230,15 +305,15 @@ public class MonsterDatabase : MonoBehaviour
     {
         MonsterData monster = null;
 
-        foreach(var data in data_Normals)
+        foreach (var data in data_Normals)
         {
-            if(data.monsterID == monsterId)
+            if (data.monsterID == monsterId)
             {
-                monster = data; 
+                monster = data;
             }
         }
 
-        foreach(var data in data_Elites)
+        foreach (var data in data_Elites)
         {
             if (data.monsterID == monsterId)
             {
@@ -254,7 +329,7 @@ public class MonsterDatabase : MonoBehaviour
             }
         }
 
-        return monster; 
+        return monster;
     }
 
     public uint GetRandomMonsterId(MonsterGrade monsterGrade)
@@ -278,7 +353,7 @@ public class MonsterDatabase : MonoBehaviour
                 return randArray[rand].monsterID;
         }
 
-        
+
 
         return 0;
     }
@@ -286,7 +361,7 @@ public class MonsterDatabase : MonoBehaviour
     public MonsterData GetRandomMonster(MonsterGrade monsterGrade)
     {
         List<MonsterData> randArray;
-        int rand; 
+        int rand;
 
         switch (monsterGrade)
         {
@@ -323,12 +398,12 @@ public class MonsterDatabase : MonoBehaviour
             // 오브젝트를 생성하고 그 오브젝트의 
             var monsterObject = Instantiate(data.monsterPrefab);
             if (monsterObject == null) continue;
-            
+
             // 모든 처리를 다하기 전까진 비활성화
             monsterObject.SetActive(false);
 
             // id에 맞는 스탯 데이터 가져오기 
-            foreach(CharacterStatJson stat in characterAllData.characterStatJson)
+            foreach (CharacterStatJson stat in characterAllData.characterStatJson)
             {
                 if (stat.id != data.statID)
                     continue;
@@ -343,9 +418,9 @@ public class MonsterDatabase : MonoBehaviour
                 if (characterController.MyPlayer == null)
                 {
                     Character player = new Character();
-                    
+
                     // 고민이다.. 딕셔너리에 character를 저장해서 넣을까..
-                    characterController.MyPlayer = player; 
+                    characterController.MyPlayer = player;
                 }
 
                 // 스탯 관련
@@ -357,7 +432,7 @@ public class MonsterDatabase : MonoBehaviour
                 characterController.MyPlayer.InitCurrentMP();
 
                 // 찾아서 할당했으면 루프 탈출 
-                break; 
+                break;
             }
             // 처리를 다했으니 켜준다. 
             monsterObject.SetActive(true);
@@ -372,10 +447,10 @@ public class MonsterDatabase : MonoBehaviour
     {
         PlayerData result;
 
-        int count = 0; 
-        foreach(var data in data_MonsterStat)
+        int count = 0;
+        foreach (var data in data_MonsterStat)
         {
-            if (count >= data_MonsterStat.Count) break; 
+            if (count >= data_MonsterStat.Count) break;
 
             if (data == null) continue;
 
@@ -383,92 +458,32 @@ public class MonsterDatabase : MonoBehaviour
             if (id == count)
             {
                 result = data;
-                return result; 
+                return result;
             }
 
-            count++; 
+            count++;
 
         }
 
-        return null; 
+        return null;
     }
 
 
-    // 스테이지 관련
-    // 챕터별 몬스터 json 정보 세팅
-    private void InitializeStageDataFromJson()
-    {
-        stageAllData = JsonUtility.FromJson<StageMonsterJsonAllData>(stageJsonData.text);
-        if (stageAllData == null) return; 
-
-        stageInfoList = new List<StageInfo>();
-        
-        stageNormalInfoList = new List<StageInfo>();
-        stageEliteInfoList = new List<StageInfo>();
-        stageBossInfoList = new List<StageInfo>();
-
-        if (stageAllData.stageMonsterJsons == null) return; 
-
-        foreach (var data in stageAllData.stageMonsterJsons)
-        {
-            // 클래스 생성 
-            StageInfo stageInfo = new StageInfo();
-
-            stageInfo.id = data.id;
-            stageInfo.chapter = data.chapter;
-            stageInfo.mapID = data.mapID;
-
-            stageInfo.monsterGroup = new List<int>(); 
-            // 몬스터 그룹 
-            string[] stringGroup = data.monsterGroup.Split(',');
-            for (int i = 0; i < stringGroup.Length; i++)
-            {
-                print(stringGroup[i]); 
-                // 대상 int로 변경하기
-                if(int.TryParse(stringGroup[i], out int target))
-                {
-                    stageInfo.monsterGroup.Add(target);
-                }
-            }
-
-
-            // 스테이지 등급 
-            stageInfo.monsterGrade = data.monsterGrade;
-            
-            // 데이터 넣어주기 
-            stageInfoList.Add(stageInfo);
-
-            // 몬스터 등급별로 리스트 분리 
-            if (data.monsterGrade == (int)MonsterGrade.NORMAL)
-            {
-                stageNormalInfoList.Add(stageInfo);
-            }
-            else if (data.monsterGrade == (int)MonsterGrade.ELITE)
-            {
-                stageEliteInfoList.Add(stageInfo);
-            }
-            else if (data.monsterGrade == (int)MonsterGrade.BOSS)
-            {
-                stageBossInfoList.Add(stageInfo);
-            }
-        }
-    }
-
-
+ 
     // 챕터 번호와 등급을 받으면 랜덤한 스테이지 ID를 반환
     public int GetRandomStageIDFromChapterAndGrade(int chapter, int grade = 1)
     {
-       if(stageInfoList == null)  return 0;
+        if (stageInfoList == null) return 0;
 
-        List<StageInfo> targetList = new List<StageInfo>();  
-        foreach(var data in stageInfoList)
+        List<StageInfo> targetList = new List<StageInfo>();
+        foreach (var data in stageInfoList)
         {
             if (data == null) continue;
             // chapter 검사 
             if (data.chapter != chapter)
                 continue;
 
-            
+
             // 해당 등급에 맞는 리스트에서 해당 값을 가져온다. 
             if (data.monsterGrade == (int)MonsterGrade.NORMAL)
             {
@@ -484,7 +499,7 @@ public class MonsterDatabase : MonoBehaviour
             }
 
             if (targetList.Count <= 0)
-                return 0; 
+                return 0;
 
             var findList = targetList.FindAll(x => x.chapter == data.chapter);
 
@@ -493,18 +508,18 @@ public class MonsterDatabase : MonoBehaviour
 
             int random = Random.Range(min, max + 1);
 
-            foreach(var item in findList)
+            foreach (var item in findList)
             {
                 if (random != item.id)
                     continue;
-                 
+
                 return item.id;
             }
 
         }
 
 
-        return 0; 
+        return 0;
     }
 
     // chapter와 등급 난이도를 받으면 리스트에 해당 몬스터 ID를 넣어 반환 
@@ -524,19 +539,19 @@ public class MonsterDatabase : MonoBehaviour
         if (stageID <= 0 || stageAllData == null ||
             stageAllData.stageMonsterJsons == null) return;
 
-        foreach(var data in stageInfoList)
+        foreach (var data in stageInfoList)
         {
             if (data == null || data.id != stageID) continue;
-            
+
             // 해당 데이터에 있는 몬스터 ID 리스트를 순회하면서 정보를 넣어 전달 
-            foreach(var monsterID in data.monsterGroup)
+            foreach (var monsterID in data.monsterGroup)
             {
                 targetList.Add(monsterID);
             }
             // 등장하는 map id 연결 
             eventInfo.appearMonsterInfo.mapID = data.mapID;
             // 게임에 진행할 wave 수 설정
-            if(data.wave == 0 )
+            if (data.wave == 0)
             {
                 eventInfo.appearMonsterInfo.wave = 1;
             }
@@ -544,24 +559,34 @@ public class MonsterDatabase : MonoBehaviour
             {
                 eventInfo.appearMonsterInfo.wave = data.wave;
             }
-            return; 
-        }
-    }
-
-
-    // 캐릭터 스탯 정보 초기화 
-    void InitializeCharacterStatData()
-    {
-        characterAllData = JsonUtility.FromJson<CharacterStatJsonAllData>(characterStatJson.text);
-
-        if (characterAllData.characterStatJson == null)
             return;
-
-        foreach (var data in characterAllData.characterStatJson)
-        {
-
         }
     }
+
+
+    // id 값을 받으면 CharStat 클래스를 반환한다. exp는 계산되지않음
+    public CharStat GetCharStat(int id)
+    {
+        foreach(var data in characterAllData.characterStatJson)
+        {
+            if (data == null) continue;
+
+            CharStat charStat = new CharStat();
+            charStat.attack = data.attack;
+            charStat.defense = data.defense;
+            charStat.attackSpeed = data.attackSpeed;
+            charStat.speed = data.speed;
+            charStat.hp = data.hp;  
+            charStat.hpRegen = data.hpRegen;
+            charStat.mp = data.mp;
+            charStat.mpRegen = data.mpRegen;
+            charStat.critRate = data.critRate;
+            charStat.critDmg = data.critDmg;
+
+            return charStat; 
+        }
+
+        return null; 
+    }
+
 }
-
-

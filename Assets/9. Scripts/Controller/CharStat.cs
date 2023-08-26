@@ -41,6 +41,23 @@ public class CharStat
 
     public ExtraStat extraStat = new ExtraStat();
 
+    public CharStat()
+    {
+        attack = 0;
+        defense = 0;
+        attackSpeed = 0;
+        hp = 0;
+        mp = 0;
+        hpRegen = 0;
+        mpRegen = 0;
+        speed = 0;
+        critRate = 0;
+        critDmg = 0;
+        exp = 0;
+        maxExp = 0;
+        giveChanceExp = 0; 
+    }
+
     public CharStat(CharStat _target)
     {
         Debug.Log("CharStat Deep Copy");
@@ -91,24 +108,23 @@ public class CharStat
         ApplyOption();
     }
 
+    // 캐릭터 경험치 계산처리
+    public void CalcMaxExp(int level =1)
+    {
+        this.maxExp = Mathf.FloorToInt(100 * Mathf.Pow(level, 1.5f));
+    }
+
     //  캐릭터 성장 
     public void GrowUp(int _exp)
     {
         this.exp += _exp; 
-        if(this.exp >= this.maxExp)
+        while(this.exp >= this.maxExp)
         {
-            this.exp = 0;
-
             // 각 스탯별 능력치 증가 todo 계산식을 받아서 처리해보도록 하장
             this.level += level + 1;
 
-            this.maxExp = maxExp + 10;
-            //this.hp = hp + 10;
-            //this.mp = mp + 10;
-            //this.hpRecovery = hpRecovery + 1;
-            //this.mpRecovery = mpRecovery + 1;
-            //this.attack = attack + 5;
-            //this.defense = defense + 5;
+            exp -= maxExp;
+            CalcMaxExp(level);
 
             ApplyOption(); 
         }

@@ -46,9 +46,9 @@ public class PlayerDatabase : MonoBehaviour
 
     public PlayerableObjectData GetPlayerableObject(uint _id)
     {
-        foreach(var data in playerObjectList)
+        foreach (var data in playerObjectList)
         {
-            if(data.id == _id)
+            if (data.id == _id)
             {
                 return data;
             }

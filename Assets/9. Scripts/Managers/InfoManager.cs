@@ -302,5 +302,25 @@ public class InfoManager : MonoBehaviour
     }
 
 
+    public void ApplySaveWheelerData(WheelerData wheeler)
+    {
+        if (wheeler == null) return; 
 
+        // 자신이 소유한 캐릭터로 추가 
+        CharStat charStat = MonsterDatabase.instance.GetCharStat(wheeler.wheelerID);
+        charStat.level = wheeler.level;
+        Character tempPlayer = new Character();
+        tempPlayer.MyID = wheeler.wheelerID;
+        tempPlayer.objectID = (uint)wheeler.wheelerID;
+        // 스탯 
+        tempPlayer.MyStat = charStat;
+        // 장착 장비
+        //tempPlayer.EquipItem()
+        // 드론 
+
+        // 장착 스킬 
+
+        // ? 유무울?
+
+    }
 }
