@@ -109,7 +109,7 @@ public class CharStat
     }
 
     // 캐릭터 경험치 계산처리
-    public void CalcMaxExp(int level =1)
+    public void CalcMaxExp(int level = 1)
     {
         this.maxExp = Mathf.FloorToInt(100 * Mathf.Pow(level, 1.5f));
     }

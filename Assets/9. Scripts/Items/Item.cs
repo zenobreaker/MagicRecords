@@ -9,6 +9,7 @@ using UnityEngine;
 
 public enum ItemType
 {
+    NONE = 0,
     Equipment,
     Used,
     Ingredient,
@@ -38,7 +39,7 @@ public class Item : ICloneable
     public string itemName;     // 아이템 이름
     public ItemType itemType;   // 아이템의 유형
     public ItemRank itemRank;   // 아이템의 등급
-    public int itemEach;       // 아이템 개수 
+    public int itemCount;       // 아이템 개수 
     public int itemValue;       // 아이템 가격 
     [TextArea]
     public string itemDesc;     // 아이템의 설명
@@ -65,7 +66,7 @@ public class Item : ICloneable
         itemType = _item.itemType;
         itemRank = _item.itemRank;
         itemValue = _item.itemValue;
-        itemEach = _item.itemEach;
+        itemCount = _item.itemCount;
         itemImgID = _item.itemImgID;
         isSale = _item.isSale;
         this.userID = _item.userID;
@@ -81,15 +82,15 @@ public class Item : ICloneable
         itemImage = Resources.Load("ItemImage/" + _item.itemImgID.ToString(), typeof(Sprite)) as Sprite;
     }
 
-    public Item(ItemType _itemType, int _itemUID, int _itemEach)
+    public Item(ItemType itemType, int itemUID, int itemCount)
     {
-        this.itemType = _itemType;
-        this.itemUID = _itemUID;
-        this.itemEach = _itemEach;
+        this.itemType = itemType;
+        this.itemUID = itemUID;
+        this.itemCount = itemCount;
     }
 
     public Item(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye, ItemRank _itemRank,
-        string _itemDesc, int _itemEach, int _itemValue, string _itemIMG, 
+        string _itemDesc, int itemCount, int _itemValue, string _itemIMG, 
         bool _isSale = false,int userID = 0)
     {
         itemUID = _itemUID;
@@ -100,7 +101,7 @@ public class Item : ICloneable
         itemType = _itemTpye;
         itemRank = _itemRank;
         itemValue = _itemValue;
-        itemEach = _itemEach;
+        this.itemCount = itemCount;
         itemImgID = _itemIMG;
         // equipType = _equipType;
 
@@ -141,7 +142,7 @@ public class Item : ICloneable
     public virtual object Clone()
     {
         Item item = new(itemUID, itemKeycode, itemName, itemType, 
-            itemRank, itemDesc, itemEach, itemValue,itemImgID, false, userID);
+            itemRank, itemDesc, itemCount, itemValue,itemImgID, false, userID);
 
         return item;
     }

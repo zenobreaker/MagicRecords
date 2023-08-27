@@ -29,7 +29,7 @@ public class Title : MonoBehaviour
     public void ClickStart()
     {
         Debug.Log("로딩");
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("Lobby");
         gameObject.SetActive(false);
     }
 

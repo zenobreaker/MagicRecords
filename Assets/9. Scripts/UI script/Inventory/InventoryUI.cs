@@ -86,14 +86,14 @@ public class InventoryUI : TabManual
 
         for (int i = 0; i <= totalItems.Count; i++)
         {
-            if (p_item.itemType != ItemType.Equipment && totalItems[i].Equals(p_item) && p_item.itemEach < 100)
+            if (p_item.itemType != ItemType.Equipment && totalItems[i].Equals(p_item) && p_item.itemCount < 100)
             {
-                totalItems[i].itemEach += p_Count;
+                totalItems[i].itemCount += p_Count;
                 break;
             }
             else
             {
-                p_item.itemEach = p_Count;
+                p_item.itemCount = p_Count;
                 totalItems.Add(p_item as EquipItem);
 
                 if ((selectedPage == 4 || selectedPage == 0) && p_item.itemType == ItemType.Used)

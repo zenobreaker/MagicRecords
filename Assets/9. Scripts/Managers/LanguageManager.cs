@@ -33,12 +33,12 @@ public class LanguageManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
 
         string currentLanguageCode = GetUserSelectedLanguage();
 

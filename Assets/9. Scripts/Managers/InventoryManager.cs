@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,6 +69,7 @@ public class InventoryManager:MonoBehaviour
        var testItem = CreateItem("equipment_drone_1");
         inventory.AddItem(testItem);
     }
+
 
     // 아이템 넣기 
     public void AddItemToInven(Item _item, int _count = 1)
@@ -220,5 +222,39 @@ public class InventoryManager:MonoBehaviour
     //        }
     //    }
     //}
+
+
+    public void ApplySaveItemData(List<ItemData> saveDatas)
+    {
+        if (saveDatas == null || itemDatabase == null) return;
+
+        foreach(var data in saveDatas)
+        {
+            var item = itemDatabase.GetItemByUID(data.itemID);
+            if (item == null) continue;
+
+            item.itemRank = data.itemRank;
+            item.itemCount = data.count;
+
+            if(data.itemType == ItemType.Equipment && item is EquipItem)
+            {
+                var equipItem = item as EquipItem;
+
+                equipItem.equipType = data.equipType;
+                equipItem.userID = data.userID;
+                if (equipItem.userID != 0)
+                {
+                    equipItem.isEquip = true; 
+                }
+
+                equipItem.itemEnchantRank = data.enhanceCount;
+                equipItem.itemMainAbility = data.itemMainAbility;
+                equipItem.itemAbilities = data.itemAbilities;
+            }
+
+
+            Inventory.instance.AddItem(item);
+        }
+    }
 }
 

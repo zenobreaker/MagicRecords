@@ -251,6 +251,19 @@ public class ItemDatabase : MonoBehaviour
         return null;
     }
 
+    public Item GetItemByUID(int uid)
+    {
+        foreach(var pair in itemDataList)
+        {
+            if (pair.Value.itemUID == uid)
+            {
+                return (Item)pair.Value.Clone();
+            }
+        }
+
+        return null;
+    }
+
     // 무기 아이템 만들기
     void CreateWeaponItem()
     {

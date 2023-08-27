@@ -17,10 +17,11 @@ public class SaveData
 
     public string userID = "";
     public int money = 0;   // 유저가 갖고 있는 머니
-    // 유저가 가지고 있는 캐릭터들 
-    public List<WheelerData> wheelerDatas = new List<WheelerData>();
     // 인벤토리
     public List<ItemData> inventory = new List<ItemData>();
+    
+    // 유저가 가지고 있는 캐릭터들 
+    public List<WheelerData> wheelerDatas = new List<WheelerData>();
 }
 
 // 플레이어블 캐릭터 저장 
@@ -41,9 +42,6 @@ public class WheelerData
     // 엑스트라 스탯은 장착한 장비나 스킬 등에 대한 외부 요인으로 처리되므로 저장안함
     // 장착한 장비 id만 저장하고 인벤토리에서 해당 id에 아이템을 가져와서 장착시킨다
     public List<EquipItemData> equipItems = new List<EquipItemData>();
-
-    // 장착한 드론 
-    public int droneID = 0; 
 
     // 장착한 스킬 
     public List<SkillData> skills = new List<SkillData>();
@@ -67,31 +65,41 @@ public class SkillData
 public class ItemData
 {
     public int itemID;
+    public ItemType itemType;
+    public ItemRank itemRank;
     public int count;
 
-    public ItemData()
-    {
-        itemID = 0;
-        count = 0; 
-    }
-}
-
-[System.Serializable]
-public class EquipItemData : ItemData
-{
-    public int equipItemID;
+    public int userID;      // 소유자 
     public EquipType equipType;
     public int enhanceCount;    // 강화수치 
     public ItemAbility itemMainAbility; // 아이템 능력 수치 
     public ItemAbility[] itemAbilities;
 
-    public EquipItemData()
+    public ItemData()
     {
-        equipItemID = 0;
-        enhanceCount = 0; 
+        itemID = 0;
+        itemType = ItemType.NONE;
+        count = 0;
+
+        equipType = EquipType.NONE;
+        userID = 0;
+        enhanceCount = 0;
         itemMainAbility.abilityType = AbilityType.NONE;
         itemMainAbility.power = 0;
         itemMainAbility.isPercent = false;
+    }
+}
+
+[System.Serializable]
+public class EquipItemData
+{
+    public EquipType equipType;
+    public int equipItemID;
+   
+    public EquipItemData()
+    {
+        equipType = EquipType.NONE;
+        equipItemID = 0;
     }
 
 }
@@ -152,8 +160,8 @@ public class SaveManager : MonoBehaviour
 
         File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
 
-        //Debug.Log("저장 완료");
-        //Debug.Log(json);
+        Debug.Log("저장 완료");
+        Debug.Log(json);
     }
 
     string GenerateRandomString(int length)
@@ -191,15 +199,14 @@ public class SaveManager : MonoBehaviour
 
     public void ApplyUserInfo()
     {
-
         // 저장한 데이터가 있으면 적용하기 
-
+        Debug.Log("저장된 파일 확인 완료");
         // 게임머니 
         InfoManager.instance.money = saveData.money;
         
-        ApplyWheelers();
-
         ApplyInvetory();
+        
+        ApplyWheelers();
     }
 
 
@@ -221,28 +228,26 @@ public class SaveManager : MonoBehaviour
                 for (int x = 1; x <= 7; x++)
                 {
                     EquipItemData equipItemData = new EquipItemData();
-
-                    equipItemData.itemID = characters[i].equipItems[(EquipType)x].itemUID;
-                    equipItemData.equipItemID = characters[i].equipItems[(EquipType)x].itemUID;
                     equipItemData.equipType = (EquipType)x;
-                    equipItemData.enhanceCount = characters[i].equipItems[(EquipType)x].itemEnchantRank;
-                    equipItemData.itemMainAbility = characters[i].equipItems[(EquipType)x].itemMainAbility;
-                    equipItemData.itemAbilities = characters[i].equipItems[(EquipType)x].itemAbilities;
+                    if (characters[i].equipItems[(EquipType)x] != null)
+                    {
+                        equipItemData.equipItemID = characters[i].equipItems[(EquipType)x].itemUID;
+                    }
 
                     wheeler.equipItems.Add(equipItemData);
                 }
-
-
-                wheeler.droneID = characters[i].drone.itemUID;
 
                 // 스킬 정보 
                 for (int j = 0; j < characters[i].MySkills.Length; j++)
                 {
                     SkillData skillData = new SkillData();
-
-                    skillData.name = characters[i].MySkills[j].MyName;
-                    skillData.level = characters[i].MySkills[j].MySkillLevel;
-                    skillData.chainSkill = characters[i].MySkills[j].isChain;
+                    
+                    if(characters[i].MySkills[j] != null)
+                    {
+                        skillData.name = characters[i].MySkills[j].MyName;
+                        skillData.level = characters[i].MySkills[j].MySkillLevel;
+                        skillData.chainSkill = characters[i].MySkills[j].isChain;
+                    }
 
                     wheeler.skills.Add(skillData);
                 }
@@ -251,9 +256,12 @@ public class SaveManager : MonoBehaviour
                 {
                     SkillData skillData = new SkillData();
 
-                    skillData.name = characters[i].MyChains[k].MyName;
-                    skillData.level = characters[i].MyChains[k].MySkillLevel;
-                    skillData.chainSkill = characters[i].MyChains[k].isChain;
+                    if(characters[i].MyChains[k] != null )
+                    {
+                        skillData.name = characters[i].MyChains[k].MyName;
+                        skillData.level = characters[i].MyChains[k].MySkillLevel;
+                        skillData.chainSkill = characters[i].MyChains[k].isChain;
+                    }
 
                     wheeler.chainSkills.Add(skillData);
                 }
@@ -269,10 +277,28 @@ public class SaveManager : MonoBehaviour
     {
         foreach(var wheeler in saveData.wheelerDatas)
         {
-            if (wheeler == null) continue; 
+            if (wheeler == null) continue;
+            // 자신이 소유한 캐릭터로 추가 
+            CharStat charStat = MonsterDatabase.instance.GetCharStat(wheeler.wheelerID);
+            charStat.level = wheeler.level;
+            Character tempPlayer = new Character();
+            tempPlayer.MyID = wheeler.wheelerID;
+            tempPlayer.objectID = (uint)wheeler.wheelerID;
+            // 스탯 
+            tempPlayer.MyStat = charStat;
+            // 장착 장비
+            foreach(var equipItemData in wheeler.equipItems)
+            {
+                var equipItem =  Inventory.instance.GetItemByID(equipItemData.equipItemID);
+                tempPlayer.EquipItem(equipItem as EquipItem);
+            }
 
-            
+            // 장착 스킬  - id로 생각해야할듯..
+            //tempPlayer.SetSkill()
+            // ? 유무울?
 
+            // 캐릭터 정보 저장 
+            InfoManager.instance.AddMyPlayerInfo(wheeler.wheelerID, tempPlayer);
         }
     }
 
@@ -290,8 +316,22 @@ public class SaveManager : MonoBehaviour
             for (int j = 0; j < itemList.Count; j++)
             {
                 ItemData itemData = new ItemData();
+                if (itemList[i] == null) continue; 
+
                 itemData.itemID = itemList[i].itemUID;
-                itemData.count = itemList[i].itemEach;
+                itemData.count = itemList[i].itemCount;
+                itemData.itemType = itemList[i].itemType;
+                itemData.itemRank = itemList[i].itemRank;
+
+                if (itemList[i] is EquipItem)
+                {
+                    EquipItem equipItem = itemList[i] as EquipItem;
+                    itemData.userID = equipItem.userID;
+                    itemData.equipType = equipItem.equipType;
+                    itemData.enhanceCount = equipItem.itemEnchantRank;
+                    itemData.itemMainAbility = equipItem.itemMainAbility;
+                    itemData.itemAbilities = equipItem.itemAbilities;
+                }
                 
                 saveData.inventory.Add(itemData);
             }
@@ -302,7 +342,7 @@ public class SaveManager : MonoBehaviour
     // 게임에 저장한 정보 세팅 인벤토리
     public void ApplyInvetory()
     {
-
+        InventoryManager.instance.ApplySaveItemData(saveData.inventory);
     }
 
  
@@ -324,12 +364,10 @@ public class SaveManager : MonoBehaviour
             string data = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
             // 파일에서 세이브 파일을 가져와 세팅한다. 
             saveData = JsonUtility.FromJson<SaveData>(data);
-
-            // 유저 정보 세팅
             
-            // 유저가 가진 캐릭터(wheeler) 세팅
-
-            // 인벤토리 정보 세팅 
+            LoadSoundData();
+            // 유저 정보 세팅
+            ApplyUserInfo();
 
         }
         // 값이 없는 경우 
@@ -337,6 +375,10 @@ public class SaveManager : MonoBehaviour
         {
             isExistFile = false;
             // 없으면 새로 시작 
+            Debug.Log("Don't have a save file");
+
+            // todo 나중에 해금관련해서 캐릭터를 얻으면 풀려지도록 수정해보자 지금은 남생이만 넣는다.
+            InfoManager.instance.AddMyPlayerInfo(1);
         }
     }       
 
@@ -362,6 +404,6 @@ public class SaveManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         //if (!SceneManager.GetActiveScene().name.Equals("Title"))
-        //    SaveData();
+        SaveData();
     }
 }

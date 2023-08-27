@@ -4,6 +4,13 @@ using System.IO;
 using UnityEngine;
 
 
+// 캐릭터 해금 관련 
+public class OpenCharInfo
+{
+    int id;
+    bool isOpen; 
+}
+
 // 캐릭터 정보리스트를 관리하는 매니저
 public class InfoManager : MonoBehaviour
 {
@@ -35,25 +42,45 @@ public class InfoManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
+        // 
+        SetDefaultAndAllPlayers(); 
         // 임시 플레이어 객체 생성 후 리스트에 추가
-        TestSetPlayers();
+        //TestSetPlayers();
     }
+
+
+    // 플레이어 정보 세팅한다.
+    public void SetDefaultAndAllPlayers()
+    {
+        var statDict = MonsterDatabase.instance.GetCharactersStatDict();
+        if (statDict == null) return;
+
+        foreach(var statPair in statDict)
+        {
+            Character tempPlayer = new Character();
+            tempPlayer.MyID = statPair.Key;
+            tempPlayer.objectID = (uint)statPair.Key;
+            tempPlayer.MyStat = statPair.Value;
+            tempPlayer.MyStat.level = 1;
+            tempPlayer.MyStat.ApplyOption();
+            AddPlayerInfo(tempPlayer.MyID, tempPlayer);
+        }
+    }
+
     public void TestSetPlayers()
     {
-        Character tempPlayer = new Character();
-        tempPlayer.MyID = 1001;
-        tempPlayer.objectID = 1;
-        tempPlayer.MyStat = new CharStat(1, 10, 10, 20, 150, 100, 10);
-        tempPlayer.MyStat.critRate = 0.5f;
-        AddPlayerInfo(tempPlayer.MyID, tempPlayer);
-        AddMyPlayerInfo(tempPlayer.MyID);
+        //Character tempPlayer = new Character();
+        //CharStat stat = MonsterDatabase.instance.GetCharStat(1);
+        //tempPlayer.MyStat = stat; 
+        //AddPlayerInfo(tempPlayer.MyID, tempPlayer);
+        //AddMyPlayerInfo(tempPlayer.MyID);
 
-        Character tempPlayer2 = new Character();
-        tempPlayer2.MyStat = new CharStat(1, 0, 0, 0, 0, 0, 10);
-        tempPlayer2.MyID = 1002;
-        tempPlayer.objectID = 2;
-        AddPlayerInfo(tempPlayer2.MyID, tempPlayer2);
-        AddMyPlayerInfo(tempPlayer2.MyID);
+        //Character tempPlayer2 = new Character();
+        //tempPlayer2.MyStat = new CharStat(1, 0, 0, 0, 0, 0, 10);
+        //tempPlayer2.MyID = 1002;
+        //tempPlayer.objectID = 2;
+        //AddPlayerInfo(tempPlayer2.MyID, tempPlayer2);
+        //AddMyPlayerInfo(tempPlayer2.MyID);
     }
 
     // 캐릭터  만들기
@@ -83,8 +110,17 @@ public class InfoManager : MonoBehaviour
         var info = GetPlayerInfo(key);
         if (info != null)
         {
+            info.MyStat.CalcMaxExp(info.MyStat.level);
             myCharacterPlayerList.Add(key, info);
         }
+    }
+
+    public void AddMyPlayerInfo(int id, Character character)
+    {
+        if (character == null) return;
+        character.MyStat.CalcMaxExp(character.MyStat.level);
+        character.MyStat.ApplyOption();
+        myCharacterPlayerList.Add(id, character);
     }
 
     // 자신이 소지한 캐릭터 반환 
@@ -276,7 +312,7 @@ public class InfoManager : MonoBehaviour
     public float GetGrowUpAttackSpeed(int _level, float _aspd = 1.0f, float _rate = 1.0f)
     {
         // 특정 레벨일 때만 증가 
-        float result = 0;
+        float result = _aspd;
         if (_level % 3 == 0)
         {
             result =  _aspd + Mathf.Round(_rate * (_level - 1));
@@ -292,35 +328,12 @@ public class InfoManager : MonoBehaviour
     {
         // 특정 레벨일 때만 증가 
         // 공식 SPD(1) + Mathf.RoundToInt(_rate * (_level - 1))
-        int result = 0;
+        int result = _spd;
         if (_level % 3 == 0)
         {
             result = _spd+ Mathf.RoundToInt(_rate * (_level - 1));  
         }
 
         return result;
-    }
-
-
-    public void ApplySaveWheelerData(WheelerData wheeler)
-    {
-        if (wheeler == null) return; 
-
-        // 자신이 소유한 캐릭터로 추가 
-        CharStat charStat = MonsterDatabase.instance.GetCharStat(wheeler.wheelerID);
-        charStat.level = wheeler.level;
-        Character tempPlayer = new Character();
-        tempPlayer.MyID = wheeler.wheelerID;
-        tempPlayer.objectID = (uint)wheeler.wheelerID;
-        // 스탯 
-        tempPlayer.MyStat = charStat;
-        // 장착 장비
-        //tempPlayer.EquipItem()
-        // 드론 
-
-        // 장착 스킬 
-
-        // ? 유무울?
-
     }
 }

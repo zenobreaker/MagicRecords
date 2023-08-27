@@ -86,7 +86,6 @@ public class CharacterStatJson
     public int mpRegen;
     public float critRate;
     public float critDmg;
-
 }
 
 [System.Serializable]
@@ -218,7 +217,7 @@ public class MonsterDatabase : MonoBehaviour
             string[] stringGroup = data.monsterGroup.Split(',');
             for (int i = 0; i < stringGroup.Length; i++)
             {
-                print(stringGroup[i]);
+                //print(stringGroup[i]);
                 // 대상 int로 변경하기
                 if (int.TryParse(stringGroup[i], out int target))
                 {
@@ -587,6 +586,33 @@ public class MonsterDatabase : MonoBehaviour
         }
 
         return null; 
+    }
+
+    // id stat 값을 딕셔너리로 반환
+    public Dictionary<int, CharStat> GetCharactersStatDict()
+    {
+        Dictionary<int, CharStat> list = new Dictionary<int, CharStat>();
+        foreach (var data in characterAllData.characterStatJson)
+        {
+            if (data == null) continue;
+
+            CharStat charStat = new CharStat();
+            charStat.attack = data.attack;
+            charStat.defense = data.defense;
+            charStat.attackSpeed = data.attackSpeed;
+            charStat.speed = data.speed;
+            charStat.hp = data.hp;
+            charStat.hpRegen = data.hpRegen;
+            charStat.mp = data.mp;
+            charStat.mpRegen = data.mpRegen;
+            charStat.critRate = data.critRate;
+            charStat.critDmg = data.critDmg;
+
+            list.Add(data.id, charStat);
+        }
+
+        return list; 
+
     }
 
 }

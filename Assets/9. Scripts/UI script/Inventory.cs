@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -42,6 +43,7 @@ public class Inventory : MonoBehaviour
         }
 
 
+        itemList.Add(InventoryCategory.NONE, new List<Item>());
         itemList.Add(InventoryCategory.WEAPON, new List<Item>());
         itemList.Add(InventoryCategory.ARMOR, new List<Item>());
         itemList.Add(InventoryCategory.WHEEL, new List<Item>());
@@ -189,16 +191,28 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    //public void SetInvenSlot(List<Item> p_itemList)
-    //{
-    //    for (int i = 0; i < p_itemList.Count; i++)
-    //    {
-    //        invenSlots[i].ClearSlot();
-    //        invenSlots[i].SetSize(new Vector2(200, 200));
-    //        invenSlots[i].AddItem(p_itemList[i]);
-    //    }
-    //}
+   
+    public Item GetItemByID(int id)
+    {
+        foreach(var subList in itemList)
+        {
+            if (subList.Value == null) continue; 
 
+            foreach(var item in subList.Value)
+            {
+                if (item == null) continue; 
+
+                if(item.itemUID == id)
+                {
+                    return item;
+                }
+            }
+        }
+
+        return null; 
+    }
+
+ 
 
     public List<Item> GetItemList(InventoryCategory category)
     {
@@ -215,16 +229,5 @@ public class Inventory : MonoBehaviour
       
     }
    
-    // 저장관련 
-    #region save 
-
-    // 저장하기위한 데이터 반환 
-    // 모든 아이템 
-
- 
-
-
-#endregion
-
 }
 
