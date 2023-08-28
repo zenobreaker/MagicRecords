@@ -224,32 +224,34 @@ public class InventoryManager:MonoBehaviour
     //}
 
 
-    public void ApplySaveItemData(List<ItemData> saveDatas)
+    public void ApplySaveItemData(Dictionary<int, ItemData> saveDatas)
     {
         if (saveDatas == null || itemDatabase == null) return;
 
         foreach(var data in saveDatas)
         {
-            var item = itemDatabase.GetItemByUID(data.itemID);
+            var item = itemDatabase.GetItemByUID(data.Value.itemID);
             if (item == null) continue;
 
-            item.itemRank = data.itemRank;
-            item.itemCount = data.count;
+            item.uniqueID = data.Value.uniqueID;
 
-            if(data.itemType == ItemType.Equipment && item is EquipItem)
+            item.itemRank = data.Value.itemRank;
+            item.itemCount = data.Value.count;
+
+            if(data.Value.itemType == ItemType.Equipment && item is EquipItem)
             {
                 var equipItem = item as EquipItem;
 
-                equipItem.equipType = data.equipType;
-                equipItem.userID = data.userID;
+                equipItem.equipType = data.Value.equipType;
+                equipItem.userID = data.Value.userID;
                 if (equipItem.userID != 0)
                 {
                     equipItem.isEquip = true; 
                 }
 
-                equipItem.itemEnchantRank = data.enhanceCount;
-                equipItem.itemMainAbility = data.itemMainAbility;
-                equipItem.itemAbilities = data.itemAbilities;
+                equipItem.itemEnchantRank = data.Value.enhanceCount;
+                equipItem.itemMainAbility = data.Value.itemMainAbility;
+                equipItem.itemAbilities = data.Value.itemAbilities;
             }
 
 

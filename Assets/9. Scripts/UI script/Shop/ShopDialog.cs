@@ -110,11 +110,7 @@ public class ShopDialog : MonoBehaviour
         {
             Item boughtItem = null;
             // todo 나중에 아이템의 타입별로 아이템을 만드는 팩토리같은거 만들자
-            boughtItem = (Item)selectedItem.Clone();
-
-            // todo 방식 변경할 수도? item의 uid를 변경한다.
-            boughtItem.itemUID = HashCode.Combine(selectedItem.itemUID, 
-                selectedItem.itemName, selectedItem.itemType);
+            boughtItem = ItemDatabase.instance.GetItemByUID(selectedItem.itemUID);
 
             InventoryManager.instance.AddItemToInven(boughtItem, itemCount);
             LobbyManager.MyInstance.IncreseCoin(-selectedItem.itemValue);

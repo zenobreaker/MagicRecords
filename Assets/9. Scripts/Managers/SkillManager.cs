@@ -6,7 +6,7 @@ public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance; 
 
-    private int savedSkillCount = 0;
+    //private int savedSkillCount = 0;
     //private bool[] isChains = new bool[4];
     private Skill[] skills = new Skill[4];
     private Skill[] chainSkills = new Skill[3];

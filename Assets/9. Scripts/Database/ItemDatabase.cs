@@ -1,13 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
 using static Item;
 using static UnityEditor.Progress;
+using Random = UnityEngine.Random;
 
 public class ItemDatabase : MonoBehaviour
 {
+    public static ItemDatabase instance;
+
     public TextAsset items;
     public TextAsset subOptions;
     public List<Item> weaponList;
@@ -16,13 +21,19 @@ public class ItemDatabase : MonoBehaviour
     public List<Item> accessroyList;
     public List<Item> itemList;
 
-    struct ItemData
-    {
-        
-
-    }
-
     Dictionary<int, Item> itemDataList; 
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -244,7 +255,9 @@ public class ItemDatabase : MonoBehaviour
         {
             if(pair.Value.itemKeycode.Equals(_keycode))
             {
-                return (Item)pair.Value.Clone();
+                Item item = (Item)pair.Value.Clone();
+                CreateUniqueID(item);
+                return item;
             }
         }
 
@@ -257,12 +270,51 @@ public class ItemDatabase : MonoBehaviour
         {
             if (pair.Value.itemUID == uid)
             {
-                return (Item)pair.Value.Clone();
+                Item item = (Item)pair.Value.Clone();
+                CreateUniqueID(item);
+                return item;
             }
         }
 
         return null;
     }
+
+    public void CreateUniqueID(Item item)
+    {
+        if (item == null) return;
+
+        int min = 1;
+        int max = 99999999;
+
+        int random = Random.Range(min, max);
+        item.uniqueID = random;
+        while(InventoryContains(random))
+        {
+            random = Random.Range(min, max);
+            item.uniqueID = random;
+        }
+    }
+
+    public bool InventoryContains(int id)
+    {
+
+        foreach(var itemPair in Inventory.instance.itemList)
+        {
+            if (itemPair.Value == null) continue;
+            foreach(var item in itemPair.Value)
+            {
+                if (item== null) continue;
+
+                if(item.uniqueID == id)
+                {
+                    return true; 
+                }
+            }
+        }
+
+        return false; 
+    }
+
 
     // 무기 아이템 만들기
     void CreateWeaponItem()

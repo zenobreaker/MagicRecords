@@ -194,7 +194,7 @@ public class Inventory : MonoBehaviour
     }
 
    
-    public Item GetItemByID(int id)
+    public Item GetItemByUniqueID(int uniqueID)
     {
         foreach(var subList in itemList)
         {
@@ -204,7 +204,7 @@ public class Inventory : MonoBehaviour
             {
                 if (item == null) continue; 
 
-                if(item.itemUID == id)
+                if(item.uniqueID == uniqueID)
                 {
                     return item;
                 }

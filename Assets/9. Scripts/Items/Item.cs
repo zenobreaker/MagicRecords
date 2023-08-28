@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 
 public enum ItemType
 {
@@ -34,7 +34,7 @@ public class Item : ICloneable
     //게임 오브젝트에 붙일 필요가 없는  스크립트 생성 
 
     // #. 외부 DB 정보
-    public int itemUID;      // 아이템의 고유 ID
+    public int itemUID;      // 아이템의 정보 ID
     public string itemKeycode;      // 아이템의 키코드 
     public string itemName;     // 아이템 이름
     public ItemType itemType;   // 아이템의 유형
@@ -45,6 +45,7 @@ public class Item : ICloneable
     public string itemDesc;     // 아이템의 설명
 
     // #. 게임 내에서 리소스로 받아올 정보 
+    public int uniqueID = 0;        // 아이템의 고유한 ID값 
     public int userID;        // 소지자 ID
     public bool isSale;         // 아이템 판매 여부 (상점 한)
     public string itemImgID;    // 아이템 이미지 아이디 
@@ -53,7 +54,7 @@ public class Item : ICloneable
 
     public Item()
     {
-
+        uniqueID = 0;
     }
 
     public Item(Item _item)
@@ -69,15 +70,8 @@ public class Item : ICloneable
         itemCount = _item.itemCount;
         itemImgID = _item.itemImgID;
         isSale = _item.isSale;
+        uniqueID = _item.uniqueID;
         this.userID = _item.userID;
-        // equipType = _item.equipType;
-        //   itemEnchantRank = _item.itemEnchantRank;
-        //   isEquiped = _item.isEquiped;
-        //itemMainAbility = _item.itemMainAbility;
-        //itemAbilities[ADD1] = _item.itemAbilities[ADD1];
-        //itemAbilities[ADD2] = _item.itemAbilities[ADD2];
-        //itemAbilities[ADD3] = _item.itemAbilities[ADD3];
-
 
         itemImage = Resources.Load("ItemImage/" + _item.itemImgID.ToString(), typeof(Sprite)) as Sprite;
     }
@@ -103,20 +97,9 @@ public class Item : ICloneable
         itemValue = _itemValue;
         this.itemCount = itemCount;
         itemImgID = _itemIMG;
-        // equipType = _equipType;
-
-        //        itemMainAbility = _mainAbil;
-
-        //      itemValue = _itemValue;
-        //    itemEnchantRank = _echantRank;
-        //  isEquiped = _isEquiped;
+ 
         isSale = _isSale;
         this.userID = userID;
-
-
-        //itemAbilities[ADD1] = _add1;
-        //itemAbilities[ADD2] = _add2;
-        //itemAbilities[ADD3] = _add3;
 
         itemImage = Resources.Load("ItemImage/" + _itemIMG.ToString(), typeof(Sprite)) as Sprite;
     }

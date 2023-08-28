@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using Random = UnityEngine.Random;
 using Newtonsoft.Json;
+using System.Xml;
 
 [System.Serializable]
 public class SaveData
@@ -19,7 +20,7 @@ public class SaveData
     public string userID = "";
     public int money = 0;   // 유저가 갖고 있는 머니
     // 인벤토리
-    public List<ItemData> inventory = new List<ItemData>();
+    public Dictionary<int, ItemData> inventory = new Dictionary<int, ItemData>();
     
     // 유저가 가지고 있는 캐릭터들 
     public Dictionary<int, WheelerData> wheelerDatas = new Dictionary<int, WheelerData>();
@@ -72,6 +73,7 @@ public class ItemData
     public ItemRank itemRank;
     public int count;
 
+    public int uniqueID; 
     public int userID;      // 소유자 
     public EquipType equipType;
     public int enhanceCount;    // 강화수치 
@@ -97,12 +99,12 @@ public class ItemData
 public class EquipItemData
 {
     public EquipType equipType;
-    public int equipItemID;
+    public int uniqueID;
    
     public EquipItemData()
     {
         equipType = EquipType.NONE;
-        equipItemID = 0;
+        uniqueID = 0;
     }
 
 }
@@ -236,7 +238,7 @@ public class SaveManager : MonoBehaviour
                     equipItemData.equipType = (EquipType)x;
                     if (characters[i].equipItems[(EquipType)x] != null)
                     {
-                        equipItemData.equipItemID = characters[i].equipItems[(EquipType)x].itemUID;
+                        equipItemData.uniqueID = characters[i].equipItems[(EquipType)x].uniqueID;
                     }
 
                     wheeler.equipItems.Add(equipItemData);
@@ -303,7 +305,7 @@ public class SaveManager : MonoBehaviour
             // 장착 장비
             foreach(var equipItemData in wheeler.equipItems)
             {
-                var equipItem =  Inventory.instance.GetItemByID(equipItemData.equipItemID);
+                var equipItem =  Inventory.instance.GetItemByUniqueID(equipItemData.uniqueID);
                 tempPlayer.EquipItem(equipItem as EquipItem);
             }
 
@@ -315,6 +317,8 @@ public class SaveManager : MonoBehaviour
             InfoManager.instance.AddMyPlayerInfo(wheeler.wheelerID, tempPlayer);
         }
     }
+
+  
 
     public void SaveInventory()
     {
@@ -338,6 +342,7 @@ public class SaveManager : MonoBehaviour
                 itemData.count = itemList[j].itemCount;
                 itemData.itemType = itemList[j].itemType;
                 itemData.itemRank = itemList[j].itemRank;
+                itemData.uniqueID = itemList[j].uniqueID;
 
                 if (itemList[j] is EquipItem)
                 {
@@ -348,8 +353,15 @@ public class SaveManager : MonoBehaviour
                     itemData.itemMainAbility = equipItem.itemMainAbility;
                     itemData.itemAbilities = equipItem.itemAbilities;
                 }
-                
-                saveData.inventory.Add(itemData);
+
+                if (saveData.inventory.ContainsKey(itemData.uniqueID) == true)
+                {
+                    saveData.inventory[itemData.uniqueID] = itemData;
+                }
+                else
+                {
+                    saveData.inventory.Add(itemData.uniqueID, itemData);
+                }
             }
         }
 
