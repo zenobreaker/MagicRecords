@@ -16,7 +16,7 @@ public class ItemPickUp : MonoBehaviour
         if (item.itemType == ItemType.Coin)
         {
             Debug.Log(item.itemValue);
-            LobbyManager.coin += item.itemValue;    // 코인 획득 시, 획득 코인 증가 
+            InfoManager.coin += item.itemValue;    // 코인 획득 시, 획득 코인 증가 
         }
         else
         {

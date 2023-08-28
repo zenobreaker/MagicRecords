@@ -17,7 +17,7 @@ public class InfoManager : MonoBehaviour
     // 
     public static InfoManager instance;
 
-    public int money;   // 유저 골드 
+    public static int coin;   // 유저가 사용하는 게임재화 
 
     // 전체 캐릭터 정보 리스트 
     private Dictionary<int, Character> allPlayerList = new Dictionary<int, Character>();

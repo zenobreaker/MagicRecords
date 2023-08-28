@@ -374,7 +374,7 @@ public class SkillManual : MonoBehaviour
         if (selectedSkill == null)
             return;
 
-        if (selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1] <= LobbyManager.coin 
+        if (selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1] <= InfoManager.coin
             && selectedSkill.MySkillLevel < selectedSkill.MySkillMaxLevel)
         {
             if (RLModeController.isRLMode)
@@ -382,14 +382,14 @@ public class SkillManual : MonoBehaviour
                 RLModeController.instance.DownBHPoint();
             }
 
-            LobbyManager.coin -= selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1];
+            InfoManager.coin -= selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1];
             selectedSkill.UpgradeSkill();
 
             selectedSkillSlot.UpdateTooltip(selectedSkill);
             skillToolTip.UpdateTooltip(selectedSkill);
           
         }
-        else if (selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1] > LobbyManager.coin)
+        else if (selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1] > InfoManager.coin)
         {
             Debug.Log("코인이 부족해요!");
         }

@@ -8,6 +8,7 @@ using UnityEditor;
 using System;
 using System.Linq;
 using Random = UnityEngine.Random;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class SaveData
@@ -21,7 +22,9 @@ public class SaveData
     public List<ItemData> inventory = new List<ItemData>();
     
     // 유저가 가지고 있는 캐릭터들 
-    public List<WheelerData> wheelerDatas = new List<WheelerData>();
+    public Dictionary<int, WheelerData> wheelerDatas = new Dictionary<int, WheelerData>();
+
+    public int version; 
 }
 
 // 플레이어블 캐릭터 저장 
@@ -141,6 +144,8 @@ public class SaveManager : MonoBehaviour
         if (!Directory.Exists(SAVE_DATA_DIRECTROTY))
             Directory.CreateDirectory(SAVE_DATA_DIRECTROTY);
 
+        Debug.Log("Save path: " + SAVE_DATA_DIRECTROTY);
+
         LoadData();
     }
 
@@ -155,8 +160,8 @@ public class SaveManager : MonoBehaviour
         // 유저 정보 저장 
         SaveUserInfo();
 
-       
-        string json = JsonUtility.ToJson(saveData);
+       // dictionary 값을 json으로 저장하기 위함
+        string json = JsonConvert.SerializeObject(saveData);
 
         File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
 
@@ -182,7 +187,7 @@ public class SaveManager : MonoBehaviour
     public void SaveUserInfo()
     {
         // 플레이한 유저 데이터 저장 
-        saveData.money = InfoManager.instance.money;
+        saveData.money = InfoManager.coin;
 
         if (isExistFile == true)
         {
@@ -202,7 +207,7 @@ public class SaveManager : MonoBehaviour
         // 저장한 데이터가 있으면 적용하기 
         Debug.Log("저장된 파일 확인 완료");
         // 게임머니 
-        InfoManager.instance.money = saveData.money;
+        InfoManager.coin = saveData.money;
         
         ApplyInvetory();
         
@@ -266,7 +271,15 @@ public class SaveManager : MonoBehaviour
                     wheeler.chainSkills.Add(skillData);
                 }
 
-                saveData.wheelerDatas.Add(wheeler);
+                
+                if(saveData.wheelerDatas.ContainsKey(wheeler.wheelerID) == true)
+                {
+                    saveData.wheelerDatas[wheeler.wheelerID] = wheeler;
+                }
+                else
+                {
+                    saveData.wheelerDatas.Add(wheeler.wheelerID, wheeler);
+                }
             }
         }
     }
@@ -275,10 +288,11 @@ public class SaveManager : MonoBehaviour
     // 게임에 저장한 정보 세팅 휠러 
     public void  ApplyWheelers()
     {
-        foreach(var wheeler in saveData.wheelerDatas)
+        foreach(var wheelerPair in saveData.wheelerDatas)
         {
-            if (wheeler == null) continue;
+            if (wheelerPair.Value == null) continue;
             // 자신이 소유한 캐릭터로 추가 
+            var wheeler = wheelerPair.Value;
             CharStat charStat = MonsterDatabase.instance.GetCharStat(wheeler.wheelerID);
             charStat.level = wheeler.level;
             Character tempPlayer = new Character();
@@ -313,19 +327,21 @@ public class SaveManager : MonoBehaviour
             }
 
             var itemList = Inventory.instance.itemList[(InventoryCategory)i];
+            if (itemList == null || itemList.Count <= 0) 
+                continue; 
+
             for (int j = 0; j < itemList.Count; j++)
             {
                 ItemData itemData = new ItemData();
-                if (itemList[i] == null) continue; 
 
-                itemData.itemID = itemList[i].itemUID;
-                itemData.count = itemList[i].itemCount;
-                itemData.itemType = itemList[i].itemType;
-                itemData.itemRank = itemList[i].itemRank;
+                itemData.itemID = itemList[j].itemUID;
+                itemData.count = itemList[j].itemCount;
+                itemData.itemType = itemList[j].itemType;
+                itemData.itemRank = itemList[j].itemRank;
 
-                if (itemList[i] is EquipItem)
+                if (itemList[j] is EquipItem)
                 {
-                    EquipItem equipItem = itemList[i] as EquipItem;
+                    EquipItem equipItem = itemList[j] as EquipItem;
                     itemData.userID = equipItem.userID;
                     itemData.equipType = equipItem.equipType;
                     itemData.enhanceCount = equipItem.itemEnchantRank;
@@ -363,7 +379,7 @@ public class SaveManager : MonoBehaviour
             isExistFile = true;
             string data = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
             // 파일에서 세이브 파일을 가져와 세팅한다. 
-            saveData = JsonUtility.FromJson<SaveData>(data);
+            saveData = JsonConvert.DeserializeObject<SaveData>(data);
             
             LoadSoundData();
             // 유저 정보 세팅
@@ -380,23 +396,19 @@ public class SaveManager : MonoBehaviour
             // todo 나중에 해금관련해서 캐릭터를 얻으면 풀려지도록 수정해보자 지금은 남생이만 넣는다.
             InfoManager.instance.AddMyPlayerInfo(1);
         }
-    }       
+    }
 
     void LoadSoundData()
     {
-        if (File.Exists(SAVE_DATA_DIRECTROTY + SAVE_FILENAME))
+
+        Debug.Log(saveData.sfxSoundValue + " , " + saveData.bgmSoundValue);
+        for (int i = 0; i < SoundManager.instance.sfxPlayer.Length; i++)
         {
-            string loadJson = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
-            saveData = JsonUtility.FromJson<SaveData>(loadJson);
-
-            Debug.Log(saveData.sfxSoundValue + " , " + saveData.bgmSoundValue);
-            for (int i = 0; i < SoundManager.instance.sfxPlayer.Length; i++)
-            {
-                SoundManager.instance.sfxPlayer[i].volume = saveData.sfxSoundValue;
-            }
-
-            SoundManager.instance.bgmPlayer.volume = (saveData.bgmSoundValue);
+            SoundManager.instance.sfxPlayer[i].volume = saveData.sfxSoundValue;
         }
+
+        SoundManager.instance.bgmPlayer.volume = (saveData.bgmSoundValue);
+
     }
 
  

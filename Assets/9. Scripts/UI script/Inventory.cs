@@ -131,6 +131,8 @@ public class Inventory : MonoBehaviour
     // 리스트에 아이템을 넣는다. 아이템의 타입을 확인해서 세부 리스트에 추가한다 
     public void AddItem(Item item)
     {
+        if (item == null) return; 
+
         InventoryCategory inventoryCategory = InventoryCategory.NONE;
 
         // 아이템 타입 검사 장비라면 장비 타입별로 검사한다.

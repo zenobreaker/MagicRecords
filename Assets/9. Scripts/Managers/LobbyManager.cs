@@ -14,8 +14,6 @@ public class LobbyManager : MonoBehaviour
     public bool isStageScreenOpen = false;      // 스테이지 선택창
     private bool isSignOpen = false;            // 선택 안내문 
 
-    public static int coin;                     // 사용자가 사용하는 돈
-
     // 필요한 컴포넌트 
     [SerializeField]
     private GameObject go_StageScreen = null;   // 스테이지 선택 화면
@@ -75,7 +73,7 @@ public class LobbyManager : MonoBehaviour
     {
         if(text_Coin != null)
         { 
-            text_Coin.text = "코인 : " + coin.ToString();
+            text_Coin.text = "코인 : " + InfoManager.coin.ToString();
         }
        // text_Level.text = "레벨 : " + charStat.level;
     }
@@ -187,28 +185,28 @@ public class LobbyManager : MonoBehaviour
         float time = Time.deltaTime * 2;
         int lastValue = 0;
 
-        lastValue = coin + _num;
+        lastValue = InfoManager.coin + _num;
 
-        while (coin != lastValue)
+        while (InfoManager.coin != lastValue)
         {
 
-            coin = (int)Mathf.SmoothStep(coin, lastValue, 0.5f);
-            Debug.Log("코인 증가 : " + coin);
+            InfoManager.coin = (int)Mathf.SmoothStep(InfoManager.coin, lastValue, 0.5f);
+            Debug.Log("코인 증가 : " + InfoManager.coin);
 
 
             if (_num > 0)
             {
-                if (Mathf.Abs(coin) >= Mathf.Abs(lastValue) * 99 / 100)
+                if (Mathf.Abs(InfoManager.coin) >= Mathf.Abs(lastValue) * 99 / 100)
                 {
-                    coin = lastValue;
+                    InfoManager.coin = lastValue;
                     break;
                 }
             }
             else if(_num <= 0)
             {
-                if (Mathf.Abs(lastValue) >= Mathf.Abs(coin) * 99 / 100)
+                if (Mathf.Abs(lastValue) >= Mathf.Abs(InfoManager.coin) * 99 / 100)
                 {
-                    coin = lastValue;
+                    InfoManager.coin = lastValue;
                     break;
                 }
             }
@@ -217,6 +215,9 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-
+    public void TestAddItem()
+    {
+        InventoryManager.instance.TestAddButton();
+    }
  
 }
