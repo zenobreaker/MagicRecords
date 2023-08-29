@@ -301,16 +301,12 @@ public class GameManager : MonoBehaviour
         isStageClear = false;
         isRoutine = false;
         isCharacterOn = false;
-       // Time.timeScale = Time.timeScale > 0 ? 0 : 1;
-        //if (CharStat.instance != null)
-        //    CharStat.instance.IncreaseExp(gameScore);
 
-        //theReward.ShowUI();
-        // 게임 진행 스테이트 변경 
         gameState = GameState.END;
         theSM.ClearStage(); // 해당 스테이지 클리어함수 호출
         //yield return new WaitUntil(() => theReward.isConfirm == true);
-        StageInfoManager.initJoinPlayGameModeFlag = true; 
+        StageInfoManager.initJoinPlayGameModeFlag = true;
+        RecordManager.CHOICED_COMPLETE_RECORD = false;
         theSM.ShowClearUI(true);
 
         // 캐릭터 경험치 지급 

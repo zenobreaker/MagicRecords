@@ -181,7 +181,7 @@ public class StageInfoManager : MonoBehaviour
 {
     public static StageInfoManager instance;
 
-    // 최대 스테이지 수 
+    public static bool FLAG_ADVENTURE_MODE = false;     // 탐사 모드 진행 중인지 플래그 
     public static bool initJoinPlayGameModeFlag = false;    // 첫 진입인지 플래그 
     public static readonly int LEVEL_NORMAL_MAX_STAGE_COUNT = 5;
     public static readonly int LEVEL_HARD_MAX_STAGE_COUNT = 7;
@@ -243,6 +243,16 @@ public class StageInfoManager : MonoBehaviour
     public void SetStageList(int _chapter, ref List<StageTableClass> _stageTableList)
     {
         stageDictList[_chapter] = _stageTableList;
+    }
+
+    public void SetStageList(Dictionary<int, List<StageTableClass>> stageTableDic)
+    {
+        stageDictList = stageTableDic;
+    }
+
+    public Dictionary<int, List<StageTableClass>> GetStageList()
+    {
+        return stageDictList;
     }
 
 
@@ -346,7 +356,7 @@ public class StageInfoManager : MonoBehaviour
                     // 넘어갈 챕터가 없으면 진행이 불가능하므로 게임 모드 플래그를 끈다.
                     if(currentChapter > maxChapter)
                     {
-                        StageSelecter.FLAG_ADVENTURE_MODE = false; 
+                        StageInfoManager.FLAG_ADVENTURE_MODE = false; 
                         // 게임모드가 꺼짐에 따라 그동안 받아왔던 레코드들 삭제 
                         if(RecordManager.instance != null)
                         {

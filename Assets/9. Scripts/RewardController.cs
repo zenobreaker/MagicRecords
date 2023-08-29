@@ -333,6 +333,7 @@ public class RewardController : MonoBehaviour
             if(RecordManager.instance != null)
             {
                 RecordManager.instance.SelectRecord(reward.recordID);
+                RecordManager.CHOICED_COMPLETE_RECORD = true; 
             }
         }
 

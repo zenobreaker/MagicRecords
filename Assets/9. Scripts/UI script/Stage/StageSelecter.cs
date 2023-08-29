@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class StageSelecter : MonoBehaviour
 {
-    public static bool FLAG_ADVENTURE_MODE = false;     // 탐사 모드 진행 중인지 플래그 
-
     public bool isStageScreenOpen = false; // 스테이지 선택창
     public bool isSignOpen = false; // 선택 안내문 
 
@@ -88,10 +86,10 @@ public class StageSelecter : MonoBehaviour
 
 
     // 탐사 안내창 열기 
-    public void OpenPopupTryAdenvturePopup()
+    public void OpenPopupTryAdventurePopup()
     {
         // 플래그가 켜져 있으면 여부 상관 없이 진행한 화면을 표출한다. 
-        if(FLAG_ADVENTURE_MODE == true)
+        if(StageInfoManager.FLAG_ADVENTURE_MODE == true)
         {
             // 탐사 UI 켜주기
             StartStageSelect();
@@ -112,7 +110,7 @@ public class StageSelecter : MonoBehaviour
                         UIPageManager.instance.OpenClose(go_SignBase);
 
                         // 변수 플래그 변경
-                        FLAG_ADVENTURE_MODE = true;
+                        StageInfoManager.FLAG_ADVENTURE_MODE = true;
 
                         // 탐사 UI 켜주기
                         StartStageSelect();
@@ -128,7 +126,7 @@ public class StageSelecter : MonoBehaviour
     {
         // 이 함수는 게임씬에서 로비씬으로 왔을 때 호출 된다. 
         // 플래그가 켜져 있으면 다시 탐사 UI를 켜줘서 게임을 진행하도록 한다. 
-        if (FLAG_ADVENTURE_MODE == false)
+        if (StageInfoManager.FLAG_ADVENTURE_MODE == false)
         {
             return;
         }

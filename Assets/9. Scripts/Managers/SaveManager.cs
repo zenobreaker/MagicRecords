@@ -25,8 +25,22 @@ public class SaveData
     // 유저가 가지고 있는 캐릭터들 
     public Dictionary<int, WheelerData> wheelerDatas = new Dictionary<int, WheelerData>();
 
+    public bool gameInitAccess = false;   // 게임 종료 후 첫 접속인가
+    public int gameLevel = 0;   // 게임 난이도
+    public bool isAdventure = false; // 탐사 진행확인
+    public bool initJoingFlag = false; // 다음 스테이지를 진행해야하는지에 대한 플래그
+    public int currentChapter = 0;      // 탐사 진행해야하는 챕터 수 
+    public int currentStage = 0;     // 탐사 진행해야하는 스테이지 수
+
+    public Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>();
+
+    public bool choiceRecord = false; 
+    // 유저가 탐사를 진행하면서 얻은 레코드들
+    public List<int> recordList = new List<int>();
+
     public int version; 
 }
+
 
 // 플레이어블 캐릭터 저장 
 [System.Serializable]
@@ -109,6 +123,8 @@ public class EquipItemData
 
 }
 
+
+
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance = null;
@@ -158,6 +174,22 @@ public class SaveManager : MonoBehaviour
         saveData.sfxSoundValue = Mathf.Floor(SoundManager.instance.sfxVolume * 10) / 10;
         saveData.bgmSoundValue = Mathf.Floor(SoundManager.instance.bgmVolume* 10) / 10;
 
+        // 탐사 진행도 관련
+        saveData.isAdventure = StageInfoManager.FLAG_ADVENTURE_MODE;
+        saveData.initJoingFlag = StageInfoManager.initJoinPlayGameModeFlag;
+
+        saveData.currentChapter = StageInfoManager.instance.currentChapter;
+        saveData.stageDictList = StageInfoManager.instance.GetStageList();
+
+
+        // 레코드 
+        saveData.choiceRecord = RecordManager.CHOICED_COMPLETE_RECORD;
+        saveData.recordList.Clear();
+        foreach (var record in RecordManager.instance.selectRecordInfos)
+        {
+            if (record == null) continue; 
+            saveData.recordList.Add(record.id);
+        }
 
         // 유저 정보 저장 
         SaveUserInfo();
@@ -394,6 +426,21 @@ public class SaveManager : MonoBehaviour
             saveData = JsonConvert.DeserializeObject<SaveData>(data);
             
             LoadSoundData();
+
+            // 탐사 진행도 관련
+            StageInfoManager.FLAG_ADVENTURE_MODE = saveData.isAdventure;
+            StageInfoManager.initJoinPlayGameModeFlag = saveData.initJoingFlag;
+            StageInfoManager.instance.currentChapter = saveData.currentChapter;
+            StageInfoManager.instance.SetStageList(saveData.stageDictList);
+
+            // 레코드 
+            RecordManager.CHOICED_COMPLETE_RECORD = saveData.choiceRecord;
+            // 레코드 
+            foreach (var id in saveData.recordList)
+            {
+              RecordManager.instance.SelectRecord(id);
+            }
+
             // 유저 정보 세팅
             ApplyUserInfo();
 

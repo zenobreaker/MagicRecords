@@ -64,24 +64,21 @@ public class StagePosController : MonoBehaviour
         // 오브젝트가 켜질 때마다 스테이지 정보대로 그려준다.
         DrawStageButtonByScrollview();
 
-        // 첫 진입 플래그가 켜져있다면. 
-        if (StageInfoManager.initJoinPlayGameModeFlag == true)
+        // 레코드를 받은 적이 없다면 받도록 한다.
+        if (RecordManager.CHOICED_COMPLETE_RECORD == false)
         {
             // RewardController에서 첫 메모리 선택 UI를 보여준다.
-            Debug.Log("여기서 호출함니다????");
-
-            if(rewardController == null)
+            if (rewardController == null)
             {
-                return; 
+                return;
             }
 
             // todo 임시로 3개를 줘본다.
             rewardController.SetRecordRewardList(3);
 
             rewardController.DrawRewardCards();
-        }
 
-     
+        }
     }
 
 

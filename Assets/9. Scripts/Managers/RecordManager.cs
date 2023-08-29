@@ -61,8 +61,8 @@ public class RecordInfoJsonAllData
 public class RecordManager : MonoBehaviour
 {
 
-    public static RecordManager instance; 
-
+    public static RecordManager instance;
+    public static bool CHOICED_COMPLETE_RECORD = false; // 레코드 선택완료에 대한 값
     [Header("메모리 정보 JSON 데이터")]
     public TextAsset memoryInfoJsonData;
 
