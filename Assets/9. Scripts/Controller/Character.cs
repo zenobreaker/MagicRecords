@@ -31,7 +31,7 @@ public class Character
     private int playerHP;
     private int playerMP;
 
-
+    public List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
     //[SerializeField]
     // 캐릭터가 장착한 장비 
     public Dictionary<EquipType, EquipItem> equipItems = new Dictionary<EquipType, EquipItem>();
@@ -145,6 +145,19 @@ public class Character
         get { return chainsSkills; }
     }
 
+    // 버프 관련
+    public void ApplyBuffDebuff(BuffDebuff buffDebuff)
+    {
+        if (buffDebuff == null) return;
+        buffDebuffs.Add(buffDebuff);
+
+        buffDebuff.Execute(this);
+    }
+
+    public void RemoveBuffDebuff(BuffDebuff buffDebuff)
+    {
+        buffDebuffs.Remove(buffDebuff);
+    }
 
     // 장착 장비 초기화 
     public void InitailizeEquipment()

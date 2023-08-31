@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public enum SkillType { ACTIVE, PASSIVE,};
+public enum SkillType { ACTIVE = 1, PASSIVE,};
 
 [Serializable]
 public class Skill : IUseable, IMoveable
 {
+
+    public int id; 
 
     [SerializeField]
     private string name = null;
@@ -19,11 +22,11 @@ public class Skill : IUseable, IMoveable
     [SerializeField] int skillMaxLevel = 0;
 
     [SerializeField]
-    private int damage = 0;
+    private float damage = 0;
 
-    public int coefficient = 1;     // 스킬 레벨 증가시 오르는 대미지의 계수값
+    public float coefficient = 1; // 스킬 레벨 증가시 오르는 대미지의 계수값
 
-    public int hitCount = 0; // 타격 횟수 - 각 스킬오브젝트별 개별 타수
+    public int hitCount = 0;    // 타격 횟수 - 각 스킬오브젝트별 개별 타수
 
     [SerializeField]
     private int cost = 0;
@@ -43,6 +46,10 @@ public class Skill : IUseable, IMoveable
 
     [SerializeField]
     private GameObject skillPrefab = null;
+
+    public List<string> bonusOptionList = new List<string>();
+    public List<string> bonusSpecialOptionList = new List<string>();
+    public List<string> leadingSkillList = new List<string>();
 
     public int[] upgradeCost = new int[5];
 
@@ -82,7 +89,7 @@ public class Skill : IUseable, IMoveable
         set { skillMaxLevel = value; }
     }
 
-    public int MyDamage
+    public float MyDamage
     {
         get { return damage; }
         set { damage = value; }
@@ -145,6 +152,7 @@ public class Skill : IUseable, IMoveable
         MySkillLevel += 1;
         MyDamage += coefficient;
     }
+
 
     public Skill DeepCopy()
     {

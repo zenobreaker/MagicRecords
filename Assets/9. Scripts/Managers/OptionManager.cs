@@ -15,6 +15,13 @@ public enum ConditionType
     COST,       // 코스트를 지불할 경우 발동
 }
 
+public enum OptionType
+{
+    NONE = 0, 
+    BUFF,
+    DEBUFF,
+}
+
 // 게임내 사용될 특별한 효과 클래스
 [System.Serializable]
 public class SpecialOption
@@ -22,6 +29,7 @@ public class SpecialOption
     public int effectID;        // 효과 ID
     public ConditionType conditionType; //효과 발생 조건
     public string effectName;   // 효과 이름
+    public OptionType optionType;   // 효과 타입
     public string description;  // 효과 설명 
     public float value;         // 효과 수치
     public float duration;      // 효과 유지 시간
@@ -30,6 +38,7 @@ public class SpecialOption
     public float coolTime;
 
     public SpecialOption(int effectID, string effectName, string description,
+        OptionType optionType,
         ConditionType conditionType = ConditionType.NONE, 
          float duration = 0, AbilityType abilityType = AbilityType.NONE,
          float value = 0.0f, int isPercentage = 1)
@@ -37,6 +46,7 @@ public class SpecialOption
         this.effectID = effectID;      
         this.effectName = effectName;
         this.description = description;
+        this.optionType = optionType;
         this.conditionType = conditionType;
         this.value = value;
         this.duration = duration;
@@ -58,6 +68,7 @@ public class SpecialOptionJson
     public int id;
     public string namekeycode;
     public string description;
+    public OptionType optionType;
     public int conditionType;
     public float conditionValue;
     public int abilityType;
@@ -141,7 +152,7 @@ public class OptionManager : MonoBehaviour
 
             // 클래스 생성
             SpecialOption specialOption = new SpecialOption(data.id,
-                data.namekeycode, data.description, 
+                data.namekeycode, data.description, data.optionType, 
                 type, data.conditionValue,
                 abilityType, data.value);
 
