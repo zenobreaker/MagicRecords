@@ -51,6 +51,15 @@ public abstract class CharacterController : MonoBehaviour, IDamage
     [HideInInspector] public bool isAttacking = false; // 공격중인지 판별
     [HideInInspector] public bool isDead = false; // 죽었는지 판별
 
+
+    // 콤보 관련 변수들 
+    public ComboState current_Combo_State; // 콤보 스테이트 
+    public float default_Combo_Timer = 0.5f; // 기본 콤보 초기화 시간
+    public float current_Combo_Timer;   // 현재 콤보 시간을 책정
+    public bool activateTimerToReset;  // 콤보 시간이 리셋 확인
+
+    [SerializeField] protected SkillAction skillAction = null;
+
     protected Character player;
     public Character MyPlayer
     {
@@ -177,8 +186,26 @@ public abstract class CharacterController : MonoBehaviour, IDamage
     }
 
     public abstract void StateAnimaiton();
-    
 
+    public void UseSkill(Skill _targetSkill, int power = 0)
+    {
+        if (skillAction.ActionSkill(_targetSkill, player, power) == true)
+        {
+            Debug.Log("스킬 사용 " + _targetSkill.CallSkillName + " = " + player.MyCurrentMP);
+            isAttacking = true;
+            current_Combo_State = ComboState.Skill1;
+
+            skillAction.SetSkillFinishCallback(() =>
+            {
+                current_Combo_State = ComboState.NONE;
+                isAttacking = false;
+                //activateTimerToReset = true;    // 콤보 타이머 활성화
+                //current_Combo_Timer = default_Combo_Timer;  
+                // 콤보 타이머가 디폴트 값을 대입해서 계산하도록 함.
+                //current_Combo_Timer = _targetSkill.MyCastTime;
+            });
+        }
+    }
 
     // 버프 관련한 수치를 전달 받아서 상위 클래스에서 재정의하여 대상에 따른 스탯을 올리도록 요구한다. 
     // 공격 관련 스탯 버프 

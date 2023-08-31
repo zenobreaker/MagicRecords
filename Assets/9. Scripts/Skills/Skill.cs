@@ -51,7 +51,7 @@ public class Skill : IUseable, IMoveable
     public List<string> bonusSpecialOptionList = new List<string>();
     public List<string> leadingSkillList = new List<string>();
 
-    public int[] upgradeCost = new int[5];
+    public List<int> upgradeCost = new List<int>();
 
     public string skillSubDesc;
 
@@ -136,9 +136,29 @@ public class Skill : IUseable, IMoveable
         set { skillPrefab = value; }
     }
 
+
+    public int CalcSkillDamage(CharacterController controller)
+    {
+        if (controller == null || controller.MyPlayer == null) return 0;
+        
+        int result;
+
+        result =  Mathf.RoundToInt((float)controller.MyPlayer.MyStat.totalATK 
+            * skillLevel * coefficient);
+
+        return result;
+    }
+
     public void Use()
     {
        // SkillAction.MyInstance.ActionSkill(MyName);
+    }
+
+    public void Use(CharacterController controller)
+    {
+        if (controller == null) return;
+        var damage = CalcSkillDamage(controller);
+        controller.UseSkill(this, damage);
     }
 
     public void CoolTimeReset()

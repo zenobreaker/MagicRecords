@@ -317,7 +317,7 @@ public class SkillManual : MonoBehaviour
                 skillSlots[i].IsUsedSlot(_pageSkills[pageNum].isUsed);
 
                 if (skillSlots[i].skill.MySkillLevel < skillSlots[i].skill.MySkillMaxLevel
-                    && skillSlots[i].skill.upgradeCost.Length > 0)
+                    && skillSlots[i].skill.upgradeCost.Count > 0)
                 {
                     al_upgradeBtn.interactable = true;
                     skillSlots[i].text_SkillDesc.text =

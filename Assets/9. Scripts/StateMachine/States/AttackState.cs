@@ -12,8 +12,14 @@ public class AttackState : BaseState
     public override void EnterState()
     {
         //Debug.Log("어택 스테이트 진입");
+        if (owner == null) return;
 
-  
+        Debug.Log("어택 스테이트 실행 중" + owner.isAttacking);
+        if (!owner.isAttacking)
+        {
+            owner.Attack();
+        }
+
     }
 
     public override void ExitState()
@@ -29,13 +35,7 @@ public class AttackState : BaseState
 
     public override void UpdateState()
     {
-        if (owner == null) return;
-
-        Debug.Log("어택 스테이트 실행 중" + owner.isAttacking);
-        if (!owner.isAttacking)
-        {
-            owner.Attack();
-        }
+       
     }
 
    

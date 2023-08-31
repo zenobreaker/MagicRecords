@@ -45,7 +45,7 @@ public class ActiveSKillDataJson
 [System.Serializable]
 public class ActiveSkillDataJsonAllData
 {
-    public ActiveSKillDataJson[] activeSKillDataJsons;
+    public ActiveSKillDataJson[] activeSkillDataJson;
 }
 
 [System.Serializable]
@@ -64,7 +64,7 @@ public class PassiveSkillDataJson
 [System.Serializable]
 public class PassiveSkillDataJsonAllData
 {
-    public PassiveSkillDataJson[] passiveSkillDataJsons;
+    public PassiveSkillDataJson[] passiveSkillDataJson;
 }
 
 
@@ -80,6 +80,8 @@ public class SkillDataBase : MonoBehaviour
     [SerializeField] private SkillToolTip skillToolTip = null;
 
     [SerializeField] ActionButton skilbtn = null;
+
+    public int baseUpgradeCost = 5000;
 
     public TextAsset skillDataJson;
     public TextAsset activeSkillDataJosn;
@@ -105,10 +107,28 @@ public class SkillDataBase : MonoBehaviour
         return resultList;
     }
 
+    private void Start()
+    {
+        InitSkillData();
+    }
+
+
+    public List<int> GetSkillUpgradeCost(int maxLevel)
+    {
+        List<int> list = new List<int>();
+
+        for (int i = 1; i <= maxLevel; i++)
+        {
+            list.Add(baseUpgradeCost * i);
+        }
+
+        return list; 
+    }
+
     //
     public void InitSkillData()
     {
-        passiveSkillDataJsonAllData = JsonUtility.FromJson<PassiveSkillDataJsonAllData>(activeSkillDataJosn.text);
+        passiveSkillDataJsonAllData = JsonUtility.FromJson<PassiveSkillDataJsonAllData>(passiveSkillDataJson.text);
         activeSkillDataJsonAllData = JsonUtility.FromJson<ActiveSkillDataJsonAllData>(activeSkillDataJosn.text);
         skillDataJsonAllData = JsonUtility.FromJson<SkillDataJsonAllData>(skillDataJson.text);
         if (skillDataJsonAllData == null || activeSkillDataJsonAllData == null ||
@@ -120,7 +140,7 @@ public class SkillDataBase : MonoBehaviour
 
             if (skillDataJson.isPassive == 1)
             {
-                foreach (PassiveSkillDataJson passiveSkillData in passiveSkillDataJsonAllData.passiveSkillDataJsons)
+                foreach (PassiveSkillDataJson passiveSkillData in passiveSkillDataJsonAllData.passiveSkillDataJson)
                 {
                     if (passiveSkillData == null || passiveSkillData.activation == 0) continue; 
 
@@ -133,13 +153,14 @@ public class SkillDataBase : MonoBehaviour
                         passiveSkill.MySkillMaxLevel = passiveSkillData.maxLevel;
                         passiveSkill.leadingSkillList = ConvertListFormString(passiveSkillData.leadingSkillList);
                         passiveSkill.coefficient = passiveSkillData.coefficient;
+                        passiveSkill.upgradeCost = GetSkillUpgradeCost(passiveSkillData.maxLevel);
                         paissveSkilList.Add(passiveSkill);
                     }
                 }
             }
             else
             {
-                foreach(ActiveSKillDataJson activeSKillData in activeSkillDataJsonAllData.activeSKillDataJsons)
+                foreach(ActiveSKillDataJson activeSKillData in activeSkillDataJsonAllData.activeSkillDataJson)
                 {
                     if(activeSKillData == null || activeSKillData.activation == 0) continue;
 
@@ -155,6 +176,7 @@ public class SkillDataBase : MonoBehaviour
                         activeSkill.hitCount = activeSKillData.hitCount;
                         activeSkill.SkillCost = activeSKillData.cost;
                         activeSkill.MyCoolTime = activeSKillData.baseCoolTime;
+                        activeSkill.upgradeCost = GetSkillUpgradeCost(activeSKillData.maxLevel);
                         activeSkill.bonusOptionList = ConvertListFormString(activeSKillData.bonusOptionList);
                         activeSkill.bonusSpecialOptionList = ConvertListFormString(activeSKillData.bonusSpecialOptionList);
                         activeSkillList.Add(activeSkill);

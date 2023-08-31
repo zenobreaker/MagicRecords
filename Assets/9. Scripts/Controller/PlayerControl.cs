@@ -33,17 +33,11 @@ public class PlayerControl : CharacterController
     public float TargetRotation;    // 캐릭터 회전값
 
 
-    // 콤보 관련 변수들 
-    public ComboState current_Combo_State; // 콤보 스테이트 
-    public float default_Combo_Timer = 0.5f; // 기본 콤보 초기화 시간
-    public float current_Combo_Timer;   // 현재 콤보 시간을 책정
-    bool activateTimerToReset;  // 콤보 시간이 리셋 확인
-
     // 필요한 컴포넌트 
     [SerializeField]
     private WeaponController theWeaponController = null;
     [SerializeField] WheelController wheelController = null;
-    [SerializeField] SkillAction skillAction = null;
+   
     [SerializeField] GameObject go_DashEffect = null;
     [SerializeField] StatusController theStatus = null;
 
@@ -123,25 +117,6 @@ public class PlayerControl : CharacterController
         
     }
 
-    public void UseSkill(Skill _targetSkill)
-    {
-        if (skillAction.ActionSkill(_targetSkill, player, player.MyStat.totalATK) == true)
-        {
-            Debug.Log("스킬 사용 " + _targetSkill.CallSkillName + " = " + player.MyCurrentMP);
-            isAttacking = true;
-            current_Combo_State = ComboState.Skill1;
-
-            skillAction.SetSkillFinishCallback(() =>
-            {
-                current_Combo_State = ComboState.NONE;
-                isAttacking = false;
-                //activateTimerToReset = true;    // 콤보 타이머 활성화
-                //current_Combo_Timer = default_Combo_Timer;  
-                // 콤보 타이머가 디폴트 값을 대입해서 계산하도록 함.
-                //current_Combo_Timer = _targetSkill.MyCastTime;
-            });
-        }
-    }
 
     public  override void Move()
     {

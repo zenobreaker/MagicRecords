@@ -73,7 +73,8 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         if (selectedSkill.MyCoolDown)
         {
             Debug.Log("나의 스킬 " + selectedSkill.MyName);
-            playerControl.UseSkill(selectedSkill);
+            selectedSkill.Use(playerControl);
+            //playerControl.UseSkill(selectedSkill);
 
             if (isChainReady)
             {
