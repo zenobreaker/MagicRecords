@@ -45,7 +45,7 @@ public class InfoManager : MonoBehaviour
         // 
         SetDefaultAndAllPlayers(); 
         // 임시 플레이어 객체 생성 후 리스트에 추가
-        //TestSetPlayers();
+        TestSetPlayers();
     }
 
 
@@ -69,11 +69,16 @@ public class InfoManager : MonoBehaviour
 
     public void TestSetPlayers()
     {
-        //Character tempPlayer = new Character();
-        //CharStat stat = MonsterDatabase.instance.GetCharStat(1);
-        //tempPlayer.MyStat = stat; 
+        if(myCharacterPlayerList.Count > 0)
+        {
+            return; 
+        }
+        Character tempPlayer = new Character();
+        CharStat stat = MonsterDatabase.instance.GetCharStat(1);
+        tempPlayer.MyStat = stat;
+        tempPlayer.MyID = 1;
         //AddPlayerInfo(tempPlayer.MyID, tempPlayer);
-        //AddMyPlayerInfo(tempPlayer.MyID);
+        AddMyPlayerInfo(tempPlayer.MyID, tempPlayer);
 
         //Character tempPlayer2 = new Character();
         //tempPlayer2.MyStat = new CharStat(1, 0, 0, 0, 0, 0, 10);

@@ -8,19 +8,22 @@ public enum SkillType { ACTIVE = 1, PASSIVE,};
 public class Skill : IUseable, IMoveable
 {
 
-    public int id; 
+    public int id;
+    public int userID;  // 이 스킬을 사용하는 대상의 ID
+    public string keycode; 
 
     [SerializeField]
     private string name = null;
 
     [SerializeField] string skillName = null;
 
-    [SerializeField] private SkillType skillType;
+    public SkillType skillType;
 
     [SerializeField]
     private int skillLevel = 0;
     [SerializeField] int skillMaxLevel = 0;
 
+    public float baseDamage = 0;
     [SerializeField]
     private float damage = 0;
 
@@ -51,7 +54,8 @@ public class Skill : IUseable, IMoveable
     public List<string> bonusSpecialOptionList = new List<string>();
     public List<string> leadingSkillList = new List<string>();
 
-    public List<int> upgradeCost = new List<int>();
+    public int baseCost = 0;
+    public int upgradeCost = 0;
 
     public string skillSubDesc;
 
@@ -136,6 +140,11 @@ public class Skill : IUseable, IMoveable
         set { skillPrefab = value; }
     }
 
+    public int CalcUpgradeCost()
+    {
+        upgradeCost = baseCost * (skillLevel + 1);
+        return upgradeCost;
+    }
 
     public int CalcSkillDamage(CharacterController controller)
     {
@@ -144,7 +153,7 @@ public class Skill : IUseable, IMoveable
         int result;
 
         result =  Mathf.RoundToInt((float)controller.MyPlayer.MyStat.totalATK 
-            * skillLevel * coefficient);
+            * MyDamage);
 
         return result;
     }
@@ -170,7 +179,8 @@ public class Skill : IUseable, IMoveable
     public void UpgradeSkill()
     {
         MySkillLevel += 1;
-        MyDamage += coefficient;
+        MyDamage = baseDamage + (skillLevel - 1) *  coefficient;
+        CalcUpgradeCost();
     }
 
 

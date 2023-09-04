@@ -277,29 +277,29 @@ public class SaveManager : MonoBehaviour
                 }
 
                 // 스킬 정보 
-                for (int j = 0; j < characters[i].MySkills.Length; j++)
+                for (SkillSlotNumber j = SkillSlotNumber.SLOT1 ; j <= SkillSlotNumber.MAXSLOT; j++)
                 {
                     SkillData skillData = new SkillData();
                     
-                    if(characters[i].MySkills[j] != null)
+                    if(characters[i].skills[j] != null)
                     {
-                        skillData.name = characters[i].MySkills[j].MyName;
-                        skillData.level = characters[i].MySkills[j].MySkillLevel;
-                        skillData.chainSkill = characters[i].MySkills[j].isChain;
+                        skillData.name = characters[i].skills[j].MyName;
+                        skillData.level = characters[i].skills[j].MySkillLevel;
+                        skillData.chainSkill = characters[i].skills[j].isChain;
                     }
 
                     wheeler.skills.Add(skillData);
                 }
 
-                for (int k = 0; k < characters[i].MyChains.Length; k++)
+                for (SkillSlotNumber k = SkillSlotNumber.CHAIN1 ; k <= SkillSlotNumber.MAXCHAINSLOT ; k++)
                 {
                     SkillData skillData = new SkillData();
 
-                    if(characters[i].MyChains[k] != null )
+                    if(characters[i].chainsSkills[k] != null )
                     {
-                        skillData.name = characters[i].MyChains[k].MyName;
-                        skillData.level = characters[i].MyChains[k].MySkillLevel;
-                        skillData.chainSkill = characters[i].MyChains[k].isChain;
+                        skillData.name = characters[i].chainsSkills[k].MyName;
+                        skillData.level = characters[i].chainsSkills[k].MySkillLevel;
+                        skillData.chainSkill = characters[i].chainsSkills[k].isChain;
                     }
 
                     wheeler.chainSkills.Add(skillData);
@@ -341,7 +341,7 @@ public class SaveManager : MonoBehaviour
                 tempPlayer.EquipItem(equipItem as EquipItem);
             }
 
-            // 장착 스킬  - id로 생각해야할듯..
+            // todo 장착 스킬  - id로 생각해야할듯..
             //tempPlayer.SetSkill()
             // ? 유무울?
 

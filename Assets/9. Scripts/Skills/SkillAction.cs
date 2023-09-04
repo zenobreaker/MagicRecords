@@ -85,7 +85,7 @@ public class SkillAction : MonoBehaviour
     }
 
     // 강화 마탄 
-    private IEnumerator ReinforcedMagicBullet(int power)
+    private IEnumerator ReinforcedMagicBullet(float power)
     {
         // exitRotation = FindObjectOfType<PlayerControl>().TargetRotation;
 

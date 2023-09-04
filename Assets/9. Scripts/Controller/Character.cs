@@ -13,6 +13,19 @@ using UnityEngine;
 //    ACCSESORRY_2,   // 악세사리 1
 //    ACCSESORRY_3,   // 악세사리 3
 //}
+public enum SkillSlotNumber
+{ 
+    SLOT1 = 0,
+    SLOT2,
+    SLOT3,
+    SLOT4,
+    MAXSLOT = SLOT4,
+
+    CHAIN1 = MAXSLOT+1,
+    CHAIN2,
+    CHAIN3,
+    MAXCHAINSLOT = CHAIN3,
+}
 
 
 [System.Serializable]
@@ -38,8 +51,8 @@ public class Character
 
     // 캐릭터가 장착한 스킬 
     private int chainIdx;
-    private Skill[] skills = new Skill[4];
-    private Skill[] chainsSkills = new Skill[3];
+    public Dictionary<SkillSlotNumber, Skill> skills = new Dictionary<SkillSlotNumber, Skill>();
+    public Dictionary<SkillSlotNumber, Skill> chainsSkills = new Dictionary<SkillSlotNumber, Skill>();
 
     // 장착한 드론
     public MagicalDrone drone;
@@ -49,7 +62,8 @@ public class Character
 
     public Character()
     {
-        InitailizeEquipment(); 
+        InitailizeEquipment();
+        InitializeSkillSlot();
     }
 
 
@@ -134,17 +148,6 @@ public class Character
         set { MyStat.totalATK += value; }
     }
 
-
-    public Skill[] MySkills
-    {
-        get { return skills; }
-    }
-    
-    public Skill[] MyChains
-    {
-        get { return chainsSkills; }
-    }
-
     // 버프 관련
     public void ApplyBuffDebuff(BuffDebuff buffDebuff)
     {
@@ -173,6 +176,19 @@ public class Character
     }
 
     // 장착 스킬 초기화 
+    public void InitializeSkillSlot()
+    {
+        skills.Clear();
+        skills.Add(SkillSlotNumber.SLOT1, null);
+        skills.Add(SkillSlotNumber.SLOT2, null);
+        skills.Add(SkillSlotNumber.SLOT3, null);
+        skills.Add(SkillSlotNumber.SLOT4, null);
+
+        chainsSkills.Clear();
+        chainsSkills.Add(SkillSlotNumber.CHAIN1, null);
+        chainsSkills.Add(SkillSlotNumber.CHAIN2, null);
+        chainsSkills.Add(SkillSlotNumber.CHAIN3, null);
+    }
 
     // 장착하려는 아이템이 있는지 검사 
     public bool CheckHadItem(EquipItem p_EquipItem)
@@ -241,24 +257,157 @@ public class Character
     }
  
     // 스킬 장착 
-    public void SetSkills(Skill[] p_Skills, Skill[] p_Chains)
-    {
-        this.skills = (Skill[])p_Skills.Clone(); 
-        this.chainsSkills = (Skill[])p_Chains.Clone();
-    }
-
     public void SetSkill(Skill p_Target, int p_idx, bool isChain )
     {
-        if (p_idx < 0 || skills.Length < p_idx)
+        if (p_idx < 0 || skills.Count < p_idx)
             return;
 
         if (!isChain)
-            skills[p_idx] = p_Target;
+            skills[(SkillSlotNumber)p_idx] = p_Target;
         else
-            chainsSkills[p_idx] = p_Target;
+            chainsSkills[(SkillSlotNumber)p_idx] = p_Target;
+    }
+
+    // 스킬 장착 해제 
+    public void UnequipSkill(Skill skill)
+    {
+
+        if (skill == null) return; 
+
+        SkillSlotNumber slot = SkillSlotNumber.SLOT1;
+        foreach (var skillPair in skills)
+        {
+            if (skillPair.Value == null) continue; 
+
+            // 찾는 스킬이 맞다면 해당 슬롯에서 제거
+            if(skillPair.Value.Equals(skill))
+            {
+                slot = skillPair.Key;
+                break; 
+            }
+        }
+
+        // 해당 슬롯의 스킬이 체인이 걸려 있는지 검사
+        if (skills[slot] != null && skills[slot].IsChain == true)
+        {
+            // 체인이라면 모든 체인 스킬 해제 
+            chainsSkills[SkillSlotNumber.CHAIN1] = null;
+            chainsSkills[SkillSlotNumber.CHAIN2] = null;
+            chainsSkills[SkillSlotNumber.CHAIN3] = null;
+        }
+
+        // 해당 슬롯의 스킬 제거 
+        skills[slot] = null; 
+    }
+
+    public void SetSkill(SkillSlotNumber slot, Skill skill, bool isChain = false)
+    {
+        // 스킬을 세팅하는데 스킬이 없으면 비어지게 한다. 
+        if(skill== null)
+        {
+            if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
+            {
+                skills[slot] = null;
+            }
+            else
+            {
+                chainsSkills[slot] = null; 
+            }
+        }
+        // 스킬 정보가 있는 경우 
+        else 
+        {
+            // 슬롯에 위치 확인
+            if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
+            {
+                if (skills.ContainsValue(skill))
+                {
+                    SkillSlotNumber prevSlot = SkillSlotNumber.SLOT1;
+                    foreach (var skillPair in skills)
+                    {
+                        if (skill.keycode == skillPair.Value.keycode)
+                        {
+                            prevSlot = skillPair.Key;
+                            break;
+                        }
+                    }
+
+                    skills[prevSlot] = null;
+                    skills[slot] = skill;
+                }
+                else
+                {
+                    skills[slot] = skill;
+                }
+            }
+            else
+            {
+                if (chainsSkills.ContainsValue(skill))
+                {
+                    SkillSlotNumber prevSlot = SkillSlotNumber.CHAIN1;
+                    foreach (var skillPair in chainsSkills)
+                    {
+                        if (skill.keycode == skillPair.Value.keycode)
+                        {
+                            prevSlot = skillPair.Key;
+                            break;
+                        }
+                    }
+                    chainsSkills[prevSlot] = null;
+                    chainsSkills[slot] = skill;
+                }
+                else
+                {
+                    chainsSkills[slot] = skill;
+                }
+            }
+        }
     }
 
     
+    // 스킬 keycode를 받으면 해당 스킬을 장착했는지 여부 반환
+    public bool CheckEquppiedSkillBySkillKeycode(string keycode)
+    {
+        foreach(var skillPair in skills)
+        {
+            if (skillPair.Value == null) continue; 
+
+            if(skillPair.Value.keycode == keycode)
+            {
+                return true; 
+            }
+        }
+
+        return false; 
+    }
+    // keycode를 받으면 체인 스킬로 장착했는지 여부 반환 
+    public bool CheckEquippedChainSkillBySkillKeycode(string keycode)
+    {
+        foreach (var skillPair in chainsSkills)
+        {
+            if (skillPair.Value == null) continue;
+
+            if (skillPair.Value.keycode == keycode)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public string GetFirstChainSkillID()
+    {
+        if(chainsSkills.ContainsKey(SkillSlotNumber.CHAIN1))
+        {
+            if (chainsSkills[SkillSlotNumber.CHAIN1] != null)
+            {
+                return chainsSkills[SkillSlotNumber.CHAIN1].keycode;
+            }
+        }
+
+        return ""; 
+    }
 
     public void SetStartChainSkill(int p_TargetIdx)
     {
@@ -268,9 +417,9 @@ public class Character
 
     public void ClearChains()
     {
-        for (int i = 0; i < chainsSkills.Length; i++)
+        for (int i = 0; i < chainsSkills.Count; i++)
         {
-            chainsSkills[i] = null;
+            chainsSkills[(SkillSlotNumber)i] = null;
         }
     }
 

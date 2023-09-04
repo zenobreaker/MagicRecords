@@ -6,6 +6,15 @@ using UnityEngine.Android;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+enum SkillCategory
+{
+    NONE,
+    PRIVATE_ACTIVE,
+    PRIVATE_PASSIVE,
+    PUBLIC_ACTIVE,
+    PUBLIC_PASSIVE,
+}
+
 /*
  * 페이지에 등록되어 보여줄 스킬 
  */
@@ -24,6 +33,7 @@ public class PageSkill
     }
 }
 
+// 선택한 캐릭터의 스킬들을 보여주고 스킬들을 장착하는 기능을 한다. 
 public class SkillManual : MonoBehaviour
 {
 
@@ -48,6 +58,7 @@ public class SkillManual : MonoBehaviour
     private int tabNumber = 0;  // 탭 수
     private int page = 1;       // 페이지 수
     private int finalPage;      // 최종 페이지 수 
+    private int currentPage = 1;
     private PageSkill[] selectedPageSkills; // 선택된 스킬 탭 
 
 
@@ -69,7 +80,7 @@ public class SkillManual : MonoBehaviour
     Skill selectedSkill;                                        // 선택한 스킬 
     SkillQuickSlot selectedSlot;                                // 선택한 퀵슬롯 
     SkillSlot selectedSkillSlot;                                // 선택한 스킬데이터
- 
+
     [Header("퀵슬롯 선택자")]
     [SerializeField] Image quickSlotSelector = null;
     [SerializeField] GameObject btnGroup = null;                // 버튼을 모아놓은 그룹 오브젝트
@@ -98,10 +109,9 @@ public class SkillManual : MonoBehaviour
     [SerializeField] Text al_Text = null;
 
     Character selectedPlayer;  // 선택한 캐릭터 정보 
-    
-     Skill[] selectedPlayersSkills;
-     Skill[] selectedPlayersChainSkills;
 
+    private bool isEquipFlag = false; // 장착버튼을 누르면 변경
+    
     private void Awake()
     {
         if (instance == null)
@@ -113,20 +123,32 @@ public class SkillManual : MonoBehaviour
     private void Start()
     {
         if (instance == null)
+        {
             instance = this;
-        //skillDataBase = FindObjectOfType<SkillDataBase>();
-        selectedPlayer = null; 
-        SetActiveSkills();
+        }
+        else
+        {
+
+        }
+    
         TabSetting(1);
     }
 
-
-    private void OnEnable()
+    #region UI
+    // 스킬 매뉴얼 UI를 그리는 함수
+    public void DrawSkillManual()
     {
-        
+        // todo 현재 액티브 전용만 갱신하고 있으니 패시브랑 일반 스킬들도 따로 추가해야한다.
+        // 스킬 정보 갱신
+        RefreshEquippedSkills();
+
+        // 퀵슬롯 그리기 
+        DrawQuickSlot();
+
+        // 페이지 그리기 
+        TabSetting(currentPage);
     }
 
-    #region UI
     // 캐릭터 선택 팝업을 열게 한다. 
     public void OpenCharacterSelectPopup()
     {
@@ -139,34 +161,19 @@ public class SkillManual : MonoBehaviour
 
     public void OpenBaseUI(Character _selectPlayer)
     {
+        // 스킬창이 열릴 때 선택한 캐릭터 정보가 없다면 열리지 않도록
         if (_selectPlayer == null) return; 
         // 데이터 초기화 
         selectedPlayer = _selectPlayer;
-        selectedPlayersSkills = null;
-        selectedPlayersChainSkills = null;
-
-        // 스킬창이 열릴 때 선택한 캐릭터 정보가 없다면 열리지 않도록
-        ConnectSelectedPlayerSkillsData(_selectPlayer);
-        if (selectedPlayer == null)
-            return;
 
         UIPageManager.instance.OpenClose(go_BaseUI);
+        
+        // 액티브 스킬 정보 세팅
+        SetActiveSkills();
 
-        TabSetting(1);
+        // 스킬 매뉴얼을 그린다. 
+        DrawSkillManual(); 
     }
-    // 선택한 캐릭터 스킬셋 연결하기 
-    public void ConnectSelectedPlayerSkillsData(Character _selectPlayer)
-    {
-        // 인포매뉴얼이 아니라.. 뭐더라..?
-        selectedPlayer = _selectPlayer;
-        if (selectedPlayer == null)
-            return;
-
-        selectedPlayersSkills = selectedPlayer.MySkills;
-        selectedPlayersChainSkills = selectedPlayer.MyChains;
-        Debug.Log("스킬 셋 할당 " + selectedPlayersSkills.Length + " " + selectedPlayersChainSkills.Length);
-    }
-
 
     public void TabSetting(int _tabNumber)
     {
@@ -176,26 +183,20 @@ public class SkillManual : MonoBehaviour
     
         // 스킬페이지 초기화 
         ClearSlot();
-        // 퀵슬롯 초기화 
-        ClearQuickSlots();
+ 
         switch (tabNumber)
         {
             case 1:
-                //applySkills = activeSkills;
-                ClearPageSkill(activeSkills);
-                SetActiveSkillSlotFromInfo();
                 TabPageSetting(activeSkills);
                 break;
             case 2:
                
                 if (passiveSkills == null || passiveSkills.Length <= 0 )
                 {
-                   
                     SetPassiveSkills();
                 }
-                ClearPageSkill(passiveSkills);
+
                 TabPageSetting(passiveSkills);
-                //applySkills = passiveSkills;
                 break;
         }
     }
@@ -203,12 +204,29 @@ public class SkillManual : MonoBehaviour
     // 스킬데이터베이스에 등록된 스킬들을 불러와 저장(액티브)
     private void SetActiveSkills()
     {
-        Skill[] skills = skillDataBase.GetActiveSkills();
-        activeSkills = new PageSkill[skills.Length];
+        if (selectedPlayer == null) return; 
 
-        for (int i = 0; i < skills.Length; i++)
+        // 선택한 캐릭터의 acitve 스킬들 가져온다.
+        List<Skill> skills = skillDataBase.GetActiveSkillListFromID(selectedPlayer.MyID);
+        activeSkills = new PageSkill[skills.Count];
+
+        string chainSkillKeycode = selectedPlayer.GetFirstChainSkillID();
+        for (int i = 0; i < skills.Count; i++)
         {
-            activeSkills[i] = new PageSkill(skills[i]);
+            bool isEquipped = false;
+            bool isChain = false; 
+            if (selectedPlayer.skills.ContainsValue(skills[i]) == true)
+            {
+                isEquipped = true;
+            }
+
+            if(chainSkillKeycode != "" && chainSkillKeycode == skills[i].keycode)
+            {
+                isChain = true; 
+            }
+
+
+            activeSkills[i] = new PageSkill(skills[i], isEquipped, isChain);
         }
     }
 
@@ -227,53 +245,16 @@ public class SkillManual : MonoBehaviour
     {
         for (int i = 0; i < skillSlots.Length; i++)
         {
-            skillSlots[i].img_SkillImage.sprite = emptyImage;
-            skillSlots[i].text_SkillLevel.text = "";
-            skillSlots[i].text_SkillName.text = "";
-            skillSlots[i].text_SkillDesc.text = "";
-            skillSlots[i].skill = null;
-            skillSlots[i].isUsed = false;
+            skillSlots[i].ClearSlot();
         }
     }
 
-    void ClearPageSkill(PageSkill[] p_TargetSkills)
-    {
-        if (p_TargetSkills == null) return; 
-
-        for (int i = 0; i < p_TargetSkills.Length; i++)
-        {
-            p_TargetSkills[i].isUsed = false;
-            p_TargetSkills[i].isChain = false;
-        }
-    }
-
-    // 스킬 페이지에 장착되어 있는지 보여줌
-    void ApplySkillSlot(bool isChain = false)
-    {
-        if (activeSkills == null) return; 
-
-        for (int i = 0; i < skillSlots.Length; i++)
-        {
-            for (int j = 0; j < activeSkills.Length; j++)
-            {
-                if (skillSlots[i].skill == activeSkills[j].skill)
-                {
-                    skillSlots[i].IsUsedSlot(activeSkills[j].isUsed,isChain);
-                    break;
-                }
-            }
-        }
-        //InfoManual.MyInstance.SetSkillToSelcetedPlayer(SkillManager.instance.GetSkills(), SkillManager.instance.GetChainSkills());
-        if (selectedPlayer != null)
-        {
-            // 데이터 넣기
-            InfoManager.instance.ApplySkillDataSelcetedPlayer(selectedPlayer.MyID);
-        }
-    }
 
     // 페이지 넘기는 버튼 조작 
     public void RightPageSetting()
     {
+        if (selectedPageSkills == null) return;
+
         if (page < (selectedPageSkills.Length / skillSlots.Length) + 1)
             page++;
         else
@@ -285,6 +266,8 @@ public class SkillManual : MonoBehaviour
 
     public void LeftPageSetting()
     {
+        if (selectedPageSkills == null) return;
+
         if (page != 1)
             page--;
         else
@@ -296,76 +279,36 @@ public class SkillManual : MonoBehaviour
 
     void TabPageSetting(PageSkill[] _pageSkills)
     {
-        if (_pageSkills == null) return; 
-
+        if (_pageSkills == null) return;
+        
         selectedPageSkills = _pageSkills;
 
         int startPageNumber = (page - 1) * skillSlots.Length;
-        finalPage = Mathf.RoundToInt((selectedPageSkills.Length / skillSlots.Length)+1);
+        finalPage = Mathf.RoundToInt((_pageSkills.Length / skillSlots.Length)+1);
 
         for (int i = 0; i < skillSlots.Length; i++)
         {
-            //if (i == page * skillSlots.Length) // 슬롯 개수만큼 반복문 결정 
-            //    break;
-
             int pageNum = i + startPageNumber;
             skillSlots[i].gameObject.SetActive(true);
 
             if (pageNum < selectedPageSkills.Length)
+            { 
+                skillSlots[i].SetSlot(_pageSkills[pageNum]);
+            }
+            else
             {
-                skillSlots[i].SetSlot(_pageSkills[pageNum].skill);
-                skillSlots[i].IsUsedSlot(_pageSkills[pageNum].isUsed);
-
-                if (skillSlots[i].skill.MySkillLevel < skillSlots[i].skill.MySkillMaxLevel
-                    && skillSlots[i].skill.upgradeCost.Count > 0)
-                {
-                    al_upgradeBtn.interactable = true;
-                    skillSlots[i].text_SkillDesc.text =
-                        _pageSkills[i].skill.upgradeCost[skillSlots[i].skill.MySkillLevel - 1].ToString() + "->"
-                        + _pageSkills[i].skill.upgradeCost[skillSlots[i].skill.MySkillLevel].ToString();
-                }
-                else
-                {
-                    skillSlots[i].text_SkillDesc.text = "스킬 레벨을 더 이상 올릴 수 없습니다.";
-                    al_upgradeBtn.interactable = false;
-                }
-                skillSlots[i].text_SkillLevel.text = "Lv" + _pageSkills[i].skill.MySkillLevel;
-                skillSlots[i].skill.skillDesc = _pageSkills[i].skill.skillDesc;
-            }else
-            {
-                skillSlots[i].SetSlot(null);
+                skillSlots[i].ClearSlot();
             }
         }
-        ApplySkillSlot();
+
+        //ApplySkillSlot();
         txt_pageText.text = page.ToString() + "/" + finalPage.ToString();
     }
 
     #endregion
 
 
-    //  스킬 정보를 받아서 슬롯들에게 정리함 
-    private void SetActiveSkillSlotFromInfo()
-    {
-        if (selectedPlayer== null)
-            return;
-
-        ClearQuickSlots();
-        
-        for (int i = 0; i < quickSlots.Length; i++)
-        {
-            quickSlots[i].SetSkill(selectedPlayersSkills[i]);
-            TakeONOFFSkill(selectedPlayersSkills[i]);
-        }
-
-        for (int i = 0; i < chainSkillSlots.Length; i++)
-        {
-            chainSkillSlots[i].SetSkill(selectedPlayersChainSkills[i]);
-            TakeONOFFSkill(chainSkillSlots[i].GetSkill(), chainSkillSlots[i].GetSkill() != null,true);
-        }
-
-        ApplySkillSlot();
-    }
-
+    
     // 스킬 업그레이드 
     public void SkillUpgrade()
     {
@@ -374,22 +317,17 @@ public class SkillManual : MonoBehaviour
         if (selectedSkill == null)
             return;
 
-        if (selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1] <= InfoManager.coin
+        if (selectedSkill.upgradeCost <= InfoManager.coin
             && selectedSkill.MySkillLevel < selectedSkill.MySkillMaxLevel)
         {
-            if (RLModeController.isRLMode)
-            {
-                RLModeController.instance.DownBHPoint();
-            }
-
-            InfoManager.coin -= selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1];
+            InfoManager.coin -= selectedSkill.upgradeCost;
             selectedSkill.UpgradeSkill();
 
             selectedSkillSlot.UpdateTooltip(selectedSkill);
             skillToolTip.UpdateTooltip(selectedSkill);
           
         }
-        else if (selectedSkill.upgradeCost[selectedSkill.MySkillLevel - 1] > InfoManager.coin)
+        else if (selectedSkill.upgradeCost> InfoManager.coin)
         {
             Debug.Log("코인이 부족해요!");
         }
@@ -402,22 +340,64 @@ public class SkillManual : MonoBehaviour
          selectedSkillSlot = _skillSlot;
     }
 
-    // 사용하려는 스킬의 등재 변경 
-    void TakeONOFFSkill(Skill p_TargetSkill, bool p_Use = true,  bool isChain = false)
+    
+    // PRIVATE 장착한 스킬 여부 체크 후 값 갱신 
+    private void RefreshEquippedSkills()
     {
-        if (p_TargetSkill == null)
+        if (selectedPlayer == null)
             return;
 
-        for (int i = 0; i < activeSkills.Length; i++)
+        // 해당 탭에 해당하는 스킬만 갱신
+        switch(tabNumber)
         {
-            if (p_TargetSkill.MyName.Equals(activeSkills[i].skill.MyName))
-            {
-                activeSkills[i].isUsed = p_Use;
-                activeSkills[i].isChain = isChain;
+            case 1:
+                foreach (PageSkill pageSkill in activeSkills)
+                {
+                    if (pageSkill == null || pageSkill.skill == null) continue;
+
+                    // 장착했는지 검사 
+                    bool isEquipped = selectedPlayer.CheckEquppiedSkillBySkillKeycode(pageSkill.skill.keycode);
+                    bool isChainEquipped = selectedPlayer.CheckEquippedChainSkillBySkillKeycode(pageSkill.skill.keycode);
+
+                    // 값 변경 
+                    pageSkill.isUsed = isEquipped;
+                    pageSkill.isChain = isChainEquipped;
+                }
                 break;
-            }
+            case 2:break;
+            case 3: break;
+            case 4: break; 
         }
+        
     }
+
+    
+
+    ///////////////////////
+    // 퀵슬롯 관련 
+    ////////////////////////////
+
+    //  현재 선택한 캐릭터의 스킬 정보를 바탕으로 퀵슬롯을 그린다. 
+    private void DrawQuickSlot()
+    {
+        if (selectedPlayer == null)
+            return;
+
+        ClearQuickSlots();
+
+        for (int i = 0; i < quickSlots.Length; i++)
+        {
+            quickSlots[i].SetSkill(selectedPlayer.skills[(SkillSlotNumber)i]);
+        }
+
+        for (int i = 0; i < chainSkillSlots.Length; i++)
+        {
+            SkillSlotNumber index = SkillSlotNumber.CHAIN1 + i;
+            chainSkillSlots[i].SetSkill(selectedPlayer.chainsSkills[index]);
+        }
+
+    }
+
 
     // 스킬 퀵슬롯에 등록시키기 버튼 이벤트
     public void RegistSkill()
@@ -425,9 +405,17 @@ public class SkillManual : MonoBehaviour
         if (selectedSkillSlot != null)
         {
             selectedSkill = selectedSkillSlot.skill;
+            if(selectedSkill.MySkillLevel <= 0)
+            {
+                // 레벨이 없으므로 장착할 수 없다.
+                Debug.Log("You Can regist Skill because not enough skill level");
+                selectedSkill = null;
+                return; 
+            }
             // 장착 버튼 누르면 호출 
             Debug.Log(selectedSkill.MyName);
         }
+        isEquipFlag = true; 
         // 슬롯 선택하라는 알림 출력
         skillToolTip.HideToolTip();
     }
@@ -435,63 +423,24 @@ public class SkillManual : MonoBehaviour
     // 퀵슬롯 선택시 스킬 등록
     public void RegistToQuickSlot(SkillQuickSlot _quickSlot)
     {
-        AppearSelecter(_quickSlot);
-
-        if (selectedSkill == null)
+        if (selectedPlayer == null || isEquipFlag == false)
             return;
-        else
-        {
-            CheckToSlotIsUsed(_quickSlot);
-            _quickSlot.SetSkill(selectedSkill);
-            TakeONOFFSkill(selectedSkill);  // 새로 오는 스킬 사용 
+        
+        // 캐릭터에게 장착시키기 
+        selectedPlayer.SetSkill((SkillSlotNumber)_quickSlot.slotNumber, selectedSkill);
+        
+        // 선택자 UI 보여주기 
+        AppearSelecter(_quickSlot);
+        
+        // 화면 다시그린다.
+        DrawSkillManual();
 
-            //SkillManager.instance.GetSkills()[_quickSlot.slotNumber >= 0 ? _quickSlot.slotNumber : 0] = selectedSkill;
-            Skill t_Skill;
-            t_Skill = selectedSkill.DeepCopy();
+        selectedSkill = null;
 
-            if (!_quickSlot.isChainSkill)
-            {
-                Debug.Log("선택한 스킬 슬롯 번호 " + _quickSlot.slotNumber);
-                //SkillManager.instance.SetSkill(t_Skill, _quickSlot.slotNumber >= 0 ? _quickSlot.slotNumber : 0);
-                selectedPlayersSkills[_quickSlot.slotNumber >= 0 ? _quickSlot.slotNumber : 0] = t_Skill;
-            }
-            else
-            {
-                //SkillManager.instance.SetChainSkill(t_Skill, _quickSlot.slotNumber >= 0 ? _quickSlot.slotNumber : 0);
-                selectedPlayersChainSkills[_quickSlot.slotNumber >= 0 ? _quickSlot.slotNumber : 0] = t_Skill;
-            }
+        selectedSlot = null;
 
-            selectedSkill = null;
-            ApplySkillSlot(_quickSlot.isChainSkill);    // 체인 스킬 여부에 따라 표기 변경 
-            //InfoManual.MyInstance.SetSkillSlot();
-        }
+        isEquipFlag = false; // 플래그를 돌려서 스킬 슬롯을 눌러도 장착되지않도록 
     }
-
-
-    // 등록 취소
-    //public void CancelSkill()
-    //{
-    //    Debug.Log("이건 언제오는데? ");
-    //    if (selectedSkill == null)
-    //        return;
-
-    //    selectedSkill = selectedSkillSlot.skill;
-
-    //    for (int i = 0; i < quickSlots.Length; i++)
-    //    {
-    //        if (quickSlots[i].GetSkill() == selectedSkill)
-    //        {
-    //            TakeONOFFSkill(quickSlots[i].GetSkill());
-    //            quickSlots[i].CleaerSlot();
-    //            //selectedSkillSlot.IsUnUsedSlot();
-    //            ApplySkillSlot();
-    //            selectedSkillSlot = null;
-    //            selectedSkill = null;
-    //            break;
-    //        }
-    //    }
-    //     skillToolTip.HideToolTip();
-    //}
 
 
 
@@ -505,35 +454,34 @@ public class SkillManual : MonoBehaviour
         quickSlotSelector.gameObject.SetActive(false);
     }
 
+
+    // 스킬 해제 
+    public void UnequipSkill()
+    {
+        if (selectedSkill != null)
+        {
+            // 스킬 해제 
+            selectedPlayer.UnequipSkill(selectedSkill);
+
+            // 화면 다시그린다.
+            DrawSkillManual();
+
+            // 스킬 툴팁 다시 그리기
+            skillToolTip.UpdateTooltip(selectedSkill); 
+        }
+    }
+
+
     // 퀵슬롯에 든 스킬 해제 버튼 이벤트
     public void CancelSkillToQuickSlot()
     {
-        Debug.Log("퀵슬롯  스킬 해제 ");
-        
-        if (selectedSlot.transform.CompareTag("NormalSkill"))
-        {
-            if (selectedSlot.isChainSkill)
-            {
-                Debug.Log("퀵슬롯  스킬 이하 전체 해제  ");
-                img_ChainSkill.gameObject.SetActive(false);
-                selectedSlot.isChainSkill = false;
-                selectedPlayersSkills[selectedSlot.slotNumber] = null;
-                //SkillManager.instance.ClearChianSkillForTarget();
-                //InfoManual.MyInstance.GetSelectedPlayer().ClearChains();
-                ClearChainSkill();
-            }
-            else
-                //SkillManager.instance.GetSkills()[selectedSlot.slotNumber] = null;
-                selectedPlayersSkills[selectedSlot.slotNumber] = null;
-        }
+        if (selectedSlot == null) return;
 
+        selectedSkill = selectedSlot.GetSkill();
         
-        TakeONOFFSkill(selectedSlot.GetSkill(), false);
-        selectedSlot.SetSkill(null);
-        ApplySkillSlot();
-        
-        
-        selectedSlot = null;
+        // 스킬 해제 함수 호출 
+        UnequipSkill(); 
+
         btnGroup.SetActive(false);
     }
 
@@ -545,103 +493,19 @@ public class SkillManual : MonoBehaviour
 
         Debug.Log("스킬북  스킬 해제 ");
 
+        // 캐릭터에게 장착 해제 
+        selectedPlayer.UnequipSkill(selectedSkillSlot.skill);
 
-        for (int i = 0; i < activeSkills.Length; i++)
+        // 화면 다시그린다.
+        DrawSkillManual();
+
+        // 스킬 툴립도 갱신해준다
+        if( skillToolTip != null)
         {
-            if(selectedSkillSlot.skill == activeSkills[i].skill)
-            {
-                if (activeSkills[i].isChain)
-                {
-                    for (int k = 0; k < quickSlots.Length; k++)
-                    {
-                        if (quickSlots[k].GetSkill() == selectedSkillSlot.skill)
-                        {
-                            if (quickSlots[k].isChainSkill)
-                            {
-                                Debug.Log("체인 스킬 전체 해제 ");
-                                img_ChainSkill.gameObject.SetActive(false);
-                                //chainSkillSlots[k].isChainSkill = false;
-                                //SkillManager.instance.ClearChianSkillForTarget();
-                                //InfoManual.MyInstance.GetSelectedPlayer().ClearChains();
-                                ClearChainSkill();
-                                TakeONOFFSkill(quickSlots[k].GetSkill(), false, quickSlots[k].isChainSkill);
-                                quickSlots[k].SetSkill(null);
-                                ApplySkillSlot();
-                                //SkillManager.instance.GetSkills()[k] = null;
-                                selectedPlayersSkills[k] = null;
-                                return;
-                            }
-                            else break;
-                            //skillToolTip.ApplyBtnHandle(selectedSkillSlot.isUsed);
-                        }
-                    }
-
-                    for (int j = 0; j < chainSkillSlots.Length; j++)
-                    {
-                        if(chainSkillSlots[j].GetSkill() == activeSkills[i].skill)
-                        {
-                            Debug.Log("체인 스킬 전체 해제 2");
-                            //SkillManager.instance.GetChainSkills()[chainSkillSlots[j].slotNumber] = null;
-                            selectedPlayersChainSkills[j] = null;
-                            TakeONOFFSkill(selectedSkillSlot.skill,false, activeSkills[i].isChain);
-                            //skillToolTip.ApplyBtnHandle(selectedSkillSlot.isUsed);
-                            chainSkillSlots[j].SetSkill(null);
-                            ApplySkillSlot();
-                            break;
-                        }
-                    }
-                }else
-                {
-                    for (int k = 0; k < quickSlots.Length; k++)
-                    {
-                        if (quickSlots[k].GetSkill() == selectedSkillSlot.skill)
-                        {
-                            TakeONOFFSkill(quickSlots[k].GetSkill(),false);
-                            quickSlots[k].SetSkill(null);
-                            ApplySkillSlot();
-                            skillToolTip.ApplyBtnHandle(selectedSkillSlot.isUsed);
-                            //selectedSkillSlot = null;
-                            //SkillManager.instance.GetSkills()[k] = null;
-                            selectedPlayersSkills[k] = null;
-                            return;
-                        }
-                    }
-                }
-
-            }
-        }
-
-        //for (int i = 0; i < quickSlots.Length; i++)
-        //{
-        //    if(quickSlots[i].GetSkill() == selectedSkillSlot.skill)
-        //    {
-        //        TakeONOFFSkill(quickSlots[i].GetSkill());
-        //        quickSlots[i].SetSkill(null);
-        //        ApplySkillSlot();
-        //        skillToolTip.ApplyBtnHandle(selectedSkillSlot.isUsed);
-        //        selectedSkillSlot = null;
-        //        SkillManager.skills[i] = null;
-
-        //        InfoManual.MyInstance.SetSkillSlot();
-        //        actionButtons[i].SetSkill(quickSlots[i].GetSkill());
-        //        return;
-        //    }
-
-        //}
-    }
-
-    // 사용하려는 슬롯에 스킬이 있는 경우 해결하는 메소드
-    void CheckToSlotIsUsed(SkillQuickSlot p_TargetSlot)
-    {
-        if (p_TargetSlot.GetSkill() == null)
-            return;
-        else if(p_TargetSlot.GetSkill() != null)
-        {
-            TakeONOFFSkill(p_TargetSlot.GetSkill(), false);  // 기존 스킬 사용 유무 해제 
-            p_TargetSlot.ClearSlot();
+            // 여기선 슬롯을 던져 준다. 툴팁창이 꺼지지 않기 때문
+            skillToolTip.UpdateTooltip(selectedSkillSlot);
         }
     }
-
 
 
     #region ChainSkill UI
@@ -655,11 +519,8 @@ public class SkillManual : MonoBehaviour
         if(selectedSlot.transform.CompareTag("NormalSkill"))
         {
             selectedSlot.isChainSkill = true;
-            selectedPlayersSkills[selectedSlot.slotNumber].IsChain = true;
+           // selectedPlayersSkills[selectedSlot.slotNumber].IsChain = true;
             Debug.Log("스킬 체인!" + selectedSlot.GetSkill().MyName);
-
-            ApplySkillSlot(selectedSlot.isChainSkill);
-            TakeONOFFSkill(selectedSlot.GetSkill(), true, true);
 
             img_ChainSkill.transform.position = selectedSlot.transform.position;
             img_ChainSkill.gameObject.SetActive(true);
@@ -677,7 +538,7 @@ public class SkillManual : MonoBehaviour
 
         for (int i = 0; i < chainSkillSlots.Length; i++)
         {
-            TakeONOFFSkill(selectedPlayersChainSkills[i], false, false);
+           // TakeONOFFSkill(selectedPlayersChainSkills[i], false, false);
             chainSkillSlots[i].SetSkill(null);
         }
 
@@ -706,7 +567,7 @@ public class SkillManual : MonoBehaviour
             (_quickSlot.transform.CompareTag("NormalSkill") || _quickSlot.transform.CompareTag("ChainSkill")))
             quickSlotSelector.gameObject.SetActive(true);
 
-        if (selectedSlot == _quickSlot)
+        if (selectedSlot == _quickSlot && quickSlotSelector.gameObject.activeSelf == true)
         {
             quickSlotSelector.gameObject.SetActive(false);
             selectedSlot = null;

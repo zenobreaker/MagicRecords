@@ -250,10 +250,10 @@ public class InfoManual : UiBase
 
         for (int i = 0; i < skillQuickSlots.Length; i++)
         {
-            if (selectedPlayer.MySkills[i] != null)
+            if (selectedPlayer.skills[(SkillSlotNumber)i] != null)
             {
-                Debug.Log(selectedPlayer.MySkills[i].CallSkillName);
-                skillQuickSlots[i].SetSkill(selectedPlayer.MySkills[i]);
+                Debug.Log(selectedPlayer.skills[(SkillSlotNumber)i].CallSkillName);
+                skillQuickSlots[i].SetSkill(selectedPlayer.skills[(SkillSlotNumber)i]);
             }
             else
             {
@@ -263,13 +263,13 @@ public class InfoManual : UiBase
     }
 
 
-    public void SetSkillToSelcetedPlayer(Skill[] p_Skills, Skill[] p_Chains)
-    {
-        if (selectedPlayer != null)
-            selectedPlayer.SetSkills(p_Skills, p_Chains);
-        else
-            return;
-    }
+    //public void SetSkillToSelcetedPlayer(Skill[] p_Skills, Skill[] p_Chains)
+    //{
+    //    if (selectedPlayer != null)
+    //        selectedPlayer.SetSkills(p_Skills, p_Chains);
+    //    else
+    //        return;
+    //}
 
     #endregion
 

@@ -42,7 +42,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
 
     public void SetSkill(int idx)
     {
-        selectedSkill = playerControl.MyPlayer.MySkills[idx];
+        selectedSkill = playerControl.MyPlayer.skills[(SkillSlotNumber)idx];
         if (selectedSkill != null)
         {
             // 쿨타임 초기화 
@@ -182,7 +182,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         else if (chainSkillQ.Count == 0)
         {
             Debug.Log("스킬 이미지 변환 완료");
-            selectedSkill = playerControl.MyPlayer.MySkills[index];
+            selectedSkill = playerControl.MyPlayer.skills[(SkillSlotNumber)index];
             isChainReady = false;
             chainIcon.gameObject.SetActive(false);
             skillFillter.fillAmount = 0;
@@ -205,11 +205,11 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         if(chainSkillQ == null)
             chainSkillQ = new Queue<Skill>();
 
-        for (int i = 0; i < playerControl.MyPlayer.MyChains.Length; i++)
+        for (int i = 0; i < playerControl.MyPlayer.chainsSkills.Count; i++)
         {
-            if (playerControl.MyPlayer.MyChains[i]!= null)
+            if (playerControl.MyPlayer.chainsSkills[(SkillSlotNumber)i]!= null)
             {
-                chainSkillQ.Enqueue(playerControl.MyPlayer.MyChains[i]);
+                chainSkillQ.Enqueue(playerControl.MyPlayer.chainsSkills[(SkillSlotNumber)i]);
             }
         }
     }
@@ -221,7 +221,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         if (chainRoutine != null)
         {
             StopCoroutine(chainRoutine);
-            selectedSkill = playerControl.MyPlayer.MySkills[index];
+            selectedSkill = playerControl.MyPlayer.skills[(SkillSlotNumber)index];
             UpdateVisual();
             skillFillter.fillAmount = 0;
             StartCoroutine(CoolTime());

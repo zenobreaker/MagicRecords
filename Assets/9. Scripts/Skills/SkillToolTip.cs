@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,18 +26,40 @@ public class SkillToolTip : MonoBehaviour
     [SerializeField] SkillDescDic skillDescDic = null;
     [SerializeField] SkillManual skillManual = null;
 
-    public void ShowToolTip(Skill _skill)
+    private Skill selectedSkill; 
+
+
+    public void ShowToolTip(Skill skill)
     {
         if (!go_Base.activeSelf)
             UIPageManager.instance.OpenClose(go_Base);
 
-        txt_SkillName.text = _skill.CallSkillName;
-        txt_SkillDesc.text = skillDescDic.SetSkillDesc(_skill);
+        // 
+        selectedSkill = skill;
 
-        if (_skill.MyIcon != null)
-            image_SkillImage.sprite = _skill.MyIcon;
+        // 스킬 이름 설정 
+        txt_SkillName.text = skill.MyName;
+        // 스킬 설명 설정
+        txt_SkillDesc.text = skillDescDic.SetSkillDesc(skill);
+
+        // 스킬 아이콘 
+        if (skill.MyIcon != null)
+            image_SkillImage.sprite = skill.MyIcon;
         else
             image_SkillImage.sprite = image_emptyImage;
+
+
+        // 버튼 그리기 
+        // 강화 버튼 
+        if (skill.upgradeCost<= InfoManager.coin)
+        {
+            upgradeBtn.interactable = true; 
+        }
+        else
+        {
+            upgradeBtn.interactable = false; 
+        }
+
     }
 
     public void HideToolTip()
@@ -46,9 +70,31 @@ public class SkillToolTip : MonoBehaviour
         //go_Base.SetActive(false);
     }
 
-    public void UpdateTooltip(Skill p_skill)
+
+    // 툴팁 갱신 함수 
+    public void UpdateTooltip(SkillSlot skillSlot)
     {
-        txt_SkillDesc.text = skillDescDic.SetSkillDesc(p_skill);
+        if (skillSlot == null) return;
+
+        UpdateTooltip(skillSlot.skill);
+
+        ApplyBtnHandle(skillSlot.isUsed);
+    }
+
+    public void UpdateTooltip(Skill skill)
+    {
+        txt_SkillDesc.text = skillDescDic.SetSkillDesc(skill);
+
+
+        if (skill.upgradeCost <= InfoManager.coin)
+        {
+            upgradeBtn.interactable = true;
+        }
+        else
+        {
+            upgradeBtn.interactable = false;
+        }
+  
     }
 
 
@@ -64,6 +110,7 @@ public class SkillToolTip : MonoBehaviour
         registBtn.gameObject.SetActive(false);
         cancelBtn.gameObject.SetActive(true);
     }
+
 
     public void ApplyBtnHandle(bool _isCheck)
     {

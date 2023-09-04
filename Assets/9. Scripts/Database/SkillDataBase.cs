@@ -75,7 +75,7 @@ public class SkillDataBase : MonoBehaviour
     [SerializeField] private Skill[] passiveSkills = null;
 
     public List<Skill> activeSkillList = new List<Skill>();
-    public List<Skill> paissveSkilList = new List<Skill>();
+    public List<Skill> passiveSkillList = new List<Skill>();
 
     [SerializeField] private SkillToolTip skillToolTip = null;
 
@@ -125,6 +125,19 @@ public class SkillDataBase : MonoBehaviour
         return list; 
     }
 
+    private string GetSkillName(string skillName)
+    {
+        return LanguageManager.Instance.GetLocaliztionValue(skillName);
+    }
+    
+    // keycode 값을 통해서 스킬 스프라이트를 찾는다. 
+    private Sprite GetSkillSprite(string keycode)
+    {
+        string path = "skill_" + keycode;
+        Sprite skillImage = Resources.Load<Sprite>("Skill/" + path);
+        return skillImage;
+    }
+
     //
     public void InitSkillData()
     {
@@ -148,13 +161,19 @@ public class SkillDataBase : MonoBehaviour
                     if(skillDataJson.keycode.Equals(passiveSkillData.skillKeycode))
                     {
                         Skill passiveSkill = new Skill();
-                        passiveSkill.MyName = "name_" + skillDataJson.keycode;
+                        passiveSkill.id = skillDataJson.id;
+                        passiveSkill.skillType = SkillType.PASSIVE;
+                        passiveSkill.userID = skillDataJson.userID;
+                        passiveSkill.keycode = skillDataJson.keycode;
+                        passiveSkill.MyName = GetSkillName("name_" + skillDataJson.keycode);
                         passiveSkill.CallSkillName = skillDataJson.callName;
                         passiveSkill.MySkillMaxLevel = passiveSkillData.maxLevel;
                         passiveSkill.leadingSkillList = ConvertListFormString(passiveSkillData.leadingSkillList);
                         passiveSkill.coefficient = passiveSkillData.coefficient;
-                        passiveSkill.upgradeCost = GetSkillUpgradeCost(passiveSkillData.maxLevel);
-                        paissveSkilList.Add(passiveSkill);
+                        passiveSkill.baseCost = baseUpgradeCost;
+                        passiveSkill.CalcUpgradeCost();
+                        passiveSkill.MyIcon = GetSkillSprite(skillDataJson.keycode);
+                        passiveSkillList.Add(passiveSkill);
                     }
                 }
             }
@@ -167,16 +186,22 @@ public class SkillDataBase : MonoBehaviour
                     if(skillDataJson.keycode.Equals(activeSKillData.skillKeycode))
                     {
                         Skill activeSkill = new Skill();
-                        activeSkill.MyName = "name_" + skillDataJson.keycode;
+                        activeSkill.id = skillDataJson.id;
+                        activeSkill.skillType = SkillType.ACTIVE;
+                        activeSkill.userID = skillDataJson.userID;
+                        activeSkill.keycode = skillDataJson.keycode;
+                        activeSkill.MyName = GetSkillName("name_" + skillDataJson.keycode);
                         activeSkill.CallSkillName = skillDataJson.callName;
+                        activeSkill.MyIcon = GetSkillSprite(skillDataJson.keycode);
                         activeSkill.MySkillMaxLevel = activeSKillData.maxLevel;
                         activeSkill.leadingSkillList = ConvertListFormString(activeSKillData.leadingSkillList);
                         activeSkill.coefficient = activeSKillData.coefficient;
-                        activeSkill.MyDamage = activeSKillData.baseDamage;
+                        activeSkill.baseDamage = activeSKillData.baseDamage;
                         activeSkill.hitCount = activeSKillData.hitCount;
                         activeSkill.SkillCost = activeSKillData.cost;
                         activeSkill.MyCoolTime = activeSKillData.baseCoolTime;
-                        activeSkill.upgradeCost = GetSkillUpgradeCost(activeSKillData.maxLevel);
+                        activeSkill.baseCost = baseUpgradeCost;
+                        activeSkill.CalcUpgradeCost();
                         activeSkill.bonusOptionList = ConvertListFormString(activeSKillData.bonusOptionList);
                         activeSkill.bonusSpecialOptionList = ConvertListFormString(activeSKillData.bonusSpecialOptionList);
                         activeSkillList.Add(activeSkill);
@@ -187,22 +212,46 @@ public class SkillDataBase : MonoBehaviour
     }
 
 
-    // 툴팁 보이기 
-    public void ShowSkillToolTip(Skill _skill)
-    {
-        skillToolTip.ShowToolTip(_skill);
-    }
-
-    // 툴팁 숨기기 
-    public void HideSkillToolTip()
-    {
-        skillToolTip.HideToolTip();
-    }
-
     public Skill[] GetActiveSkills()
     {
         return activeSkills;
     }
+
+    // id랑 맞는 스킬 리스트를 가져온다. 
+    public List<Skill> GetActiveSkillListFromID(int id)
+    {
+        List<Skill> skillList = new List<Skill>();
+        
+        foreach(var skill in activeSkillList)
+        {
+            if(skill == null || id != skill.userID)
+            {
+                continue; 
+            }
+
+            skillList.Add(skill);
+        }
+
+        return skillList;
+    }
+
+    public List<Skill> GetPassiveSkillListFromID(int id)
+    {
+        List<Skill> skillList = new List<Skill>();
+
+        foreach (var skill in passiveSkillList)
+        {
+            if (skill == null || id != skill.userID)
+            {
+                continue;
+            }
+
+            skillList.Add(skill);
+        }
+
+        return skillList;
+    }
+
 
     public Skill[] GetPassiveSkills()
     {
@@ -216,9 +265,8 @@ public class SkillDataBase : MonoBehaviour
         tempPlayer.MyStat = tempStat;
         target.MyPlayer = tempPlayer;
 
-        Debug.Log("스킬 정산 " + activeSkills[0].MyName);
         tempPlayer.SetSkill(activeSkills[2], 0, false);
-        Debug.Log("스킬 정산 " + tempPlayer.MySkills[0].MyName);
+        
         skilbtn.playerControl = target;
         skilbtn.SetSkill(0);
     }

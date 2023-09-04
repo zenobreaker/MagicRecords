@@ -188,8 +188,8 @@ public class UIManager : MonoBehaviour
             actionButtons[i].playerControl = p_targetPlayer;
             actionButtons[i].SetSkill(i);
             
-            if (p_targetPlayer.MyPlayer.MySkills[i] != null 
-                && p_targetPlayer.MyPlayer.MySkills[i].isChain)
+            if (p_targetPlayer.MyPlayer.skills[(SkillSlotNumber)i] != null 
+                && p_targetPlayer.MyPlayer.skills[(SkillSlotNumber)i].isChain)
             {
                  actionButtons[i].ActiveChainIcon();
             }

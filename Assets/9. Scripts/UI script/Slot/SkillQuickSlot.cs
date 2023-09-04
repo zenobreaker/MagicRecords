@@ -47,9 +47,16 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (SkillManual.instance == null || isUiView == true) return; 
+        if (SkillManual.instance == null || isUiView == true) return;
 
-         SkillManual.instance.RegistToQuickSlot(this);
+        if (skill == null)
+        {
+            SkillManual.instance.RegistToQuickSlot(this);
+        }
+        else
+        {
+            SkillManual.instance.AppearSelecter(this);
+        }
     }
 
 

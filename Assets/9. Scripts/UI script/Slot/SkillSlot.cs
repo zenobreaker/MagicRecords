@@ -20,26 +20,56 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] GameObject go_usedSlotUI = null;
     [SerializeField] SkillToolTip skillToolTip = null;
 
-
-    private void Start()
+    public void ClearSlot()
     {
-        text_SkillDesc.text = skill.skillDesc;
+        img_SkillImage.sprite = sprite_NonSlot;
+        text_SkillName.text = "";
+        text_SkillLevel.text = "";
+        text_SkillDesc.text = "";
+        this.skill = null;
+        isUsed = false; 
     }
 
-    public void SetSlot(Skill p_Skill)
+    public void SetSlot(PageSkill pageSkill)
     {
-        if (p_Skill != null)
+        if (pageSkill == null) return;
+
+        SetSlot(pageSkill.skill);
+        
+        IsUsedSlot(pageSkill.isUsed, pageSkill.isChain);
+    }
+
+    public void SetSlot(Skill skill)
+    {
+        if (skill != null)
         {
-            skill = p_Skill;
-            img_SkillImage.sprite = p_Skill.MyIcon;
-            text_SkillName.text = p_Skill.CallSkillName;
-        }else
+            this.skill = skill;
+            img_SkillImage.sprite = skill.MyIcon;
+            text_SkillName.text = skill.MyName;
+
+            //스킬 레벨 텍스트 
+            text_SkillLevel.text = "Lv" + skill.MySkillLevel;
+            
+            // 스킬 레벨 체크 
+            // 다음 레벨 : upgrade 
+            if (skill.MySkillLevel < skill.MySkillMaxLevel)
+            {
+                text_SkillDesc.text =
+                    "Next Level : "
+                    + (skill.MySkillLevel+1).ToString() +"-> Coin : "+ skill.upgradeCost;
+            }
+            else
+            {
+                text_SkillDesc.text = "스킬 레벨을 더 이상 올릴 수 없습니다.";
+            }
+        }
+        else
         {
             img_SkillImage.sprite = sprite_NonSlot;
             text_SkillName.text = "";
             text_SkillLevel.text = "";
             text_SkillDesc.text = "";
-            skill = null;
+            this.skill = null;
         }
     }
 
@@ -62,9 +92,6 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-
-        /* if(skill.MyName != "")
-             HandScript.MyInstance.TakeMoveable(skill);*/
         if (skill != null)
         {
             skillToolTip.ShowToolTip(skill);
@@ -75,10 +102,20 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
 
     public void UpdateTooltip(Skill p_skill)
     {
-        if (p_skill.MySkillLevel < 5)
+        if (p_skill.MySkillLevel < p_skill.MySkillMaxLevel)
         {
             text_SkillLevel.text = "Lv. " + p_skill.MySkillLevel.ToString();
-            text_SkillDesc.text = skill.upgradeCost[skill.MySkillLevel - 1].ToString() + "->" + skill.upgradeCost[skill.MySkillLevel].ToString();
+            // 다음 레벨 : upgrade 
+            if (skill.MySkillLevel < skill.MySkillMaxLevel)
+            {
+                text_SkillDesc.text =
+                    "Next Level : "
+                    + (skill.MySkillLevel + 1).ToString() + "-> Coin : " + skill.upgradeCost;
+            }
+            else
+            {
+                text_SkillDesc.text = "스킬 레벨을 더 이상 올릴 수 없습니다.";
+            }
         }
         else
         {
