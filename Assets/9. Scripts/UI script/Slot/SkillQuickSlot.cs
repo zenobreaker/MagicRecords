@@ -1,21 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
 {
     public int slotNumber;
+    public SkillSlotNumber slot;
     private Skill skill;
-    public bool isChainSkill;
+    public bool isChainSkillSlot;   // 이 슬롯이 체인 스킬 전용 슬롯인지 여부 확인용 
 
+    public GameObject chainImage;
+    public GameObject selectUIGroup; // 선택자 UI 
 
-    public bool isUiView = false; 
+    public Button cancelButton;
+    public Button chainSkillButton; 
 
+    public bool isUiView = false;
+    [SerializeField] private Text skillKeyText;
     [SerializeField] private Image slotImage;
-    public Sprite emptyImage; 
+    [SerializeField] private Text skillNameText; 
+    public Sprite emptyImage;
 
+    delegate void Callback();
+    Callback cancelCallback;
+    Callback chainCallback;
 
     public Skill GetSkill()
     {
@@ -55,9 +67,91 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            // todo 여기 수정하기 
             SkillManual.instance.AppearSelecter(this);
         }
     }
 
+    public void InitSkillSlot()
+    {
+        if(selectUIGroup != null)
+        {
+            selectUIGroup.SetActive(false);
+        }
+    }
+
+    public void DrawSelectUIGroup()
+    {
+        if (selectUIGroup == null) return; 
+
+
+        if(selectUIGroup.activeSelf == true)
+        {
+            selectUIGroup.SetActive(false);
+        }
+        else
+        {
+            selectUIGroup.SetActive(true);
+
+            // 켜질 때 스킬이 있다면 체인 스킬 버튼을 활성화 한다.
+            // 이후 추가 조건이 필요하면 여기 수정 
+            if(skill != null &&
+                chainSkillButton != null )
+            {
+                chainSkillButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                chainSkillButton.gameObject.SetActive(false);
+            }
+        }
+
+        if(skillNameText != null)
+        {
+            if (skill != null)
+            {
+                skillNameText.text = skill.MyName;
+            }
+            else
+            {
+                skillNameText.text = ""; 
+            }
+        }
+    }
+
+    public void DrawChainUi(bool isChain )
+    {
+        if (chainImage == null) return; 
+     
+        chainImage.SetActive(isChain);
+    }
+
+    public void SetCancelButtonAction(UnityAction call)
+    {
+        if (cancelButton == null) return;
+        if (call != null)
+        {
+
+            cancelButton.onClick.AddListener(() =>
+            {
+                DrawSelectUIGroup();
+                call.Invoke();
+            });
+        }
+    }
+
+
+    public void SetChaiSkillButton(UnityAction call)
+    {
+        if (chainSkillButton == null) return; 
+        if(call != null)
+        {
+            chainSkillButton.onClick.AddListener(() =>
+            {
+                DrawSelectUIGroup();
+                call.Invoke();
+            });
+        }
+    }
 
 }

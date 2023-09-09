@@ -287,20 +287,41 @@ public class Character
             }
         }
 
+        foreach(var skillPair in chainsSkills)
+        {
+            if (skillPair.Value == null) continue;
+
+            // 찾는 스킬이 맞다면 해당 슬롯에서 제거
+            if (skillPair.Value.Equals(skill))
+            {
+                slot = skillPair.Key;
+                break;
+            }
+        }
+
         // 해당 슬롯의 스킬이 체인이 걸려 있는지 검사
         if (skills[slot] != null && skills[slot].IsChain == true)
         {
             // 체인이라면 모든 체인 스킬 해제 
             chainsSkills[SkillSlotNumber.CHAIN1] = null;
             chainsSkills[SkillSlotNumber.CHAIN2] = null;
-            chainsSkills[SkillSlotNumber.CHAIN3] = null;
+            //chainsSkills[SkillSlotNumber.CHAIN3] = null;
         }
 
         // 해당 슬롯의 스킬 제거 
-        skills[slot] = null; 
+        if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
+        {
+            skills[slot] = null;
+        }
+        else
+        {
+            chainsSkills[slot] = null; 
+        }
     }
 
-    public void SetSkill(SkillSlotNumber slot, Skill skill, bool isChain = false)
+
+    // 스킬을 장착한다.
+    public void EquipSkill(SkillSlotNumber slot, Skill skill, bool isChain = false)
     {
         // 스킬을 세팅하는데 스킬이 없으면 비어지게 한다. 
         if(skill== null)
@@ -364,6 +385,30 @@ public class Character
         }
     }
 
+
+    // 일반 스킬에서 체인으로 되어 있는지 결과 반환
+    public bool GetSlotisChain(SkillSlotNumber slot)
+    {
+        if (skills[slot] == null) return false;
+
+        return skills[slot].isChain;
+    }
+
+
+    // 일반 스킬 슬롯에서 체인을 한 경우가 있는지 반환
+    public bool GetWasChianSkill()
+    {
+        foreach (var skillPair in skills)
+        {
+            if (skillPair.Value == null) continue;
+
+            if (skillPair.Value.IsChain == true)
+                return true;
+        }
+
+        return false; 
+    }
+
     
     // 스킬 keycode를 받으면 해당 스킬을 장착했는지 여부 반환
     public bool CheckEquppiedSkillBySkillKeycode(string keycode)
@@ -396,6 +441,8 @@ public class Character
         return false;
     }
 
+
+    // 첫 번째 체인 스킬의 keycode 값 반환 
     public string GetFirstChainSkillID()
     {
         if(chainsSkills.ContainsKey(SkillSlotNumber.CHAIN1))
@@ -407,6 +454,18 @@ public class Character
         }
 
         return ""; 
+    }
+
+    // 선택한 슬롯에 스킬을 체인 스킬 등록
+    public void SetChainSkillByNormalSlot(SkillSlotNumber slot)
+    {
+        if (skills.ContainsKey(slot) == false)
+        {
+            return; 
+        }
+
+        // 해당 스킬 체인 
+        skills[slot].IsChain = true;
     }
 
     public void SetStartChainSkill(int p_TargetIdx)

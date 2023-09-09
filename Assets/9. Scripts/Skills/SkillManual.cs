@@ -74,8 +74,6 @@ public class SkillManual : MonoBehaviour
     [SerializeField] SkillSlot[] skillSlots = null;             // 배울 스킬슬롯들 
     [SerializeField] Text txt_pageText = null;                  // 페이지 표시할 텍스트 
     [SerializeField] SkillDataBase skillDataBase = null;        // 데이터베이스 
-    [SerializeField] Sprite emptyImage = null;                  // 빈슬롯 이미지 
-    [SerializeField] Image skillSelector = null;                // 스킬 선택자 
 
     Skill selectedSkill;                                        // 선택한 스킬 
     SkillQuickSlot selectedSlot;                                // 선택한 퀵슬롯 
@@ -85,7 +83,6 @@ public class SkillManual : MonoBehaviour
     [SerializeField] Image quickSlotSelector = null;
     [SerializeField] GameObject btnGroup = null;                // 버튼을 모아놓은 그룹 오브젝트
     [SerializeField] Button btn_RgstChain = null;                 // 장착 버튼 
-    [SerializeField] Button cancelBtn = null;                   // 해제 버튼 
 
     [Header("스킬슬롯")]
     //[SerializeField] ActionButton[] actionButtons = null;
@@ -94,24 +91,17 @@ public class SkillManual : MonoBehaviour
     //public Skill[] chainSkills = new Skill[4];
 
     [Header("체인스킬 UI")]
-    [SerializeField] GameObject chainSkillBtn = null;           // 체인스킬 설정버튼 
-    [SerializeField] GameObject chainSkillUI = null;            // 체인스킬 UI
-    [SerializeField] Text[] txt_chainSkillNames = null;
     [SerializeField] Image img_ChainSkill = null;
-
+    [SerializeField] GameObject chainSkillUI = null;
     // 알림 UI 컴포넌트 
     [Header("알림 UI")]
     [SerializeField] ChoiceAlert choiceAlert = null;
-    [SerializeField] GameObject alertUIBase = null;
-    [SerializeField] Button al_confirmBtn = null;
-    [SerializeField] Button al_upgradeBtn = null;
-    [SerializeField] Button al_cancelBtn = null;
-    [SerializeField] Text al_Text = null;
+
 
     Character selectedPlayer;  // 선택한 캐릭터 정보 
 
     private bool isEquipFlag = false; // 장착버튼을 누르면 변경
-    
+
     private void Awake()
     {
         if (instance == null)
@@ -130,7 +120,7 @@ public class SkillManual : MonoBehaviour
         {
 
         }
-    
+
         TabSetting(1);
     }
 
@@ -170,6 +160,29 @@ public class SkillManual : MonoBehaviour
         
         // 액티브 스킬 정보 세팅
         SetActiveSkills();
+
+        // 퀵슬롯 그리는 형태
+        if (quickSlots != null)
+        {
+            foreach (var slot in quickSlots)
+            {
+                if (slot == null) continue;
+                slot.InitSkillSlot();
+                // 등록해제
+                slot.SetCancelButtonAction(
+                    () =>
+                    {
+                        CancelSkillToQuickSlot();
+                    });
+                // 체인
+                slot.SetChaiSkillButton(
+                    () =>
+                    {
+                        OpenCloseChainSkillUI();
+                    });
+
+            }
+        }
 
         // 스킬 매뉴얼을 그린다. 
         DrawSkillManual(); 
@@ -387,7 +400,17 @@ public class SkillManual : MonoBehaviour
 
         for (int i = 0; i < quickSlots.Length; i++)
         {
+            if (quickSlots[i] == null)
+                continue; 
             quickSlots[i].SetSkill(selectedPlayer.skills[(SkillSlotNumber)i]);
+            // .. 체인 이미지가 별도로 배치되어 있으므로 여기서 조절한다.
+            if (selectedPlayer.GetSlotisChain(quickSlots[i].slot) == true)
+            {
+                // 하르키니아 르 살레브아르스 
+                img_ChainSkill.transform.position = quickSlots[i].transform.position;
+                img_ChainSkill.gameObject.SetActive(true);
+            }
+
         }
 
         for (int i = 0; i < chainSkillSlots.Length; i++)
@@ -425,12 +448,12 @@ public class SkillManual : MonoBehaviour
     {
         if (selectedPlayer == null || isEquipFlag == false)
             return;
-        
+
         // 캐릭터에게 장착시키기 
-        selectedPlayer.SetSkill((SkillSlotNumber)_quickSlot.slotNumber, selectedSkill);
-        
+        selectedPlayer.EquipSkill(_quickSlot.slot, selectedSkill);
+       
         // 선택자 UI 보여주기 
-        AppearSelecter(_quickSlot);
+        //AppearSelecter(_quickSlot);
         
         // 화면 다시그린다.
         DrawSkillManual();
@@ -449,9 +472,10 @@ public class SkillManual : MonoBehaviour
     {
         for (int i = 0; i < quickSlots.Length; i++)
         {
+            if (quickSlots[i] == null) continue; 
             quickSlots[i].SetSkill(null);
         }
-        quickSlotSelector.gameObject.SetActive(false);
+        //quickSlotSelector.gameObject.SetActive(false);
     }
 
 
@@ -510,24 +534,52 @@ public class SkillManual : MonoBehaviour
 
     #region ChainSkill UI
 
+    // 등록한 체인 스킬을 해제하는 버튼
+    public void CloseChainSkill()
+    {
+        if (selectedSlot == null || selectedPlayer == null)
+            return;
+
+        // 0. 정말 체인 스킬 정보를 없앨 것인지 여부 묻는 팝업 
+
+        // 확인 했을 경우 
+
+        // 1. 등록된 체인 해제 
+
+
+
+        // 아닐 경우 
+    }
+
     // 체인 스킬 버튼 이벤트 
     public void SetChiainSkill()
     {
-        if (selectedSlot == null || selectedSkillSlot == null)
+        if (selectedSlot == null || selectedPlayer == null)
             return;
 
-        if(selectedSlot.transform.CompareTag("NormalSkill"))
+        // 0. 이미 이전에 체인 스킬을 설정한 전적이 있다면 실행하지않음
+        if (selectedPlayer.GetWasChianSkill() == true)
         {
-            selectedSlot.isChainSkill = true;
-           // selectedPlayersSkills[selectedSlot.slotNumber].IsChain = true;
-            Debug.Log("스킬 체인!" + selectedSlot.GetSkill().MyName);
-
-            img_ChainSkill.transform.position = selectedSlot.transform.position;
-            img_ChainSkill.gameObject.SetActive(true);
-            
-            btnGroup.SetActive(false);
-            OpenCloseChainSkillUI();
+            // todo 체인을 했엇다는 알림을 띄우기
+            Debug.Log("이미 체인 스킬이 설정 되어 있습니다."); 
+            return;
         }
+
+        // 해당 슬롯에서 체인스킬 버튼을 누르면 해당 스킬을 체인 스킬화 한다.
+
+        // 1. 선택한 슬롯에서 스킬을 체인 시킨다. 
+        // 1-1 슬롯번호를 통해서 캐릭터의 해당 슬롯번호에 해당하는 스킬을 체인시킨다.
+        selectedPlayer.SetChainSkillByNormalSlot(selectedSlot.slot);
+
+        // 2. 버튼 그룹들은 꺼준다. 
+        btnGroup.SetActive(false);
+
+        // 3. UI들을 다시 그린다. 
+        DrawSkillManual();
+
+        // 4. 체인 스킬 UI를 열어준다.
+        OpenCloseChainSkillUI();
+
     }
 
     public void ClearChainSkill()
@@ -563,18 +615,12 @@ public class SkillManual : MonoBehaviour
     // 퀵슬롯 선택 시, 선택자 출현
     public void AppearSelecter(SkillQuickSlot _quickSlot)
     {
-        if (!quickSlotSelector.IsActive() && 
-            (_quickSlot.transform.CompareTag("NormalSkill") || _quickSlot.transform.CompareTag("ChainSkill")))
-            quickSlotSelector.gameObject.SetActive(true);
-
-        if (selectedSlot == _quickSlot && quickSlotSelector.gameObject.activeSelf == true)
+        if (selectedSlot == _quickSlot)
         {
-            quickSlotSelector.gameObject.SetActive(false);
             selectedSlot = null;
             return;
         }
 
-        quickSlotSelector.transform.position = _quickSlot.transform.position;
         selectedSlot = _quickSlot;
 
         if (_quickSlot.GetSkill() != null)
