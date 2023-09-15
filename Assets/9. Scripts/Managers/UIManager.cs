@@ -25,7 +25,10 @@ public class UIManager : MonoBehaviour
     private Gauge health = null;
     [SerializeField]
     private Gauge mana = null;
-    [SerializeField] Gauge currrentCP = null; 
+    [SerializeField] Gauge currrentCP = null;
+
+    public GameObject BuffUiBase;
+    public BuffIcon buffIcon;
 
     public Gauge MyHP
     {
@@ -168,10 +171,37 @@ public class UIManager : MonoBehaviour
     }
 
  
-    public void ShowHealthBar(Character _status)
+    public void ShowHealthBar(Character character)
     {
         enemyHealthBar.SetActive(true);
-        enemyHealthStat.Initalize(_status.MyCurrentHP, _status.MyMaxHP);
+        enemyHealthStat.Initalize(character.MyCurrentHP, character.MyMaxHP);
+
+        foreach (var buff in character.buffDebuffs)
+        {
+            if (buff == null) continue;
+
+            // 기존에 버프 오브젝트가 있다면 그녀석을 활성화
+            if (BuffUiBase.transform.childCount > 0)
+            {
+                for (int i = 0; i < BuffUiBase.transform.childCount; i++)
+                {
+                    if (BuffUiBase.transform.GetChild(i).gameObject.activeInHierarchy == false)
+                    {
+                        var buffObject = BuffUiBase.transform.GetChild(i);
+                        if (buffObject.TryGetComponent<BuffIcon>(out var icon))
+                        {
+                            icon.Init(buff);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // 없으면 새로 생성
+                var buffIconIns = Instantiate(buffIcon, BuffUiBase.transform);
+                buffIconIns.Init(buff);
+            }
+        }
     }
 
     public void HideHealthBar()
