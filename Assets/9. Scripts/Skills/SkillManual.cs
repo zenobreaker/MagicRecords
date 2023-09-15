@@ -79,11 +79,6 @@ public class SkillManual : MonoBehaviour
     SkillQuickSlot selectedSlot;                                // 선택한 퀵슬롯 
     SkillSlot selectedSkillSlot;                                // 선택한 스킬데이터
 
-    [Header("퀵슬롯 선택자")]
-    [SerializeField] Image quickSlotSelector = null;
-    [SerializeField] GameObject btnGroup = null;                // 버튼을 모아놓은 그룹 오브젝트
-    [SerializeField] Button btn_RgstChain = null;                 // 장착 버튼 
-
     [Header("스킬슬롯")]
     //[SerializeField] ActionButton[] actionButtons = null;
     [SerializeField] SkillQuickSlot[] quickSlots = null;
@@ -161,6 +156,9 @@ public class SkillManual : MonoBehaviour
         // 액티브 스킬 정보 세팅
         SetActiveSkills();
 
+        // 패시브 스킬 정보 세팅 
+        SetPassiveSkills(); 
+
         // 퀵슬롯 그리는 형태
         if (quickSlots != null)
         {
@@ -178,7 +176,7 @@ public class SkillManual : MonoBehaviour
                 slot.SetChaiSkillButton(
                     () =>
                     {
-                        OpenCloseChainSkillUI();
+                        SetChiainSkill();
                     });
 
             }
@@ -203,12 +201,6 @@ public class SkillManual : MonoBehaviour
                 TabPageSetting(activeSkills);
                 break;
             case 2:
-               
-                if (passiveSkills == null || passiveSkills.Length <= 0 )
-                {
-                    SetPassiveSkills();
-                }
-
                 TabPageSetting(passiveSkills);
                 break;
         }
@@ -245,12 +237,22 @@ public class SkillManual : MonoBehaviour
 
     private void SetPassiveSkills()
     {
-        Skill[] skills = skillDataBase.GetPassiveSkills();
-        passiveSkills = new PageSkill[skills.Length];
 
-        for (int i = 0; i < skills.Length; i++)
+        // 선택한 캐릭터의 passive 스킬들 가져온다.
+        List<Skill> skills = skillDataBase.GetPassiveSkillListFromID(selectedPlayer.MyID);
+        passiveSkills = new PageSkill[skills.Count];
+
+        // 패시브 스킬은 레벨이 1이상이면 자동으로 활성화되고 적용된다. 
+
+        for (int i = 0; i < skills.Count; i++)
         {
-            passiveSkills[i] = new PageSkill(skills[i]);
+            bool isEnabled = false;
+            if (skills[i].MySkillLevel > 0)
+            {
+                isEnabled = true;
+            }
+
+            passiveSkills[i] = new PageSkill(skills[i], isEnabled);
         }
     }
 
@@ -335,8 +337,18 @@ public class SkillManual : MonoBehaviour
         {
             InfoManager.coin -= selectedSkill.upgradeCost;
             selectedSkill.UpgradeSkill();
-
             selectedSkillSlot.UpdateTooltip(selectedSkill);
+            if(selectedSkill.skillType == SkillType.PASSIVE)
+            {
+                if(selectedSkill is PassiveSkill)
+                    (selectedSkill as PassiveSkill).isUnlocked = true;
+                // 효과 적용 시킨다. ...
+                if (selectedPlayer != null)
+                {
+                    selectedPlayer.SetPassiveSkill(selectedSkill as PassiveSkill);
+                }
+            }
+
             skillToolTip.UpdateTooltip(selectedSkill);
           
         }
@@ -373,7 +385,7 @@ public class SkillManual : MonoBehaviour
                     bool isChainEquipped = selectedPlayer.CheckEquippedChainSkillBySkillKeycode(pageSkill.skill.keycode);
 
                     // 값 변경 
-                    pageSkill.isUsed = isEquipped;
+                    pageSkill.isUsed = isEquipped || isChainEquipped;
                     pageSkill.isChain = isChainEquipped;
                 }
                 break;
@@ -506,7 +518,6 @@ public class SkillManual : MonoBehaviour
         // 스킬 해제 함수 호출 
         UnequipSkill(); 
 
-        btnGroup.SetActive(false);
     }
 
     // 스킬북에서 선택한 (장착되어 있는) 스킬 해제 
@@ -557,28 +568,17 @@ public class SkillManual : MonoBehaviour
         if (selectedSlot == null || selectedPlayer == null)
             return;
 
-        // 0. 이미 이전에 체인 스킬을 설정한 전적이 있다면 실행하지않음
-        if (selectedPlayer.GetWasChianSkill() == true)
-        {
-            // todo 체인을 했엇다는 알림을 띄우기
-            Debug.Log("이미 체인 스킬이 설정 되어 있습니다."); 
-            return;
-        }
-
         // 해당 슬롯에서 체인스킬 버튼을 누르면 해당 스킬을 체인 스킬화 한다.
 
         // 1. 선택한 슬롯에서 스킬을 체인 시킨다. 
         // 1-1 슬롯번호를 통해서 캐릭터의 해당 슬롯번호에 해당하는 스킬을 체인시킨다.
         selectedPlayer.SetChainSkillByNormalSlot(selectedSlot.slot);
 
-        // 2. 버튼 그룹들은 꺼준다. 
-        btnGroup.SetActive(false);
-
-        // 3. UI들을 다시 그린다. 
+        // 2. UI들을 다시 그린다. 
         DrawSkillManual();
 
-        // 4. 체인 스킬 UI를 열어준다.
-        OpenCloseChainSkillUI();
+        // 3. 체인 스킬 UI를 열어준다.
+        //OpenCloseChainSkillUI();
 
     }
 
@@ -587,17 +587,13 @@ public class SkillManual : MonoBehaviour
         if (selectedSlot == null || selectedSkillSlot == null)
             return;
 
-
         for (int i = 0; i < chainSkillSlots.Length; i++)
         {
            // TakeONOFFSkill(selectedPlayersChainSkills[i], false, false);
             chainSkillSlots[i].SetSkill(null);
         }
 
-        //SkillManager.instance.ClearChianSkillForTarget();
         selectedPlayer.ClearChains();
-
-        //ApplySkillSlot();
     }
 
 
@@ -605,6 +601,7 @@ public class SkillManual : MonoBehaviour
     public void OpenCloseChainSkillUI()
     {
         UIPageManager.instance.OpenClose(chainSkillUI);
+        //
     }
 
 
@@ -612,23 +609,25 @@ public class SkillManual : MonoBehaviour
     #endregion
 
 
-    // 퀵슬롯 선택 시, 선택자 출현
-    public void AppearSelecter(SkillQuickSlot _quickSlot)
+    // 퀵슬롯 선택 정보 저장
+    public void SelectSkillSlot(SkillQuickSlot slot)
     {
-        if (selectedSlot == _quickSlot)
+        if (slot == null) return;
+        
+        // 1. 이전에 선택한 정보가 있다면 선택한 정보가 그리는 걸 끈다 
+        if(selectedSlot != slot && selectedSlot != null)
+        {
+            selectedSlot.DrawSelectUIGroup();
+        }
+
+        // 2. 이전에 선택한 정보랑 같다면 취소
+        if(selectedSlot == slot)
         {
             selectedSlot = null;
-            return;
+            return; 
         }
 
-        selectedSlot = _quickSlot;
-
-        if (_quickSlot.GetSkill() != null)
-        {
-            btnGroup.SetActive(true);
-            btn_RgstChain.gameObject.SetActive(_quickSlot.transform.CompareTag("NormalSkill"));
-        }
-        else
-            btnGroup.SetActive(false);
+        selectedSlot = slot; 
     }
+   
 }

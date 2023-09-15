@@ -160,7 +160,7 @@ public class SkillDataBase : MonoBehaviour
                     // 적당히 패시브 스킬을 찾는다. 
                     if(skillDataJson.keycode.Equals(passiveSkillData.skillKeycode))
                     {
-                        Skill passiveSkill = new Skill();
+                        PassiveSkill passiveSkill = new PassiveSkill();
                         passiveSkill.id = skillDataJson.id;
                         passiveSkill.skillType = SkillType.PASSIVE;
                         passiveSkill.userID = skillDataJson.userID;
@@ -173,6 +173,7 @@ public class SkillDataBase : MonoBehaviour
                         passiveSkill.baseCost = baseUpgradeCost;
                         passiveSkill.CalcUpgradeCost();
                         passiveSkill.MyIcon = GetSkillSprite(skillDataJson.keycode);
+                        passiveSkill.SkillOptionSet(ConvertListFormString(passiveSkillData.bonusOptionList));
                         passiveSkillList.Add(passiveSkill);
                     }
                 }
@@ -185,7 +186,7 @@ public class SkillDataBase : MonoBehaviour
 
                     if(skillDataJson.keycode.Equals(activeSKillData.skillKeycode))
                     {
-                        Skill activeSkill = new Skill();
+                        ActiveSkill activeSkill = new ActiveSkill();
                         activeSkill.id = skillDataJson.id;
                         activeSkill.skillType = SkillType.ACTIVE;
                         activeSkill.userID = skillDataJson.userID;
@@ -203,7 +204,7 @@ public class SkillDataBase : MonoBehaviour
                         activeSkill.baseCost = baseUpgradeCost;
                         activeSkill.CalcUpgradeCost();
                         activeSkill.bonusOptionList = ConvertListFormString(activeSKillData.bonusOptionList);
-                        activeSkill.bonusSpecialOptionList = ConvertListFormString(activeSKillData.bonusSpecialOptionList);
+                        activeSkill.SkillOptionSet(ConvertListFormString(activeSKillData.bonusSpecialOptionList));
                         activeSkillList.Add(activeSkill);
                     }
                 }

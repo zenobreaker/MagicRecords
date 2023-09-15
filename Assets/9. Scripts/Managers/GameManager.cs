@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] ComboManager theCombo = null;
 
     // 이번 게임에 등장하는 모든 아군 플레이어 
-    List<CharacterController> team = new List<CharacterController>();
+    List<WheelerController> team = new List<WheelerController>();
 
     private void Awake()
     {

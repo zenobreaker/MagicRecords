@@ -58,6 +58,10 @@ public class InfoManager : MonoBehaviour
         foreach(var statPair in statDict)
         {
             Character tempPlayer = new Character();
+            if (statPair.Key == 1)
+            {
+                tempPlayer = new CursedTurtle();
+            }
             tempPlayer.MyID = statPair.Key;
             tempPlayer.objectID = (uint)statPair.Key;
             tempPlayer.MyStat = statPair.Value;
@@ -73,7 +77,7 @@ public class InfoManager : MonoBehaviour
         {
             return; 
         }
-        Character tempPlayer = new Character();
+        Character tempPlayer = new CursedTurtle();
         CharStat stat = MonsterDatabase.instance.GetCharStat(1);
         tempPlayer.MyStat = stat;
         tempPlayer.MyID = 1;

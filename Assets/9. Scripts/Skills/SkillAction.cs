@@ -14,11 +14,11 @@ public class SkillAction : MonoBehaviour
     [SerializeField] private WeaponController weaponController = null;
 
     public Animator myAnimator;
-    private Skill selectedSkill;
+    private ActiveSkill selectedSkill;
 
     Action callback;
 
-    public bool ActionSkill(Skill _skill, Character _player, int power)
+    public bool ActionSkill(ActiveSkill _skill, Character _player, int power)
     {
         if (_player == null) return false;
 
@@ -75,7 +75,7 @@ public class SkillAction : MonoBehaviour
         {
             //  PlayerControl.MyInstance.myAnimator.SetFloat("AttackSpeed", CharStat.instance.c_attackSpeed * 1.7f);
             //  myAnimator.SetFloat("AttackSpeed", CharStat.instance.c_attackSpeed * 1.7f);
-            selectedSkill = SkillManager.instance.GetChainSkills()[i++];
+            //selectedSkill = SkillManager.instance.GetChainSkills()[i++];
             StartCoroutine(selectedSkill.MyName, -selectedSkill.SkillCost);
 
             yield return new WaitUntil(() => (myAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f));

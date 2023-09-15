@@ -2,30 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Buff
-{
-    NONE = 0,
-    INCREASE_ATTACK,
-    INCREASE_DEFENSE,
-    INCREASE_SPEED,
-    INCREASE_ATTACK_SPEED,
-}
-
-public enum Debuff
-{
-    NONE = 0,
-    BREAK_AROMR,        // 방어구 파괴 (방어력 감소)
-    BREAK_WEAPON,       // 무기 파괴 (공격력 감소) 
-    DOWN_ATTACK_SPEED,  // 공격속도 감소
-
-    BLEED,              // 출혈  - 지속 데미지 + 공격력 감소 
-    BURN,               // 화상 - 지속 데미지 + 방어력 감소
-    CURSE,              // 저주 (모든 스테이터스 감소)
-    HOLD,               // 속박 - 이동불가 
-    SLOW,               // 둔화 - 공격속도 / 이동속도 감소
-    STURN,              // 기절 - 공격/이동 불가 
-    ICE,                // 빙결 - 기절과 같음
-}   
 
 public class BuffStock
 {
@@ -65,7 +41,7 @@ public class ConditionController : MonoBehaviour
     Dictionary<Debuff, Condition> dic_debuffConnectConditionList = new Dictionary<Debuff, Condition>();
 
     // 컨디션컨트롤러는 캐릭터 클래스랑 서로 연결되는 구조로 구성되어 있다. 
-    [SerializeField] CharacterController myBody;
+    [SerializeField] WheelerController myBody;
     [SerializeField] Animator myAnim;
 
     public Condition myCondition;
@@ -102,12 +78,12 @@ public class ConditionController : MonoBehaviour
         // 스텟 변수에 스탯 정보가 없다면 이 컴포넌트가 부착된 대상에게서 찾는다.
         if (myBody == null)
         {
-            myBody = gameObject.GetComponent<CharacterController>();
+            myBody = gameObject.GetComponent<WheelerController>();
 
             // 부착된 오브젝트에서 찾을 수 없다면 부착된 오브젝트의 자식에서도 찾는다.
             if (myBody == null)
             {
-                myBody = gameObject.GetComponentInChildren<CharacterController>();
+                myBody = gameObject.GetComponentInChildren<WheelerController>();
             }
         }
     }
@@ -206,16 +182,12 @@ public class ConditionController : MonoBehaviour
             switch (_buff.myBuff)
             {
                 case Buff.INCREASE_ATTACK:
-                    myBody.AddBuffStatAtk(_buff.applyValue);
                     break;
                 case Buff.INCREASE_ATTACK_SPEED:
-                    myBody.AddBuffStatAtkSpd(_buff.applyValue);
                     break;
                 case Buff.INCREASE_DEFENSE:
-                    myBody.AddBuffStatDef(_buff.applyValue);
                     break;
                 case Buff.INCREASE_SPEED:
-                    myBody.AddBuffStatMoveSpd(_buff.applyValue);
                     break;
             }
         }

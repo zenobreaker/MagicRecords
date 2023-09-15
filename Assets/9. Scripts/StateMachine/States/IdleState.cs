@@ -6,7 +6,7 @@ public class IdleState : BaseState
 {
     float idleTime;
 
-    public IdleState(CharacterController context)
+    public IdleState(WheelerController context)
     {
         this.owner = context;
     }

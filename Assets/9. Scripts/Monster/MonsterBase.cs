@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Playables;
+using UnityEngine.TextCore.Text;
 
-public class MonsterBase : CharacterController
+public class MonsterBase : WheelerController
 {
     [SerializeField] public string MonsterName = ""; // 동물의 이름
 
@@ -41,7 +43,7 @@ public class MonsterBase : CharacterController
 
     protected AudioSource theAudio;
     protected NavMeshAgent nav;
-    //protected FieldOfViewAngle theViewAngle; //CharacterController 클래스에 이미 있으므로 주석처리 
+    //protected FieldOfViewAngle theViewAngle; //WheelerController 클래스에 이미 있으므로 주석처리 
 
     [SerializeField] protected AudioClip[] sound_Normal = null;
     [SerializeField] protected AudioClip sound_Hurt = null;
@@ -153,7 +155,7 @@ public class MonsterBase : CharacterController
 
     }
 
-    // 위 함수 내용과 같지만 CharacterController 클래스에 비슷한 역할을 할려고 만든 함수를 호출한다. 
+    // 위 함수 내용과 같지만 WheelerController 클래스에 비슷한 역할을 할려고 만든 함수를 호출한다. 
     public override void StateAnimaiton()
     {
         isAction = true;
@@ -323,51 +325,30 @@ public class MonsterBase : CharacterController
        //     Instantiate(item_prefabs[i].itemPrefab, transform.position, Quaternion.identity);
         }
     }
-
-    public override void AddBuffStatAtk(int _value)
-    {
-        if(player != null)
-        {
-            player.MyTotalAttack += _value; 
-        }
-
-    }
-
-    // 방어 관련 스탯 버프 
-    public override void AddBuffStatDef(int _value)
-    {
-        
-    }
-
-    // 이동속도 관련 스탯 버프
-    public override void AddBuffStatMoveSpd(int _value)
-    {
-        
-    }
-
-
-    // 공격속도 관련 스탯 버프 
-    public override void AddBuffStatAtkSpd(int _value)
-    {
-       
-    }
-
-
-    // 체력 관련 스탯 버프 
-    public override void AddBuffStatHp(int _value)
-    {
-       
-    }
-
-    // 마나 관련 스탯 버프
-    public override void AddBuffStatMp(int _value)
-    {
-      
-    }
-
     public override void Think()
     {
-        
+        if (MyPlayer == null) return;
+        foreach (var buff in MyPlayer.buffDebuffs)
+        {
+            if (buff == null || buff.specialOption == null) continue;
+
+            if (buff.specialOption.optionType == OptionType.DEBUFF)
+            {
+                switch (buff.specialOption.abilityType)
+                {
+                    // todo 이동 제약 관련 디버프면 일단 상태를 멈춘다.
+                    case AbilityType.HOLD:
+                        myState = PlayerState.Idle;
+                        break;
+                    case AbilityType.STURN:
+                        myState = PlayerState.Idle;
+                        break;
+                    case AbilityType.ICE:
+                        myState = PlayerState.Idle;
+                        break;
+                }
+            }
+        }
     }
 }
 

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 using static UnityEngine.Networking.UnityWebRequest;
 
 public enum PlayType
@@ -26,7 +28,7 @@ public enum PlayerState
 }
 
 
-public abstract class CharacterController : MonoBehaviour, IDamage
+public abstract class WheelerController : MonoBehaviour, IDamage
 {
     protected LayerMask m_LayerMask;
     protected StateMachine stateMachine;    // 상태 변환기 
@@ -78,6 +80,7 @@ public abstract class CharacterController : MonoBehaviour, IDamage
 
     public abstract void Wait();
 
+
     // 공격한 대상의 정보를 저장하는 함수
     public void SetTargetInfo(Transform target)
     {
@@ -90,6 +93,9 @@ public abstract class CharacterController : MonoBehaviour, IDamage
     public void DealDamage(Character attackOwn, Transform attackTrasnform = null, float damageRate = 1.0f)
     {
         if (attackOwn == null || attackOwn.MyStat == null) return;
+        
+        // 패시브 효과 적용
+        attackOwn.ApplyPassiveSkillEffects(MyPlayer);
 
         float damage = attackOwn.MyStat.totalATK * damageRate;
         float critRate = attackOwn.MyStat.totalCritRate;
@@ -130,6 +136,7 @@ public abstract class CharacterController : MonoBehaviour, IDamage
         
         Damage((int)damage, pos, isCrit);
 
+       
     }
 
     public virtual void Damage(int damage, bool isCrit = false)
@@ -187,7 +194,7 @@ public abstract class CharacterController : MonoBehaviour, IDamage
 
     public abstract void StateAnimaiton();
 
-    public void UseSkill(Skill _targetSkill, int power = 0)
+    public void UseSkill(ActiveSkill _targetSkill, int power = 0)
     {
         if (skillAction.ActionSkill(_targetSkill, player, power) == true)
         {
@@ -206,57 +213,5 @@ public abstract class CharacterController : MonoBehaviour, IDamage
             });
         }
     }
-
-    // 버프 관련한 수치를 전달 받아서 상위 클래스에서 재정의하여 대상에 따른 스탯을 올리도록 요구한다. 
-    // 공격 관련 스탯 버프 
-    public virtual void AddBuffStatAtk(int _value)
-    {
-
-    }
-
-    // 방어 관련 스탯 버프 
-    public virtual void AddBuffStatDef(int _value)
-    {
-
-    }
-
-    // 이동속도 관련 스탯 버프
-    public virtual void AddBuffStatMoveSpd(int _value)
-    {
-
-    }
-
-
-    // 공격속도 관련 스탯 버프 
-    public virtual void AddBuffStatAtkSpd(int _value)
-    {
-
-    }
-
-
-    // 체력 관련 스탯 버프 
-    public virtual void AddBuffStatHp(int _value)
-    {
-
-    }
-
-    // 마나 관련 스탯 버프
-    public virtual void AddBuffStatMp(int _value)
-    {
-
-    }
-
-    // 크리티컬 확률 버프 
-    public virtual void AddBuffStatCritRate(float value)
-    {
-
-    }
-
-    // 크티리컬 데미지 버프 
-    public virtual void AddBuffStatCritDmg(float value)
-    {
-
-    }
-
-    
+  
 }

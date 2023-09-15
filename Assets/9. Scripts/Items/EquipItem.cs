@@ -17,6 +17,18 @@ public enum AbilityType
     MPR = 8,
     CRITRATE = 9,
     CRITDMG = 10,
+
+    BREAK_AROMR = 100,        // 방어구 파괴 (방어력 감소)
+    BREAK_WEAPON,       // 무기 파괴 (공격력 감소) 
+    DOWN_ATTACK_SPEED,  // 공격속도 감소
+
+    BLEED,              // 출혈  - 지속 데미지 + 공격력 감소 
+    BURN,               // 화상 - 지속 데미지 + 방어력 감소
+    CURSE,              // 저주 (모든 스테이터스 감소)
+    HOLD,               // 속박 - 이동불가 
+    SLOW,               // 둔화 - 공격속도 / 이동속도 감소
+    STURN,              // 기절 - 공격/이동 불가 
+    ICE,                // 빙결 - 기절과 같음
 }
 
 [System.Serializable]

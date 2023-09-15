@@ -282,6 +282,12 @@ public class ExtraStat
             case AbilityType.CRITDMG:
 
                 break;
+
+                // 저주가 걸리면 공,방 수치가  10%씩 감소한다.
+            case AbilityType.CURSE:
+                increaseAttackRate -= value;
+                increaseDefenseRate -= value;
+                break; 
         }
     }
 

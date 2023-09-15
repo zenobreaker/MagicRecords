@@ -11,8 +11,6 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField]
     private FollowCamera followCamera = null;
-    [SerializeField]
-    private ActionController actionController = null;
 
     private Dictionary<int ,PlayerControl> playerUnion = new Dictionary<int, PlayerControl>(); 
 

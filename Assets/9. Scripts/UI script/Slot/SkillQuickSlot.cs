@@ -67,8 +67,15 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            // todo 여기 수정하기 
-            SkillManual.instance.AppearSelecter(this);
+            SkillManual.instance.SelectSkillSlot(this);
+            
+            // 스킬이 있다면 UI를 그린다. 
+            DrawSelectUIGroup(); 
+        }
+        
+        if (isChainSkillSlot == true)
+        {
+            ChainSkillSetting.instance.CheckChainSkillCount();
         }
     }
 
@@ -94,7 +101,7 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
             selectUIGroup.SetActive(true);
 
             // 켜질 때 스킬이 있다면 체인 스킬 버튼을 활성화 한다.
-            // 이후 추가 조건이 필요하면 여기 수정 
+            // todo 이후 추가 조건이 필요하면 여기 수정 
             if(skill != null &&
                 chainSkillButton != null )
             {

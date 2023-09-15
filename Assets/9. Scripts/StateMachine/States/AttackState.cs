@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackState : BaseState
 {
-    public AttackState(CharacterController context)
+    public AttackState(WheelerController context)
     {
         this.owner = context;
     }

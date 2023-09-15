@@ -15,7 +15,7 @@ public enum ComboState
     Skill2,
 }
 
-public class PlayerControl : CharacterController
+public class PlayerControl : WheelerController
 {
   
     [Header("속도 관련 변수")]

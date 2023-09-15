@@ -8,12 +8,12 @@ public class MoveState : BaseState
     // 여기선 움직임을 관리한다.
     // 도착 관련 변수인 destination을 설정하는 스테이트이기도 함 
 
-    public MoveState(CharacterController context)
+    public MoveState(WheelerController context)
     {
         this.owner = context;
     }
 
-    void SetDestination(CharacterController sm)
+    void SetDestination(WheelerController sm)
     {
         destination = new Vector3(Random.Range(-5, 6), 0, Random.Range(-5, 6));
         destination = sm.transform.localPosition + destination;

@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Localization.Platform.Android;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 
 // 장착 슬롯 관련
@@ -44,8 +48,6 @@ public class Character
     private int playerHP;
     private int playerMP;
 
-    public List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
-    //[SerializeField]
     // 캐릭터가 장착한 장비 
     public Dictionary<EquipType, EquipItem> equipItems = new Dictionary<EquipType, EquipItem>();
 
@@ -53,12 +55,16 @@ public class Character
     private int chainIdx;
     public Dictionary<SkillSlotNumber, Skill> skills = new Dictionary<SkillSlotNumber, Skill>();
     public Dictionary<SkillSlotNumber, Skill> chainsSkills = new Dictionary<SkillSlotNumber, Skill>();
-
+    public List<PassiveSkill> equippedPassiveSkills = new List<PassiveSkill>();
     // 장착한 드론
     public MagicalDrone drone;
 
     // 해당 캐릭터가 적용받는 레코드 목록 < 이건 추후에 유물로 변경 
     public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
+
+    // 적용중인 버프들
+    public List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
+    public bool isAction = true;    // 행동 가능한지 체크 flag
 
     public Character()
     {
@@ -148,20 +154,7 @@ public class Character
         set { MyStat.totalATK += value; }
     }
 
-    // 버프 관련
-    public void ApplyBuffDebuff(BuffDebuff buffDebuff)
-    {
-        if (buffDebuff == null) return;
-        buffDebuffs.Add(buffDebuff);
-
-        buffDebuff.Execute(this);
-    }
-
-    public void RemoveBuffDebuff(BuffDebuff buffDebuff)
-    {
-        buffDebuffs.Remove(buffDebuff);
-    }
-
+   
     // 장착 장비 초기화 
     public void InitailizeEquipment()
     {
@@ -188,6 +181,41 @@ public class Character
         chainsSkills.Add(SkillSlotNumber.CHAIN1, null);
         chainsSkills.Add(SkillSlotNumber.CHAIN2, null);
         chainsSkills.Add(SkillSlotNumber.CHAIN3, null);
+    }
+
+
+    public void ApplyBuffDebuff(BuffDebuff buffDebuff)
+    {
+        if (buffDebuff == null || buffDebuff.specialOption == null) return;
+
+        // 같은 타입에 버프는 여러 개 넣어지지 않고 지속시간이나 수치만 갱신시킨다.
+        var existBuff = buffDebuffs.FirstOrDefault(buff =>
+        buff.buffType == buffDebuff.buffType && buff.buffName == buffDebuff.buffName);
+
+        // 해당 버프만 갱신
+        if (existBuff != null && existBuff.specialOption != null
+            && buffDebuff.specialOption != null)
+        {
+            // 해당 버프 기록 갱신
+            existBuff.specialOption.coolTime = buffDebuff.specialOption.coolTime;
+            existBuff.specialOption.value = buffDebuff.specialOption.value;
+        }
+        else
+        {
+            buffDebuffs.Add(buffDebuff);
+            // 버프 실행
+            buffDebuff.Activation(this);
+        }
+
+    }
+
+    public void RemoveBuffDebuff(BuffDebuff buffDebuff)
+    {
+        if (buffDebuff == null || buffDebuff.specialOption == null) return;
+
+        buffDebuffs.Remove(buffDebuff);
+        buffDebuff.Deactivation(this);
+        
     }
 
     // 장착하려는 아이템이 있는지 검사 
@@ -464,6 +492,13 @@ public class Character
             return; 
         }
 
+        // 전체 스킬리스트에서 체인이 걸려있는게 있다면 해제
+        foreach(var skill in skills)
+        {
+            if (skill.Value == null) continue;
+            skill.Value.isChain = false; 
+        }
+
         // 해당 스킬 체인 
         skills[slot].IsChain = true;
     }
@@ -482,6 +517,40 @@ public class Character
         }
     }
 
+    // 패시브 스킬 관련
+
+    public  virtual void ApplyPassiveSkillEffects(Character character)
+    {
+
+    }
+
+    public virtual void ApplyPassiveSkillEffectsByWheelerController(WheelerController wheeler)
+    {
+        if (wheeler == null) return; 
+
+        ApplyPassiveSkillEffects(wheeler.MyPlayer);
+    }
+
+    // 패시브 스킬 습득
+    public void SetPassiveSkill(PassiveSkill skill)
+    {
+        if (skill == null) return;
+
+        // 기존에 스킬이 있는지 검사 
+        var existSkill = equippedPassiveSkills.FirstOrDefault(passive => passive.keycode ==
+        skill.keycode);
+        if (existSkill != null)
+        {
+            existSkill = skill; 
+        }
+        else
+        {
+            equippedPassiveSkills.Add(skill);
+        }
+
+        // 스킬 효과 적용 
+        ApplyPassiveSkillEffects(null);
+    }
 
 
     // 캐릭터 경험치 세팅시키고 경험치가 되면 레벨업을 시킨다.  

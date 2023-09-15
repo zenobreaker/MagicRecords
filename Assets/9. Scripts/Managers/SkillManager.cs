@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 패시브 스킬 구조 
+public class PassiveSkillData
+{
+    public int id;
+    public string keycode;
+    public List<SpecialOption> specialOptions = new List<SpecialOption>();
+}
+
+
 public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance; 

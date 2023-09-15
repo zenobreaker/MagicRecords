@@ -53,7 +53,7 @@ public class AttackArea : AttackObject
             collider.enabled = false;
 
             // 디버프가 있다면 던진다. 
-            if(other.TryGetComponent<CharacterController>(out var chararcter))
+            if(other.TryGetComponent<WheelerController>(out var chararcter))
             {
                 if (buff == null) return; 
 

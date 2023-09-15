@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MonsterAnimController : MonoBehaviour
 {
-    public CharacterController target;
+    public WheelerController target;
     
     void ActivatedAttackArea()
     {

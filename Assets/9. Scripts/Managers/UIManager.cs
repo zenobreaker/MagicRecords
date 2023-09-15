@@ -247,7 +247,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void CastSkill(Skill _skill)
+    public void CastSkill(ActiveSkill _skill)
     {
         castingBar.fillAmount = 0;
         skillName.text = _skill.CallSkillName;

@@ -56,7 +56,7 @@ public class MyBullet : Bullet
                     if (other.transform.CompareTag("Monster")) //닿은 대상에 태그가 "Monster"라면
                     {
                         IncreaseCP();
-                        if (other.transform.TryGetComponent<CharacterController>(out CharacterController component))
+                        if (other.transform.TryGetComponent<WheelerController>(out WheelerController component))
                         {
                             component.DealDamage(AttackOwn, attackOwnTransform);
                         }
@@ -104,7 +104,7 @@ public class MyBullet : Bullet
             }
         }
 
-        if (other.TryGetComponent<CharacterController>(out var chararcter))
+        if (other.TryGetComponent<WheelerController>(out var chararcter))
         {
             if (buff == null) return;
 

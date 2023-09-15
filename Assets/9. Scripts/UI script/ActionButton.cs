@@ -13,7 +13,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
 
     public PlayerControl playerControl;
     Queue<Skill> chainSkillQ; 
-    public Skill selectedSkill = null;  // 슬롯에 저장된 스킬 데이터 
+    public ActiveSkill selectedSkill = null;  // 슬롯에 저장된 스킬 데이터 
     public Button MyButton { get; private set; }
     public Image MyIcon { get; set; }
 
@@ -42,7 +42,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
 
     public void SetSkill(int idx)
     {
-        selectedSkill = playerControl.MyPlayer.skills[(SkillSlotNumber)idx];
+        selectedSkill = (ActiveSkill)playerControl.MyPlayer.skills[(SkillSlotNumber)idx];
         if (selectedSkill != null)
         {
             // 쿨타임 초기화 
@@ -115,7 +115,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
     //    }
     //}
 
-    public void SetUseable(Skill _useable)
+    public void SetUseable(ActiveSkill _useable)
     {
         // MyUseable.Use()는 버튼이 클릭되었을때 호출된다.
         // MyUseable은 인터페이스로 Spell에서 상속받고 있다.
@@ -168,7 +168,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         if (chainSkillQ.Count > 0)
         {   
             
-            selectedSkill = chainSkillQ.Dequeue();
+            selectedSkill = (ActiveSkill)chainSkillQ.Dequeue();
             Debug.Log("스킬 이미지 변환!" + selectedSkill.CallSkillName);
             
             if (chainCoolDownRoutine == null)
@@ -182,7 +182,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         else if (chainSkillQ.Count == 0)
         {
             Debug.Log("스킬 이미지 변환 완료");
-            selectedSkill = playerControl.MyPlayer.skills[(SkillSlotNumber)index];
+            selectedSkill = (ActiveSkill)playerControl.MyPlayer.skills[(SkillSlotNumber)index];
             isChainReady = false;
             chainIcon.gameObject.SetActive(false);
             skillFillter.fillAmount = 0;
@@ -221,7 +221,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         if (chainRoutine != null)
         {
             StopCoroutine(chainRoutine);
-            selectedSkill = playerControl.MyPlayer.skills[(SkillSlotNumber)index];
+            selectedSkill = (ActiveSkill)playerControl.MyPlayer.skills[(SkillSlotNumber)index];
             UpdateVisual();
             skillFillter.fillAmount = 0;
             StartCoroutine(CoolTime());

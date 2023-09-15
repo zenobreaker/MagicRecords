@@ -410,25 +410,25 @@ public class MonsterDatabase : MonoBehaviour
                 // 프리팹에 스텟 데이터를 넣어준다. 
                 // reference : TryGetComponent는 특정한 클래스를 지목하면 해당 컴포넌트를 가져오지만
                 // 상속받는 대상이 같이 붙어있을 경우 정확히 지목된 것만 가져온다. 
-                // CharacterController가 부모 클래스이므로 이것을 참조 
-                if (!monsterObject.TryGetComponent(out CharacterController characterController))
+                // WheelerController가 부모 클래스이므로 이것을 참조 
+                if (!monsterObject.TryGetComponent(out WheelerController WheelerController))
                     break;
 
-                if (characterController.MyPlayer == null)
+                if (WheelerController.MyPlayer == null)
                 {
                     Character player = new Character();
 
                     // 고민이다.. 딕셔너리에 character를 저장해서 넣을까..
-                    characterController.MyPlayer = player;
+                    WheelerController.MyPlayer = player;
                 }
 
                 // 스탯 관련
                 CharStat charStat = new CharStat(grade, 1, stat.attack,
                     stat.defense, stat.attackSpeed, stat.hp, stat.hpRegen, stat.mp,
                     stat.mpRegen, stat.speed, stat.critRate, stat.critDmg);
-                characterController.MyPlayer.MyStat = charStat;
-                characterController.MyPlayer.InitCurrentHP();
-                characterController.MyPlayer.InitCurrentMP();
+                WheelerController.MyPlayer.MyStat = charStat;
+                WheelerController.MyPlayer.InitCurrentHP();
+                WheelerController.MyPlayer.InitCurrentMP();
 
                 // 찾아서 할당했으면 루프 탈출 
                 break;

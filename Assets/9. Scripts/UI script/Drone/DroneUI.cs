@@ -8,7 +8,7 @@ public class DroneUI : MonoBehaviour
     // 드론 UI 를 그린다 
 
     // 드론을 장착한 캐릭터
-    private readonly CharacterController selectedCharacter;
+    private readonly WheelerController selectedCharacter;
 
     // 캐릭터에서 꺼낸 드론
     MagicalDrone selectedDrone;

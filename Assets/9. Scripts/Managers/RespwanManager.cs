@@ -49,9 +49,9 @@ public class RespwanManager : MonoBehaviour
 
         // id값으로 적 오브젝트 생성한다 
         var enemyObject = MonsterDatabase.instance.CreateMonsterUnit(id);
-        if(enemyObject.TryGetComponent<CharacterController>(out var characterController) == true)
+        if(enemyObject.TryGetComponent<WheelerController>(out var WheelerController) == true)
         {
-            characterController.teamTag = tag;
+            WheelerController.teamTag = tag;
         }
 
         if (enemyObject == null || 

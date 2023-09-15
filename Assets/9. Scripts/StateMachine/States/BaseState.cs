@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BaseState
 {
-    protected CharacterController owner;    // 이 스테이트를 가지는 대상
+    protected WheelerController owner;    // 이 스테이트를 가지는 대상
     public Vector3 destination; // 도착 지점 관련
 
     public abstract void EnterState();

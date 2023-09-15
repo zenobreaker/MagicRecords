@@ -44,9 +44,9 @@ public class SkillAttackArea : AttackObject
             Debug.Log("여기 검사  :" + this.gameObject.name);
         
             Debug.Log("대미지 줌");
-            other.transform.GetComponentInParent<CharacterController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
+            other.transform.GetComponentInParent<WheelerController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
             // 디버프가 있다면 던진다. 
-            if (other.TryGetComponent<CharacterController>(out var chararcter))
+            if (other.TryGetComponent<WheelerController>(out var chararcter))
             {
                 if (buff != null)
                 {
@@ -74,10 +74,10 @@ public class SkillAttackArea : AttackObject
                 isAction = false;
 
                 Debug.Log("대미지 줌");
-                //other.transform.GetComponentInParent<CharacterController>().Damage(damage, this.transform.position);
-                other.transform.GetComponent<CharacterController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
+                //other.transform.GetComponentInParent<WheelerController>().Damage(damage, this.transform.position);
+                other.transform.GetComponent<WheelerController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
                 // 디버프가 있다면 던진다. 
-                if (other.TryGetComponent<CharacterController>(out var chararcter))
+                if (other.TryGetComponent<WheelerController>(out var chararcter))
                 {
                     if (buff != null)
                     {

@@ -23,8 +23,6 @@ public class SkillToolTip : MonoBehaviour
     [Space(10)]
     [Header("필요한 컴포넌트")]
     [SerializeField] GameObject go_Base = null;
-    [SerializeField] SkillDescDic skillDescDic = null;
-    [SerializeField] SkillManual skillManual = null;
 
     private Skill selectedSkill; 
 
@@ -40,7 +38,7 @@ public class SkillToolTip : MonoBehaviour
         // 스킬 이름 설정 
         txt_SkillName.text = skill.MyName;
         // 스킬 설명 설정
-        txt_SkillDesc.text = skillDescDic.SetSkillDesc(skill);
+        txt_SkillDesc.text = LanguageManager.Instance.GetLocaliztionValue(skill.keycode);
 
         // 스킬 아이콘 
         if (skill.MyIcon != null)
@@ -83,8 +81,7 @@ public class SkillToolTip : MonoBehaviour
 
     public void UpdateTooltip(Skill skill)
     {
-        txt_SkillDesc.text = skillDescDic.SetSkillDesc(skill);
-
+        txt_SkillDesc.text = LanguageManager.Instance.GetLocaliztionValue(skill.keycode);
 
         if (skill.upgradeCost <= InfoManager.coin)
         {

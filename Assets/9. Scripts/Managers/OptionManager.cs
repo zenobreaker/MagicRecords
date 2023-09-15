@@ -27,6 +27,7 @@ public enum OptionType
 public class SpecialOption
 {   
     public int effectID;        // 효과 ID
+    public string keycode;      // 고유 키코드값
     public ConditionType conditionType; //효과 발생 조건
     public string effectName;   // 효과 이름
     public OptionType optionType;   // 효과 타입
@@ -66,6 +67,7 @@ public class SpecialOption
 public class SpecialOptionJson
 {
     public int id;
+    public string keycode;
     public string namekeycode;
     public string description;
     public OptionType optionType;
@@ -154,10 +156,13 @@ public class OptionManager : MonoBehaviour
             SpecialOption specialOption = new SpecialOption(data.id,
                 data.namekeycode, data.description, data.optionType, 
                 type, data.conditionValue,
-                abilityType, data.value);
+                abilityType, data.value, data.isPercentage);
+
+            // 2023.09.14 keycode 추가
+            specialOption.keycode = data.keycode;
 
             // 딕셔너리에 값 추가
-            specialOptionsDictionary.Add(data.namekeycode.ToString(), specialOption);
+            specialOptionsDictionary.Add(data.keycode.ToString(), specialOption);
         }
     }
 
@@ -179,4 +184,17 @@ public class OptionManager : MonoBehaviour
         return null; 
     }
 
+
+    // keycode 값으로 스페셜 옵션 반환
+    public SpecialOption GetSpecialOptionByKeycode(string keycode)
+    {
+        if (keycode == "") return null;
+
+        if(specialOptionsDictionary.ContainsKey(keycode))
+        {
+            return specialOptionsDictionary[keycode];
+        }
+
+        return null;
+    }
 }

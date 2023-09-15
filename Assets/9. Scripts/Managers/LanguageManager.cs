@@ -20,7 +20,7 @@ public class LanguageManager : MonoBehaviour
 {
     public static LanguageManager Instance;
 
-    private string defaultLanguageCode = "ko-KR"; // 기본 언어 설정
+//    private string defaultLanguageCode = "ko-KR"; // 기본 언어 설정
 
     public TextAsset[] languageFiles; // 언어 리소스 파일
 
@@ -151,6 +151,18 @@ public class LanguageManager : MonoBehaviour
 
         var value = LocalizationSettings.StringDatabase.GetLocalizedString(
             "MyTable", key, currentLocale);
+
+        return value;
+    }
+
+    // 스킬 전용 키값을 받으면 테이블에서 언어로 변환된 값을 반환
+    public string GetLocalizationSkillDesc(string skillKeycode)
+    {
+        // 현재 선택한 언어 
+        Locale currentLocale = LocalizationSettings.SelectedLocale;
+
+        var value = LocalizationSettings.StringDatabase.GetLocalizedString(
+         "SkillDescTable", skillKeycode, currentLocale);
 
         return value;
     }

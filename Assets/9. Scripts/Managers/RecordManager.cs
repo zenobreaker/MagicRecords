@@ -226,7 +226,7 @@ public class RecordManager : MonoBehaviour
     }
 
     // 플레이어들에게 레코드 적용하기
-    public void ApplyRecordToPlayers(List<CharacterController> players)
+    public void ApplyRecordToPlayers(List<WheelerController> players)
     {
         for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
         {
