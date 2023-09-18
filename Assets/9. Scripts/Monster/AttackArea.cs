@@ -51,19 +51,6 @@ public class AttackArea : AttackObject
             Debug.Log("캐릭터 히트됨!");
             other.GetComponent<PlayerControl>().DealDamage(AttackOwn);
             collider.enabled = false;
-
-            // 디버프가 있다면 던진다. 
-            if(other.TryGetComponent<WheelerController>(out var chararcter))
-            {
-                if (buff == null) return; 
-
-                if (buff.myBuff != Buff.NONE ||
-                    buff.myDebuff != Debuff.NONE)
-                {
-                    chararcter.SetBuff(buff);
-                }
-            }
-
         }
     }
 

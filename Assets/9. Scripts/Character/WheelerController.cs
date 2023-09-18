@@ -37,7 +37,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
     [SerializeField] protected Rigidbody m_rigid;
     [SerializeField] protected NavMeshAgent m_agent;
-    [SerializeField] protected ConditionController theCondition = null; // 상태 체크용
+    //[SerializeField] protected ConditionController theCondition = null; // 상태 체크용
 
     public string m_charName;
     public PlayType MyPlayType{get => myPlayType;}
@@ -112,6 +112,9 @@ public abstract class WheelerController : MonoBehaviour, IDamage
             damage = damage * critDamage;
         }
 
+        // 잃은 체력 비례 데미지 추가
+        float additionalDamage = damage * MyPlayer.MyStat.passiveAdditionalLostHealthRate;
+
         // 데미지로 내 체력을 깎는 로직
         // 방어력으로 상회 
         // 방어력 공식  = 방어상수(100)  / (방어력 + 방어상수{100})
@@ -123,8 +126,9 @@ public abstract class WheelerController : MonoBehaviour, IDamage
             damageReduction = DEFENSE / (myDefense + DEFENSE);
         }
 
-        damage = damage * (damageReduction);
-        // 총계산
+        // 총 데미지 계산
+        damage = damage * (damageReduction) + additionalDamage;
+        MyPlayer.MyStat.passiveAdditionalLostHealthRate = 0; // 계산 후 0 처리
 
         Vector3 pos = Vector3.zero;
         if (attackTrasnform != null)
@@ -141,19 +145,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
     public virtual void Damage(int damage, bool isCrit = false)
     {
-      
-        // 컨디션 상태에 따라 효과 관리
-        if (theCondition != null)
-            theCondition.AbnormalCondition();
-        // 데미지에 따른 체력 감소해보기 
-        player.MyCurrentHP -=  damage;
-
-        // 데미지 폰트 띄우기 
-        if (UIManager.instance != null)
-        {
-            UIManager.instance.CreateFloatingText(this.gameObject.transform.position,
-                damage.ToString(), isCrit);
-        }
+        MyPlayer.Damage(damage, isCrit);
 
         Debug.Log("플레이어 방어력 : " + player.MyStat.totalDEF);
         Debug.Log("데미지 입음 현재 체력 : " + player.MyCurrentHP);
@@ -182,14 +174,6 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public virtual void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
     {
         Damage(_damage, isCrit);       
-    }
-
-    public virtual void SetBuff(BuffStock _buffStcok)
-    {
-        if(theCondition != null && _buffStcok != null)
-        {
-            theCondition.AddBuff(_buffStcok);
-        }
     }
 
     public abstract void StateAnimaiton();

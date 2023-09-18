@@ -98,15 +98,15 @@ public class MonsterBase : WheelerController
             return;
         if (stateMachine != null)
         {
-            if (theCondition != null)
-            {
-                // 컨디션이 움직일 수 있는 컨디션이 아니라면 상태를 움직이지 않는 Idle 상태로 전환한다.
-                if (theCondition.myCondition != Condition.MOVE_CONDITION)
-                {
-                    myState = PlayerState.Idle;
-                    ResetBehaviour();
-                }
-            }
+            //if (theCondition != null)
+            //{
+            //    // 컨디션이 움직일 수 있는 컨디션이 아니라면 상태를 움직이지 않는 Idle 상태로 전환한다.
+            //    if (theCondition.myCondition != Condition.MOVE_CONDITION)
+            //    {
+            //        myState = PlayerState.Idle;
+            //        ResetBehaviour();
+            //    }
+            //}
 
             // 상태 변경
             stateMachine.ChangeState(stateMachine.States[myState]);

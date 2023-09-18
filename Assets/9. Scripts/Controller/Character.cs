@@ -32,8 +32,7 @@ public enum SkillSlotNumber
 }
 
 
-[System.Serializable]
-public class Character
+public class Character : MonoBehaviour
 {
     /*  플레이어 객체 정의
      *  CharStat과 EquipItem을 필드로 갖는다
@@ -55,7 +54,8 @@ public class Character
     private int chainIdx;
     public Dictionary<SkillSlotNumber, Skill> skills = new Dictionary<SkillSlotNumber, Skill>();
     public Dictionary<SkillSlotNumber, Skill> chainsSkills = new Dictionary<SkillSlotNumber, Skill>();
-    public List<PassiveSkill> equippedPassiveSkills = new List<PassiveSkill>();
+    
+    public PassiveClass myPassiveClass;// 자신의 캐릭터(직업)
     // 장착한 드론
     public MagicalDrone drone;
 
@@ -65,11 +65,16 @@ public class Character
     // 적용중인 버프들
     public List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
     public bool isAction = true;    // 행동 가능한지 체크 flag
+    public bool isDead = false; // 죽었는지 판별
 
     public Character()
     {
         InitailizeEquipment();
         InitializeSkillSlot();
+        if(myPassiveClass != null)
+        {
+            myPassiveClass.InitStat(charStat);
+        }
     }
 
 
@@ -84,6 +89,10 @@ public class Character
         set
         {
             charStat = value;
+            if (myPassiveClass != null)
+            {
+                myPassiveClass.InitStat(charStat);
+            }
         }
     }
     public void InitCurrentHP()
@@ -155,6 +164,20 @@ public class Character
     }
 
    
+    public void Damage(int damage, bool isCrit = false)
+    {
+        // 데미지에 따른 체력 감소해보기 
+        MyCurrentHP -= damage;
+
+        // 데미지 폰트 띄우기 
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.CreateFloatingText(this.gameObject.transform.position,
+                damage.ToString(), isCrit);
+        }
+
+    }
+
     // 장착 장비 초기화 
     public void InitailizeEquipment()
     {
@@ -519,34 +542,20 @@ public class Character
 
     // 패시브 스킬 관련
 
-    public  virtual void ApplyPassiveSkillEffects(Character character)
+    public  virtual void ApplyPassiveSkillEffects(Character target)
     {
-
-    }
-
-    public virtual void ApplyPassiveSkillEffectsByWheelerController(WheelerController wheeler)
-    {
-        if (wheeler == null) return; 
-
-        ApplyPassiveSkillEffects(wheeler.MyPlayer);
+        if(myPassiveClass != null)
+        {
+            myPassiveClass.ApplyPassiveSkillEffects(target);
+        }
     }
 
     // 패시브 스킬 습득
     public void SetPassiveSkill(PassiveSkill skill)
     {
-        if (skill == null) return;
+        if (skill == null || myPassiveClass == null) return;
 
-        // 기존에 스킬이 있는지 검사 
-        var existSkill = equippedPassiveSkills.FirstOrDefault(passive => passive.keycode ==
-        skill.keycode);
-        if (existSkill != null)
-        {
-            existSkill = skill; 
-        }
-        else
-        {
-            equippedPassiveSkills.Add(skill);
-        }
+        myPassiveClass.SetPassiveSkill(skill);
 
         // 스킬 효과 적용 
         ApplyPassiveSkillEffects(null);

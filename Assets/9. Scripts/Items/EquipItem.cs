@@ -29,6 +29,9 @@ public enum AbilityType
     SLOW,               // 둔화 - 공격속도 / 이동속도 감소
     STURN,              // 기절 - 공격/이동 불가 
     ICE,                // 빙결 - 기절과 같음
+
+    // 특수 상태이상
+    CURSE_HATED = 404,  // 증오의 저주 - 시전자의 공격력 일정 비만큼 초마다 피해
 }
 
 [System.Serializable]

@@ -40,8 +40,11 @@ public class BuffDebuff
     public string buffName;
     public SpecialOption specialOption;
     public Image icon;
-    public bool isRunning = false; 
-    WaitForSeconds seconds = new WaitForSeconds(0.1f);
+    public bool isRunning = false;
+
+
+    public bool buffCallFlag = false; 
+    public float buffCallTime = 0;     // 버프 기능을 실행하는 주기
 
     public void Init(BuffType buffType, string name, SpecialOption option)
     {
@@ -92,6 +95,12 @@ public class BuffDebuff
                     case AbilityType.ICE:
                         break;
 
+                        // 특수 - 증오의 저주 
+                    case AbilityType.CURSE_HATED:
+                        // 매 초마다 시전자의 공격력 비만큼 피해를 입는다. 
+
+                        break; 
+
                 }
             }
             else
@@ -103,6 +112,50 @@ public class BuffDebuff
         }
 
         BuffManager.instance.StartBuffTimer(character, this);
+    }
+
+    public void Excute(Character character)
+    {
+        if (character == null) return;
+
+        if (specialOption != null && character != null)
+        {
+            // 버프 상태에 따른 효과 적용
+            if (specialOption.optionType == OptionType.DEBUFF)
+            {
+                switch (specialOption.abilityType)
+                {
+                    case AbilityType.BREAK_AROMR:
+                        break;
+                    case AbilityType.BREAK_WEAPON:
+                        break;
+                    case AbilityType.DOWN_ATTACK_SPEED:
+                        break;
+                    case AbilityType.BLEED:
+                        break;
+                    case AbilityType.BURN:
+                        break;
+                    case AbilityType.CURSE:
+                        break;
+                    case AbilityType.HOLD:
+                        break;
+                    case AbilityType.SLOW:
+                        break;
+                    case AbilityType.STURN:
+                        break;
+                    case AbilityType.ICE:
+                        break;
+
+                    // 특수 - 증오의 저주 
+                    case AbilityType.CURSE_HATED:
+                        // 매 초마다 시전자의 공격력 비만큼 피해를 입는다. 
+                        character.Damage((int)specialOption.value);
+                        break;
+
+                }
+            }
+        }
+
     }
 
     public void Deactivation(Character character)

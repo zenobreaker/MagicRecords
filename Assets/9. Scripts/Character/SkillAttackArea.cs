@@ -41,23 +41,8 @@ public class SkillAttackArea : AttackObject
     {
         if (other.CompareTag("Monster"))
         {
-            Debug.Log("여기 검사  :" + this.gameObject.name);
-        
             Debug.Log("대미지 줌");
             other.transform.GetComponentInParent<WheelerController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
-            // 디버프가 있다면 던진다. 
-            if (other.TryGetComponent<WheelerController>(out var chararcter))
-            {
-                if (buff != null)
-                {
-                    if (buff.myBuff != Buff.NONE ||
-                        buff.myDebuff != Debuff.NONE)
-                    {
-                        chararcter.SetBuff(buff);
-                    }
-                }
-            }
-            
         }
     }
 
@@ -76,19 +61,7 @@ public class SkillAttackArea : AttackObject
                 Debug.Log("대미지 줌");
                 //other.transform.GetComponentInParent<WheelerController>().Damage(damage, this.transform.position);
                 other.transform.GetComponent<WheelerController>().DealDamage(AttackOwn, attackOwnTransform, damageRate);
-                // 디버프가 있다면 던진다. 
-                if (other.TryGetComponent<WheelerController>(out var chararcter))
-                {
-                    if (buff != null)
-                    {
-                        if (buff.myBuff != Buff.NONE ||
-                            buff.myDebuff != Debuff.NONE)
-                        {
-                            chararcter.SetBuff(buff);
-                        }
-                    }
-                }
-              
+                
                 // 일정 주기마다 대미지를 줄 수 있도록
                 StartCoroutine(AttackAreaRecovery(recoveryTime, other));
             }

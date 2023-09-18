@@ -103,17 +103,6 @@ public class MyBullet : Bullet
 
             }
         }
-
-        if (other.TryGetComponent<WheelerController>(out var chararcter))
-        {
-            if (buff == null) return;
-
-            if (buff.myBuff != Buff.NONE ||
-                buff.myDebuff != Debuff.NONE)
-            {
-                chararcter.SetBuff(buff);
-            }
-        }
     }
 
     void IncreaseCP()

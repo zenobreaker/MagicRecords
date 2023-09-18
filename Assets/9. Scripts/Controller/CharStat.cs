@@ -41,6 +41,9 @@ public class CharStat
 
     public ExtraStat extraStat = new ExtraStat();
 
+    public float passiveAdditionalDamageRate = 0; //  패시브 효과에 의한 추가데미지
+    public float passiveAdditionalLostHealthRate = 0; // 패시브 효과에 의한 잃은 체력 비례 데미지
+    public float passiveAdditionalMaxHealthRate = 0; // 패시브 효과에 의한 최대 체력 비례 데미지
     public CharStat()
     {
         attack = 0;
