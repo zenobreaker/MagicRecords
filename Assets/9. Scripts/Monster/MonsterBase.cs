@@ -218,7 +218,7 @@ public class MonsterBase : WheelerController
 
             if (UIManager.instance != null)
             {
-                UIManager.instance.ShowHealthBar(player);
+                UIManager.instance.ShowHealthBar(this);
             }
 
             if (GameManager.MyInstance != null)
@@ -245,11 +245,10 @@ public class MonsterBase : WheelerController
     {
         if (!isDead && player != null)
         {
-            player.MyCurrentHP -= _dmg;
             if (UIManager.instance != null)
             {
                 UIManager.instance.CreateFloatingText(this.gameObject.transform.position, _dmg.ToString());
-                UIManager.instance.ShowHealthBar(player);
+                UIManager.instance.ShowHealthBar(this);
 
                 // 그냥 일반적인 공격에 해당 루틴이 돌면서 컨디션을 NONE으로 변경해버린다
                 // 일반 공격은 타이머값을 던져주지않기때문에 0초로 들어와서 바로 NONE화되버린다.
@@ -328,7 +327,7 @@ public class MonsterBase : WheelerController
     public override void Think()
     {
         if (MyPlayer == null) return;
-        foreach (var buff in MyPlayer.buffDebuffs)
+        foreach (var buff in buffDebuffs)
         {
             if (buff == null || buff.specialOption == null) continue;
 

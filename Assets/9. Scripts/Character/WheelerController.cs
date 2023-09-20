@@ -53,6 +53,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     [HideInInspector] public bool isAttacking = false; // 공격중인지 판별
     [HideInInspector] public bool isDead = false; // 죽었는지 판별
 
+    public float recoveryTime;
 
     // 콤보 관련 변수들 
     public ComboState current_Combo_State; // 콤보 스테이트 
@@ -61,6 +62,9 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public bool activateTimerToReset;  // 콤보 시간이 리셋 확인
 
     [SerializeField] protected SkillAction skillAction = null;
+
+    // 적용중인 버프들
+    public List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
 
     protected Character player;
     public Character MyPlayer
@@ -95,7 +99,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         if (attackOwn == null || attackOwn.MyStat == null) return;
         
         // 패시브 효과 적용
-        attackOwn.ApplyPassiveSkillEffects(MyPlayer);
+        attackOwn.ApplyPassiveSkillEffectsByWC(this);
 
         float damage = attackOwn.MyStat.totalATK * damageRate;
         float critRate = attackOwn.MyStat.totalCritRate;
@@ -146,6 +150,12 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public virtual void Damage(int damage, bool isCrit = false)
     {
         MyPlayer.Damage(damage, isCrit);
+        // 데미지 폰트 띄우기 
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.CreateFloatingText(this.gameObject.transform.position,
+                damage.ToString(), isCrit);
+        }
 
         Debug.Log("플레이어 방어력 : " + player.MyStat.totalDEF);
         Debug.Log("데미지 입음 현재 체력 : " + player.MyCurrentHP);
@@ -197,5 +207,106 @@ public abstract class WheelerController : MonoBehaviour, IDamage
             });
         }
     }
-  
+
+    public void AddBuffDebuff(BuffDebuff buffDebuff)
+    {
+        if (buffDebuff == null || buffDebuff.specialOption == null) return;
+
+        // 같은 타입에 버프는 여러 개 넣어지지 않고 지속시간이나 수치만 갱신시킨다.
+        var existBuff = buffDebuffs.FirstOrDefault(buff =>
+        buff.buffType == buffDebuff.buffType && buff.buffName == buffDebuff.buffName);
+
+        // 해당 버프만 갱신
+        if (existBuff != null && existBuff.specialOption != null
+            && buffDebuff.specialOption != null)
+        {
+            // 해당 버프 기록 갱신
+            existBuff.specialOption.coolTime = buffDebuff.specialOption.coolTime;
+            existBuff.specialOption.value = buffDebuff.specialOption.value;
+            existBuff.buffCount++;
+        }
+        else
+        {
+            buffDebuffs.Add(buffDebuff);
+            ApplyBuffDebuff(buffDebuff);
+        }
+
+    }
+
+    public void ApplyBuffDebuff(BuffDebuff buffDebuff)
+    {
+        StartCoroutine(ManageBuffTimer(buffDebuff));
+    }
+
+    IEnumerator ManageBuffTimer(BuffDebuff buffDebuff)
+    {
+        if (buffDebuff == null || buffDebuff.specialOption == null)
+            yield return null;
+
+        float timer = 0;
+        // 버프 실행
+        buffDebuff.Activation(MyPlayer);
+
+        while (buffDebuff.specialOption.coolTime > 0)
+        {
+            buffDebuff.specialOption.coolTime -= 0.1f;
+            timer += 0.1f;
+            // 버프 기능을 실행하는 경우 체크 
+            if (buffDebuff.buffCallFlag == true &&
+                buffDebuff.buffCallTime <= timer)
+            {
+                timer = 0;
+                // 버프 기능 발현
+                buffDebuff.Excute(MyPlayer);
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+    }
+
+    public void RemoveBuffDebuff(BuffDebuff buffDebuff)
+    {
+        if (buffDebuff == null || buffDebuff.specialOption == null) return;
+
+        buffDebuffs.Remove(buffDebuff);
+        buffDebuff.Deactivation(MyPlayer);
+
+    }
+
+
+
+    public void InitRecoveryStat(Character _player)
+    {
+        if (_player == null)
+            return;
+
+        if (_player.MyCurrentHP > 0)
+        {
+            isDead = false;
+            StartCoroutine(RecorveryMP(_player));
+        }
+
+    }
+
+    public void EndRecovery()
+    {
+        StopAllCoroutines();
+    }
+
+    // 마나 자동회복 
+    public IEnumerator RecorveryMP(Character _player)
+    {
+        if (_player == null) yield return null;
+
+        while (isDead == true)
+        {
+            yield return new WaitForSeconds(recoveryTime);
+
+            if (_player.MyCurrentMP <= _player.MyStat.totalMP)
+            {
+                _player.MyCurrentMP += 1 + (1 * _player.MyStat.totalMPR);
+            }
+        }
+    }
 }

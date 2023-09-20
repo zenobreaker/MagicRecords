@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 
@@ -170,13 +171,20 @@ public class UIManager : MonoBehaviour
         Array.Find(actionButtons, x => x.gameObject.name == buttonName).MyButton.onClick.Invoke();
     }
 
- 
+
     public void ShowHealthBar(Character character)
     {
         enemyHealthBar.SetActive(true);
         enemyHealthStat.Initalize(character.MyCurrentHP, character.MyMaxHP);
+    }
 
-        foreach (var buff in character.buffDebuffs)
+
+    public void ShowHealthBar(WheelerController wheeler)
+    {
+        if (wheeler == null) return;
+        ShowHealthBar(wheeler.MyPlayer);
+
+        foreach (var buff in wheeler.buffDebuffs)
         {
             if (buff == null) continue;
 
@@ -202,6 +210,7 @@ public class UIManager : MonoBehaviour
                 buffIconIns.Init(buff);
             }
         }
+
     }
 
     public void HideHealthBar()

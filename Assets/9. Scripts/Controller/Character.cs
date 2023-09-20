@@ -32,7 +32,8 @@ public enum SkillSlotNumber
 }
 
 
-public class Character : MonoBehaviour
+[System.Serializable]
+public class Character
 {
     /*  플레이어 객체 정의
      *  CharStat과 EquipItem을 필드로 갖는다
@@ -54,16 +55,16 @@ public class Character : MonoBehaviour
     private int chainIdx;
     public Dictionary<SkillSlotNumber, Skill> skills = new Dictionary<SkillSlotNumber, Skill>();
     public Dictionary<SkillSlotNumber, Skill> chainsSkills = new Dictionary<SkillSlotNumber, Skill>();
+    public List<PassiveSkill> equippedPassiveSkills = new List<PassiveSkill>();
     
-    public PassiveClass myPassiveClass;// 자신의 캐릭터(직업)
+    //public PassiveClass myPassiveClass;// 자신의 캐릭터(직업)
     // 장착한 드론
     public MagicalDrone drone;
 
     // 해당 캐릭터가 적용받는 레코드 목록 < 이건 추후에 유물로 변경 
     public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
-    // 적용중인 버프들
-    public List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
+
     public bool isAction = true;    // 행동 가능한지 체크 flag
     public bool isDead = false; // 죽었는지 판별
 
@@ -71,10 +72,10 @@ public class Character : MonoBehaviour
     {
         InitailizeEquipment();
         InitializeSkillSlot();
-        if(myPassiveClass != null)
-        {
-            myPassiveClass.InitStat(charStat);
-        }
+        //if(myPassiveClass != null)
+        //{
+        //    myPassiveClass.InitStat(charStat);
+        //}
     }
 
 
@@ -89,10 +90,10 @@ public class Character : MonoBehaviour
         set
         {
             charStat = value;
-            if (myPassiveClass != null)
-            {
-                myPassiveClass.InitStat(charStat);
-            }
+            //if (myPassiveClass != null)
+            //{
+            //    myPassiveClass.InitStat(charStat);
+            //}
         }
     }
     public void InitCurrentHP()
@@ -168,14 +169,6 @@ public class Character : MonoBehaviour
     {
         // 데미지에 따른 체력 감소해보기 
         MyCurrentHP -= damage;
-
-        // 데미지 폰트 띄우기 
-        if (UIManager.instance != null)
-        {
-            UIManager.instance.CreateFloatingText(this.gameObject.transform.position,
-                damage.ToString(), isCrit);
-        }
-
     }
 
     // 장착 장비 초기화 
@@ -207,40 +200,7 @@ public class Character : MonoBehaviour
     }
 
 
-    public void ApplyBuffDebuff(BuffDebuff buffDebuff)
-    {
-        if (buffDebuff == null || buffDebuff.specialOption == null) return;
-
-        // 같은 타입에 버프는 여러 개 넣어지지 않고 지속시간이나 수치만 갱신시킨다.
-        var existBuff = buffDebuffs.FirstOrDefault(buff =>
-        buff.buffType == buffDebuff.buffType && buff.buffName == buffDebuff.buffName);
-
-        // 해당 버프만 갱신
-        if (existBuff != null && existBuff.specialOption != null
-            && buffDebuff.specialOption != null)
-        {
-            // 해당 버프 기록 갱신
-            existBuff.specialOption.coolTime = buffDebuff.specialOption.coolTime;
-            existBuff.specialOption.value = buffDebuff.specialOption.value;
-        }
-        else
-        {
-            buffDebuffs.Add(buffDebuff);
-            // 버프 실행
-            buffDebuff.Activation(this);
-        }
-
-    }
-
-    public void RemoveBuffDebuff(BuffDebuff buffDebuff)
-    {
-        if (buffDebuff == null || buffDebuff.specialOption == null) return;
-
-        buffDebuffs.Remove(buffDebuff);
-        buffDebuff.Deactivation(this);
-        
-    }
-
+  
     // 장착하려는 아이템이 있는지 검사 
     public bool CheckHadItem(EquipItem p_EquipItem)
     {
@@ -544,18 +504,23 @@ public class Character : MonoBehaviour
 
     public  virtual void ApplyPassiveSkillEffects(Character target)
     {
-        if(myPassiveClass != null)
-        {
-            myPassiveClass.ApplyPassiveSkillEffects(target);
-        }
+        //if(myPassiveClass != null)
+        //{
+        //    myPassiveClass.ApplyPassiveSkillEffects(target);
+        //}
+    }
+
+    public virtual void ApplyPassiveSkillEffectsByWC(WheelerController wheelerController)
+    {
+        
     }
 
     // 패시브 스킬 습득
     public void SetPassiveSkill(PassiveSkill skill)
     {
-        if (skill == null || myPassiveClass == null) return;
+        if (skill == null ) return;
 
-        myPassiveClass.SetPassiveSkill(skill);
+        //myPassiveClass.SetPassiveSkill(skill);
 
         // 스킬 효과 적용 
         ApplyPassiveSkillEffects(null);

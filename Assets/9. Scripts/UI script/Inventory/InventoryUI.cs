@@ -89,7 +89,7 @@ public class InventoryUI : TabManual
             if (p_item.itemType != ItemType.Equipment && totalItems[i].Equals(p_item) && p_item.itemCount < 100)
             {
                 totalItems[i].itemCount += p_Count;
-                break;
+                continue;
             }
             else
             {

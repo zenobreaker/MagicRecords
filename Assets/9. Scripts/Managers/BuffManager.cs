@@ -46,7 +46,7 @@ public class BuffManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        character.RemoveBuffDebuff(buffDebuff);
+       // character.RemoveBuffDebuff(buffDebuff);
 
     }
 }

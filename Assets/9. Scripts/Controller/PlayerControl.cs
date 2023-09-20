@@ -39,7 +39,6 @@ public class PlayerControl : WheelerController
     [SerializeField] WheelController wheelController = null;
    
     [SerializeField] GameObject go_DashEffect = null;
-    [SerializeField] StatusController theStatus = null;
 
     public bool IsMove = false;
     private bool canDash;
@@ -92,7 +91,7 @@ public class PlayerControl : WheelerController
         dashEffect.SetActive(false);
 
         // 스테이터스 컨트롤러 동작 
-        InitStatusConteroller();
+        //InitStatusConteroller();
     }
     void FixedRotation()
     {
@@ -417,11 +416,6 @@ public class PlayerControl : WheelerController
 
 
 
-    //// 스테이터스 컨트롤러
-    void InitStatusConteroller()
-    {
-        theStatus.InitRecoveryStat(player);
-    }
 
     public override void Think()
     {

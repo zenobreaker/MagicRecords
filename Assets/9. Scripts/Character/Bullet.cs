@@ -34,13 +34,8 @@ public class Bullet : AttackObject
         direction = transform.forward;
         pos = transform.position;
         life = startLife;
-    }
-
-    protected void OnDisable()
-    {
         ObjectPooler.ReturnToPool(gameObject);
     }
-
 
     // Start is called before the first frame update
     protected virtual void Awake()

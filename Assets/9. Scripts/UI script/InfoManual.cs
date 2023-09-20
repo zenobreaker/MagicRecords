@@ -244,7 +244,7 @@ public class InfoManual : UiBase
             for (int i = 0; i < skillQuickSlots.Length; i++)
             {
                 skillQuickSlots[i].ClearSlot();
-                return;
+                continue;
             }
         }
 

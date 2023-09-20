@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -10,6 +12,28 @@ using UnityEngine.UIElements;
 public enum MonsterGrade { NORMAL = 1, ELITE, BOSS };
 
 
+
+[System.Serializable]
+public class CharacterData
+{
+    public int id;
+    public int statID;
+    public string name;
+    public Sprite portrait;
+    public CharStat charStat = new CharStat();
+    public GameObject prefab;
+}
+
+
+[System.Serializable]
+public class CharacterDataJson
+{
+    public int id;
+    public string namekeycode;
+    public string portrait;
+    public string prefabName;
+    public int statID;
+}
 
 // json으로 이루어진 데이터를 가공하는 용도의 클래스 
 [System.Serializable]
@@ -41,6 +65,13 @@ public class MonsterData
     public Sprite monsterSprite;
     public string prefabPath;       // 프리팹 위치 경로값
     public GameObject monsterPrefab;
+}
+
+
+[System.Serializable]
+public class CharacterDataJsonAllData
+{
+    public CharacterDataJson[] characterDataJsonData;
 }
 
 // 스테이지 json 파일 관리 
@@ -100,6 +131,11 @@ public class MonsterDatabase : MonoBehaviour
 {
     public static MonsterDatabase instance;
 
+    [Header("캐릭터")]
+    public List<CharacterData> characterdataList = new List<CharacterData>();
+
+    public Dictionary<int, CharStat> charStatDic = new Dictionary<int, CharStat>();
+
     [Header("일반몬스터")]
     public List<MonsterData> data_Normals;
 
@@ -131,11 +167,15 @@ public class MonsterDatabase : MonoBehaviour
     [Header("챕터 스테이지 JSON 데이터")]
     public TextAsset stageJsonData;
 
+    [Header("캐릭터 정보 JSON 데이터")]
+    public TextAsset characterData;
+
     [Header("캐릭터 기본 능력치 JSON 데이터")]
     public TextAsset characterStatJson;
 
     private MonsterJsonAllData allData; // 몬스터 정보 
     private StageMonsterJsonAllData stageAllData; // 스테이지 정보 
+    private CharacterDataJsonAllData characterDataAllData; 
     private CharacterStatJsonAllData characterAllData;  // 캐릭터 능력치 정보 
 
     private void Awake()
@@ -155,6 +195,8 @@ public class MonsterDatabase : MonoBehaviour
         InitializeStageDataFromJson();
 
         InitializeCharacterStatData();
+        
+        InitializeCharacterData();
 
         DontDestroyOnLoad(this.gameObject);
     }
@@ -258,7 +300,49 @@ public class MonsterDatabase : MonoBehaviour
 
         foreach (var data in characterAllData.characterStatJson)
         {
+            if (data == null) continue;
 
+            CharStat charStat = new CharStat();
+            charStat.attack = data.attack;
+            charStat.defense = data.defense;
+            charStat.attackSpeed = data.attackSpeed;
+            charStat.speed = data.speed;
+            charStat.hp = data.hp;
+            charStat.hpRegen = data.hpRegen;
+            charStat.mp = data.mp;
+            charStat.mpRegen = data.mpRegen;
+            charStat.critRate = data.critRate;
+            charStat.critDmg = data.critDmg;
+
+            charStatDic.Add(data.id, charStat);
+        }
+    }
+
+    // 캐릭터 json 데이터를 일반 클래스로 변환
+    public void InitializeCharacterData()
+    {
+        if (characterData == null) return; 
+
+        characterDataAllData = JsonUtility.FromJson<CharacterDataJsonAllData>(characterData.text);
+        if (characterDataAllData == null) return;
+
+        foreach (var character in characterDataAllData.characterDataJsonData)
+        {
+            if (character == null) continue; 
+
+            CharacterData characterData = new CharacterData();
+            characterData.id = character.id;
+            characterData.name = character.namekeycode;
+            characterData.statID = character.statID;
+            if(charStatDic.TryGetValue(character.id, out var stat))
+                characterData.charStat = stat;
+
+            string imagePath = "Portrait/" + character.prefabName;
+            characterData.portrait = Resources.Load<Sprite>(imagePath);
+            string objectPath = "Prefabs/Character/" + character.prefabName;
+            characterData.prefab = Resources.Load<GameObject>(objectPath);
+            
+            characterdataList.Add(characterData);
         }
     }
 
@@ -566,25 +650,10 @@ public class MonsterDatabase : MonoBehaviour
     // id 값을 받으면 CharStat 클래스를 반환한다. exp는 계산되지않음
     public CharStat GetCharStat(int id)
     {
-        foreach(var data in characterAllData.characterStatJson)
+        if(charStatDic.TryGetValue(id, out CharStat charStat))
         {
-            if (data == null) continue;
-
-            CharStat charStat = new CharStat();
-            charStat.attack = data.attack;
-            charStat.defense = data.defense;
-            charStat.attackSpeed = data.attackSpeed;
-            charStat.speed = data.speed;
-            charStat.hp = data.hp;  
-            charStat.hpRegen = data.hpRegen;
-            charStat.mp = data.mp;
-            charStat.mpRegen = data.mpRegen;
-            charStat.critRate = data.critRate;
-            charStat.critDmg = data.critDmg;
-
-            return charStat; 
+            return charStat;
         }
-
         return null; 
     }
 
@@ -615,4 +684,17 @@ public class MonsterDatabase : MonoBehaviour
 
     }
 
+
+    // 캐릭터 데이터 관련 
+    // id 값을 받으면 해당 캐릭터 data를 반환
+    public CharacterData GetCharacterData(int id)
+    {
+        return  characterdataList.Where(x => x.id == id).FirstOrDefault();
+    }
+
+    // 캐릭터 data list 를 반환
+    public List<CharacterData> GetCharacterDataList()
+    {
+        return characterdataList;
+    }
 }

@@ -11,8 +11,6 @@ using UnityEngine.UI;
 // 전부 사용할 경우 체인3의 효과를 얻을 수 잇다. 
 public class ChainSkillSetting : MonoBehaviour
 {
-    [SerializeField]
-    SkillQuickSlot selectedBaseSlot = null; 
     [SerializeField] SkillQuickSlot[] chainSkillSlots = null;   // 체인스킬슬롯
 
     public Text chainEffectDesc;

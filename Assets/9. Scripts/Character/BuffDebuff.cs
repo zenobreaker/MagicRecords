@@ -41,7 +41,7 @@ public class BuffDebuff
     public SpecialOption specialOption;
     public Image icon;
     public bool isRunning = false;
-
+    public int buffCount = 0;   // 버프 카운트
 
     public bool buffCallFlag = false; 
     public float buffCallTime = 0;     // 버프 기능을 실행하는 주기
@@ -110,8 +110,6 @@ public class BuffDebuff
             }
 
         }
-
-        BuffManager.instance.StartBuffTimer(character, this);
     }
 
     public void Excute(Character character)
