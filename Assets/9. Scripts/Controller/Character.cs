@@ -521,7 +521,17 @@ public class Character
         if (skill == null ) return;
 
         //myPassiveClass.SetPassiveSkill(skill);
-
+        // 기존에 스킬이 있는지 검사 
+        var existSkill = equippedPassiveSkills.FirstOrDefault(passive => passive.keycode ==
+        skill.keycode);
+        if (existSkill != null)
+        {
+            existSkill = skill;
+        }
+        else
+        {
+            equippedPassiveSkills.Add(skill);
+        }
         // 스킬 효과 적용 
         ApplyPassiveSkillEffects(null);
     }

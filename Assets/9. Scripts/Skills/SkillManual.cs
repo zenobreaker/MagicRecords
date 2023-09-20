@@ -73,7 +73,6 @@ public class SkillManual : MonoBehaviour
     [Header("페이지 표시")]
     [SerializeField] SkillSlot[] skillSlots = null;             // 배울 스킬슬롯들 
     [SerializeField] Text txt_pageText = null;                  // 페이지 표시할 텍스트 
-    [SerializeField] SkillDataBase skillDataBase = null;        // 데이터베이스 
 
     Skill selectedSkill;                                        // 선택한 스킬 
     SkillQuickSlot selectedSlot;                                // 선택한 퀵슬롯 
@@ -212,7 +211,7 @@ public class SkillManual : MonoBehaviour
         if (selectedPlayer == null) return; 
 
         // 선택한 캐릭터의 acitve 스킬들 가져온다.
-        List<Skill> skills = skillDataBase.GetActiveSkillListFromID(selectedPlayer.MyID);
+        List<Skill> skills = SkillDataBase.instance.GetActiveSkillListFromID(selectedPlayer.MyID);
         activeSkills = new PageSkill[skills.Count];
 
         string chainSkillKeycode = selectedPlayer.GetFirstChainSkillID();
@@ -239,7 +238,7 @@ public class SkillManual : MonoBehaviour
     {
 
         // 선택한 캐릭터의 passive 스킬들 가져온다.
-        List<Skill> skills = skillDataBase.GetPassiveSkillListFromID(selectedPlayer.MyID);
+        List<Skill> skills = SkillDataBase.instance.GetPassiveSkillListFromID(selectedPlayer.MyID);
         passiveSkills = new PageSkill[skills.Count];
 
         // 패시브 스킬은 레벨이 1이상이면 자동으로 활성화되고 적용된다. 
@@ -247,10 +246,10 @@ public class SkillManual : MonoBehaviour
         for (int i = 0; i < skills.Count; i++)
         {
             bool isEnabled = false;
-            if (skills[i].MySkillLevel > 0)
-            {
-                isEnabled = true;
-            }
+            //if (skills[i].MySkillLevel > 0)
+            //{
+            //    isEnabled = true;
+            //}
 
             passiveSkills[i] = new PageSkill(skills[i], isEnabled);
         }
@@ -389,7 +388,7 @@ public class SkillManual : MonoBehaviour
                     pageSkill.isChain = isChainEquipped;
                 }
                 break;
-            case 2:break;
+            case 2: break;
             case 3: break;
             case 4: break; 
         }

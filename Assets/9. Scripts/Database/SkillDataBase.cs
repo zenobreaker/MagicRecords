@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,6 +72,8 @@ public class PassiveSkillDataJsonAllData
 
 public class SkillDataBase : MonoBehaviour
 {
+    public static SkillDataBase instance; 
+
     [SerializeField] private Skill[] activeSkills = null;
     [SerializeField] private Skill[] passiveSkills = null;
 
@@ -105,6 +108,12 @@ public class SkillDataBase : MonoBehaviour
         }
 
         return resultList;
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this; 
     }
 
     private void Start()

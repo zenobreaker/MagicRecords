@@ -49,7 +49,7 @@ public class SkillToolTip : MonoBehaviour
 
         // 버튼 그리기 
         // 강화 버튼 
-        if (skill.upgradeCost<= InfoManager.coin)
+        if (skill.upgradeCost <= InfoManager.coin)
         {
             upgradeBtn.interactable = true; 
         }
@@ -57,6 +57,8 @@ public class SkillToolTip : MonoBehaviour
         {
             upgradeBtn.interactable = false; 
         }
+
+       
 
     }
 
@@ -97,7 +99,15 @@ public class SkillToolTip : MonoBehaviour
 
     public void RegistSkill()
     {
-        registBtn.gameObject.SetActive(true);
+        // 장착 버튼 그리기
+        if (selectedSkill != null && selectedSkill is PassiveSkill)
+        {
+            registBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            registBtn.gameObject.SetActive(true);
+        }
         cancelBtn.gameObject.SetActive(false);
     }
 

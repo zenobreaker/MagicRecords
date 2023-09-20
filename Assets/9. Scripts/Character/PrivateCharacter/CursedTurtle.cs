@@ -227,6 +227,7 @@ public class CursedTurtle : Character
                     buffDebuff.buffCallTime = 1.0f;
                     buffDebuff.specialOption.duration = 3;
                     buffDebuff.specialOption.value = 1.0f + Mathf.Round(MyStat.totalATK * rate);
+                    buffDebuff.specialOption.SetCoolTime();
                 }
                 target.AddBuffDebuff(buffDebuff);
             }

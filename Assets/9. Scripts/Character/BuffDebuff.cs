@@ -57,12 +57,13 @@ public class BuffDebuff
         }
     }
 
-    public void Activation(Character character)
+    public void Activation(WheelerController wheeler)
     {
         if (isRunning == true) return; 
         isRunning = true;
 
-        if (specialOption != null && character != null)
+        if (specialOption != null && wheeler != null 
+            && wheeler.MyPlayer != null)
         {
             // 버프 상태에 따른 효과 적용
             if (specialOption.optionType == OptionType.DEBUFF)
@@ -81,10 +82,10 @@ public class BuffDebuff
                         break;
                     case AbilityType.CURSE:
                         // 공격력과 방어력을 10%씩 감소 시킨다. 
-                        character.MyStat.extraStat.ApplyOptionExtraStat(
+                        wheeler.MyPlayer.MyStat.extraStat.ApplyOptionExtraStat(
                             specialOption.abilityType,
                              specialOption.value, true);
-                        character.MyStat.ApplyOption();
+                        wheeler.MyPlayer.MyStat.ApplyOption();
                         break;
                     case AbilityType.HOLD:
                         break;
@@ -105,18 +106,18 @@ public class BuffDebuff
             }
             else
             {
-                character.MyStat.extraStat.ApplyOptionExtraStat(specialOption.abilityType,
+                wheeler.MyPlayer.MyStat.extraStat.ApplyOptionExtraStat(specialOption.abilityType,
                     specialOption.value, specialOption.isPercentage);
             }
 
         }
     }
 
-    public void Excute(Character character)
+    public void Excute(WheelerController wheeler)
     {
-        if (character == null) return;
+        if (wheeler == null) return;
 
-        if (specialOption != null && character != null)
+        if (specialOption != null && wheeler.MyPlayer != null)
         {
             // 버프 상태에 따른 효과 적용
             if (specialOption.optionType == OptionType.DEBUFF)
@@ -147,7 +148,8 @@ public class BuffDebuff
                     // 특수 - 증오의 저주 
                     case AbilityType.CURSE_HATED:
                         // 매 초마다 시전자의 공격력 비만큼 피해를 입는다. 
-                        character.Damage((int)specialOption.value);
+                        // deald
+                        wheeler.Damage((int)specialOption.value);
                         break;
 
                 }
@@ -156,16 +158,17 @@ public class BuffDebuff
 
     }
 
-    public void Deactivation(Character character)
+    public void Deactivation(WheelerController wheeler)
     {
         isRunning = false; 
 
-        if (character == null) return;
+        if (wheeler == null || wheeler.MyPlayer == null) return;
 
 
-        character.MyStat.extraStat.ApplyOptionExtraStat(specialOption.abilityType,
+
+        wheeler.MyPlayer.MyStat.extraStat.ApplyOptionExtraStat(specialOption.abilityType,
             -specialOption.value, specialOption.isPercentage);
-        character.MyStat.ApplyOption();
+        wheeler.MyPlayer.MyStat.ApplyOption();
     }
 
 }

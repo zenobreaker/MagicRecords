@@ -245,7 +245,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
         float timer = 0;
         // 버프 실행
-        buffDebuff.Activation(MyPlayer);
+        buffDebuff.Activation(this);
 
         while (buffDebuff.specialOption.coolTime > 0)
         {
@@ -257,12 +257,13 @@ public abstract class WheelerController : MonoBehaviour, IDamage
             {
                 timer = 0;
                 // 버프 기능 발현
-                buffDebuff.Excute(MyPlayer);
+                buffDebuff.Excute(this);
             }
 
             yield return new WaitForSeconds(0.1f);
         }
 
+        RemoveBuffDebuff(buffDebuff);
     }
 
     public void RemoveBuffDebuff(BuffDebuff buffDebuff)
@@ -270,8 +271,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         if (buffDebuff == null || buffDebuff.specialOption == null) return;
 
         buffDebuffs.Remove(buffDebuff);
-        buffDebuff.Deactivation(MyPlayer);
-
+        buffDebuff.Deactivation(this);
     }
 
 

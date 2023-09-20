@@ -40,7 +40,7 @@ public class BuffManager : MonoBehaviour
             {
                 timer = 0;
                 // 버프 기능 발현
-                buffDebuff.Excute(character);
+                //buffDebuff.Excute(character);
             }
 
             yield return new WaitForSeconds(0.1f);
