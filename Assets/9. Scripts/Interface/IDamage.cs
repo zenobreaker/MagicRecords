@@ -1,10 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IDamage 
-{
-    public void Damage(int _damage, bool isCrit = false);
-
-    public void Damage(int _damage, Vector3 _targetPos, bool isCrit = false);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4443fd0ef1cd024d69a8d45fd377e5f3f54cbcfa6132ed60986c539c9d0d4069
+size 299
