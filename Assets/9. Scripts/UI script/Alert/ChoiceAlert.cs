@@ -24,7 +24,13 @@ public class ChoiceAlert : MonoBehaviour
     public delegate void EndDelegate<T>(T t);
     EndDelegate<Character> endDelegate;    // 팝업이 종료 시에 실행되는 델리게이트 
 
-    public enum UISELECT {NONE,SKILLMANUAL, INVENTORY, ENTER_GAME};
+    public enum UISELECT 
+    {
+        NONE,
+        SKILLMANUAL,
+        INVENTORY, 
+        ENTER_GAME
+    };
 
     public UISELECT uiSELECT;
 

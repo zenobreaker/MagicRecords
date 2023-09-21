@@ -123,8 +123,10 @@ public class StageManager : MonoBehaviour
             case StageType.SHOP:
                 break;
             case StageType.MULTY:
-           
-                break; 
+                break;
+            case StageType.TEST:
+                CreateTestStage();
+                break;
         }
 
 

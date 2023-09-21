@@ -141,8 +141,12 @@ public class StageSelecter : MonoBehaviour
 
     public void OpenTest()
     {
-        
+        if (theSPC == null) return;
+
+        theSPC.GototheTestStage();
     }
+
+
 
     public void Cancel()
     {

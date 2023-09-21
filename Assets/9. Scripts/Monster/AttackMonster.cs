@@ -62,28 +62,6 @@ public class AttackMonster : MonsterBase
     protected override void Update()
     {
         base.Update();
-        //if (!isDead && theCondition.curCondition == ConditionController.Condition.NONE)
-        //{
-        //    if (isAction)
-        //    {
-               
-        //        switch (currentState)
-        //        {
-        //            case state.CHASE:
-        //                Chase();
-        //                break;
-        //            case state.ATTACK:
-        //                Attack();
-        //                break; 
-        //        }
-        //    }
-
-        //    if (!isComplete)
-        //        RandomPattern();
-                
-        //    Think();
-        //}
-
         
     }
     protected override void ChangeState()
@@ -113,31 +91,6 @@ public class AttackMonster : MonsterBase
         {
             isComplete = true;
         }
-
-        /*if (theViewAngle.View() || theViewAngle.target != null)
-        {
-            destination = theViewAngle.target.position;
-            if (Vector3.Distance(transform.position, theViewAngle.GetTargetPos()) <= rangeOfEnemy)
-            {
-                //if (theViewAngle.target != null)
-                    
-                //else
-                //    destination = theViewAngle.GetTargetPos();
-
-                currentState = state.CHASE;
-
-                if (Vector3.Distance(transform.position, theViewAngle.GetTargetPos()) <= baseAttackRange && !isAttacking)
-                {
-                    currentState = state.ATTACK;
-                }
-            }
-        }
-        else if (!theViewAngle.View() && isChasing)
-        {
-            ResetBehaviour();
-            currentState = state.IDLE;
-        }
-       */
     }
 
     protected void Chase()

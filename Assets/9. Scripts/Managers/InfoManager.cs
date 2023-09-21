@@ -148,6 +148,12 @@ public class InfoManager : MonoBehaviour
         return list;
     }
 
+    public List<int> GetMyPlayerIDList()
+    {
+        var list = new List<int>(myCharacterPlayerList.Keys);
+        return list; 
+    }
+
     public Dictionary<int, Character> GetMyPlayerInfoPairList()
     {
         return myCharacterPlayerList;

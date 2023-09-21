@@ -96,7 +96,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     // 데미지 계산처리 하는 함수 
     public void DealDamage(Character attackOwn, Transform attackTrasnform = null, float damageRate = 1.0f)
     {
-        if (attackOwn == null || attackOwn.MyStat == null) return;
+        if (attackOwn == null || attackOwn.MyStat == null || MyPlayer.MyStat == null) return;
         
         // 패시브 효과 적용
         attackOwn.ApplyPassiveSkillEffectsByWC(this);

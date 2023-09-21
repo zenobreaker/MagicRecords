@@ -17,6 +17,7 @@ public class StageMenuSelectUI : MonoBehaviour
     [SerializeField] Sprite eventSprite;
     [SerializeField] Sprite shopSprite;
 
+    public Button confirmButton;
 
     private void OnEnable()
     {
@@ -32,6 +33,11 @@ public class StageMenuSelectUI : MonoBehaviour
             {
                 selectUI.SetActive(false);
             }
+        }
+
+        if (confirmButton != null)
+        {
+            confirmButton.interactable = false;
         }
     }
 
@@ -76,6 +82,15 @@ public class StageMenuSelectUI : MonoBehaviour
             {
                 selectUI.gameObject.SetActive(false);
             }
+        }
+
+        if(selectIconNumber != -1 && confirmButton != null)
+        {
+            confirmButton.interactable = true;
+        }
+        else if (selectIconNumber == -1 && confirmButton != null)
+        {
+            confirmButton.interactable = false;
         }
 
     }

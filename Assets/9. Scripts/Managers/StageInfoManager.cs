@@ -6,6 +6,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using Random = UnityEngine.Random;
 
 
@@ -25,7 +27,8 @@ public enum StageType
     EVENT, 
     SHOP, 
     MULTY, 
-    MAX = MULTY
+    MAX = MULTY,
+    TEST = 999,
 };
 
 public enum EventSlot 
@@ -198,6 +201,7 @@ public class StageInfoManager : MonoBehaviour
 
     int eliteAppearPoint;   // 엘리트가 등장할 수 있는 최솟값 
 
+    public bool isTest = false;
     [SerializeField] private StageTableClass selectStageTable;
 
     [SerializeField] List<StageTableClass> stageTables = null;
@@ -264,7 +268,7 @@ public class StageInfoManager : MonoBehaviour
             selectStageEventNum = 0; 
             return;
         }
-
+        isTest = false; 
         currentChapter = _chapter;
         var stageInfo = stageDictList[_chapter];
 
@@ -277,11 +281,25 @@ public class StageInfoManager : MonoBehaviour
         selectStageTable = stageInfo[_selectStageNumber-1];    // 선택한 스테이지 정보    
         selectStageEventNum = _selectEventNumber;    // 서브 스테이지 선택한 정보
     }
+
+    public void ChoiceTestStage()
+    {
+        // 테스트용 스테이지 테이블 클래스 
+        StageTableClass testStageClass = new StageTableClass();
+        StageEventInfo stageEventInfo = new StageEventInfo();
+        stageEventInfo.stageType = StageType.TEST;
+
+        testStageClass.eventInfoList = new List<StageEventInfo> { stageEventInfo };
+        
+        isTest = true;
+        selectStageEventNum = 0;
+        selectStageTable = testStageClass;
+    }
+
     public void SetStageInfo(StageTableClass _stage)
     {
         selectStageTable = _stage;
     }
-
 
     // 선택한 스테이지 테이블 클래스 반환
     public StageTableClass GetStageTableClass()
@@ -743,5 +761,7 @@ public class StageInfoManager : MonoBehaviour
         SetStageList(currentChapter, ref stageTables); 
 
     }
+
+
 
 }

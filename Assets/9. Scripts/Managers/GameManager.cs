@@ -250,26 +250,29 @@ public class GameManager : MonoBehaviour
         team.Add(player);
 
         if (player != null)
-            playerCount = 1; 
+            playerCount = 1;
+        isTest = StageInfoManager.instance.isTest;
+        stageText.gameObject.SetActive(false);
+        
+        if (isTest == false)
+        {
+            // 목표 수치 설정
+            enemyCount = theSM.GetEnemyCount();
+            currentWave = theSM.GetSelectStageWaveCount();
+            maxWave = theSM.GetSelectStageWaveCount();
 
-        // 목표 수치 설정
-        enemyCount = theSM.GetEnemyCount();
-        currentWave = theSM.GetSelectStageWaveCount();
-        maxWave = theSM.GetSelectStageWaveCount();
+            yield return new WaitForSeconds(0.5f);
 
-        yield return new WaitForSeconds(0.5f);
+            // TODO : 스테이지 UI 추가 
+            stageText.gameObject.SetActive(true);
+            //  stageText.text = "스테이지" + "\n" + stage.stageName;
+            stageAnim.SetTrigger("Apear");
 
-        // TODO : 스테이지 UI 추가 
-        stageText.gameObject.SetActive(true);
-      //  stageText.text = "스테이지" + "\n" + stage.stageName;
-        stageAnim.SetTrigger("Apear");
+            yield return new WaitForSeconds(1.5f);
 
-        yield return new WaitForSeconds(1.5f);
-
-
-        if (stageAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-            stageText.gameObject.SetActive(false);
-
+            if (stageAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+                stageText.gameObject.SetActive(false);
+        }
         // 게임 진행 스테이트 변경 
         gameState = GameState.START;
     }

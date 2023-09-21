@@ -128,6 +128,7 @@ public class StagePosController : MonoBehaviour
         choiceAlert.ActiveAlert(true);
         choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
         // 확인버튼 기능에 기능 할당 
+        // todo 여기 수정해야할 것 같다.
         choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
      
     }
@@ -165,14 +166,47 @@ public class StagePosController : MonoBehaviour
         }
     }
 
-    // 연습장 
+    // 연습장 버튼 함수 
     public void GototheTestStage()
     {
-        //CloseMonsterMenu();
-        //GameManager.MyInstance.
+        // 선택한 캐릭터 정보 저장 
+        //var idList = InfoManager.instance.GetMyPlayerIDList();
+
+        //InfoManager.instance.SetSelectPlayers(idList.ToArray());
+
         choiceAlert.ActiveAlert(true);
         choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
         //LobbyManager.MyInstance.JoinTestStage();
+        choiceAlert.ConfirmSelect(selectPlayer=> SetTestStageCharacters(selectPlayer));
+    }
+
+    private void SetTestStageCharacters(Character selectPlayer)
+    {
+        // 이녀석이 없으면 실행하지 못한다. 
+        if (StageInfoManager.instance == null || InfoManager.instance == null) return;
+
+        // 선택한 캐릭터 정보 저장 
+        List<int> idList = new List<int>
+                    {
+                        selectPlayer.MyID
+                    };
+        InfoManager.instance.SetSelectPlayers(idList.ToArray());
+
+        StageInfoManager.instance.ChoiceTestStage();
+
+        if (InfoManager.instance.GetSelectPlayerList().Count > 0 &&
+          StageInfoManager.instance.GetStageEventClass() != null)
+        {
+
+            //씬 변경
+            LoadingSceneController.LoadScene("GameScene");
+        }
+        // 없으면 캐릭터를 고르라고 알림 메세지 출력하기 
+        else
+        {
+            // todo 
+            Debug.Log("Please Choose the character for play");
+        }
     }
 
     // 챕터 텍스트 변경 
