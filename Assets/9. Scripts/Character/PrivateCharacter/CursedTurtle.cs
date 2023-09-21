@@ -218,16 +218,18 @@ public class CursedTurtle : Character
 
                 BuffDebuff buffDebuff = new BuffDebuff();
                 buffDebuff.buffName = "HatredCurse";
-                buffDebuff.Init(BuffType.DEBUFF, option.effectName, option);
+                buffDebuff.Init(BuffType.DEBUFF, option.effectName, option.Clone());
                 // 옵션을 선택해서 기능을 할당
                 if(buffDebuff.specialOption != null)
                 {
                     float rate = 0.03f;
                     buffDebuff.buffCallFlag = true;
                     buffDebuff.buffCallTime = 1.0f;
+                    buffDebuff.isRefresh = false;   // 이 버프는 갱신 불가
                     buffDebuff.specialOption.duration = 3;
                     buffDebuff.specialOption.value = 1.0f + Mathf.Round(MyStat.totalATK * rate);
                     buffDebuff.specialOption.SetCoolTime();
+                    //buffDebuff.icon.sprite = skill.MyIcon;
                 }
                 target.AddBuffDebuff(buffDebuff);
             }

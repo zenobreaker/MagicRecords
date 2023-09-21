@@ -43,7 +43,9 @@ public class BuffDebuff
     public bool isRunning = false;
     public int buffCount = 0;   // 버프 카운트
 
-    public bool buffCallFlag = false; 
+    public bool isRefresh = true;  // 갱신 가능한 버프인지 체크
+
+    public bool buffCallFlag = false;
     public float buffCallTime = 0;     // 버프 기능을 실행하는 주기
 
     public void Init(BuffType buffType, string name, SpecialOption option)
@@ -149,7 +151,7 @@ public class BuffDebuff
                     case AbilityType.CURSE_HATED:
                         // 매 초마다 시전자의 공격력 비만큼 피해를 입는다. 
                         // deald
-                        wheeler.Damage((int)specialOption.value);
+                        wheeler.DotDamage((int)specialOption.value);
                         break;
 
                 }

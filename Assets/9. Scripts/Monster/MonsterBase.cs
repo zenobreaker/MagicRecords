@@ -216,28 +216,35 @@ public class MonsterBase : WheelerController
         {
             base.Damage(_damage, _targetPos, isCrit);
 
-            if (UIManager.instance != null)
-            {
-                UIManager.instance.ShowHealthBar(this);
-            }
-
-            if (GameManager.MyInstance != null)
-            {
-                GameManager.MyInstance.IncreaseCombo();
-            }
-            
-            if (player.MyCurrentHP <= 0 && !isTest)
-            {
-                Dead();
-                return;
-            }
-
+         
             //   PlaySE(sound_Hurt);
             if (anim != null)
             {
                 anim.SetTrigger("Hurt");
             }
         }
+    }
+
+    public override void Damage(int damage, bool isCrit = false)
+    {
+        base.Damage(damage, isCrit);
+
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.ShowHealthBar(this);
+        }
+
+        if (GameManager.MyInstance != null)
+        {
+            GameManager.MyInstance.IncreaseCombo();
+        }
+
+        if (player.MyCurrentHP <= 0 && !isTest)
+        {
+            Dead();
+            return;
+        }
+
     }
 
 

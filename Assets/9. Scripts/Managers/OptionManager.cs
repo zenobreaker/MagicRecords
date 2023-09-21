@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 // 옵션 발생 조건 타입 
@@ -58,6 +59,12 @@ public class SpecialOption
     public void SetCoolTime()
     {
         coolTime = duration; 
+    }
+
+    public SpecialOption Clone()
+    {
+        return new SpecialOption(effectID, effectName, description, optionType, conditionType,
+            duration, abilityType, value, isPercentage == true? 1: 0);
     }
 }
 
@@ -192,7 +199,7 @@ public class OptionManager : MonoBehaviour
 
         if(specialOptionsDictionary.ContainsKey(keycode))
         {
-            return specialOptionsDictionary[keycode];
+            return specialOptionsDictionary[keycode].Clone();
         }
 
         return null;

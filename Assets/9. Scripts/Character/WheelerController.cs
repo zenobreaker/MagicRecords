@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.Networking.UnityWebRequest;
 
@@ -51,8 +52,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     [HideInInspector] public bool isRunning = false; // 뛰는지 판별
     [HideInInspector] public bool isChasing = false; // 추젹 중인지 판별
     [HideInInspector] public bool isAttacking = false; // 공격중인지 판별
-    [HideInInspector] public bool isDead = false; // 죽었는지 판별
-
+    [HideInInspector] public bool isDead = false; // 죽었는 판별
     public float recoveryTime;
 
     // 콤보 관련 변수들 
@@ -159,11 +159,37 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
         Debug.Log("플레이어 방어력 : " + player.MyStat.totalDEF);
         Debug.Log("데미지 입음 현재 체력 : " + player.MyCurrentHP);
-        if (player.MyCurrentHP <= 0)
-        {
+       
+        
+        
+    }
 
+    public virtual void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
+    {
+        Damage(_damage, isCrit);
+
+        CheckDead();
+    }
+
+    public void DotDamage(int damage)
+    {
+        MyPlayer.Damage(damage, false);
+        // 데미지 폰트 띄우기 
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.CreateFloatingText(this.gameObject.transform.position,
+                damage.ToString(), false);
+        }
+
+        CheckDead();
+    }
+
+    public void CheckDead()
+    {
+        if (player.isDead == true)
+        {
+            isDead = true; 
             Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
-            isDead = true;
             if (GameManager.MyInstance != null)
             {
                 // 게임매니저에게 점수 하락을 전달 하자 
@@ -171,19 +197,12 @@ public abstract class WheelerController : MonoBehaviour, IDamage
                 {
                     GameManager.MyInstance.ChanagePlayerTeamCount(1);
                 }
-                else if(teamTag == TeamTag.ENEMY)
+                else if (teamTag == TeamTag.ENEMY)
                 {
 
                 }
             }
         }
-        
-        
-    }
-
-    public virtual void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
-    {
-        Damage(_damage, isCrit);       
     }
 
     public abstract void StateAnimaiton();
@@ -217,13 +236,15 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         buff.buffType == buffDebuff.buffType && buff.buffName == buffDebuff.buffName);
 
         // 해당 버프만 갱신
-        if (existBuff != null && existBuff.specialOption != null
-            && buffDebuff.specialOption != null)
+        if (existBuff != null && existBuff.specialOption != null)
         {
             // 해당 버프 기록 갱신
-            existBuff.specialOption.coolTime = buffDebuff.specialOption.coolTime;
-            existBuff.specialOption.value = buffDebuff.specialOption.value;
-            existBuff.buffCount++;
+            if (existBuff.isRefresh == true)
+            {
+                existBuff.specialOption.coolTime = buffDebuff.specialOption.coolTime;
+                existBuff.specialOption.value = buffDebuff.specialOption.value;
+                existBuff.buffCount++;
+            }
         }
         else
         {
@@ -236,6 +257,19 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public void ApplyBuffDebuff(BuffDebuff buffDebuff)
     {
         StartCoroutine(ManageBuffTimer(buffDebuff));
+
+    }
+
+    IEnumerator ManageBuffDebuff()
+    {
+        if (buffDebuffs == null || buffDebuffs.Count <= 0)
+            yield return null;
+
+        foreach(var buffDebuff in buffDebuffs)
+        {
+
+        }
+
     }
 
     IEnumerator ManageBuffTimer(BuffDebuff buffDebuff)
@@ -243,14 +277,15 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         if (buffDebuff == null || buffDebuff.specialOption == null)
             yield return null;
 
+        // todo 버프 하나에 코루틴 하나를 이용한다. 메모리를 많이 먹을 수 있으니
+        // 버프가 늘어나면 리스트를 전부 돌아서 처리하도록 수정하는 방향으로 작업해보기 
         float timer = 0;
         // 버프 실행
         buffDebuff.Activation(this);
-
         while (buffDebuff.specialOption.coolTime > 0)
         {
-            buffDebuff.specialOption.coolTime -= 0.1f;
-            timer += 0.1f;
+            buffDebuff.specialOption.coolTime -= Time.smoothDeltaTime;
+            timer += Time.smoothDeltaTime;
             // 버프 기능을 실행하는 경우 체크 
             if (buffDebuff.buffCallFlag == true &&
                 buffDebuff.buffCallTime <= timer)
@@ -260,7 +295,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
                 buffDebuff.Excute(this);
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForFixedUpdate();
         }
 
         RemoveBuffDebuff(buffDebuff);
@@ -283,7 +318,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
         if (_player.MyCurrentHP > 0)
         {
-            isDead = false;
+            _player.isDead = false;
             StartCoroutine(RecorveryMP(_player));
         }
 
@@ -299,7 +334,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     {
         if (_player == null) yield return null;
 
-        while (isDead == true)
+        while (_player.isDead == true)
         {
             yield return new WaitForSeconds(recoveryTime);
 
@@ -309,4 +344,6 @@ public abstract class WheelerController : MonoBehaviour, IDamage
             }
         }
     }
+
+  
 }

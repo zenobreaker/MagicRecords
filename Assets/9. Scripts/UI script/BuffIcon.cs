@@ -12,14 +12,17 @@ public class BuffIcon : MonoBehaviour
 
     public void Init(BuffDebuff buffDebuff)
     {
-        if (buffDebuff == null) return; 
+        if (buffDebuff == null || buffDebuff.specialOption == null) return;
+
+        if(specialOption != null && specialOption.effectID != buffDebuff.specialOption.effectID)
+            coolTimeImage.fillAmount = 0;   
 
         buffImage = buffDebuff.icon;
         specialOption = buffDebuff.specialOption;
         gameObject.SetActive(true);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (specialOption == null || coolTimeImage == null) return;
 
@@ -27,6 +30,7 @@ public class BuffIcon : MonoBehaviour
         if(specialOption.coolTime <= 0)
         {
             this.gameObject.SetActive(false);
+            specialOption = null;
         }
     }
 }

@@ -184,22 +184,24 @@ public class UIManager : MonoBehaviour
         if (wheeler == null) return;
         ShowHealthBar(wheeler.MyPlayer);
 
+        int count = 0; 
         foreach (var buff in wheeler.buffDebuffs)
         {
             if (buff == null) continue;
 
             // 기존에 버프 오브젝트가 있다면 그녀석을 활성화
-            if (BuffUiBase.transform.childCount > 0)
+            // 버프가 오면 그 오브젝트를 생성한다.
+            // 오브젝트가 있는지 검사 
+            if (BuffUiBase.transform.childCount >= wheeler.buffDebuffs.Count)
             {
-                for (int i = 0; i < BuffUiBase.transform.childCount; i++)
+                var buffObject = BuffUiBase.transform.GetChild(count);
+                if (buffObject != null)
                 {
-                    if (BuffUiBase.transform.GetChild(i).gameObject.activeInHierarchy == false)
+                    // 오브젝트가 있다면 오브젝트에 버프 정보 전달 
+                    if (buffObject.TryGetComponent<BuffIcon>(out var icon))
                     {
-                        var buffObject = BuffUiBase.transform.GetChild(i);
-                        if (buffObject.TryGetComponent<BuffIcon>(out var icon))
-                        {
-                            icon.Init(buff);
-                        }
+                        icon.Init(buff);
+                        count++;
                     }
                 }
             }
@@ -209,6 +211,7 @@ public class UIManager : MonoBehaviour
                 var buffIconIns = Instantiate(buffIcon, BuffUiBase.transform);
                 buffIconIns.Init(buff);
             }
+        
         }
 
     }

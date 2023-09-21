@@ -61,7 +61,7 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
     {
         if (SkillManual.instance == null || isUiView == true) return;
 
-        if (skill == null && skill is ActiveSkill)
+        if (skill == null || skill is ActiveSkill)
         {
             SkillManual.instance.RegistToQuickSlot(this);
         }

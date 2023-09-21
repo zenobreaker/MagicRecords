@@ -169,6 +169,10 @@ public class Character
     {
         // 데미지에 따른 체력 감소해보기 
         MyCurrentHP -= damage;
+        if(MyCurrentHP <= 0)
+        {
+            isDead = true;
+        }
     }
 
     // 장착 장비 초기화 
