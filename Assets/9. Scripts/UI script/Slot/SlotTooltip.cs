@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Rendering;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 // 장착 관련 기능이나 아이템 툴팁 
 public class SlotTooltip : UiBase

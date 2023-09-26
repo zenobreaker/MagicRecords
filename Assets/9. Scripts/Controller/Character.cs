@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Localization.Platform.Android;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 
 // ÀåÂø ½½·Ô °ü·Ã

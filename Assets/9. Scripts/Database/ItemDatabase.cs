@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
-using System.Xml;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal.Internal;
 using static Item;
-using static UnityEditor.Progress;
 using Random = UnityEngine.Random;
 
 public class ItemDatabase : MonoBehaviour

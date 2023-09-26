@@ -229,7 +229,7 @@ public class TreeMon : AttackMonster
             t_Pos.z = distance * z + t_Pos.z;
 
             Vector3 endPos = new Vector3(x, 0, z * 15);
-            DangerMarkerShoot(0, t_Pos, t_Pos + endPos);
+            DangerMarkerShoot(0, t_Pos, t_Pos + endPos * angle);
             //dangerLine[0].GetComponent<DangerLine>().TempDangerMarkerShoot(transform.localPosition, new Vector3(x,0,z), Quaternion.identity, 18f);
 
         }

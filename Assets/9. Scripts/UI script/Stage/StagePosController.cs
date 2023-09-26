@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEditor.SearchService;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
@@ -36,7 +29,6 @@ public class StagePosController : MonoBehaviour
     [SerializeField] StageSelectSlot stageSlot = null; 
 
     [SerializeField] ChoiceAlert choiceAlert = null;
-    [SerializeField] GameObject go_Alert;
 
     [SerializeField] List<StageTableClass> stageTables = null;
 

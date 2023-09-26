@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 
 // 소위 말하는 직업 패시브 스킬들을 정의하는 클래스 
 // 이 프로젝트에선 캐릭터 = 직업 개념이지만 훗날에 직업 기능을 넣기 위해 이런 식으로 이름 지음

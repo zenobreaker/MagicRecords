@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class CharStat
@@ -178,4 +179,8 @@ public class CharStat
         totalCritDmg =  baseCritDamage + extraStat.extraCritDmg + critDmg;
     }
 
+    public CharStat  Clone()
+    {
+        return new CharStat(this);
+    }
 }

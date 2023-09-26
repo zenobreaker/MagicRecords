@@ -11,7 +11,8 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     [SerializeField] Image img_Background = null;
     [SerializeField] Image img_JoyStick = null;
 
-    //PlayerControl thePlayer = null;
+    public PlayerControl thePlayer = null;
+
 
     private float radius;
 
@@ -23,6 +24,14 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
         StartCoroutine(FadeOut());
     }
 
+    public void SetPlayer(PlayerControl player)
+    {
+        if (player == null) return;
+
+        thePlayer = player;
+    }
+
+
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 value = eventData.position - (Vector2)rect_Background.position;
@@ -33,15 +42,21 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
         value = value.normalized;
 
-      
-        //PlayerControl.MyInstance.InputJoyStick(value);
+
+
+        if (thePlayer != null)
+            thePlayer.InputJoyStick(value);
+
 
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isTouch = true;
-        //PlayerControl.MyInstance.isTouch = isTouch;
+        if (thePlayer != null)
+        {
+            thePlayer.isTouch = true;
+        }
         StartCoroutine(FadeIn());
     }
 
@@ -49,20 +64,29 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     {
         isTouch = false;
         rect_Joystick.localPosition = Vector3.zero;
-       // PlayerControl.MyInstance.isTouch = isTouch;
-       // PlayerControl.MyInstance.InputJoyStick(Vector2.zero);
+        if (thePlayer != null)
+        {
+            thePlayer.isTouch = isTouch;
+        }
         StartCoroutine(FadeOut());
     }
 
     public void PushAttackButton()
     {
-       // PlayerControl.MyInstance.TryAttack();
+        if (thePlayer == null) return;
+
+        thePlayer.isAttacking = false; 
+        thePlayer.Attack();
     }
 
     public void PushDashButton()
     {
-       // PlayerControl.MyInstance.isDash = true;
-       // PlayerControl.MyInstance.DashMove();
+        // PlayerControl.MyInstance.isDash = true;
+        // PlayerControl.MyInstance.DashMove();
+        if (thePlayer == null) return;
+
+        thePlayer.isDash = true;
+        thePlayer.DashMove();
     }
 
     IEnumerator FadeOut()

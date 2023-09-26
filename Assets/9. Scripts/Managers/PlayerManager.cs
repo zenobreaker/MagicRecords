@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private FollowCamera followCamera = null;
 
+    public JoyStick theJoySitck; 
+
     private Dictionary<int ,PlayerControl> playerUnion = new Dictionary<int, PlayerControl>(); 
 
     public void CreateCharacter()
@@ -60,6 +62,12 @@ public class PlayerManager : MonoBehaviour
 
                             // 캐릭터 카메라 세팅 
                             followCamera.setOffset(player.transform);
+                            
+                            // 조이스틱 세팅
+                            if(theJoySitck != null)
+                            {
+                                theJoySitck.SetPlayer(playerControl);
+                            }
 
                             UIManager.instance.SetHUDBySelectedCharacter(playerStat);
                             //UIManager.instance.MyHP.Initalize(playerStat.MyStat.hp);

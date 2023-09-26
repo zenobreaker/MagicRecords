@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     public Animator stageAnim;
     public Text stageText;
+    public TraningRoomUi traningRoomUi;
 
     public PlayerControl player;
     public string stageName;
@@ -85,8 +86,16 @@ public class GameManager : MonoBehaviour
             // 3. wave 수치 
             if(playerCount > 0 && enemyCount > 0 && currentWave >0)
             {
-                gameState = GameState.STAND_BY_PLAY;
-                isSpawn = true;
+                if (isTest == false)
+                {
+                    gameState = GameState.STAND_BY_PLAY;
+                    isSpawn = true;
+                }
+                // test 모드일 경우 게임 스테이트를 일단 다른 곳에 넣어둔다.
+                else
+                {
+                    gameState = GameState.NONE;
+                }
             }
         }
         else if(gameState == GameState.STAND_BY_PLAY)
@@ -173,6 +182,8 @@ public class GameManager : MonoBehaviour
         isStageIn = true;
         isStageClear = false;
         isStageEnd = false;
+
+        gameState = GameState.NONE;
 
         theCombo.ResetCombo();  // 콤보 초기화
 
@@ -272,6 +283,11 @@ public class GameManager : MonoBehaviour
 
             if (stageAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 stageText.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (traningRoomUi != null)
+                traningRoomUi.SetVisibleButton();
         }
         // 게임 진행 스테이트 변경 
         gameState = GameState.START;
@@ -435,5 +451,14 @@ public class GameManager : MonoBehaviour
             int resultExp = (int)(_totalExp * _indirectRate);
             pair.Value.GrowUp(resultExp);
         }
+    }
+
+
+    // 훈련용 적 소환 관련 
+    public void RespwanTrainingBot(CharacterData data)
+    {
+        if (data == null) return;
+
+        theSM.RespwanEnemyByCharacterData(data);
     }
 }

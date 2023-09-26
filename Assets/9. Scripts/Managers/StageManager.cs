@@ -141,7 +141,7 @@ public class StageManager : MonoBehaviour
     {
         selectedStage = stageList[0];
         stageList[0].mapObject.SetActive(true);
-        theRM.RespawnTestMon(stageList[0].enemyRespawns[0].transform);
+        //theRM.RespawnTestMon(stageList[0].enemyRespawns[0].transform);
     }
     
 
@@ -254,6 +254,14 @@ public class StageManager : MonoBehaviour
         {
             theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, id, TeamTag.ENEMY);
         }
+    }
+
+    public void RespwanEnemyByCharacterData(CharacterData data)
+    {
+        if (data == null) return;
+
+        theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, data.characterID,
+            TeamTag.ENEMY);
     }
 
 

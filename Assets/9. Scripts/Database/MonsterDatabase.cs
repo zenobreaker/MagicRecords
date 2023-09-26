@@ -1,27 +1,21 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 
-public enum MonsterGrade { NORMAL = 1, ELITE, BOSS };
-
-
+public enum MonsterGrade { NONE= 0, NORMAL = 1, ELITE, BOSS };
 
 [System.Serializable]
 public class CharacterData
 {
     public int id;
+    public int characterID;     // 대상이 되는 캐릭터의 ID
     public int statID;
     public string name;
     public Sprite portrait;
     public CharStat charStat = new CharStat();
     public GameObject prefab;
+    public MonsterGrade monsterGrade = MonsterGrade.NONE;
 }
 
 
@@ -29,10 +23,12 @@ public class CharacterData
 public class CharacterDataJson
 {
     public int id;
+    public int characterID;
     public string namekeycode;
     public string portrait;
     public string prefabName;
     public int statID;
+    public int monsterGrade;
 }
 
 // json으로 이루어진 데이터를 가공하는 용도의 클래스 
@@ -71,7 +67,7 @@ public class MonsterData
 [System.Serializable]
 public class CharacterDataJsonAllData
 {
-    public CharacterDataJson[] characterDataJsonData;
+    public CharacterDataJson[] characterDataJson;
 }
 
 // 스테이지 json 파일 관리 
@@ -326,14 +322,15 @@ public class MonsterDatabase : MonoBehaviour
         characterDataAllData = JsonUtility.FromJson<CharacterDataJsonAllData>(characterData.text);
         if (characterDataAllData == null) return;
 
-        foreach (var character in characterDataAllData.characterDataJsonData)
+        foreach (var character in characterDataAllData.characterDataJson)
         {
             if (character == null) continue; 
 
             CharacterData characterData = new CharacterData();
             characterData.id = character.id;
-            characterData.name = character.namekeycode;
+            characterData.characterID = character.characterID;
             characterData.statID = character.statID;
+            characterData.name = character.namekeycode;
             if(charStatDic.TryGetValue(character.id, out var stat))
                 characterData.charStat = stat;
 
@@ -341,7 +338,7 @@ public class MonsterDatabase : MonoBehaviour
             characterData.portrait = Resources.Load<Sprite>(imagePath);
             string objectPath = "Prefabs/Character/" + character.prefabName;
             characterData.prefab = Resources.Load<GameObject>(objectPath);
-            
+            characterData.monsterGrade = (MonsterGrade)character.monsterGrade;
             characterdataList.Add(characterData);
         }
     }
@@ -367,6 +364,33 @@ public class MonsterDatabase : MonoBehaviour
         return randArray;
     }
 
+    // 등급에 맞는 몬스터를 리스트로 정리해서 반환
+    public List<CharacterData> GetCharacterList(MonsterGrade grade)
+    {
+        List<CharacterData> list = new List<CharacterData>();
+
+        foreach(var data in characterdataList)
+        {
+            if (data.monsterGrade != grade)
+                continue;
+
+            CharacterData characterData = new CharacterData();
+
+            characterData.id = data.id;
+            characterData.characterID = data.characterID;
+            characterData.statID = data.statID;
+            characterData.monsterGrade = data.monsterGrade;
+            characterData.portrait = data.portrait;
+            characterData.prefab = data.prefab;
+            characterData.charStat = data.charStat.Clone();
+
+            list.Add(characterData);
+        }
+
+
+        return list; 
+
+    }
 
     public List<MonsterData> GetRandomNormalMData()
     {

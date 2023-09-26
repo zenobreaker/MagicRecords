@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillToolTip : MonoBehaviour

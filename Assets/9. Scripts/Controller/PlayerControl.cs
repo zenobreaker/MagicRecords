@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
-using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum ComboState
 {
@@ -315,6 +311,7 @@ public class PlayerControl : WheelerController
             direction = Vector3.zero;
         }
 
+        stateMachine.ChangeState(stateMachine.States[myState]);
         //transform.rotation = Quaternion.Euler(0, 135, 0);
         //TargetRotation = 135;
     }

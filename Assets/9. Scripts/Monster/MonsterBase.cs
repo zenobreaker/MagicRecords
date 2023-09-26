@@ -1,11 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Playables;
-using UnityEngine.TextCore.Text;
 
 public class MonsterBase : WheelerController
 {

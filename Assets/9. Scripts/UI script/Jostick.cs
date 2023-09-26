@@ -9,8 +9,7 @@ public class Jostick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
     [SerializeField] RectTransform rect_Joystick = null;
 
 
-    //PlayerControl thePlayer = null;
-
+    
     private float radius;
 
     public bool isTouch = false;
@@ -20,6 +19,7 @@ public class Jostick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
         radius = rect_Background.rect.width * 0.5f;
     }
 
+   
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 value = eventData.position - (Vector2)rect_Background.position;
@@ -31,28 +31,35 @@ public class Jostick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
 
         value = value.normalized;
 
- 
-     
-       // PlayerControl.MyInstance.InputJoyStick(value);
-     
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isTouch = true;
-        // PlayerControl.MyInstance.isTouch = isTouch;
+        
+      
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isTouch = false;
         rect_Joystick.localPosition = Vector3.zero;
-        //PlayerControl.MyInstance.isTouch = isTouch;
+     
         //PlayerControl.MyInstance.InputJoyStick(Vector2.zero);
     }
 
     public void PushAttackButton()
     {
+       
+
         //PlayerControl.MyInstance.TryAttack();
+    }
+
+    // 특수 버튼을 누른다. 특수버튼은 대쉬나 방어 등의 기술을 사용한다. 
+    public void PushSpecialButton()
+    {
+        //todo 현재 기능으론 대쉬만 한다. 
+       
     }
 }
