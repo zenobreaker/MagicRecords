@@ -20,8 +20,7 @@ public class MonsterBase : WheelerController
 
     public Vector3 destination; // 목적지
 
-    // 상태 변수
-    public bool isTest = false;
+
     [SerializeField] protected bool isBoss = false;
 
     protected bool isAction = false; // 행동중인지 아닌지 판별
@@ -88,6 +87,7 @@ public class MonsterBase : WheelerController
 
     protected virtual void Update()
     {
+        // 테스트 모드면 넘긴다.
         if (isTest)
             return;
         if (stateMachine != null)
@@ -103,7 +103,7 @@ public class MonsterBase : WheelerController
             //}
 
             // 상태 변경
-            stateMachine.ChangeState(stateMachine.States[myState]);
+            //stateMachine.ChangeState(stateMachine.States[myState]);
 
             // 상태에 따른 실행 
             stateMachine.OperateState();
@@ -141,14 +141,7 @@ public class MonsterBase : WheelerController
         nav.speed = player.MyStat.speed;
     }
 
-    // 아래 함수가 호출되지 않는다 수정이 필요하다
-    // fsm 에 함수를 넣어서 호출되게 만드는게 좋을 듯 
-    protected virtual void ChangeState()
-    {
-       
-
-    }
-
+  
     // 위 함수 내용과 같지만 WheelerController 클래스에 비슷한 역할을 할려고 만든 함수를 호출한다. 
     public override void StateAnimaiton()
     {

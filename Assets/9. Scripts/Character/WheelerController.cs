@@ -55,6 +55,8 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     [HideInInspector] public bool isDead = false; // 죽었는 판별
     public float recoveryTime;
 
+    // 상태 변수
+    public bool isTest = false;
     // 콤보 관련 변수들 
     public ComboState current_Combo_State; // 콤보 스테이트 
     public float default_Combo_Timer = 0.5f; // 기본 콤보 초기화 시간
@@ -78,12 +80,15 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
     // 패턴을 결정하는 추상 메소드 
     public abstract void Think(); 
-
     public abstract void Attack();
     public abstract void Move();
-
     public abstract void Wait();
 
+    protected virtual void ChangeState(PlayerState playerState)
+    {
+        myState = playerState;
+        stateMachine.ChangeState(stateMachine.States[myState]);
+    }
 
     // 공격한 대상의 정보를 저장하는 함수
     public void SetTargetInfo(Transform target)

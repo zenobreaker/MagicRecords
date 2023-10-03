@@ -64,10 +64,6 @@ public class AttackMonster : MonsterBase
         base.Update();
         
     }
-    protected override void ChangeState()
-    {
-        base.ChangeState();
-    }
 
     protected virtual void RandomPattern()
     {
@@ -236,8 +232,7 @@ public class AttackMonster : MonsterBase
         if(!isDead)
         {
             ResetBehaviour();
-            myState = PlayerState.Chase;
-            stateMachine.ChangeState(stateMachine.States[myState]);
+            ChangeState(PlayerState.Chase);
         }
     }
     

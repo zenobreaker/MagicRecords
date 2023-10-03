@@ -60,7 +60,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] ComboManager theCombo = null;
 
     // 이번 게임에 등장하는 모든 아군 플레이어 
-    List<WheelerController> team = new List<WheelerController>();
+    public List<WheelerController> team = new List<WheelerController>();
+
+    // 이번 게임에 등장하는 모든 적군 플레이어
+    public List<WheelerController> enemyTeam = new List<WheelerController>();
 
     private void Awake()
     {
@@ -107,7 +110,7 @@ public class GameManager : MonoBehaviour
             if (isSpawn == true)
             {
                 isSpawn = false;
-                theSM.RespwanEnemy();
+                theSM.RespwanEnemy(enemyTeam);
             }
 
             // 레코드매니저에게 유저가 선택한 레코드를 적용시키라고 명령한다. 
@@ -160,6 +163,7 @@ public class GameManager : MonoBehaviour
         gameState = GameState.NONE;
 
         team.Clear(); 
+        enemyTeam.Clear();
 
         isStageIn = true;
         isStageClear = false;
@@ -283,11 +287,14 @@ public class GameManager : MonoBehaviour
 
             if (stageAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 stageText.gameObject.SetActive(false);
+            
+            if (traningRoomUi != null)
+                traningRoomUi.gameObject.SetActive(false);
         }
         else
         {
             if (traningRoomUi != null)
-                traningRoomUi.SetVisibleButton();
+                traningRoomUi.gameObject.SetActive(true);
         }
         // 게임 진행 스테이트 변경 
         gameState = GameState.START;
@@ -455,10 +462,22 @@ public class GameManager : MonoBehaviour
 
 
     // 훈련용 적 소환 관련 
-    public void RespwanTrainingBot(CharacterData data)
+    public void RespwanTrainingBot(MonsterData data)
     {
         if (data == null) return;
 
-        theSM.RespwanEnemyByCharacterData(data);
+        theSM?.RespwanEnemyByCharacterData(data, true);
+        // 얕은 결속 
+        enemyTeam = theSM?.GetStageEnemyList();
+    }
+
+    // 모든 적 제거 
+    public void AllClearEnemyTeam()
+    {
+        if(theSM != null)
+        {
+            theSM.RequestClearEnemy();
+        }
+        enemyTeam.Clear();
     }
 }

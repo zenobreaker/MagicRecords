@@ -347,8 +347,8 @@ public class StageInfoManager : MonoBehaviour
     // 스테이지 클리어 후 다른 스테이지 정보 갱신시킨다
     public void RefreshCurrentChapterStageTableClass()
     {
-        if (currentChapter == 0) return;
-
+        if (currentChapter == 0 || isTest == true) return;
+        
         var stageTables = stageDictList[currentChapter];
         if (stageTables == null || selectStageTable == null) return;
 

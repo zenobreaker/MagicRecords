@@ -241,10 +241,10 @@ public class StageManager : MonoBehaviour
     }
 
     // 적 생성하는 함수 RespwanManager기능을 사용한다.
-    public void RespwanEnemy()
+    public void RespwanEnemy(List<WheelerController> wheelers)
     {
         // 선택한 스테이지 정보 
-        if (selectedStage == null)
+        if (selectedStage == null || theRM == null)
             return;
 
         if (selectedStage.appearMonsterIDList == null)
@@ -254,14 +254,24 @@ public class StageManager : MonoBehaviour
         {
             theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, id, TeamTag.ENEMY);
         }
+
+        if(wheelers != null)
+        {
+            wheelers = theRM.curMonsters;
+        }
     }
 
-    public void RespwanEnemyByCharacterData(CharacterData data)
+    public void RespwanEnemyByCharacterData(MonsterData data, bool isTest = false)
     {
         if (data == null) return;
 
-        theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, data.characterID,
-            TeamTag.ENEMY);
+        theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, (int)data.monsterID,
+            TeamTag.ENEMY, isTest);
+    }
+
+    public List<WheelerController> GetStageEnemyList()
+    {
+        return theRM?.curMonsters;
     }
 
 
@@ -272,5 +282,12 @@ public class StageManager : MonoBehaviour
         // 스테이지인포매니저의 함수를 호출해준다. 
         StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
     }
-   
+
+    // 스테이지에 있는 대상 전무 제거 명령
+    public void RequestClearEnemy()
+    {
+        if (theRM == null) return;
+
+        theRM.DeleteAllMonster();
+    }
 }

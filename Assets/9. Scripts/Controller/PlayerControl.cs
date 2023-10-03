@@ -185,10 +185,8 @@ public class PlayerControl : WheelerController
         if (theWeaponController.currentFireRate <= 0)
         {
             SearchtoAttack();
-            myState = PlayerState.Attack;
-            // 상태 머신 변경
             // 공격 스테이트로 변경
-            stateMachine.ChangeState(stateMachine.States[myState]);
+            ChangeState(PlayerState.Attack);
 
             if (current_Combo_State == ComboState.ATTACK_4 || current_Combo_State == ComboState.Skill1
                 || current_Combo_State == ComboState.Skill2 || skillAction.isAction == true)
@@ -231,12 +229,14 @@ public class PlayerControl : WheelerController
             return;
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        
+
+        PlayerState inputState = PlayerState.Idle;
+
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             IsMove = true;
             //currentState = State.Walk;
-            myState = PlayerState.Move;
+            inputState = PlayerState.Move;
             direction = new Vector3(h, 0, v);
             Quaternion newRotation = Quaternion.LookRotation(direction);
 
@@ -255,7 +255,7 @@ public class PlayerControl : WheelerController
         {
             IsMove = false;
             //currentState = State.Idle;
-            myState = PlayerState.Idle;
+            inputState = PlayerState.Idle;
             direction = Vector3.zero;
         }
 
@@ -268,9 +268,9 @@ public class PlayerControl : WheelerController
         {
             // 공격에 대한 플래그값 변경 
             // 공격 시, 값을 초기화 이 플래그 값이 켜져 있으면 추가로 공격 못하게 할려고 해놓은 것.
-            isAttacking = false; 
+            isAttacking = false;
             // 공격 스테이트로 변경
-            myState = PlayerState.Attack;
+            inputState = PlayerState.Attack;
         }
 
         // keybindManager.에 설정된 버튼으로 스킬 사용
@@ -286,7 +286,7 @@ public class PlayerControl : WheelerController
         }
 
         // 상태 머신 변경
-        stateMachine.ChangeState(stateMachine.States[myState]);
+        ChangeState(inputState);
     }
 
     public void InputJoyStick(Vector2 p_joy)
@@ -294,26 +294,24 @@ public class PlayerControl : WheelerController
 
         direction = new Vector3(p_joy.x, 0, p_joy.y);
         //Debug.Log("조이스틱 : " + direction);
+        PlayerState inputState = PlayerState.Idle;  
+
         if (p_joy != Vector2.zero)
         {
             IsMove = true;
             m_rigid.MoveRotation(Quaternion.LookRotation(direction.normalized));
-            //currentState = State.Walk;
-            myState = PlayerState.Move;
+            inputState = PlayerState.Move;
         }
 
 
         if (!isTouch)
         {
             IsMove = false;
-            //currentState = State.Idle;
-            myState = PlayerState.Idle;
+            inputState = PlayerState.Idle;
             direction = Vector3.zero;
         }
 
-        stateMachine.ChangeState(stateMachine.States[myState]);
-        //transform.rotation = Quaternion.Euler(0, 135, 0);
-        //TargetRotation = 135;
+        ChangeState(inputState);
     }
 
     // 가장 가까운 적을 향해 방향 전환 

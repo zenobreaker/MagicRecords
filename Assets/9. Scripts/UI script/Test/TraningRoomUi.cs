@@ -6,6 +6,7 @@ using TMPro;
 public class TraningRoomUi : UiBase
 {
     // 필요한 오브젝트들 
+    public GameObject enemyClearButton; 
     public GameObject buttonBase;
     public GameObject scrollBase;
 
@@ -20,7 +21,7 @@ public class TraningRoomUi : UiBase
     public GameObject imageSlot;    // 스크롤 뷰에 보일 아이템 오브젝트 
     
     private GameObject prevSelectSlot;  // 이전에 선택한 오브젝트
-    private CharacterData selectData;   // 선택한 데이터 
+    private MonsterData selectData;   // 선택한 데이터 
 
     public TextMeshProUGUI nameText;   // 선택한 대상의 이름을 표시해주는 텍스트
     // 소환 버튼 
@@ -43,6 +44,10 @@ public class TraningRoomUi : UiBase
     public void OnEnable()
     {
         InitSelectObject();
+
+        SetVisibleButton();
+
+        VisibleEnemyClearButton();
     }
 
     public void SetVisibleButton()
@@ -60,8 +65,11 @@ public class TraningRoomUi : UiBase
         // 2. 베이스가 등장 
         buttonBase.SetActive(!buttonBase.activeSelf);
         
+        // 위에 베이스에 따라 켜지고 꺼지도록 한다. 
         if(scrollBase != null)
-            scrollBase.SetActive(!buttonBase.activeSelf);
+        {
+            scrollBase.SetActive(false);
+        }
     }
 
 
@@ -69,7 +77,9 @@ public class TraningRoomUi : UiBase
     public void SummonTargetGradeEnemyMonster(int grade)
     {
         // 데이터베이스에서 몬스터 정보를 가져온다.
-        var list = MonsterDatabase.instance.GetCharacterList((MonsterGrade)grade);
+        if (MonsterDatabase.instance == null) return;
+
+        var list = MonsterDatabase.instance.GetMonsterDatas((MonsterGrade)grade);
         if (list == null) return;
 
         // 
@@ -77,7 +87,7 @@ public class TraningRoomUi : UiBase
     }
 
     //PRIVATE - 슬롯에 기능 설정하기 
-    private void SetImageSlot(GameObject subObject, CharacterData data)
+    private void SetImageSlot(GameObject subObject, MonsterData data)
     {
         if (subObject == null || data == null)
             return;
@@ -86,20 +96,23 @@ public class TraningRoomUi : UiBase
         var image = subObject.GetComponent<Image>();
         if (image != null)
         {
-            image.sprite = data.portrait;
+            image.sprite = data.monsterSprite;
         }
 
         // 버튼 이벤트 추가 
         var button = subObject.GetComponent<Button>();
         if (button != null)
         {
+            // 이벤트 초기화 
+            button.onClick.RemoveAllListeners();
+
             button.onClick.AddListener(() =>
             {
                 // 이전에 선택한 데이터인지 검사
                 bool isPrevSelected = false; 
                 if(selectData != null)
                 {
-                    if (selectData.characterID == data.characterID)
+                    if (selectData.monsterID == data.monsterID)
                         isPrevSelected = true; 
                 }
 
@@ -117,7 +130,7 @@ public class TraningRoomUi : UiBase
                 // ui에 나타나는 이름 변경 
                 if (nameText != null)
                 {
-                    nameText.text = data.name;
+                    nameText.text = data.monsterName;
                 }
 
                 // 소환 버튼 활성화 
@@ -134,15 +147,28 @@ public class TraningRoomUi : UiBase
 
             });
         }
+
+        // 해당 오브젝트 활성화
+        subObject.SetActive(true);
     }
 
 
     // 4. 해당 카테고리에서 나눠진 몬스터 UI 등장 
-    public void DrawMonsterGroupUi(List<CharacterData> list)
+    public void DrawMonsterGroupUi(List<MonsterData> list)
     {
         if (list == null || scrollBase == null ||
             contentObject == null || imageSlot == null )
             return;
+
+        // 이전에 만든 오브젝트가 있다면 전부 비활성화 처리 
+        if(contentObject.gameObject.transform.childCount > 0)
+        {
+            for(int i = 0; i < contentObject.gameObject.transform.childCount; i++)
+            {
+                if(contentObject.gameObject.transform.GetChild(i) != null)
+                    contentObject.gameObject.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
 
         // 몬스터 리스트 수 만큼 ui 버튼 만들기
         int count = 0; 
@@ -177,6 +203,32 @@ public class TraningRoomUi : UiBase
             scrollBase.SetActive(true);
     }
 
+    // 적 제거 버튼 보이게 하는 기능 
+    private void VisibleEnemyClearButton()
+    {
+        // 적이 없다면 보이지 않는다.
+        if (enemyClearButton == null) return;
+
+
+        if (GameManager.MyInstance?.enemyTeam != null)
+        {
+            if (GameManager.MyInstance?.enemyTeam.Count > 0)
+            {
+                enemyClearButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                enemyClearButton.gameObject.SetActive(false);
+            }
+
+        }
+        else
+        {
+            enemyClearButton.gameObject.SetActive(false);
+        }
+    }
+
+
     // 5. 소환버튼을 누르면 몬스터 선택 후 등장한 모든 UI가 꺼지고 몬스터 소환 
     public void SummonButtonEvent()
     {
@@ -202,9 +254,18 @@ public class TraningRoomUi : UiBase
 
         GameManager.MyInstance?.RespwanTrainingBot(selectData);
 
+        VisibleEnemyClearButton();
     }
 
 
+
+    // 소환 해제 버튼 
+    public void CloseSummonButton()
+    {
+        GameManager.MyInstance?.AllClearEnemyTeam();
+
+        VisibleEnemyClearButton();
+    }
 
 
 

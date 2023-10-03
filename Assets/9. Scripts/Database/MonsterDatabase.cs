@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 
@@ -29,6 +31,12 @@ public class CharacterDataJson
     public string prefabName;
     public int statID;
     public int monsterGrade;
+}
+
+[System.Serializable]
+public class CharacterDataJsonAllData
+{
+    public CharacterDataJson[] characterDataJson;
 }
 
 // json으로 이루어진 데이터를 가공하는 용도의 클래스 
@@ -61,13 +69,6 @@ public class MonsterData
     public Sprite monsterSprite;
     public string prefabPath;       // 프리팹 위치 경로값
     public GameObject monsterPrefab;
-}
-
-
-[System.Serializable]
-public class CharacterDataJsonAllData
-{
-    public CharacterDataJson[] characterDataJson;
 }
 
 // 스테이지 json 파일 관리 
@@ -121,6 +122,23 @@ public class CharacterStatJsonAllData
     public CharacterStatJson[] characterStatJson;
 }
 
+[System.Serializable]
+public class MonsterStatJson
+{
+    public int monsterID;
+    public int hp;
+    public int attack;
+    public int defense;
+    public float speed;
+    public int monsterGrade; 
+}
+
+[System.Serializable]
+public class MonsterStatJsonAllData
+{
+    public MonsterStatJson[] monsterStatJson;
+}
+
 
 
 public class MonsterDatabase : MonoBehaviour
@@ -134,6 +152,8 @@ public class MonsterDatabase : MonoBehaviour
 
     [Header("일반몬스터")]
     public List<MonsterData> data_Normals;
+
+    public Dictionary<int, CharStat> monsterStatDic = new Dictionary<int, CharStat>();
 
     [Header("앨리트 몬스터")]
     public List<MonsterData> data_Elites;
@@ -157,6 +177,9 @@ public class MonsterDatabase : MonoBehaviour
     [Header("스테이지 보스 몬스터 정보")]
     public List<StageInfo> stageBossInfoList;
 
+    [Header("몬스터 능력치 JSON 데이터")]
+    public TextAsset monsterStatJsonData;
+
     [Header("몬스터 JSON 데이터")]
     public TextAsset monsterJsonData;
 
@@ -170,6 +193,7 @@ public class MonsterDatabase : MonoBehaviour
     public TextAsset characterStatJson;
 
     private MonsterJsonAllData allData; // 몬스터 정보 
+    private MonsterStatJsonAllData monsterStatJsonAllData;  // 몬스터 스탯 정보 
     private StageMonsterJsonAllData stageAllData; // 스테이지 정보 
     private CharacterDataJsonAllData characterDataAllData; 
     private CharacterStatJsonAllData characterAllData;  // 캐릭터 능력치 정보 
@@ -186,6 +210,8 @@ public class MonsterDatabase : MonoBehaviour
         }
 
         // 몬스터 json데이터를 일반 클래스로 변환하는작업 
+        InitializeConverJsonToMonsterStatData(); 
+
         InitializeConvertJsonToMonsterData();
 
         InitializeStageDataFromJson();
@@ -195,6 +221,26 @@ public class MonsterDatabase : MonoBehaviour
         InitializeCharacterData();
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    void InitializeConverJsonToMonsterStatData()
+    {
+        monsterStatJsonAllData = JsonUtility.FromJson<MonsterStatJsonAllData>(monsterStatJsonData.text);
+        if (monsterStatJsonAllData == null) return;
+
+        foreach(var data in monsterStatJsonAllData.monsterStatJson)
+        {
+            if (data == null) continue;
+
+            CharStat stat = new CharStat();
+            stat.hp = data.hp;
+            stat.attack = data.attack;
+            stat.defense =  data.defense;
+            stat.speed = (int)data.speed;
+            stat.myGrade = (MonsterGrade)data.monsterGrade;
+
+            monsterStatDic.Add(data.monsterID, stat);
+        }
     }
 
     // 몬스터 json데이터를 일반 클래스로 변환하는작업 
@@ -382,6 +428,7 @@ public class MonsterDatabase : MonoBehaviour
             characterData.monsterGrade = data.monsterGrade;
             characterData.portrait = data.portrait;
             characterData.prefab = data.prefab;
+            characterData.name = data.name;
             characterData.charStat = data.charStat.Clone();
 
             list.Add(characterData);
@@ -390,6 +437,21 @@ public class MonsterDatabase : MonoBehaviour
 
         return list; 
 
+    }
+
+    public List<MonsterData> GetMonsterDatas(MonsterGrade grade)
+    {
+        List<MonsterData> list = new List<MonsterData>();
+
+        foreach (var data in data_Monsters)
+        {
+            if (data.monsterGrade != grade)
+                continue;
+
+            list.Add(data);
+        }
+
+        return list;
     }
 
     public List<MonsterData> GetRandomNormalMData()
@@ -493,7 +555,7 @@ public class MonsterDatabase : MonoBehaviour
     // 반환하는건 게임오브젝트지만 prefab을 기반으로 구성된 리스트에서 일정 클래스에 데이터를 미리 만들어줘서 전달함
     public GameObject CreateMonsterUnit(int id, MonsterGrade grade = MonsterGrade.NORMAL)
     {
-        if (characterAllData.characterStatJson == null)
+        if (monsterStatDic == null)
             return null;
 
         foreach (var data in data_Monsters)
@@ -510,40 +572,26 @@ public class MonsterDatabase : MonoBehaviour
             monsterObject.SetActive(false);
 
             // id에 맞는 스탯 데이터 가져오기 
-            foreach (CharacterStatJson stat in characterAllData.characterStatJson)
+            if (monsterStatDic.TryGetValue((int)data.monsterID, out CharStat value))
             {
-                if (stat.id != data.statID)
-                    continue;
-
-                // 프리팹에 스텟 데이터를 넣어준다. 
-                // reference : TryGetComponent는 특정한 클래스를 지목하면 해당 컴포넌트를 가져오지만
-                // 상속받는 대상이 같이 붙어있을 경우 정확히 지목된 것만 가져온다. 
-                // WheelerController가 부모 클래스이므로 이것을 참조 
-                if (!monsterObject.TryGetComponent(out WheelerController WheelerController))
-                    break;
-
-                if (WheelerController.MyPlayer == null)
+                if (monsterObject.TryGetComponent(out WheelerController wheeler))
                 {
-                    Character player = new Character();
+                    if (wheeler.MyPlayer == null)
+                    {
+                        Character player = new Character();
+                        // wheeler.. 딕셔너리에 character를 저장해서 넣을까..
+                        wheeler.MyPlayer = player;
+                    }
 
-                    // 고민이다.. 딕셔너리에 character를 저장해서 넣을까..
-                    WheelerController.MyPlayer = player;
+                    wheeler.MyPlayer.MyStat = value.Clone();
+                    wheeler.MyPlayer.InitCurrentHP();
+                    wheeler.MyPlayer.InitCurrentMP();
+
+                    // 처리를 다했으니 켜준다. 
+                    monsterObject.SetActive(true);
+                    return monsterObject;
                 }
-
-                // 스탯 관련
-                CharStat charStat = new CharStat(grade, 1, stat.attack,
-                    stat.defense, stat.attackSpeed, stat.hp, stat.hpRegen, stat.mp,
-                    stat.mpRegen, stat.speed, stat.critRate, stat.critDmg);
-                WheelerController.MyPlayer.MyStat = charStat;
-                WheelerController.MyPlayer.InitCurrentHP();
-                WheelerController.MyPlayer.InitCurrentMP();
-
-                // 찾아서 할당했으면 루프 탈출 
-                break;
             }
-            // 처리를 다했으니 켜준다. 
-            monsterObject.SetActive(true);
-            return monsterObject;
         }
 
         return null;

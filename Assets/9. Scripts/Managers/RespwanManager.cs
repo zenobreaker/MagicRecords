@@ -21,7 +21,7 @@ public class RespwanManager : MonoBehaviour
 
     MonsterGrade monsterType; 
 
-    public List<GameObject> curMonsters = new List<GameObject>();    // 생성된 몬스터를 담을 변수 
+    public List<WheelerController> curMonsters = new List<WheelerController>();    // 생성된 몬스터를 담을 변수 
     public GameObject go_Player; // 플레이어 위치 생성자 
 
     [SerializeField] Animation bossWarning = null;
@@ -41,7 +41,7 @@ public class RespwanManager : MonoBehaviour
     }
 
     // 몬스터 리스폰 / 생성 
-    public void RespwanMonsterFormID(GameObject[] spawnObjects, int id, TeamTag tag)
+    public void RespwanMonsterFormID(GameObject[] spawnObjects, int id, TeamTag tag, bool isTest = false)
     {
         if (MonsterDatabase.instance == null || spawnObjects == null) return;
         // 스폰 랜덤한 위치에서 스폰 시키기 
@@ -49,9 +49,13 @@ public class RespwanManager : MonoBehaviour
 
         // id값으로 적 오브젝트 생성한다 
         var enemyObject = MonsterDatabase.instance.CreateMonsterUnit(id);
-        if(enemyObject.TryGetComponent<WheelerController>(out var WheelerController) == true)
+        if(enemyObject == null) return; 
+
+        if(enemyObject.TryGetComponent<WheelerController>(out var wheeler) == true)
         {
-            WheelerController.teamTag = tag;
+            wheeler.teamTag = tag;
+            wheeler.isTest = isTest; // 테스트 모드 기능 주입
+            curMonsters.Add(wheeler);
         }
 
         if (enemyObject == null || 
@@ -208,7 +212,8 @@ public class RespwanManager : MonoBehaviour
     {
         foreach (var monster in curMonsters)
         {
-            Destroy(monster);
+            if (monster == null) continue;
+            Destroy(monster.gameObject);
         }
     }
 
