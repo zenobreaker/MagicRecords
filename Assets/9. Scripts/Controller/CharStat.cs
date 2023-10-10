@@ -75,6 +75,7 @@ public class CharStat
         speed = _target.speed;
         critRate = _target.critRate;
         critDmg = _target.critDmg;
+        myGrade = _target.myGrade;
 
         ApplyOption(); 
     }

@@ -65,6 +65,8 @@ public class AttackMonster : MonsterBase
         
     }
 
+   
+
     protected virtual void RandomPattern()
     {
         if(MaxPattern == 0)
@@ -74,19 +76,29 @@ public class AttackMonster : MonsterBase
         }
 
         currentPattern = Random.Range(0, MaxPattern);
-        Debug.Log("랜덤에서 나온 공격 패턴 : " + currentPattern);
-
+        // 현재 패턴이 사용할 수 있다면 
+        if (!monsterAttackStat[currentPattern].attackPattern)
+        {
+            Debug.Log("랜덤에서 나온 공격 패턴 : " + currentPattern);
+            // 플래그를 켜준다 
+            isComplete = true;
+        }
+        // 현재 패턴을 사용할 수 없는데 랜덤에서 걸린다면 비어있는 패턴이 나올때가지 루프.
+        else
+        {
+            Debug.Log("쿨타임 걸리는 패턴 나오니 루프");
+            while (monsterAttackStat[currentPattern].attackPattern == true)
+            {
+                currentPattern = Random.Range(0, MaxPattern);
+            }
+            Debug.Log("쿨타임 안걸리느 패턴 찾음 : " + currentPattern);
+        }
     }
 
     public override void Think()
     {
         if(isComplete == false)
             RandomPattern();
-
-        if (!monsterAttackStat[currentPattern].attackPattern)
-        {
-            isComplete = true;
-        }
     }
 
     protected void Chase()
@@ -94,15 +106,10 @@ public class AttackMonster : MonsterBase
         if (!isChasing)
         {
             isChasing = true;
-            //isAttacking = false;
-            //currentTime = chaseTime;
-
             if(Vector3.Distance(transform.position, fieldOfView.GetTargetPos())  > baseAttackRange)
                 isWalking = true;
             else
                 isWalking = false;
-
-            //anim.SetBool("Walking", isWalking);
            // Debug.Log("추격");
        
         }
@@ -110,6 +117,8 @@ public class AttackMonster : MonsterBase
 
     public override void Attack()
     {
+        base.Attack();
+
         if (!isAttacking)
         {
             nav.isStopped = false;
@@ -121,11 +130,9 @@ public class AttackMonster : MonsterBase
             {
                 if(attackPattern.attackPattern == false)
                 {
-
                     isExistPattern = true; 
                     break;
                 }
-
             }
             
             // 하나도 없다면 스테이트를 바꿔 대기시킨다.
@@ -137,8 +144,7 @@ public class AttackMonster : MonsterBase
 
             // 공격 코루틴 실행
             if (monsterAttackStat[currentPattern].attackPattern == false)
-            {
-                isAttacking = true;
+            {              
                 StartCoroutine(AttackCoroutine());
             }
         }
@@ -163,7 +169,7 @@ public class AttackMonster : MonsterBase
             monsterAttackStat[currentPattern].attackPattern = true;
         }
         SetAction(currentPattern);
-
+        isAttacking = true;
         StartCoroutine(CoolDownAttackDelay(currentPattern));
         // todo 이 아래가 문제였다.. 공속??? 그런거 몰루일텐데 ㅠ
         yield return new WaitForSeconds(delayTime);
@@ -232,7 +238,14 @@ public class AttackMonster : MonsterBase
         if(!isDead)
         {
             ResetBehaviour();
-            ChangeState(PlayerState.Chase);
+            // 대상을 공격자로 설정 
+            if(fieldOfView != null)
+            {
+
+            }
+            // 데미지를 입엇다면 추격 
+            myState = PlayerState.Chase;
+            //ChangeState(PlayerState.Chase);
         }
     }
     

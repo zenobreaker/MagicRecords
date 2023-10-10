@@ -571,7 +571,7 @@ public class MonsterDatabase : MonoBehaviour
             // 모든 처리를 다하기 전까진 비활성화
             monsterObject.SetActive(false);
 
-            // id에 맞는 스탯 데이터 가져오기 
+            // id에 맞는 스탯 데이터 가져오기 1
             if (monsterStatDic.TryGetValue((int)data.monsterID, out CharStat value))
             {
                 if (monsterObject.TryGetComponent(out WheelerController wheeler))
@@ -586,7 +586,7 @@ public class MonsterDatabase : MonoBehaviour
                     wheeler.MyPlayer.MyStat = value.Clone();
                     wheeler.MyPlayer.InitCurrentHP();
                     wheeler.MyPlayer.InitCurrentMP();
-
+                    wheeler.InitPattren();
                     // 처리를 다했으니 켜준다. 
                     monsterObject.SetActive(true);
                     return monsterObject;

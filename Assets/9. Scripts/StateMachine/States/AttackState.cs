@@ -27,6 +27,8 @@ public class AttackState : BaseState
         if (owner == null) return;
         // Debug.Log("어택 스테이트 탈출");
         owner.isAttacking = false;
+        // 공격후 상태를 idle로 바꾼다
+        owner.myState = PlayerState.Idle;
     }
 
     public override void FixedUpdateState()

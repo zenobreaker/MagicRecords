@@ -36,7 +36,6 @@ public class MonsterBase : WheelerController
 
     protected AudioSource theAudio;
     protected NavMeshAgent nav;
-    //protected FieldOfViewAngle theViewAngle; //WheelerController 클래스에 이미 있으므로 주석처리 
 
     [SerializeField] protected AudioClip[] sound_Normal = null;
     [SerializeField] protected AudioClip sound_Hurt = null;
@@ -89,7 +88,11 @@ public class MonsterBase : WheelerController
     {
         // 테스트 모드면 넘긴다.
         if (isTest)
+        {
+            myState = PlayerState.Idle;
             return;
+        }
+
         if (stateMachine != null)
         {
             //if (theCondition != null)
@@ -103,7 +106,7 @@ public class MonsterBase : WheelerController
             //}
 
             // 상태 변경
-            //stateMachine.ChangeState(stateMachine.States[myState]);
+            stateMachine.ChangeState(stateMachine.States[myState]);
 
             // 상태에 따른 실행 
             stateMachine.OperateState();
@@ -321,6 +324,7 @@ public class MonsterBase : WheelerController
     public override void Think()
     {
         if (MyPlayer == null) return;
+
         foreach (var buff in buffDebuffs)
         {
             if (buff == null || buff.specialOption == null) continue;

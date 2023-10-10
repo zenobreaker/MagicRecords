@@ -13,7 +13,7 @@ public class MoveState : BaseState
         this.owner = context;
     }
 
-    void SetDestination(WheelerController sm)
+    void SetRandomDestination(WheelerController sm)
     {
         destination = new Vector3(Random.Range(-5, 6), 0, Random.Range(-5, 6));
         destination = sm.transform.localPosition + destination;
@@ -44,12 +44,12 @@ public class MoveState : BaseState
 
         if (owner.myState == PlayerState.Move)
         {
-        //    Debug.Log("무브 스테이트 진입");
-            SetDestination(owner);
+            // 위치를 자기 중심에서 랜덤한 대상을 고른다.
+            SetRandomDestination(owner);
         }
         else if (owner.myState == PlayerState.Chase)
         {
-           // Debug.Log("추적스테이트 진입");
+            // 목적지를 대상으로 설정한다.
             SetDestination(owner.fieldOfView.GetTargetPos());
         }
     }
@@ -71,21 +71,26 @@ public class MoveState : BaseState
                    // Debug.Log("무브 스테이트 실행 중");
                     if (owner.MyAgent != null)
                     {
-
                         // 목적지까지 도착햇는지 검사 
                         if (CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance))
                         {
 
-                            if (owner.fieldOfView.View())
+                            // 적이 보인다면 추격 
+                            if (owner.fieldOfView.View() && owner.myState != PlayerState.Chase)
                                 owner.myState = PlayerState.Chase;
-                            if (owner.fieldOfView.MeeleAttackRangeView())
+                            // 적이 공격 범위 내에 존재한다면 공격
+                            else if (owner.fieldOfView.MeeleAttackRangeView())
                                 owner.myState = PlayerState.Attack;
-                            // 도착했다면 IDLE로 
-                            owner.myState = PlayerState.Idle;
+                            // 그외엔 일단 대기상태
+                            else
+                                owner.myState = PlayerState.Idle;
                         }
-
-                        //  Debug.Log("무브 스테이트 에이전트 검사 ");
-                        owner.MyAgent.SetDestination(destination);
+                        // 도착하지않았다면 계속 위치를 찾아내서 움직인다.
+                        else
+                        {
+                            //  Debug.Log("무브 스테이트 에이전트 검사 ");
+                            owner.MyAgent.SetDestination(owner.fieldOfView.GetTargetPos());
+                        }
                     }
                 }
                 break;

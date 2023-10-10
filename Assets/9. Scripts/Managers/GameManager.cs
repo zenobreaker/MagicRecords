@@ -239,9 +239,23 @@ public class GameManager : MonoBehaviour
         }
         else if (isStageEnd == true &&  isStageClear == false)
         {
-            StartCoroutine(StageFailureCoroutine());
+            if (isTest == false)
+            {
+                StartCoroutine(StageFailureCoroutine());
+                Debug.Log("스테이지 클리어 실패!");
+            }
+            else
+            {
+                // 훈련장에서 0이 되었다면 캐릭터 체력을 다시 복구시켜준다. 
+                foreach(var wheeler in team)
+                {
+                    if (wheeler == null || wheeler.MyPlayer == null)
+                        continue;
+
+                    wheeler.MyPlayer.InitCurrentHP();
+                }
+            }
            
-            Debug.Log("스테이지 클리어 실패!");
         }
     }
 
@@ -424,6 +438,8 @@ public class GameManager : MonoBehaviour
     // 게임 내 아군 수 변경하기 
     public void ChanagePlayerTeamCount(int downCount)
     {
+        if (isTest == true) return; 
+
         playerCount -= downCount;
         // 게임 클리어 확인 
         CheckGameClaer();
@@ -479,5 +495,14 @@ public class GameManager : MonoBehaviour
             theSM.RequestClearEnemy();
         }
         enemyTeam.Clear();
+    }
+
+    // 등장한 적들의 동작을 제어하는 기능 
+    public void SwitchEnmeyContol(bool isSwtich)
+    {
+        foreach(var enemy in enemyTeam)
+        {
+            enemy.isTest = isSwtich;
+        }
     }
 }

@@ -120,7 +120,6 @@ public class StagePosController : MonoBehaviour
         choiceAlert.ActiveAlert(true);
         choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
         // 확인버튼 기능에 기능 할당 
-        // todo 여기 수정해야할 것 같다.
         choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
      
     }

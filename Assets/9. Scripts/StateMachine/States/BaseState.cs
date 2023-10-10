@@ -16,7 +16,7 @@ public abstract class BaseState
     // 일정 범위까지 도착했는지 검사하는 함수 
     public bool CheckAlived(Vector3 tr, Vector3 destination, float stopDist)
     {
-        var result = Vector3.Magnitude(destination - tr);
+        var result = Vector3.Distance(tr, destination);
         if ( result <= stopDist)
         {
             return true;

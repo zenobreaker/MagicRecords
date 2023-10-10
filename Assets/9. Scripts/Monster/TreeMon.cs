@@ -6,6 +6,26 @@ public class TreeMon : AttackMonster
 {
     public GameObject go_TreeAttack;
 
+    // 패턴을 초기화한다.
+    public override void InitPattren()
+    {
+        base.InitPattren();
+
+        // 자신의 등급에 따라 패턴이 나타날 수 있는 수가 다르다.
+        switch (MyPlayer.MyStat.myGrade)
+        {
+            case MonsterGrade.NORMAL:
+                MaxPattern = 3;
+                break;
+            case MonsterGrade.ELITE:
+                MaxPattern = 4;
+                break;
+            case MonsterGrade.BOSS:
+                MaxPattern = 5;
+                break; 
+        }
+    }
+
 
     protected override void RandomPattern()
     {
@@ -15,16 +35,16 @@ public class TreeMon : AttackMonster
         {
             case 0:
                 baseAttackRange = 3.5f * addRange;
-                delayTime = 3f;
+                delayTime = 1.5f;
                 break;
             case 1:
                 baseAttackRange = 5f * addRange;
-                delayTime = 5f;
+                delayTime = 1.5f;
                 break;
             case 2:
             case 3:
                 baseAttackRange = 7f * addRange;
-                delayTime = 7f;
+                delayTime = 1.5f;
                 break;
             case 4:
                 // 보스타입이 아니라면 해당 패턴은 넘긴다.
@@ -34,12 +54,12 @@ public class TreeMon : AttackMonster
                     break;
                 }
                 baseAttackRange = 7f * addRange;
-                delayTime = 7f;
+                delayTime = 3f;
 
                 break;
             default:
                 baseAttackRange = 3.5f * addRange;
-                delayTime = 7.5f;
+                delayTime = 1.5f;
                 break;
         }
     }
@@ -222,16 +242,11 @@ public class TreeMon : AttackMonster
         {
 
             float angle = intervalAngle * i;
-            x = Mathf.Cos(angle * Mathf.PI / 180);
-            z = Mathf.Sin(angle * Mathf.PI / 180);
+            x = t_Pos.x  + distance  * Mathf.Cos(angle * Mathf.PI / 180);
+            z = t_Pos.z + distance * Mathf.Sin(angle * Mathf.PI / 180);
 
-            t_Pos.x = distance * x + t_Pos.x;
-            t_Pos.z = distance * z + t_Pos.z;
-
-            Vector3 endPos = new Vector3(x, 0, z * 15);
-            DangerMarkerShoot(0, t_Pos, t_Pos + endPos * angle);
-            //dangerLine[0].GetComponent<DangerLine>().TempDangerMarkerShoot(transform.localPosition, new Vector3(x,0,z), Quaternion.identity, 18f);
-
+            Vector3 endPos = new Vector3(x , t_Pos.y, z );
+            DangerMarkerShoot(0, t_Pos, endPos);
         }
                
         yield return new WaitForSeconds(1.5f);

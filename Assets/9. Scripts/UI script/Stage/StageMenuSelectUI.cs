@@ -84,6 +84,8 @@ public class StageMenuSelectUI : MonoBehaviour
             }
         }
 
+
+        // 슬롯을 선택하거나 하지않으면 확인 버튼의 활성화를 표현
         if(selectIconNumber != -1 && confirmButton != null)
         {
             confirmButton.interactable = true;

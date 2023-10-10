@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq.Expressions;
 
 public class TraningRoomUi : UiBase
 {
@@ -9,6 +10,9 @@ public class TraningRoomUi : UiBase
     public GameObject enemyClearButton; 
     public GameObject buttonBase;
     public GameObject scrollBase;
+
+    public GameObject attackSwitchButton;  // 공격 개시 버튼
+    public TextMeshProUGUI switchButtonText;
 
     public Button firstSummonButton; 
 
@@ -26,6 +30,8 @@ public class TraningRoomUi : UiBase
     public TextMeshProUGUI nameText;   // 선택한 대상의 이름을 표시해주는 텍스트
     // 소환 버튼 
     public Button summonButton;
+
+    private bool isAttackSwitch = false;    // 공격 개시 관련 스위치 변수 
 
     // PRIVATE - 선택한 정보에 대해서 관련한 오브젝트들 초기화 
     private void InitSelectObject()
@@ -48,6 +54,11 @@ public class TraningRoomUi : UiBase
         SetVisibleButton();
 
         VisibleEnemyClearButton();
+
+        VisibleEnemyAttackSwitchButton();
+
+        // 스위치 버튼 텍스트 그리기
+        DrawAttackSwitchButtonText();
     }
 
     public void SetVisibleButton()
@@ -209,7 +220,6 @@ public class TraningRoomUi : UiBase
         // 적이 없다면 보이지 않는다.
         if (enemyClearButton == null) return;
 
-
         if (GameManager.MyInstance?.enemyTeam != null)
         {
             if (GameManager.MyInstance?.enemyTeam.Count > 0)
@@ -225,6 +235,28 @@ public class TraningRoomUi : UiBase
         else
         {
             enemyClearButton.gameObject.SetActive(false);
+        }
+    }
+
+    // 적 공격 개시 버튼 
+    private void VisibleEnemyAttackSwitchButton()
+    {
+        if (attackSwitchButton == null) return;
+
+        if (GameManager.MyInstance?.enemyTeam != null)
+        {
+            if (GameManager.MyInstance?.enemyTeam.Count > 0)
+            {
+                attackSwitchButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                attackSwitchButton.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            attackSwitchButton.gameObject.SetActive(false);
         }
     }
 
@@ -245,16 +277,26 @@ public class TraningRoomUi : UiBase
 
 
         // 몬스터 소환 루틴
-        // todo 게임 매니저를 통해 몬스터를 소환하게 한다. 
         if (selectData == null)
         {
             Debug.Log("Not exist the selected Data");
             return; //  선택된 데이터가 없으면 안된다. 
         }
 
-        GameManager.MyInstance?.RespwanTrainingBot(selectData);
+        if (GameManager.MyInstance != null)
+        {
+            // 몬스터가 생성되기 전에 이전에 몬스터들을 제거한다. 
+            GameManager.MyInstance.AllClearEnemyTeam();
 
+            // 게임 매니저를 통해 몬스터를 소환하게 한다. 
+            GameManager.MyInstance.RespwanTrainingBot(selectData);
+        }
+
+        // 몬스터 제거 버튼 
         VisibleEnemyClearButton();
+
+        // 몬스터 공격 버튼
+        VisibleEnemyAttackSwitchButton();
     }
 
 
@@ -262,9 +304,45 @@ public class TraningRoomUi : UiBase
     // 소환 해제 버튼 
     public void CloseSummonButton()
     {
-        GameManager.MyInstance?.AllClearEnemyTeam();
+        if(GameManager.MyInstance != null)
+        {
+            GameManager.MyInstance.AllClearEnemyTeam();
+        }
 
         VisibleEnemyClearButton();
+    }
+
+
+    // PRAIVTE - 스위치 버튼 텍스트 그리기 
+    private void DrawAttackSwitchButtonText()
+    {
+        // 버튼 텍스트를 변경
+        if (switchButtonText != null)
+        {
+            // 공격 개시 상태 
+            if (isAttackSwitch == true)
+            {
+                switchButtonText.text = "Attack On";
+            }
+            // 공격 중지
+            else
+            {
+                switchButtonText.text = "Attack Off";
+            }
+        }
+    }
+
+    // 몬스터 공격 기능 버튼
+    public void SwitchEnemyAttack()
+    {
+        if (GameManager.MyInstance != null)
+        {
+            isAttackSwitch = !isAttackSwitch;
+            GameManager.MyInstance.SwitchEnmeyContol(isAttackSwitch); 
+        }
+
+        // 스위치 버튼 텍스트 그리기
+        DrawAttackSwitchButtonText();
     }
 
 

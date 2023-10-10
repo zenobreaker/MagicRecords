@@ -84,6 +84,11 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public abstract void Move();
     public abstract void Wait();
 
+    public virtual void InitPattren()
+    {
+
+    }
+
     protected virtual void ChangeState(PlayerState playerState)
     {
         myState = playerState;
