@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.UI.GridLayoutGroup;
 
@@ -86,11 +87,25 @@ public class AttackMonster : MonsterBase
         // 현재 패턴을 사용할 수 없는데 랜덤에서 걸린다면 비어있는 패턴이 나올때가지 루프.
         else
         {
-            Debug.Log("쿨타임 걸리는 패턴 나오니 루프");
-            while (monsterAttackStat[currentPattern].attackPattern == true)
+            Debug.Log("쿨타임 걸리는 패턴 나오니 찾는다");
+            bool isPatternFind = false; 
+            for (int i = 0; i < MaxPattern; i++)
             {
-                currentPattern = Random.Range(0, MaxPattern);
+                if (monsterAttackStat[i].attackPattern == true)
+                    continue;
+
+                currentPattern = i;
+                isPatternFind = true;
+                break; 
             }
+
+            // 적절한 패턴을 찾지 못 했다면 
+            if(isPatternFind == false)
+            {
+                // 상태를 변경한다. 
+                myState = PlayerState.Idle;
+            }
+
             Debug.Log("쿨타임 안걸리느 패턴 찾음 : " + currentPattern);
         }
     }

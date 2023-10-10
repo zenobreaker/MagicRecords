@@ -505,7 +505,7 @@ public class StageInfoManager : MonoBehaviour
             {
                 if (eventInfo == null) continue;
 
-                // 스테이지 타입이 몬스터 타입일 경우 
+                // 스테이지 타입이 전투 타입일 경우 
                 if (eventInfo.stageType == StageType.BATTLE)
                 {
                     // 등장할 몬스터 ID 리스트 만들기

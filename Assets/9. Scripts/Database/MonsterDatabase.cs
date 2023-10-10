@@ -690,7 +690,6 @@ public class MonsterDatabase : MonoBehaviour
         // 스테이지 ID를 가져온다. 
         var stageID = GetRandomStageIDFromChapterAndGrade(chapter, gameLevel);
 
-
         if (stageID <= 0 || stageAllData == null ||
             stageAllData.stageMonsterJsons == null) return;
 
