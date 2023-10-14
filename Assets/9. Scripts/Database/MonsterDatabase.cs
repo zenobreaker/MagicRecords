@@ -626,7 +626,7 @@ public class MonsterDatabase : MonoBehaviour
 
  
     // 챕터 번호와 등급을 받으면 랜덤한 스테이지 ID를 반환
-    public int GetRandomStageIDFromChapterAndGrade(int chapter, int grade = 1)
+    public int GetRandomStageIDFromChapterAndGrade(int chapter, int grade = 1, MonsterGrade monsterGrade = MonsterGrade.NONE)
     {
         if (stageInfoList == null) return 0;
 
@@ -640,15 +640,15 @@ public class MonsterDatabase : MonoBehaviour
 
 
             // 해당 등급에 맞는 리스트에서 해당 값을 가져온다. 
-            if (data.monsterGrade == (int)MonsterGrade.NORMAL)
+            if (monsterGrade == MonsterGrade.NORMAL)
             {
                 targetList = stageNormalInfoList;
             }
-            else if (data.monsterGrade == (int)MonsterGrade.ELITE)
+            else if (monsterGrade == MonsterGrade.ELITE)
             {
                 targetList = stageEliteInfoList;
             }
-            else if (data.monsterGrade == (int)MonsterGrade.BOSS)
+            else if (monsterGrade == MonsterGrade.BOSS)
             {
                 targetList = stageBossInfoList;
             }
@@ -688,7 +688,8 @@ public class MonsterDatabase : MonoBehaviour
         var targetList = eventInfo.appearMonsterInfo.appearMonsterList;
 
         // 스테이지 ID를 가져온다. 
-        var stageID = GetRandomStageIDFromChapterAndGrade(chapter, gameLevel);
+        var stageID = GetRandomStageIDFromChapterAndGrade(chapter, gameLevel, 
+            eventInfo.monsterType);
 
         if (stageID <= 0 || stageAllData == null ||
             stageAllData.stageMonsterJsons == null) return;
@@ -697,6 +698,7 @@ public class MonsterDatabase : MonoBehaviour
         {
             if (data == null || data.id != stageID) continue;
 
+            // todo 보스 몬스터 정보로 안들어오니 확인해야한다.
             // 해당 데이터에 있는 몬스터 ID 리스트를 순회하면서 정보를 넣어 전달 
             foreach (var monsterID in data.monsterGroup)
             {

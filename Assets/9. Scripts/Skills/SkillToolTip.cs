@@ -32,8 +32,11 @@ public class SkillToolTip : MonoBehaviour
 
         // 스킬 이름 설정 
         txt_SkillName.text = skill.MyName;
-        // 스킬 설명 설정
-        txt_SkillDesc.text = LanguageManager.Instance.GetLocaliztionValue(skill.keycode);
+        if (SkillDataBase.instance != null)
+        {
+            // 스킬 설명 설정
+            txt_SkillDesc.text = SkillDataBase.instance.GetSkillDesc(skill);
+        }
 
         // 스킬 아이콘 
         if (skill.MyIcon != null)

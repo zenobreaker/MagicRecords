@@ -30,7 +30,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
         isUsed = false; 
     }
 
-    public void SetSlot(PageSkill pageSkill)
+    public void SetSlot(PageSkill pageSkill, bool isPassive = false )
     {
         if (pageSkill == null) return;
 
@@ -73,7 +73,7 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void IsUsedSlot(bool p_isUsed ,bool isChainSlkill=false)
+    public void IsUsedSlot(bool p_isUsed ,bool isChainSlkill=false, bool isPassive = false)
     {
         isUsed = p_isUsed;
 
@@ -84,7 +84,16 @@ public class SkillSlot : MonoBehaviour, IPointerClickHandler
             if (isChainSlkill)
                 this.go_usedSlotUI.GetComponentInChildren<Text>().text = "체인스킬";
             else
-                this.go_usedSlotUI.GetComponentInChildren<Text>().text = "장착됨";
+            {
+                if (isPassive == false)
+                {
+                    this.go_usedSlotUI.GetComponentInChildren<Text>().text = "장착됨";
+                }
+                else
+                {
+                    this.go_usedSlotUI.GetComponentInChildren<Text>().text = "";
+                }
+            }
         }
         else
             this.go_usedSlotUI.SetActive(false);

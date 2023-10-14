@@ -93,16 +93,26 @@ public class LanguageManager : MonoBehaviour
         return "ko-KR"; // 임시로 "ko-KR"을 반환하는 예시
     }
 
-    private string ReplaceVariables(string text, Dictionary<string, object> variables,
+    public string ReplaceVariables(string text, Dictionary<string, object> variables,
          bool isValuePercentage = false)
     {
+        Dictionary<string, bool> variableDict = new Dictionary<string, bool>
+        { 
+            {"value", true },
+            {"OPTION_VALUE_1", true },
+            {"OPTION_VALUE_2", true },
+            {"OPTION_VALUE_3", true },
+        };
+
+
         string pattern = @"\{(\w+)\}";
         MatchEvaluator evaluator = (match) =>
         {
             string variableName = match.Groups[1].Value;
             if (variables.TryGetValue(variableName, out object value))
             {
-                if (variableName == "value" && isValuePercentage == true)
+                // if(variableName == "value") 
+                if (variableDict.TryGetValue(variableName, out bool result) && isValuePercentage == true)
                 {
                     return value.ToString() + "%";
                 }
@@ -142,6 +152,7 @@ public class LanguageManager : MonoBehaviour
 
         return result; 
     }
+
 
     // 키값을 받으면 로컬관련한 테이블에서 찾아서 해당 언어로 변환된 값을 반환
     public string GetLocaliztionValue(string key)

@@ -200,7 +200,7 @@ public class SkillManual : MonoBehaviour
                 TabPageSetting(activeSkills);
                 break;
             case 2:
-                TabPageSetting(passiveSkills);
+                TabPageSetting(passiveSkills, true);
                 break;
         }
     }
@@ -291,7 +291,7 @@ public class SkillManual : MonoBehaviour
         TabPageSetting(selectedPageSkills);
     }
 
-    void TabPageSetting(PageSkill[] _pageSkills)
+    void TabPageSetting(PageSkill[] _pageSkills, bool isPassive = false)
     {
         if (_pageSkills == null) return;
         
@@ -307,7 +307,7 @@ public class SkillManual : MonoBehaviour
 
             if (pageNum < selectedPageSkills.Length)
             { 
-                skillSlots[i].SetSlot(_pageSkills[pageNum]);
+                skillSlots[i].SetSlot(_pageSkills[pageNum], isPassive);
             }
             else
             {
@@ -388,7 +388,18 @@ public class SkillManual : MonoBehaviour
                     pageSkill.isChain = isChainEquipped;
                 }
                 break;
-            case 2: break;
+            case 2:
+                // 전용 패시브 
+                foreach( PageSkill pageSkill in passiveSkills)
+                {
+                    if (pageSkill == null | pageSkill.skill == null) continue;
+
+                    bool isLearn =  selectedPlayer.CheckLearendPassiveSkill(pageSkill.skill.keycode);
+
+                    pageSkill.isUsed = isLearn;
+                }
+
+                break;
             case 3: break;
             case 4: break; 
         }

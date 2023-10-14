@@ -279,6 +279,61 @@ public class SkillDataBase : MonoBehaviour
     }
 
 
-  
+    // 스킬 정보를 받으면 스킬의 설명문을 반환해주는 함수
+    public string GetSkillDesc(Skill skill)
+    {
+        string result = "";
+
+        if (LanguageManager.Instance == null) return result;
+
+        // 스킬에는 고유 효과나 부가 효과로 인한 여러 가지 기능들이 있다. 
+        // 그것들은 bonusOption으로 처리하기 때문에 LangaugeManager에게 잘 전달 해야한다. 
+        result = LanguageManager.Instance.GetLocaliztionValue(skill.keycode);
+
+        // 스킬의 위력 값 - 액티브 
+        float value = 0.0f; 
+
+        if(skill is ActiveSkill)
+        {
+            value = (skill as ActiveSkill).MyDamage;
+        }
+
+        result = LanguageManager.Instance.ReplaceVariables(result, new Dictionary<string, object>
+        {
+            {"SKILL_POWER_1", value},
+        }, true);
+
+        // 스킬이 갖고 있는 옵션들 
+        List<SpecialOption> optionList = skill.bonusSpecialOptionList;
+
+        int count = 1; 
+        foreach (var option in optionList)
+        {
+            if (option == null) continue;
+
+            string durationKey = "OPTION_DURATION_" + count;
+            string durationValue = "OPTION_VALUE_" + count;
+
+            result = LanguageManager.Instance.ReplaceVariables(result, new Dictionary<string, object>
+            {
+                {durationKey, option.duration},
+                {durationValue, option.value * 100.0f}, // 스킬 계수는 소수점이므로 표기는 백분율로 보이도록 
+            }, option.isPercentage);
+
+            count++;
+        }
+
+        // todo 스킬 계수가 리스트라면 리스트로 순회하도록 스킬을 수정할 필요가 있을 수도 
+        // 스킬의 고유한 효과 (패시브)
+        float passiveOptionValue = 0.0f;
+        passiveOptionValue = skill.coefficient * skill.MySkillLevel * 100.0f; 
+        result = LanguageManager.Instance.ReplaceVariables(result, new Dictionary<string, object>
+        {
+            {"UNIQUE_VALUE_1", passiveOptionValue }
+        }, true);
+
+
+        return result; 
+    }
     
 }

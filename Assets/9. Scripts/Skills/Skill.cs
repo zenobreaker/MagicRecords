@@ -29,8 +29,8 @@ public class Skill : IUseable, IMoveable
     private Sprite icon = null;
 
     public int hitCount = 0;    // 타격 횟수 - 각 스킬오브젝트별 개별 타수
-    
-    
+
+    // todo 아래 옵션 리스트는 삭제 예정 bonusSpecialOptionList ->bonusOptionList  명명
     public List<string> bonusOptionList = new List<string>();
     public List<SpecialOption> bonusSpecialOptionList = new List<SpecialOption>();
     public List<string> leadingSkillList = new List<string>();

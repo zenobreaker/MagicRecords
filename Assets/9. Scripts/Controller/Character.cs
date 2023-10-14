@@ -536,6 +536,11 @@ public class Character
         ApplyPassiveSkillEffects(null);
     }
 
+    // 패시브 스킬 검사 
+    public bool CheckLearendPassiveSkill(string keycode)
+    {
+        return equippedPassiveSkills.Any(skill => skill.keycode == keycode);
+    }
 
     // 캐릭터 경험치 세팅시키고 경험치가 되면 레벨업을 시킨다.  
     public void GrowUp(int _exp)

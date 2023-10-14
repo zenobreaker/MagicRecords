@@ -64,7 +64,7 @@ public class WheelerData
     // 장착한 스킬 
     public List<SkillData> skills = new List<SkillData>();
     public List<SkillData> chainSkills = new List<SkillData>();
-
+    public List<SkillData> passvieSkills = new List<SkillData>();
     // todo 유물? 
 
 }
@@ -73,7 +73,7 @@ public class WheelerData
 [System.Serializable]
 public class SkillData
 {
-    public string name;
+    public string keycode;
     public int level;
     public bool chainSkill;
 }
@@ -283,7 +283,7 @@ public class SaveManager : MonoBehaviour
                     
                     if(characters[i].skills[j] != null)
                     {
-                        skillData.name = characters[i].skills[j].MyName;
+                        skillData.keycode = characters[i].skills[j].keycode;
                         skillData.level = characters[i].skills[j].MySkillLevel;
                         skillData.chainSkill = characters[i].skills[j].isChain;
                     }
@@ -297,12 +297,27 @@ public class SaveManager : MonoBehaviour
 
                     if(characters[i].chainsSkills[k] != null )
                     {
-                        skillData.name = characters[i].chainsSkills[k].MyName;
+                        skillData.keycode = characters[i].chainsSkills[k].keycode;
                         skillData.level = characters[i].chainsSkills[k].MySkillLevel;
                         skillData.chainSkill = characters[i].chainsSkills[k].isChain;
                     }
 
                     wheeler.chainSkills.Add(skillData);
+                }
+
+                // 패시브 스킬 
+                for (int idx = 0; idx < characters[i].equippedPassiveSkills.Count; idx++)
+                {
+                    if( characters[i].equippedPassiveSkills[idx] == null )
+                    {
+                        continue;
+                    }
+
+                    SkillData skillData = new SkillData();
+                    skillData.keycode = characters[i].equippedPassiveSkills[idx].keycode;
+                    skillData.level = characters[i].equippedPassiveSkills[idx].MySkillLevel;
+
+                    wheeler.passvieSkills.Add(skillData);
                 }
 
                 
@@ -342,7 +357,9 @@ public class SaveManager : MonoBehaviour
             }
 
             // todo 장착 스킬  - id로 생각해야할듯..
-            //tempPlayer.SetSkill()
+            //tempPlayer.equippedPassiveSkills.Add()
+            
+            
             // ? 유무울?
 
             // 캐릭터 정보 저장 

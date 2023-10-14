@@ -116,6 +116,8 @@ public class CursedTurtle : Character
 
                 BuffDebuff buffDebuff = new BuffDebuff();
                 buffDebuff.buffName = "Curse";
+                // todo 임시로 패시브 아이콘을 넣어준다. 
+                buffDebuff.sprite = skill.MyIcon;
                 buffDebuff.Init(BuffType.DEBUFF, option.effectName, option);
                 target.AddBuffDebuff(buffDebuff);
             }
@@ -195,7 +197,11 @@ public class CursedTurtle : Character
        
         // 대상의 잃은 체력 비례 데미지... 
         float lostHealthPercentage = (target.MyPlayer.MyMaxHP - target.MyPlayer.MyCurrentHP) / (float)target.MyPlayer.MyMaxHP;
-        target.MyPlayer.MyStat.passiveAdditionalLostHealthRate = lostHealthPercentage;
+
+        // 최대 10/20/30% 제한
+        float maxAdditionalDamagePercentage = 0.1f * skill.MySkillLevel; 
+
+        target.MyPlayer.MyStat.passiveAdditionalLostHealthRate = maxAdditionalDamagePercentage * lostHealthPercentage;
 
     }
 
@@ -229,7 +235,8 @@ public class CursedTurtle : Character
                     buffDebuff.specialOption.duration = 3;
                     buffDebuff.specialOption.value = 1.0f + Mathf.Round(MyStat.totalATK * rate);
                     buffDebuff.specialOption.SetCoolTime();
-                    //buffDebuff.icon.sprite = skill.MyIcon;
+                    // todo 임시로 패시브 아이콘을 넣어준다. 
+                    buffDebuff.sprite = skill.MyIcon;
                 }
                 target.AddBuffDebuff(buffDebuff);
             }

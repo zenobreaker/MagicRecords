@@ -58,7 +58,7 @@ public class MyBullet : Bullet
                         IncreaseCP();
                         if (other.transform.TryGetComponent<WheelerController>(out WheelerController component))
                         {
-                            component.DealDamage(AttackOwn, attackOwnTransform);
+                            component.DealDamage(AttackOwn, attackOwnTransform, damageRate);
                         }
                         // 해당 transform에 들어있는 Object컴포넌트에 Damgaed메소드를 호출하여 damge값 전달
                     }

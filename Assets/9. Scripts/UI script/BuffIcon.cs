@@ -17,7 +17,7 @@ public class BuffIcon : MonoBehaviour
         if(specialOption != null && specialOption.effectID != buffDebuff.specialOption.effectID)
             coolTimeImage.fillAmount = 0;   
 
-        buffImage = buffDebuff.icon;
+        buffImage.sprite = buffDebuff.sprite;
         specialOption = buffDebuff.specialOption;
         gameObject.SetActive(true);
     }

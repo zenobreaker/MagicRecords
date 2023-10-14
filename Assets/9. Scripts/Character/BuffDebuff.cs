@@ -39,7 +39,7 @@ public class BuffDebuff
     public BuffType buffType;
     public string buffName;
     public SpecialOption specialOption;
-    public Image icon;
+    public Sprite sprite; 
     public bool isRunning = false;
     public int buffCount = 0;   // 버프 카운트
 
@@ -53,7 +53,8 @@ public class BuffDebuff
         this.buffType = buffType;
         this.buffName = name;
         specialOption = option;
-        if(specialOption != null)
+        
+        if (specialOption != null)
         {
             specialOption.SetCoolTime();
         }
