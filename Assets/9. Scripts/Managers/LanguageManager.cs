@@ -102,6 +102,7 @@ public class LanguageManager : MonoBehaviour
             {"OPTION_VALUE_1", true },
             {"OPTION_VALUE_2", true },
             {"OPTION_VALUE_3", true },
+            {"OPTION_DURATION_1", false },
         };
 
 

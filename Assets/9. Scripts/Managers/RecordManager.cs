@@ -68,7 +68,6 @@ public class RecordManager : MonoBehaviour
 
     private RecordInfoJsonAllData memoyInfoJsonAlldata;
 
-
     public Dictionary<int, RecordInfo> recordInfoDictionary = new Dictionary<int, RecordInfo>();
 
     // 게임 중에 선택한 레코드 리스트
@@ -121,14 +120,51 @@ public class RecordManager : MonoBehaviour
         return recordInfoDictionary[id];
     }
 
+    public List<int> GetRanddomRecordID(int count)
+    {
+        List<int> resultList = new List<int>();
+        
+        // 1. 생성할 메모리 id를 딕셔너리에서 중복 없이 가져온다. 
+        List<int> keys = new List<int>(recordInfoDictionary.Keys);
+        if (keys.Count <= 0)
+        {
+            Debug.Log("키값이 없습니다 게임 진행 불가");
+            return null;
+        }
+        int min = keys.Min();
+        int maxCount = keys.Count;
+        
+        int prevIndx = 0;
+        while (true)
+        {
+
+            int idx = Random.Range(min, maxCount);
+
+            if (prevIndx == idx || selectRecordInfos.Contains(recordInfoDictionary[keys[idx]]) == true)
+            {
+                continue;
+            }
+            if (recordInfoDictionary.ContainsKey(idx) == true)
+            {
+                // 2. 만든 리스트를 토대로 메모리를 가져와 전달한다.
+                resultList.Add(recordInfoDictionary[idx].id);
+            }
+
+            if (resultList.Count >= count)
+                break;
+        }
+
+
+        return resultList;
+    }
+
     // 메모리를 랜덤으로 받는 매개변수만큼 반환해주는 함수 
     public List<RecordInfo> GetRandomRewardMemory(int count)
     {
         List<RecordInfo> rewardList = new List<RecordInfo>();
 
-
         // 1. 생성할 메모리 id를 딕셔너리에서 중복 없이 가져온다. 
-        List<int> keys= new List<int>(recordInfoDictionary.Keys);
+        List<int> keys = new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
             Debug.Log("키값이 없습니다 게임 진행 불가");
@@ -186,12 +222,31 @@ public class RecordManager : MonoBehaviour
         var record = recordInfoDictionary[id];
         if (record == null) return null;
 
-
         record.specialOption =  OptionManager.instance.GetSpecialOption(record.specialOptionID);
 
         return record.specialOption;
     }
 
+
+    // 스테이지에 이벤트 대상으로 나타날 레코드 반환
+    public void GetStageEventRewardRecord(StageEventInfo eventInfo)
+    {
+        if (eventInfo == null || eventInfo.appearInfo == null) return;
+
+        eventInfo.appearInfo.appearIDList.Clear();
+
+        // 플레이어가 획득한 레코드 제외 
+        List<int> recordIDList = GetRanddomRecordID(3);
+        if (recordIDList == null || recordIDList.Count <= 0)
+        {
+            return;
+        }
+
+        foreach(var record in recordIDList)
+        {
+            eventInfo.appearInfo.appearIDList.Add(record);
+        }
+    }
 
     // 아래 코드는 레코드가 개별로 적용할 때 사용할 코드였다. 지금은 모든 플레이어에게 적용할 예정이기에 
     // 효용성이 떨어지므로 주석처리한다. 

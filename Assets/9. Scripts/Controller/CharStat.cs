@@ -9,7 +9,7 @@ public class CharStat
     public float baseCritDamage = 1.50f;
 
     public MonsterGrade myGrade;
-    public int level;
+    public int level = 1;
     // 통상 장비나 레벨업 같은 스탯이 적용되어 보이는 스탯들 
     public int totalATK;
     public int totalDEF;

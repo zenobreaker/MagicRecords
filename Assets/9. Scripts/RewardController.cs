@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using static ChoiceAlert;
 using Newtonsoft.Json.Serialization;
+using Button = UnityEngine.UI.Button;
+using static ChoiceAlert;
+using Image = UnityEngine.UI.Image;
 
 public enum RewardType { NONE = 0, COIN, EXP, ITEM, RECORD}
 [System.Serializable]
@@ -101,9 +103,13 @@ public class RewardController : MonoBehaviour
     [SerializeField] List<RewardCard> rewardCards = new List<RewardCard>();  // 직렬화 안한다고 오브젝트를 찾을 수 없다니 ㄷ 
     RewardCard cur_RewardCard;
 
+    public delegate void Callback();
+    Callback callback;
+
     private void OnEnable()
     {
         InitializeRewardUI();
+        callback = null;
     }
 
     public void InitializeRewardUI()
@@ -340,6 +346,16 @@ public class RewardController : MonoBehaviour
         //go_BaseUI.SetActive(false);
         UIPageManager.instance.OpenClose(go_BaseUI);
         isConfirm = true;
+        
+        callback?.Invoke();
+    }
+
+    public void SetEnableCallback(Callback callback = null)
+    {
+        if(callback != null)
+        {
+            this.callback = callback;
+        }
     }
 
     public void ShowUI()

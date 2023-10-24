@@ -20,6 +20,8 @@ public class InfoManual : UiBase
     [SerializeField] Text txt_Level = null;
     [SerializeField] Text txt_Attack = null;
     [SerializeField] Text txt_Deffence = null;
+    [SerializeField] Text txt_CritRate = null;
+    [SerializeField] Text txt_CritDmg = null;
     [SerializeField] Text txt_Speed = null;
     [SerializeField] Text txt_HP = null;
     [SerializeField] Text txt_MP = null;
@@ -317,6 +319,8 @@ public class InfoManual : UiBase
             txt_MP.text = "마나 : " ;
             txt_Attack.text = "공격력 : " ;
             txt_Deffence.text = "방어력 : " ;
+            txt_CritRate.text = "치명확률 : ";
+            txt_CritDmg.text = "치명피해 : ";
             txt_Speed.text = "이동 속도 : " ;
             txt_Exp.text = "경험치 : " ;
             expGauge.MyMaxValue = 0;
@@ -332,6 +336,8 @@ public class InfoManual : UiBase
         txt_MP.text = "마나 : " + targetPlayer.MyStat.totalMP; 
         txt_Attack.text = "공격력 : " + targetPlayer.MyStat.totalATK;
         txt_Deffence.text = "방어력 : " + targetPlayer.MyStat.totalDEF;
+        txt_CritRate.text = "치명확률 : " + targetPlayer.MyStat.totalCritRate * 100.0f + "%";
+        txt_CritDmg.text = "치명피해 : " + targetPlayer.MyStat.totalCritDmg * 100.0f+ "%";
         txt_Speed.text = "이동 속도 : " + targetPlayer.MyStat.totalSPD;
         txt_Exp.text = "경험치 : " + targetPlayer.MyStat.maxExp;
         expGauge.MyMaxValue =  targetPlayer.MyStat.maxExp;

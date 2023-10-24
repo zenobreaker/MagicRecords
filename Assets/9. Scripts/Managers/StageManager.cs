@@ -95,12 +95,12 @@ public class StageManager : MonoBehaviour
         {
             case StageType.BATTLE:
                 // 이 스테이지가 전투스테이지라면 맵과 몬스터를 배치.
-                if (stageEventInfo.appearMonsterInfo == null)
+                if (stageEventInfo.appearInfo == null)
                     return; 
 
-                int selectMapID = stageEventInfo.appearMonsterInfo.mapID;
-                int monsterCount = stageEventInfo.appearMonsterInfo.appearMonsterList.Count;
-                int wave = stageEventInfo.appearMonsterInfo.wave;
+                int selectMapID = stageEventInfo.appearInfo.mapID;
+                int monsterCount = stageEventInfo.appearInfo.appearIDList.Count;
+                int wave = stageEventInfo.appearInfo.wave;
                 // 가져온 정보에서 맵 찾기
                 for (int i = 0; i < stageList.Count; i++)
                 {
@@ -111,7 +111,7 @@ public class StageManager : MonoBehaviour
                         selectedStage.wave = wave;
 
                         selectedStage.appearMonsterIDList.Clear();
-                        selectedStage.appearMonsterIDList = stageEventInfo.appearMonsterInfo.appearMonsterList;
+                        selectedStage.appearMonsterIDList = stageEventInfo.appearInfo.appearIDList;
                         selectedStage.enemyCount = selectedStage.appearMonsterIDList.Count;
                         break; 
                     }

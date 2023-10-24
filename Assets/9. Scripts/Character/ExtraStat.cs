@@ -302,11 +302,11 @@ public class ExtraStat
 				increaseMPRegenRate += value;
 				break;
 			case AbilityType.CRITRATE:
-				// 크리티컬확률과 크리티컬 데미지 증가는 이미 별도로 계산처리함
+                IncreaseCritRate(value); 
 				break;
 			case AbilityType.CRITDMG:
-
-				break;
+                IncreaseCritDmg(value);
+                break;
 
 				// 저주가 걸리면 공,방 수치가  10%씩 감소한다.
 			case AbilityType.CURSE:

@@ -41,21 +41,15 @@ public class StagePosController : MonoBehaviour
     public int selectEventSlotNumber;       // 선택한 이벤트 ID
     int curSelectStageNum;             // 현재 선택한 스테이지
 
-
     private void Start()
     {
         // 저장한게 없다면 챕터는 1로 초기화시켜놓는다
         curMainChpaterNum = StageInfoManager.instance.currentChapter;
     }
-
-    private void OnEnable()
+    
+    // PRIVATE : 레코드 관련 UI 보여주기 
+    private void OpenRecordUI(bool checkEvent = false)
     {
-        // 스테이지 인포 매니저에서 등록된 정보를 가져온다. 
-        StageInfoManager.instance.GetLocatedStageInfoListByCurrenChapter(out stageTables);
-
-        // 오브젝트가 켜질 때마다 스테이지 정보대로 그려준다.
-        DrawStageButtonByScrollview();
-
         // 레코드를 받은 적이 없다면 받도록 한다.
         if (RecordManager.CHOICED_COMPLETE_RECORD == false)
         {
@@ -66,12 +60,44 @@ public class StagePosController : MonoBehaviour
             }
 
             // todo 임시로 3개를 줘본다.
+            // 레코드 발견 이벤트라면 
             rewardController.SetRecordRewardList(3);
 
             rewardController.DrawRewardCards();
 
+            // todo 이벤트로 나온 경우 확인 버튼 시 클리어 처리르 해야한다.
+            if (checkEvent == true)
+            {
+                rewardController.SetEnableCallback(()=>
+                {
+                    RecordManager.CHOICED_COMPLETE_RECORD = true;
+                });
+            }
+            
         }
     }
+
+    private void OnEnable()
+    {
+        // 스테이지 창을 열 때 마다 레코드 선택화면을 보여준다. 
+
+        // 스테이지 인포 매니저에서 등록된 정보를 가져온다. 
+        StageInfoManager.instance.GetLocatedStageInfoListByCurrenChapter(out stageTables);
+
+        DrawStageMainPosUI();
+    }
+
+
+    // 메인 화면을 그리는 함수들이 모여있는 함수 
+    public void DrawStageMainPosUI()
+    {
+        // 오브젝트가 켜질 때마다 스테이지 정보대로 그려준다.
+        DrawStageButtonByScrollview();
+
+        // 레코드 UI 열어주기 
+        OpenRecordUI();
+    }
+
 
 
     // 스테이지에 맵에서 스테이지를 선택하면 뜨는 팝업 
@@ -89,13 +115,15 @@ public class StagePosController : MonoBehaviour
             Debug.Log("stage table info list size 0 or null");
             return;
         }
-
+        
         if (UIPageManager.instance != null && stageMenuUI != null)
         {
             var stageTableInfo = stageTables[stageNum - 1];
             stageMenuUI.DeploySelectEventSlot(ref stageTableInfo);
+            // 스테이지 세부 선택 팝업을 띄운다. 
             UIPageManager.instance.OpenClose(stageMenuUI.gameObject);
         }
+
     } 
 
     public void CloseMonsterMenu()
@@ -116,12 +144,39 @@ public class StagePosController : MonoBehaviour
 
         // 이벤트 선택 메뉴를 닫는다.
         CloseMonsterMenu();
-        // 캐릭터 선텍 UI를 연다. 
-        choiceAlert.ActiveAlert(true);
-        choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
-        // 확인버튼 기능에 기능 할당 
-        choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
-     
+
+        // 스테이지 선택한 정보로 저장
+        StageInfoManager.instance.ChoiceStageInfoForPlaying(curMainChpaterNum, curSelectStageNum, selectEventSlotNumber);
+        var seletedStageEventInfo = StageInfoManager.instance.GetStageEventClass();
+        if (seletedStageEventInfo == null) return;
+
+        // 스테이지 형태가 전투인가 
+        if (seletedStageEventInfo.stageType == StageType.BATTLE)
+        {
+            // 캐릭터 선텍 UI를 연다.
+            choiceAlert.ActiveAlert(true);
+            choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
+            // 확인버튼 기능에 기능 할당 
+            choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
+        }
+        // 스테이지 형태가 이벤트나 상점이면 해당하는 UI를 열어준다. 
+        else if (seletedStageEventInfo.stageType == StageType.EVENT)
+        {
+            // 스테이지인포매니저의 함수를 호출해준다. 
+            StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
+            // 레코드 UI 열어주기 
+            RecordManager.CHOICED_COMPLETE_RECORD = false;
+            DrawStageMainPosUI();
+        }
+        else if (seletedStageEventInfo.stageType == StageType.SHOP)
+        {
+            // 스테이지인포매니저의 함수를 호출해준다. 
+            StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
+            // 레코드 UI 열어주기 
+            RecordManager.CHOICED_COMPLETE_RECORD = false;
+            DrawStageMainPosUI();
+        }
+
     }
 
     // 캐릭터 세팅
@@ -137,17 +192,28 @@ public class StagePosController : MonoBehaviour
                     };
         InfoManager.instance.SetSelectPlayers(idList.ToArray());
 
-        // 스테이지 선택한 정보로 저장
-        StageInfoManager.instance.ChoiceStageInfoForPlaying(curMainChpaterNum, curSelectStageNum, selectEventSlotNumber);
-        
         // 지정한 스테이지가 있는지 검사 후 씬을 옮긴다. 
         // 선택한 캐릭터가 있으면 씬 옮기기 
-        if (InfoManager.instance.GetSelectPlayerList().Count > 0 && 
-            StageInfoManager.instance.GetStageEventClass() != null)
+        var seletedStageEventInfo = StageInfoManager.instance.GetStageEventClass();
+        if (InfoManager.instance.GetSelectPlayerList().Count > 0 &&
+            seletedStageEventInfo != null)
         {
-            
-            //씬 변경
-            LoadingSceneController.LoadScene("GameScene");
+            // 스테이지 형태가 전투인가 
+            if (seletedStageEventInfo.stageType == StageType.BATTLE)
+            {
+                //씬 변경
+                LoadingSceneController.LoadScene("GameScene");
+            }
+            // 스테이지 형태가 이벤트나 상점이면 해당하는 UI를 열어준다. 
+            else if (seletedStageEventInfo.stageType == StageType.EVENT)
+            {
+                
+            }
+            else if (seletedStageEventInfo.stageType == StageType.SHOP)
+            {
+
+            }
+          
         }
         // 없으면 캐릭터를 고르라고 알림 메세지 출력하기 
         else
@@ -267,6 +333,8 @@ public class StagePosController : MonoBehaviour
             return;
         }
 
+        curMainChpaterNum = StageInfoManager.instance.currentChapter;
+
         //  스테이지 만들기 전 검사
         int stageCount = stageTables.Count;
         int slotCount = contentObject.transform.childCount;
@@ -300,7 +368,7 @@ public class StagePosController : MonoBehaviour
             if (!slot.TryGetComponent<StageSelectSlot>(out var stageSelectSlot)) continue; 
 
             slot.gameObject.SetActive(true);
-
+          
             string stageName = curMainChpaterNum.ToString() + "-" + (i + 1).ToString();
             stageSelectSlot.SetSlotText(stageName);
             int temp = i + 1; 
@@ -332,33 +400,4 @@ public class StagePosController : MonoBehaviour
         }
     }
 
-    // 스테이지에 맞는 몬스터 이미지 세팅
-    void DrawStageIcon()
-    {
-    //    for (int i = 0; i < MAX_STAGE_COUNT; i++)
-    //    {
-    //        for (int j = 0; j < stageTables.Count; j++)
-    //        {
-    //            string stageName = curMainChpaterNum.ToString() + "-" + (i + 1).ToString();
-    //            //btn_MonsterSlots[i].SetSlotText(stageName);
-    //            // if (stageTables[i].stageType == StageType.MONSTER)
-    //            {
-    //                //switch (stageTables[i].monsterType)
-    //                //{
-
-    //                //    case MonsterGrade.NORMAL:
-    //                //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[0]);
-    //                //        break;
-    //                //    case MonsterGrade.ELITE:
-    //                //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[1]);
-    //                //        break;
-    //                //    case MonsterGrade.BOSS:
-    //                //        btn_MonsterSlots[i].SetSpriteImage(spt_stageMIcon[2]);
-    //                //        break;
-    //                //}
-    //            }
-    //        }
-
-    //    }
-    }
 }

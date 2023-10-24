@@ -26,7 +26,7 @@ public class SkillToolTip : MonoBehaviour
     {
         if (!go_Base.activeSelf)
             UIPageManager.instance.OpenClose(go_Base);
-
+        
         // 
         selectedSkill = skill;
 
@@ -81,7 +81,7 @@ public class SkillToolTip : MonoBehaviour
 
     public void UpdateTooltip(Skill skill)
     {
-        txt_SkillDesc.text = LanguageManager.Instance.GetLocaliztionValue(skill.keycode);
+        txt_SkillDesc.text = SkillDataBase.instance.GetSkillDesc(skill); 
 
         if (skill.upgradeCost <= InfoManager.coin)
         {

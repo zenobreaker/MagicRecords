@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // 스테이지 초기화
+        if (traningRoomUi != null)
+            traningRoomUi.gameObject.SetActive(false);
         StageInit();
     }
 
@@ -301,15 +303,13 @@ public class GameManager : MonoBehaviour
 
             if (stageAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 stageText.gameObject.SetActive(false);
-            
-            if (traningRoomUi != null)
-                traningRoomUi.gameObject.SetActive(false);
         }
         else
         {
             if (traningRoomUi != null)
                 traningRoomUi.gameObject.SetActive(true);
         }
+        
         // 게임 진행 스테이트 변경 
         gameState = GameState.START;
     }

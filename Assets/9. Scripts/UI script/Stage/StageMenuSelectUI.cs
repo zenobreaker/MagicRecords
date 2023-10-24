@@ -145,34 +145,43 @@ public class StageMenuSelectUI : MonoBehaviour
             // 이미지 교체 
             var slotImage = slot.GetComponent<Image>();
             var eventInfo = stageTable.eventInfoList[i];
-            if (eventInfo != null && slotImage != null)
-            {
-                if (eventInfo.stageType == StageType.BATTLE)
-                {
-                    if (eventInfo.monsterType == MonsterGrade.NORMAL)
-                    {
-                        slotImage.sprite = monsterNormalSprite;
-                    }
-                    else if (eventInfo.monsterType == MonsterGrade.ELITE)
-                    {
-                        slotImage.sprite = monsterEliteSprite;
-                    }
-                    else if (eventInfo.monsterType == MonsterGrade.BOSS)
-                    {
-                        slotImage.sprite = monsterBossSprite;
-                    }
-                }
-                else if (eventInfo.stageType == StageType.EVENT)
-                {
-                    slotImage.sprite = eventSprite;
-                }
-                else if (eventInfo.stageType == StageType.SHOP)
-                {
-                    slotImage.sprite = shopSprite;
-                }
-            }
+
+            DrawStageIcon(slotImage, eventInfo);
         }
     }
 
 
+    // 스테이지에 맞는 몬스터 이미지 세팅
+    void DrawStageIcon(Image image, StageEventInfo stageEventInfo)
+    {
+        if (image == null || stageEventInfo == null)
+            return;
+
+
+        Sprite sprite = null;
+        switch (stageEventInfo.stageType)
+        {
+            case StageType.BATTLE:
+                if (stageEventInfo.appearInfo != null)
+                {
+                    if (stageEventInfo.appearInfo.monsterGrade == MonsterGrade.NORMAL)
+                        sprite = Resources.Load<Sprite>("Image/Icon_Monster1");
+                    if (stageEventInfo.appearInfo.monsterGrade == MonsterGrade.ELITE)
+                        sprite = Resources.Load<Sprite>("Image/Icon_Monster2");
+                    if (stageEventInfo.appearInfo.monsterGrade == MonsterGrade.BOSS)
+                        sprite = Resources.Load<Sprite>("Image/Icon_Monster3");
+                }
+                break;
+            case StageType.EVENT:
+                //todo 이벤트 id에 따라 이미지를 달리 할수잇도록
+                sprite = Resources.Load<Sprite>("Image/Event");
+                break;
+            case StageType.SHOP:
+                sprite = Resources.Load<Sprite>("Image/Shop");
+                break;
+        }
+
+
+        image.sprite = sprite;
+    }
 }
