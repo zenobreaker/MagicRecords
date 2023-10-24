@@ -20,6 +20,15 @@ public class CharSlot : MonoBehaviour, IPointerClickHandler
     public void SetPlayer(Character p_Player)
     {
         targetPlayer = p_Player;
+        if (targetPlayer == null) return;
+
+        // 이미지 세팅
+        if (PlayerDatabase.instance == null)
+            return;
+        var data = PlayerDatabase.instance.GetCharacterData(targetPlayer.MyID);
+        if (data == null) return;
+        
+        img_CharIcon.sprite = data.portrait; 
     }
 
     public Character GetPlayer()

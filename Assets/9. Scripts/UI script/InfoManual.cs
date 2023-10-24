@@ -134,7 +134,7 @@ public class InfoManual : UiBase
             if (maxCount <= count) break; 
 
             var slot = Instantiate(charSlot, tabObject.transform);
-            slot.gameObject.SetActive(true);
+            slot.SetActive(true);
             charSlotList.Add(slot);
             if (slot.TryGetComponent<CharSlot> (out var _charSlot))
             {

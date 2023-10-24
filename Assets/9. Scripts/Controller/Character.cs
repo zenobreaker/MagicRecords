@@ -34,7 +34,7 @@ public class Character
     /*  플레이어 객체 정의
      *  CharStat과 EquipItem을 필드로 갖는다
     */
-    public uint objectID;
+    public int objectID = 0;
 
     [SerializeField]
     private int playerID; // 플레이어 ID 장비 착용한 대상을 찾을 때 

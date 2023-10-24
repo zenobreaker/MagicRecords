@@ -52,7 +52,7 @@ public class InfoManager : MonoBehaviour
     // 플레이어 정보 세팅한다.
     public void SetDefaultAndAllPlayers()
     {
-        var statDict = MonsterDatabase.instance.GetCharactersStatDict();
+        var statDict = PlayerDatabase.instance.GetCharactersStatDict();
         if (statDict == null) return;
 
         foreach(var statPair in statDict)
@@ -63,7 +63,7 @@ public class InfoManager : MonoBehaviour
                 tempPlayer = new CursedTurtle();
             }
             tempPlayer.MyID = statPair.Key;
-            tempPlayer.objectID = (uint)statPair.Key;
+            tempPlayer.objectID = statPair.Key;
             tempPlayer.MyStat = statPair.Value;
             tempPlayer.MyStat.level = 1;
             tempPlayer.MyStat.ApplyOption();
@@ -78,7 +78,7 @@ public class InfoManager : MonoBehaviour
             return; 
         }
         Character tempPlayer = new CursedTurtle();
-        CharStat stat = MonsterDatabase.instance.GetCharStat(1);
+        CharStat stat = PlayerDatabase.instance.GetCharStat(1);
         tempPlayer.MyStat = stat;
         tempPlayer.MyID = 1;
         //AddPlayerInfo(tempPlayer.MyID, tempPlayer);

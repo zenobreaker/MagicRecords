@@ -342,11 +342,11 @@ public class SaveManager : MonoBehaviour
             if (wheelerPair.Value == null) continue;
             // 자신이 소유한 캐릭터로 추가 
             var wheeler = wheelerPair.Value;
-            CharStat charStat = MonsterDatabase.instance.GetCharStat(wheeler.wheelerID);
+            CharStat charStat = PlayerDatabase.instance.GetCharStat(wheeler.wheelerID);
             charStat.level = wheeler.level;
             Character tempPlayer = new Character();
             tempPlayer.MyID = wheeler.wheelerID;
-            tempPlayer.objectID = (uint)wheeler.wheelerID;
+            tempPlayer.objectID = wheeler.wheelerID;
             // 스탯 
             tempPlayer.MyStat = charStat;
             // 장착 장비

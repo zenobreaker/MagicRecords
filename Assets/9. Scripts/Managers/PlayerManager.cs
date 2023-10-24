@@ -29,14 +29,14 @@ public class PlayerManager : MonoBehaviour
             {
                 if (data == null) continue;
 
-                var playerablebject = PlayerDatabase.instance.GetPlayerableObject(data.objectID);
+                var playerablebject = PlayerDatabase.instance.GetCharacterData(data.MyID);
                 if (playerablebject == null)
                 {
                     // player 데이터가 생성되지 않았다면 리턴
                     Debug.Log("Create Error : 캐릭터가 생성되지 않았습니다." + "ID : " + data.MyID);
                     continue;
                 }
-                var player = Instantiate(playerablebject.playerObject, Vector3.zero, Quaternion.identity);
+                var player = Instantiate(playerablebject.prefab, Vector3.zero, Quaternion.identity);
 
                 // 캐릭터를 생성하면 플레이어 컨트롤의 값을 조정 
                 if (player.TryGetComponent<PlayerControl>(out var playerControl))
@@ -106,13 +106,16 @@ public class PlayerManager : MonoBehaviour
     public void CreateTestPlayer()
     {
 
-        var playerData = InfoManager.instance.GetMyPlayerInfo(1001);
+        var playerData = InfoManager.instance.GetMyPlayerInfo(1);
         var player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
         if (player.TryGetComponent<PlayerControl>(out var playerControl))
         {
             playerControl.MyPlayer = playerData;
             playerControl.MyPlayer.MyStat.ApplyOption();
+            //메인캐릭터에 hud 적용하기 
+            playerControl.MyPlayer.InitCurrentHP();
+            playerControl.MyPlayer.InitCurrentMP();
             //targetPlayer = InfoManager.instance.GetPlayerInfo(1001);
             playerableObjectList.Add(player);
              // UI 정보 세팅
