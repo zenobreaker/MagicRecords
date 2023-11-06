@@ -350,7 +350,10 @@ public class GameManager : MonoBehaviour
         theSM.ShowClearUI(true);
 
         // 캐릭터 경험치 지급 
-        GrowUpMyCharacters(MyGameScore); 
+        GrowUpMyCharacters(MyGameScore);
+
+        // 캐릭터 정보 갱신
+        RefreshCharStatus();
     }
 
     IEnumerator StageFailureCoroutine()
@@ -503,6 +506,20 @@ public class GameManager : MonoBehaviour
         foreach(var enemy in enemyTeam)
         {
             enemy.isTest = isSwtich;
+        }
+    }
+
+    // 선택한 캐릭터들 결과 반영
+    public void RefreshCharStatus()
+    {
+        foreach(var own in team)
+        {
+            int id = own.MyPlayer.MyID;
+
+            int hp = own.MyPlayer.MyCurrentHP;
+            Debug.Log("캐릭터 ID : " + id + " Hp : " + hp);
+
+            InfoManager.instance.SetSelectMyPlayerApplyData(id, own.MyPlayer);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.ReloadAttribute;
 
 // UI를 스택형식으로 관리해주는 매니저 
 
@@ -82,16 +83,16 @@ public class UIPageManager : MonoBehaviour
         if (_gameObject.activeSelf)
         {
 
-            Debug.Log("닫을 페이지 oc : " + popupList.Peek().name + popupList.Count);
+            //Debug.Log("닫을 페이지 oc : " + popupList.Peek().name + popupList.Count);
             // 1. 먼저 리스트에 대상 제거 
-            if (popupList.Count > 0)
-                popupList.Pop();
+            //if (popupList.Count > 0)
+            //    popupList.Pop();
 
             // 2. 대상 리스트를 후에 끈다 그렇지 않으면 해당 오브젝트의 disable 함수가 먼저 호출되어 
             // 여기를 탈 수 있다. (이 함수를 호출을 했다면) ^^
-            _gameObject.SetActive(false);
-
-            SoundManager.instance.PlaySE("Escape_UI");
+            //_gameObject.SetActive(false);
+            BackPage();
+            //SoundManager.instance.PlaySE("Escape_UI");
         }
         else
         {
@@ -131,8 +132,8 @@ public class UIPageManager : MonoBehaviour
         {
             Debug.Log("닫을 페이지 : " + popupList.Peek().name + popupList.Count);
             GameObject temp = popupList.Peek();
-            temp.SetActive(false);
             popupList.Pop();
+            temp.SetActive(false);
 
             if (popupList.Count == 0)
             {

@@ -187,6 +187,8 @@ public class InfoManager : MonoBehaviour
         var info = GetMyPlayerInfo(key);
         if (info != null)
         {
+            info.InitCurrentHP();
+            info.InitCurrentMP();
             selectPlayerList.Add(key, info);
         }
     }

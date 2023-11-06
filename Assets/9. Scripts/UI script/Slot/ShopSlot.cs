@@ -34,7 +34,7 @@ public class ShopSlot : Slot
     {
         base.AddItem(_item, _count);
         Debug.Log("이게 됨");
-        txt_ItemName.text = itemName;
+        txt_ItemName.text = _item.itemName;
         txt_ItemCost.text = _item.itemValue.ToString();
     }
 }

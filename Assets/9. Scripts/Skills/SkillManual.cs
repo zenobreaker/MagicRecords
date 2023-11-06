@@ -136,11 +136,12 @@ public class SkillManual : MonoBehaviour
     // 캐릭터 선택 팝업을 열게 한다. 
     public void OpenCharacterSelectPopup()
     {
-        if (choiceAlert == null) return; 
+        if (choiceAlert == null) return;
 
-        choiceAlert.ActiveAlert(true);
-        choiceAlert.uiSELECT = ChoiceAlert.UISELECT.SKILLMANUAL;
-        choiceAlert.ConfirmSelect(player => OpenBaseUI(player));
+        UIPageManager.instance.OpenSelectCharacter(player => OpenBaseUI(player));
+        //choiceAlert.ActiveAlert(true);
+        //choiceAlert.uiSELECT = ChoiceAlert.UISELECT.SKILLMANUAL;
+        //choiceAlert.ConfirmSelect(player => OpenBaseUI(player));
     } 
 
     public void OpenBaseUI(Character _selectPlayer)
@@ -149,7 +150,10 @@ public class SkillManual : MonoBehaviour
         if (_selectPlayer == null) return; 
         // 데이터 초기화 
         selectedPlayer = _selectPlayer;
-
+        
+        // 선택창은 끈다.
+        //choiceAlert.ActiveAlert(false);
+        //todo 캐릭터 선택 팝업이 꺼짐과 동시에 여기가 동시케 켜저서 꼬인다. 수정해야하
         UIPageManager.instance.OpenClose(go_BaseUI);
         
         // 액티브 스킬 정보 세팅

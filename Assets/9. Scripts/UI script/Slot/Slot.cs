@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Drawing;
+using System;
 
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
@@ -19,7 +20,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public string itemID;
+    public int itemID;
     public string itemName;
     public int itemCount; //.획득한 아이템의 개수
     public Image itemImage; // 아이템의 이미지
@@ -35,7 +36,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] protected Image fadeImage = null;
 
     protected SlotTooltip theSlotTooltip;
-
+    private Action callback;
     protected GameObject selectedSlot;
 
 
@@ -83,11 +84,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             return;
 
         item = _item;
-        itemID = _item.itemImgID;
+        itemID = _item.itemUID;
         itemName = _item.itemName;
         itemCount = _count;
         itemImage.sprite = _item.itemImage;
-        //Debug.Log("아이템 들어옴" + _item.itemName + this.name + _item.itemRank);
+        Debug.Log("아이템 들어옴" + _item.itemName + this.name + _item.itemRank);
         SetBackGround(_item);
         
 
@@ -140,7 +141,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     // 슬롯 초기화 
     public virtual void ClearSlot()
     {
-        itemID = "";
+        itemID = 0;
         itemName = "";
         itemCount = 0;
         itemImage.sprite = null;
@@ -150,11 +151,25 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         go_CountImage.SetActive(false);
     }
 
+
+
+    public void SetActionCallback(Action callback)
+    {
+        this.callback = callback;
+    }
+
+
     public virtual void OnPointerClick(PointerEventData eventData)
     {
        if(eventData.button == PointerEventData.InputButton.Left)
         {
             selectedSlot = this.gameObject;
+        }
+
+       if(callback != null)
+        {
+            Action callback1 = callback;
+            callback1();
         }
     }
 

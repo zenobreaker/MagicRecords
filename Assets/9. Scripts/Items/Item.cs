@@ -16,6 +16,11 @@ public enum ItemType
     ETC,
     Coin,
     Drone,
+
+    POTION_VIEW = 11,
+    RECORD_VIEW = 12,
+    RELRIC_VIEW = 13,
+    RESURRECTION_VIEW = 14,
 }
 
 public enum ItemRank

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 
@@ -215,6 +216,56 @@ public class RecordManager : MonoBehaviour
         }
 
         return rewardList;
+    }
+
+    // 최소 개수와 최대 개수를 받으면 그 안에서 랜덤으로 레코드id 반환
+    public List<int> GetRandomRecordByRandRange(int start, int end)
+    {
+        List<int> idList = new List<int>();
+
+        if(end - start == 0)
+        {
+            return null; 
+        }
+
+
+        int count = Random.Range(start, end + 1);
+
+        // 1. 생성할 메모리 id를 딕셔너리에서 중복 없이 가져온다. 
+        List<int> keys = new List<int>(recordInfoDictionary.Keys);
+        if (keys.Count <= 0)
+        {
+            Debug.Log("키값이 없습니다 게임 진행 불가");
+            return null;
+        }
+
+        int min = keys.Min();
+        int maxCount = keys.Count;
+
+        List<RecordInfo> records = new List<RecordInfo>(recordInfoDictionary.Values);
+
+        // 중복없이 갯수만큼 리스트에 추가하기 
+        int prevIndex = 0;
+        while (true)
+        {
+            int id = Random.Range(min, maxCount);
+            var record = recordInfoDictionary[id];
+            if (prevIndex == id  || idList.Contains(id) == true ||
+                selectRecordInfos.Contains(record) == true)
+            {
+                continue; 
+            }
+
+            idList.Add(id);
+            records.Remove(record); // 넣은 레코드는 제거 
+            if (idList.Count >= count || records.Count <= 0)
+            {
+                break; 
+            }
+        }
+
+
+        return idList; 
     }
 
     public SpecialOption GetSpecialOptionToRecordInfo(int id)
