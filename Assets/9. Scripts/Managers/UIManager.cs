@@ -114,8 +114,8 @@ public class UIManager : MonoBehaviour
         
         selctPlayer = _selectedPlayer;
 
-        MyHP.Initalize(selctPlayer.MyCurrentHP);
-        MyMP.Initalize(selctPlayer.MyCurrentMP);
+        MyHP.Initalize(selctPlayer.MyCurrentHP, selctPlayer.MyMaxHP);
+        MyMP.Initalize(selctPlayer.MyCurrentMP, selctPlayer.MyMaxMP);
         // TODO : CP 시스템 추가 
         //MyCP.Initalize(status.); 
     }

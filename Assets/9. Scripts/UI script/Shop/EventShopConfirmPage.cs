@@ -52,8 +52,8 @@ public class EventShopConfirmPage : UiBase
     // 위에 함수로 열릴 UI 확인 버튼에 들어갈 이벤트 
     public void ConfirmBuyItemCallback()
     {
-        callback?.Invoke();
         CloseUi();
+        callback?.Invoke();
     }
 
     public void CloseUi()

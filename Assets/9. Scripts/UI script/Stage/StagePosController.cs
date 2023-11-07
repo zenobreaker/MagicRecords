@@ -25,14 +25,17 @@ public class StagePosController : MonoBehaviour
     [SerializeField] Text txt_Chpater = null;
 
     [SerializeField] GameObject scrollview = null;
-    [SerializeField] GameObject contentObject = null; 
-    [SerializeField] StageSelectSlot stageSlot = null; 
+    [SerializeField] GameObject contentObject = null;
+    [SerializeField] StageSelectSlot stageSlot = null;
 
     [SerializeField] ChoiceAlert choiceAlert = null;
 
     [SerializeField] List<StageTableClass> stageTables = null;
 
+    [Header("레코드 UI")]
     [SerializeField] RewardController rewardController = null;
+    [Header("이벤트 상점 UI")]
+    [SerializeField] EventShopUI eventShopUI = null; 
 
     // 변수
     public int finalChapterNum;         // 마지막 챕터 번호
@@ -75,6 +78,14 @@ public class StagePosController : MonoBehaviour
             }
             
         }
+    }
+
+    // PRIVATE : 이벤트 상점 UI 보여주기
+    private void OpenEventShopUi()
+    {
+        if (eventShopUI == null) return;
+
+        eventShopUI.OpenEventShopUI();
     }
 
     private void OnEnable()
@@ -172,8 +183,8 @@ public class StagePosController : MonoBehaviour
         {
             // 스테이지인포매니저의 함수를 호출해준다. 
             StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
-            // 레코드 UI 열어주기 
-            RecordManager.CHOICED_COMPLETE_RECORD = false;
+            // 이벤트 상점 열어주기 
+            OpenEventShopUi(); 
             DrawStageMainPosUI();
         }
 

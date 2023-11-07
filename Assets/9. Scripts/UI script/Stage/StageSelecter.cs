@@ -57,6 +57,7 @@ public class StageSelecter : MonoBehaviour
                 StageInfoManager.instance.maxChapter)
             {
                 StageInfoManager.instance.CreateStageTableList();
+               
                 UIPageManager.instance.OpenClose(go_StageScreen);
             }
         }
@@ -111,7 +112,8 @@ public class StageSelecter : MonoBehaviour
 
                         // 변수 플래그 변경
                         StageInfoManager.FLAG_ADVENTURE_MODE = true;
-
+                        // 플레이할 캐릭터 복사
+                        InfoManager.instance.InitMyPartyPlayList();
                         // 탐사 UI 켜주기
                         StartStageSelect();
                     });
@@ -151,7 +153,8 @@ public class StageSelecter : MonoBehaviour
     public void Cancel()
     {
         isSignOpen = false;
-        go_SignBase.SetActive(false);
+        //go_SignBase.SetActive(false);
+        UIPageManager.instance.OpenClose(go_SignBase);
         //StageChannel.stageName = "";
     }
 

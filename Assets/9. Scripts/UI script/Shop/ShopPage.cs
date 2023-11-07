@@ -137,7 +137,7 @@ public class ShopPage : TabManual
         for (int i = 0; i < _items.Count; i++)
         {
             shopSlots[i].ClearSlot();
-            shopSlots[i].SetSize(parentSlotPage.GetComponent<GridLayoutGroup>().cellSize);
+            //shopSlots[i].SetSize(parentSlotPage.GetComponent<GridLayoutGroup>().cellSize);
             shopSlots[i].AddItem(_items[i]);
             //if (RLModeController.isRLMode)
             shopSlots[i].SetItemSale();

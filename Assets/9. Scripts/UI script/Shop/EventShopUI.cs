@@ -49,12 +49,12 @@ public class EventShopUI : UiBase
     {
         InitEventShopItem();
 
+        //DrawEventShopGroup();
     }
 
     private void Start()
     {
         DrawEventShopGroup();
-        
     }
 
     public override void RefreshUI()
@@ -108,6 +108,11 @@ public class EventShopUI : UiBase
 
     }
 
+    public void OpenEventShopUI()
+    {
+        UIPageManager.instance.OpenClose(gameObject);
+    }
+
     public Item CreateEventShopItem(EventShopItemData shopItem)
     {
         if (shopItem == null) return null; 
@@ -159,6 +164,7 @@ public class EventShopUI : UiBase
             if(childObject.TryGetComponent<ShopSlot>(out var slot))
             {
                 slot.AddItem(shopItems[i]);
+                slot.gameObject.SetActive(true);
             }
         }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 // 캐릭터 해금 관련 
@@ -24,6 +25,9 @@ public class InfoManager : MonoBehaviour
 
     // 현재 내가 가지고 있는 캐릭터 리스트 
     private Dictionary<int, Character> myCharacterPlayerList = new Dictionary<int, Character>();
+
+    // 탐사할 캐릭터 리스트 
+    private Dictionary<int, Character> partyCharacters  = new Dictionary<int, Character>();
 
     // 스테이지에서 싸우는 캐릭터들의 리스트 
     private Dictionary<int, Character> selectPlayerList = new Dictionary<int, Character>();
@@ -172,6 +176,29 @@ public class InfoManager : MonoBehaviour
         //_playerList.Clear();
     }
 
+    // 게임에 참여할 파티 캐릭터 리스트 생성
+    public void InitMyPartyPlayList()
+    {
+        partyCharacters.Clear();
+
+        foreach (var pair in myCharacterPlayerList)
+        {
+            pair.Value.InitCurrentHP();
+            pair.Value.InitCurrentMP();
+            pair.Value.isDead = false; 
+            partyCharacters.Add(pair.Key, pair.Value);
+        }
+    }
+
+    public Dictionary<int, Character> GetPartyPlayerList()
+    {
+        if (partyCharacters == null)
+            return null; 
+
+        return partyCharacters;
+    }
+
+
     // 스킬 정보를 최신화한다. 
     public void ApplySkillDataSelcetedPlayer(int id)
     {
@@ -181,18 +208,25 @@ public class InfoManager : MonoBehaviour
         SetSelectMyPlayerApplyData(id, info);
     }
 
+
     // 자신이 갖고 있는 플레이어 정보 중 선택한 플레이어 정보를 담는다.
     public void SetSelectPlayer(int key)
     {
-        var info = GetMyPlayerInfo(key);
-        if (info != null)
+        //var info = GetMyPlayerInfo(key);
+        if(partyCharacters == null || partyCharacters.Count <= 0)
         {
-            info.InitCurrentHP();
-            info.InitCurrentMP();
+            InitMyPartyPlayList();  
+        }
+        
+        if(partyCharacters.TryGetValue(key, out var info))
+        {
+            //info.InitCurrentHP();
+            //info.InitCurrentMP();
             selectPlayerList.Add(key, info);
         }
     }
 
+    // 플레이할 캐릭터들을 저장
     public void SetSelectPlayers(int[] keys)
     {
         selectPlayerList.Clear();
@@ -240,7 +274,7 @@ public class InfoManager : MonoBehaviour
     {
         if (player == null) return;
 
-        selectPlayerList[id] = player;
+        partyCharacters[id] = player;
     }
 
     public List<Character> GetSelectPlayerList()
