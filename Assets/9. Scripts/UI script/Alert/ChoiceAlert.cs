@@ -22,7 +22,7 @@ public class ChoiceAlert : MonoBehaviour
     Slot targetSlot;
 
     public delegate void EndDelegate<T>(T t);
-    EndDelegate<Character> endDelegate;    // ÆË¾÷ÀÌ Á¾·á ½Ã¿¡ ½ÇÇàµÇ´Â µ¨¸®°ÔÀÌÆ® 
+    EndDelegate<Character> endDelegate;    // ï¿½Ë¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® 
 
     public enum UISELECT 
     {
@@ -47,7 +47,7 @@ public class ChoiceAlert : MonoBehaviour
         if(endDelegate != null && isConfirm == true)
         {
             endDelegate.Invoke(selectPlayer);
-            // ui°¡ ²¨Áö¸é ±â´ÉÀ» ÀüºÎ Á¦°Å 
+            // uiï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             endDelegate = null;
         }
     }
@@ -59,7 +59,7 @@ public class ChoiceAlert : MonoBehaviour
 
         if (isAct == true)
         {
-            // ¹öÆ°ÀÇ ÀÖ´Â ±â´É ÀüºÎ Á¦°Å 
+            // ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             confirmButton.onClick.RemoveAllListeners(); 
 
             SetList(InfoManager.instance.GetMyPlayerInfoList());
@@ -70,18 +70,18 @@ public class ChoiceAlert : MonoBehaviour
     public void SelectPlayerSlot(Character p_Target)
     {
 
-        // ¼±ÅÃÇÑ ´ë»óÀº º¯¼ö¿¡ ´ã°í °°Àº ´ë»óÀ» °í¸£°Å³ª ´Ù¸¥ ´ë»óÀ» °í¸£¸é º¯¼ö°ªÀ» ÃÊ±âÈ­ÇÑ´Ù.
-        // ¼±ÅÃÇÑ Ä³¸¯ÅÍ Á¤º¸¸¦ 
-        // º¯¼ö°ª »óÅÂ¿¡ µû¶ó ½½·ÔÀº ¼±ÅÃ »óÅÂ ¿©ºÎ¸¦ ±×¸°´Ù¤Ó. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½×¸ï¿½ï¿½Ù¤ï¿½. 
         if (p_Target != null)
         {
             selectPlayer = p_Target;
-            Debug.Log("¼±ÅÃµÊ " + selectPlayer.MyID);
+            Debug.Log("ï¿½ï¿½ï¿½Ãµï¿½ " + selectPlayer.MyID);
         }
     }
 
 
-    // Ä³¸¯ÅÍ ½½·Ô ¸¸µé±âÀ§ÇÑ ¸®½ºÆ® ¼³Á¤
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     void SetList(List<Character> p_List)
     {
 
@@ -97,7 +97,7 @@ public class ChoiceAlert : MonoBehaviour
                     clone.tag = "SelectAlert";
                     clone.choiceAlert = this;
 
-                    // ÄÝ¹é ÇÔ¼ö ¿¬°á 
+                    // ï¿½Ý¹ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                     clone.SetCallback(() =>
                     {
                         ClearSelectSlot();
@@ -148,8 +148,8 @@ public class ChoiceAlert : MonoBehaviour
     }
 
 
-    // È®ÀÎ ¹öÆ°À» ´©¸£¸é
-    // ÇØ´ç Ä³¸¯ÅÍ¸¦ ¼±ÅÃÇØ¼­ ½ºÅ×ÀÌÁö·Î µé¾î°¡°Å³ª UI¸¦ ¿¬´Ù 
+    // È®ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // ï¿½Ø´ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½Å³ï¿½ UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void ConfirmSelect(EndDelegate<Character> del)
     {
         if (confirmButton == null) return;
@@ -157,7 +157,7 @@ public class ChoiceAlert : MonoBehaviour
         isConfirm = true; 
         confirmButton.onClick.AddListener(()=>
         {
-            // ¼±ÅÃµÈ°Ô ¾øÀ¸¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+            // ï¿½ï¿½ï¿½ÃµÈ°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
             if (selectPlayer == null)
             {
                 return; 
@@ -192,3 +192,4 @@ public class ChoiceAlert : MonoBehaviour
         return selectPlayer;
     }
 }
+

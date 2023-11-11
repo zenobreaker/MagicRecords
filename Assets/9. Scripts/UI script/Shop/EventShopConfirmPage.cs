@@ -17,12 +17,12 @@ public class EventShopConfirmPage : UiBase
 
     public Action callback;
 
-    // ¾ÆÀÌÅÛ ¼±ÅÃ ½Ã, ±¸¸Å È®ÀÎ UI 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ UI 
     public void OpenConfirmBuyItemUI(Item itemData)
     {
         if (itemData == null) return;
 
-        // ¾ÆÀÌÅÛ Á¤º¸¸¦ ±×¸°´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½. 
         if (itemImage != null)
         {
             itemImage.sprite = itemData.itemImage;
@@ -49,7 +49,7 @@ public class EventShopConfirmPage : UiBase
         this.callback = callback;
     }
 
-    // À§¿¡ ÇÔ¼ö·Î ¿­¸± UI È®ÀÎ ¹öÆ°¿¡ µé¾î°¥ ÀÌº¥Æ® 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UI È®ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½Ìºï¿½Æ® 
     public void ConfirmBuyItemCallback()
     {
         CloseUi();
@@ -63,3 +63,4 @@ public class EventShopConfirmPage : UiBase
 
 
 }
+

@@ -22,7 +22,7 @@ public class CharSlot : MonoBehaviour, IPointerClickHandler
         targetPlayer = p_Player;
         if (targetPlayer == null) return;
 
-        // ÀÌ¹ÌÁö ¼¼ÆÃ
+        // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (PlayerDatabase.instance == null)
             return;
         var data = PlayerDatabase.instance.GetCharacterData(targetPlayer.MyID);
@@ -72,8 +72,8 @@ public class CharSlot : MonoBehaviour, IPointerClickHandler
             callback();
         }
 
-        // ´­·¯Áö¸é ¿©ºÎ¿¡ µû¶ó º¯ÇÏµµ·Ï ½½·ÔÀÌ º¯ÇÏµµ·Ï ÇÑ´Ù.
-        // todo ÀÌ°Ç ÀÌ»óÇÏ´Ù ½½·ÔÀº ¾î¶°ÇÑ ¿ÀºêÁ§Æ®ÀÇ ¼ÓÇØÀÖ´Â °³³äÀ¸·Î Á¢±ÙÇØ¾ßÇÑ´Ù.. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+        // todo ï¿½Ì°ï¿½ ï¿½Ì»ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¶°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.. 
         if(choiceAlert != null)
         {
             choiceAlert.SelectPlayerSlot(targetPlayer);

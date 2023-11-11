@@ -4,19 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.ReloadAttribute;
 
-// UI¸¦ ½ºÅÃÇü½ÄÀ¸·Î °ü¸®ÇØÁÖ´Â ¸Å´ÏÀú 
+// UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ 
 
 public class UIPageManager : MonoBehaviour
 {
     public static UIPageManager instance;
-    [SerializeField] ChoiceAlert choiceAlert = null; // Ä³¸¯ÅÍ ¼±ÅÃ 
-    [SerializeField] GameObject btn_Back = null; // µÚ·Î°¡±â ¹öÆ° 
+    [SerializeField] ChoiceAlert choiceAlert = null; // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    [SerializeField] GameObject btn_Back = null; // ï¿½Ú·Î°ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° 
     [SerializeField] SlotTooltip toolTip = null;
     [SerializeField] SkillManual skillManual = null;
 
-    // ÆË¾÷ ½ºÅÃÀÇ Áö³­ °³¼ö 
+    // ï¿½Ë¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     int prevStackCount;
-    // ÆË¾÷ Ã¢À» °ü¸®ÇÒ ½ºÅÃ 
+    // ï¿½Ë¾ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public Stack<GameObject> popupList = new Stack<GameObject>();
 
 
@@ -50,10 +50,10 @@ public class UIPageManager : MonoBehaviour
 
     }
 
-    // ³ª¸§ ¿ÉÀú¹ö ÆÐÅÏÀÎ°Í?
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
     private void LateUpdate()
     {
-        // Áö³­ °³¼ö¿Í ÇöÀç °³¼ö°¡ ´Ù¸£´Ù¸é °»½Å ÇÔ¼ö¸¦ È£Ãâ ½ÃÅ°°Ô ÇÑ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Ñ´ï¿½. 
         if(prevStackCount != popupList.Count && popupList.Count >= 1)
         {
             var currentPopup = popupList.Peek();
@@ -70,7 +70,7 @@ public class UIPageManager : MonoBehaviour
         return popupList.Pop();
     }
 
-    // UIµéÀ» Àü¹ÝÀûÀ¸·Î stack¿¡ ³Ö¾î¼­ °ü¸®ÇÏµµ·Ï ÇÑ´Ù.
+    // UIï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ stackï¿½ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 
    
     public void OpenClose(GameObject _gameObject)
@@ -83,13 +83,13 @@ public class UIPageManager : MonoBehaviour
         if (_gameObject.activeSelf)
         {
 
-            //Debug.Log("´ÝÀ» ÆäÀÌÁö oc : " + popupList.Peek().name + popupList.Count);
-            // 1. ¸ÕÀú ¸®½ºÆ®¿¡ ´ë»ó Á¦°Å 
+            //Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ oc : " + popupList.Peek().name + popupList.Count);
+            // 1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             //if (popupList.Count > 0)
             //    popupList.Pop();
 
-            // 2. ´ë»ó ¸®½ºÆ®¸¦ ÈÄ¿¡ ²ö´Ù ±×·¸Áö ¾ÊÀ¸¸é ÇØ´ç ¿ÀºêÁ§Æ®ÀÇ disable ÇÔ¼ö°¡ ¸ÕÀú È£ÃâµÇ¾î 
-            // ¿©±â¸¦ Å» ¼ö ÀÖ´Ù. (ÀÌ ÇÔ¼ö¸¦ È£ÃâÀ» Çß´Ù¸é) ^^
+            // 2. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ disable ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Ç¾ï¿½ 
+            // ï¿½ï¿½ï¿½â¸¦ Å» ï¿½ï¿½ ï¿½Ö´ï¿½. (ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ß´Ù¸ï¿½) ^^
             //_gameObject.SetActive(false);
             BackPage();
             //SoundManager.instance.PlaySE("Escape_UI");
@@ -98,7 +98,7 @@ public class UIPageManager : MonoBehaviour
         {
             popupList.Push(_gameObject);
             _gameObject.SetActive(true);
-            Debug.Log("¿­¸° ÆäÀÌÁö oc: " + popupList.Peek().name + popupList.Count);
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ oc: " + popupList.Peek().name + popupList.Count);
             SoundManager.instance.PlaySE("Confirm_Click");
             if (btn_Back != null)
             {
@@ -107,7 +107,7 @@ public class UIPageManager : MonoBehaviour
 
         }
 
-        // todo ÇÑ½ÃÀûÀ¸·Î uibaseÀÇ refreshui ÇÔ¼ö¸¦ È£ÃâÇÏµµ·Ï ÇÑ´Ù.
+        // todo ï¿½Ñ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ uibaseï¿½ï¿½ refreshui ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
         if (popupList.Count > 0)
         {
             var ui = popupList.Peek();
@@ -118,11 +118,11 @@ public class UIPageManager : MonoBehaviour
         }
     }
 
-    // À§ ÇÔ¼ö¿¡¼­ ÄÝ¹éÀÌ ÀÖ´Ù¸é ½ÇÇàÇÏ´Â ÇÔ¼ö 
+    // ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
     public void OpenClose(GameObject _gameObject, Callback callback = null)
     {
         OpenClose(_gameObject);
-        // ÄÝ¹éÀÌ ÀÖ´Ù¸é ½ÇÇà
+        // ï¿½Ý¹ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         callback?.Invoke();
     }
 
@@ -130,7 +130,7 @@ public class UIPageManager : MonoBehaviour
     {
         if (popupList.Count > 0)
         {
-            Debug.Log("´ÝÀ» ÆäÀÌÁö : " + popupList.Peek().name + popupList.Count);
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + popupList.Peek().name + popupList.Count);
             GameObject temp = popupList.Peek();
             popupList.Pop();
             temp.SetActive(false);
@@ -162,37 +162,37 @@ public class UIPageManager : MonoBehaviour
         }
     }
 
-    // ÅøÆÁÃ¢ ¿­±â 
+    // ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ 
     public void OpenToolTip(Slot _invenSlot)
     {
         if (toolTip == null || _invenSlot == null) return;
 
-        // ÅøÆÁÀ» ¿­¾îÁØ´Ù
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½
         OpenClose(toolTip.gameObject);
         toolTip.ShowToolTip(_invenSlot);
     }
 
-    // Ä³¸¯ÅÍ ¼±ÅÃ Å¬·¢½º ¹ÝÈ¯ 
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public ChoiceAlert GetChoiceAlert()
     {
         return choiceAlert;
     }
 
-    // Ä³¸¯ÅÍ ¼±ÅÃÃ¢ ¿­±â
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
     public void OpenSelectCharacter(Callback<Character> _callback = null)
     {
         if (choiceAlert == null) return;
 
-        // ¼±ÅÃ UI¸¦ ¿¬´Ù - ¿©±â¼­ true¸¦ ÁÖ¸é ÀúÂÊ¿¡¼­ µ¿ÀÛÀ» ÇÒ ¶§ ¾Ë¾Æ¼­ ²ö´Ù 
+        // ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½â¼­ trueï¿½ï¿½ ï¿½Ö¸ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ë¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         choiceAlert.ActiveAlert(true);
         //OpenClose(choiceAlert.gameObject);
-        // È®ÀÎ ¹öÆ° ¼¼ÆÃ 
-        // È®ÀÎÀ» ´­·¶À» ¶§ ¼±ÅÃÇÑ Ä³¸¯ÅÍ°¡ ÀÖÀ¸¸é ÇàÀ§¸¦ ÁøÇàÇÑ´Ù. 
+        // È®ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ 
+        // È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
         choiceAlert.ConfirmSelect(player => _callback(player));
 
     }
 
-    // ½ºÅ³Ã¢ ¿­±â - ÀÌ ÇÔ¼ö´Â °£Á¢ÀûÀ¸·Î ½ºÅ³¸Å´º¾óÀ» ¿­ ¶§ È£ÃâÇÑ´Ù.
+    // ï¿½ï¿½Å³Ã¢ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ñ´ï¿½.
     public void OpenSkillManual(Character _character)
     {
         if (_character == null || skillManual == null) return; 

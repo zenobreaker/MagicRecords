@@ -36,7 +36,7 @@ public class EventShopUI : UiBase
     public ChoiceAlert choiceAlert;
 
 
-    // µî±Þ°ú ±âº»°ªÀ» ¹ÞÀ¸¸é »óÁ¡¿¡¼­ ÆÇ¸ÅµÉ °ªÀ» ¹ÝÈ¯ 
+    // ï¿½ï¿½Þ°ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸Åµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     private int CalcRecordItemValue(int grade, int baseValue)
     {
         int maxGrade = 3;
@@ -66,17 +66,17 @@ public class EventShopUI : UiBase
     {
         eventShopItemAllData = JsonUtility.FromJson<EventShopItemAllData>(eventShopItemTextAsset.text);
 
-        // ¹°¾àÀÌ¸é ¹°¾àÀ» ¸¸µé°í 
-        // ·¹ÄÚµå¶û À¯¹°ÀÌ¸é ÃÖ¼Ò 0~3°³¸¦ ¹èÄ¡ÇÏµµ·Ï ÇÑ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
+        // ï¿½ï¿½ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Ö¼ï¿½ 0~3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. 
 
         foreach(var shopItem in eventShopItemAllData.eventShopItems)
         {
             if (shopItem == null) continue;
 
-            // ·¹ÄÚµå³ª À¯¹°ÀÎ°¡¿ä? 
+            // ï¿½ï¿½ï¿½Úµå³ª ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½? 
             if ((ItemType)shopItem.itemType == ItemType.RECORD_VIEW)
             {
-                // ±×·¯¸é ¾ÆÀÌÅÛÀ» 0~3°³ Á¤µµ ¸¸µé¾î¾ßÇÕ´Ï´Ù.
+                // ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0~3ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
                 int randCount = Random.Range(0, 4);
                 if(RecordManager.instance != null)
                 {
@@ -95,7 +95,7 @@ public class EventShopUI : UiBase
             }
             else if((ItemType)shopItem.itemType == ItemType.RELRIC_VIEW)
             {
-                // todo : À¯¹°ÀÌ ¾øÀ¸¹Ç·Î Á¤º¸°¡ ¿À¸é ³Ñ±ä´Ù. 
+                // todo : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½. 
                 continue; 
             }
             else
@@ -130,7 +130,7 @@ public class EventShopUI : UiBase
         return item; 
     }
 
-    // ·¹ÄÚµå Á¤º¸¸¦ ¹ÞÀ¸¸é ÇØ´ç Á¤º¸·Î ¾ÆÀÌÅÛÀ» ¸¸µç´Ù. 
+    // ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½. 
     public Item CreateEventShopItemByRecord(RecordInfo record, int value)
     {
         if (record == null) return null;  
@@ -145,13 +145,13 @@ public class EventShopUI : UiBase
     }
 
 
-    // ÀÌº¥Æ® »óÁ¡¿¡ ¾ÆÀÌÅÛµé µî·ÏÇÏ±â 
+    // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ 
     public void DrawEventShopGroup()
     {
         if (content == null || shopItems == null) return;
         int count = shopItems.Count;
        
-        // ½ºÅ©·Ñ ¿ÀºêÁ§Æ® »ý¼º
+        // ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         InitScrollviewObject(count);
 
         for(int i = 0; i < count; i++)
@@ -160,7 +160,7 @@ public class EventShopUI : UiBase
             if (childObject == null)
                 continue; 
 
-            // ¿ÀºêÁ§Æ®¿¡ ¾ÆÀÌÅÛ Ãß°¡ 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
             if(childObject.TryGetComponent<ShopSlot>(out var slot))
             {
                 slot.AddItem(shopItems[i]);
@@ -168,7 +168,7 @@ public class EventShopUI : UiBase
             }
         }
 
-        // ÀüÃ¼ ½ºÅ©·Ñ ¿ÀºêÁ§Æ®¿¡ ÄÝ¹é Ãß°¡ 
+        // ï¿½ï¿½Ã¼ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ý¹ï¿½ ï¿½ß°ï¿½ 
         SetScrollviewChildObjectsCallack<ShopSlot>((component) =>
         {
             component.SetActionCallback(() =>
@@ -187,7 +187,7 @@ public class EventShopUI : UiBase
         });
     }
 
-    // ¾ÆÀÌÅÛ¿¡ µû¸¥ ÄÝ¹é È£Ãâ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½ È£ï¿½ï¿½
     void CallbackToItemPopup(Item item)
     {
         if (item == null) return; 
@@ -219,12 +219,12 @@ public class EventShopUI : UiBase
         }
     }
 
-    // È¸º¹ ¾ÆÀÌÅÛ ±¸¸Å½Ã 
+    // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½ 
     public void BuyUseEachHealthPotion()
     {
-        // ÄÚ½ºÆ® °¨¼Ò
+        // ï¿½Ú½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
-        // Ä³¸¯ÅÍ ¼±ÅÃ ui ÄÑÁÖ±â 
+        // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ui ï¿½ï¿½ï¿½Ö±ï¿½ 
         UIPageManager.instance.OpenSelectCharacter((character) =>
         {
             //todo 
@@ -234,22 +234,22 @@ public class EventShopUI : UiBase
             character.MyCurrentHP += (int)(maxHP * 0.3f);
 
             int afterHP = character.MyCurrentHP;
-            Debug.Log("ÇØ´ç Ä³¸¯ÅÍ Ã¼·Â È¸º¹ : " + currentHP + " " + afterHP);
+            Debug.Log("ï¿½Ø´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ È¸ï¿½ï¿½ : " + currentHP + " " + afterHP);
         });
         
     }
     public void BuyUseMultiHealthPotion()
     {
-        // Å½»ç ÁßÀÎ Ä³¸¯ÅÍµé È¸º¹ 
+        // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Íµï¿½ È¸ï¿½ï¿½ 
         var playerList = InfoManager.instance.GetSelectPlayers();
 
         if (playerList == null) return; 
 
-        // Ä³¸¯ÅÍµé ÀüºÎ È¸º¹
+        // Ä³ï¿½ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
         foreach (var player in playerList)
         {
             if (player.Value == null) continue;
-            // ¾²·¯Áø Ä³¸¯ÅÍ´Â È¸º¹ ºÒ°¡
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í´ï¿½ È¸ï¿½ï¿½ ï¿½Ò°ï¿½
             if (player.Value.isDead == true)
                 continue; 
 
@@ -259,33 +259,33 @@ public class EventShopUI : UiBase
 
     }
 
-    // ·¹ÄÚµå ¾ÆÀÌÅÛ ±¸¸Å ½Ã
+    // ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public void BuyRecordItem(Item item)
     {
         if(item== null) return;
 
-        //todo . ±¸¸Å ÈÄ ¿¬Ãâ 
+        //todo . ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-        // ·¹ÄÚµå ¸Å´ÏÀú¿¡ ±¸¸ÅÇÑ ·¹ÄÚµå Ãß°¡ÇÏ±â 
+        // ï¿½ï¿½ï¿½Úµï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½ 
         RecordManager.instance.SelectRecord(item.itemUID);
     }
 
 
-    // À¯¹° ¾ÆÀÌÅÛ ±¸¸Å½Ã 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½ 
     public void BuyRelric()
     {
 
     }
 
-    // ºÎÈ°Á¦ ±¸¸Å½Ã 
+    // ï¿½ï¿½È°ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½ 
     public void BuyResurrectionPotion(Character character)
     {
         if (character == null || character.isDead == false) return;
 
-        // Á×Àº Ä³¸¯ÅÍ ºÎÈ° 
+        // ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È° 
         character.isDead = true;
 
-        // Ã¼·ÂÀº 30ÆÛ·Î Ã¤¿ö³õ´Â´Ù.
+        // Ã¼ï¿½ï¿½ï¿½ï¿½ 30ï¿½Û·ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
         int maxHp = character.MyMaxHP;
         character.MyCurrentHP = (int)(maxHp * 0.3f);
 

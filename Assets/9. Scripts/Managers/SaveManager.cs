@@ -18,58 +18,58 @@ public class SaveData
     public float sfxSoundValue = 0.0f;
 
     public string userID = "";
-    public int money = 0;   // À¯Àú°¡ °®°í ÀÖ´Â ¸Ó´Ï
-    // ÀÎº¥Åä¸®
+    public int money = 0;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ó´ï¿½
+    // ï¿½Îºï¿½ï¿½ä¸®
     public Dictionary<int, ItemData> inventory = new Dictionary<int, ItemData>();
     
-    // À¯Àú°¡ °¡Áö°í ÀÖ´Â Ä³¸¯ÅÍµé 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½Íµï¿½ 
     public Dictionary<int, WheelerData> wheelerDatas = new Dictionary<int, WheelerData>();
 
-    public bool gameInitAccess = false;   // °ÔÀÓ Á¾·á ÈÄ Ã¹ Á¢¼ÓÀÎ°¡
-    public int gameLevel = 0;   // °ÔÀÓ ³­ÀÌµµ
-    public bool isAdventure = false; // Å½»ç ÁøÇàÈ®ÀÎ
-    public bool initJoingFlag = false; // ´ÙÀ½ ½ºÅ×ÀÌÁö¸¦ ÁøÇàÇØ¾ßÇÏ´ÂÁö¿¡ ´ëÇÑ ÇÃ·¡±×
-    public int currentChapter = 0;      // Å½»ç ÁøÇàÇØ¾ßÇÏ´Â Ã©ÅÍ ¼ö 
-    public int currentStage = 0;     // Å½»ç ÁøÇàÇØ¾ßÇÏ´Â ½ºÅ×ÀÌÁö ¼ö
+    public bool gameInitAccess = false;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½
+    public int gameLevel = 0;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
+    public bool isAdventure = false; // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½
+    public bool initJoingFlag = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½
+    public int currentChapter = 0;      // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ Ã©ï¿½ï¿½ ï¿½ï¿½ 
+    public int currentStage = 0;     // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
     public Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>();
 
     public bool choiceRecord = false; 
-    // À¯Àú°¡ Å½»ç¸¦ ÁøÇàÇÏ¸é¼­ ¾òÀº ·¹ÄÚµåµé
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ç¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸é¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½
     public List<int> recordList = new List<int>();
 
     public int version; 
 }
 
 
-// ÇÃ·¹ÀÌ¾îºí Ä³¸¯ÅÍ ÀúÀå 
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 [System.Serializable]
 public class WheelerData
 {
-    public int saveDataID = 0;  // ÀÌ µ¥ÀÌÅÍ¸¦ °¡Áø data ÁÖÀÎÀÇ ID
-    public int wheelerID = 0;   // ´ë»ó Ä³¸¯ÅÍ ID
-    //Ä³¸¯ÅÍÀÇ ½ºÅÈµé 
+    public int saveDataID = 0;  // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ data ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID
+    public int wheelerID = 0;   // ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ID
+    //Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Èµï¿½ 
     public int level = 1;
-    // ±âÅ¸ ½ºÅÈÀº Ä³¸¯ÅÍ¸¦ »ý¼ºÇÒ ¶§ ·¹º§À» ±âÁØÀ¸·Î °è»êÇØ¼­ Ã³¸®ÇÑ´Ù. 
-    // °è¼ö¶ûÀº Ä³¸¯ÅÍ ID·Î Ã£¾Æ¼­ Ä³¸¯ÅÍ¸¶´Ù µû·Î Ã³¸®ÇÑ´Ù. 
-    // todo Ä³¸¯ÅÍ¸¶´Ù ¼ºÀå ½ºÅÈÀÌ ´Ù¸£´Ù¸é ±× ¼ºÀå ½ºÅÈÀ» ÀúÀåÇÏ´Â ÆÄÀÏÀ» Ã³¸®ÇØ¾ßÇÑ´Ù. 
+    // ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½. 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½. 
+    // todo Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½. 
 
     public int exp = 0;
     public int maxExp = 100;
 
-    // ¿¢½ºÆ®¶ó ½ºÅÈÀº ÀåÂøÇÑ Àåºñ³ª ½ºÅ³ µî¿¡ ´ëÇÑ ¿ÜºÎ ¿äÀÎÀ¸·Î Ã³¸®µÇ¹Ç·Î ÀúÀå¾ÈÇÔ
-    // ÀåÂøÇÑ Àåºñ id¸¸ ÀúÀåÇÏ°í ÀÎº¥Åä¸®¿¡¼­ ÇØ´ç id¿¡ ¾ÆÀÌÅÛÀ» °¡Á®¿Í¼­ ÀåÂø½ÃÅ²´Ù
+    // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½î¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Üºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ç¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½
     public List<EquipItemData> equipItems = new List<EquipItemData>();
 
-    // ÀåÂøÇÑ ½ºÅ³ 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ 
     public List<SkillData> skills = new List<SkillData>();
     public List<SkillData> chainSkills = new List<SkillData>();
     public List<SkillData> passvieSkills = new List<SkillData>();
-    // todo À¯¹°? 
+    // todo ï¿½ï¿½ï¿½ï¿½? 
 
 }
 
-// ½ºÅ³ Á¤º¸ 
+// ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ 
 [System.Serializable]
 public class SkillData
 {
@@ -78,7 +78,7 @@ public class SkillData
     public bool chainSkill;
 }
 
-// ¾ÆÀÌÅÛ Á¤º¸
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public class ItemData
 {
@@ -88,10 +88,10 @@ public class ItemData
     public int count;
 
     public int uniqueID; 
-    public int userID;      // ¼ÒÀ¯ÀÚ 
+    public int userID;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
     public EquipType equipType;
-    public int enhanceCount;    // °­È­¼öÄ¡ 
-    public ItemAbility itemMainAbility; // ¾ÆÀÌÅÛ ´É·Â ¼öÄ¡ 
+    public int enhanceCount;    // ï¿½ï¿½È­ï¿½ï¿½Ä¡ 
+    public ItemAbility itemMainAbility; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ ï¿½ï¿½Ä¡ 
     public ItemAbility[] itemAbilities;
 
     public ItemData()
@@ -170,11 +170,11 @@ public class SaveManager : MonoBehaviour
     public void SaveData()
     {
 
-        // »ç¿îµå ÀúÀå 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         saveData.sfxSoundValue = Mathf.Floor(SoundManager.instance.sfxVolume * 10) / 10;
         saveData.bgmSoundValue = Mathf.Floor(SoundManager.instance.bgmVolume* 10) / 10;
 
-        // Å½»ç ÁøÇàµµ °ü·Ã
+        // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½àµµ ï¿½ï¿½ï¿½ï¿½
         saveData.isAdventure = StageInfoManager.FLAG_ADVENTURE_MODE;
         saveData.initJoingFlag = StageInfoManager.initJoinPlayGameModeFlag;
 
@@ -182,7 +182,7 @@ public class SaveManager : MonoBehaviour
         saveData.stageDictList = StageInfoManager.instance.GetStageList();
 
 
-        // ·¹ÄÚµå 
+        // ï¿½ï¿½ï¿½Úµï¿½ 
         saveData.choiceRecord = RecordManager.CHOICED_COMPLETE_RECORD;
         saveData.recordList.Clear();
         foreach (var record in RecordManager.instance.selectRecordInfos)
@@ -191,15 +191,15 @@ public class SaveManager : MonoBehaviour
             saveData.recordList.Add(record.id);
         }
 
-        // À¯Àú Á¤º¸ ÀúÀå 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         SaveUserInfo();
 
-       // dictionary °ªÀ» jsonÀ¸·Î ÀúÀåÇÏ±â À§ÇÔ
+       // dictionary ï¿½ï¿½ï¿½ï¿½ jsonï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½
         string json = JsonConvert.SerializeObject(saveData);
 
         File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
 
-        Debug.Log("ÀúÀå ¿Ï·á");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
         Debug.Log(json);
     }
 
@@ -217,15 +217,15 @@ public class SaveManager : MonoBehaviour
         return randomString;
     }
 
-    // ÇÃ·¹ÀÌ¾î À¯Àú Á¤º¸ ÀúÀå
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SaveUserInfo()
     {
-        // ÇÃ·¹ÀÌÇÑ À¯Àú µ¥ÀÌÅÍ ÀúÀå 
+        // ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         saveData.money = InfoManager.coin;
 
         if (isExistFile == true)
         {
-            // À¯Àú ¾ÆÀÌµð°ª ¼³Á¤ÇØÁÖ±â 
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ 
             saveData.userID = GenerateRandomString(8);
         }
 
@@ -234,13 +234,13 @@ public class SaveManager : MonoBehaviour
         SaveInventory(); 
     }
 
-    // ÇÃ·¹ÀÌ¾î À¯Àú Á¤º¸ Àû¿ë
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public void ApplyUserInfo()
     {
-        // ÀúÀåÇÑ µ¥ÀÌÅÍ°¡ ÀÖÀ¸¸é Àû¿ëÇÏ±â 
-        Debug.Log("ÀúÀåµÈ ÆÄÀÏ È®ÀÎ ¿Ï·á");
-        // °ÔÀÓ¸Ó´Ï 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ 
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½Ï·ï¿½");
+        // ï¿½ï¿½ï¿½Ó¸Ó´ï¿½ 
         InfoManager.coin = saveData.money;
         
         ApplyInvetory();
@@ -252,7 +252,7 @@ public class SaveManager : MonoBehaviour
     public void SaveWheelers()
     {
 
-        // °¡Áö°í ÀÖ´Â Ä³¸¯ÅÍµé ÀúÀå
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½
         List<Character> characters = InfoManager.instance.GetMyPlayerInfoList();
         if (characters.Count > 0)
         {
@@ -263,7 +263,7 @@ public class SaveManager : MonoBehaviour
                 wheeler.exp = characters[i].MyStat.exp;
                 wheeler.maxExp = characters[i].MyStat.maxExp;
           
-                // ÀåÂøÇÑ Àåºñ Á¤º¸
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 for (int x = 1; x <= 7; x++)
                 {
                     EquipItemData equipItemData = new EquipItemData();
@@ -276,7 +276,7 @@ public class SaveManager : MonoBehaviour
                     wheeler.equipItems.Add(equipItemData);
                 }
 
-                // ½ºÅ³ Á¤º¸ 
+                // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ 
                 for (SkillSlotNumber j = SkillSlotNumber.SLOT1 ; j <= SkillSlotNumber.MAXSLOT; j++)
                 {
                     SkillData skillData = new SkillData();
@@ -305,7 +305,7 @@ public class SaveManager : MonoBehaviour
                     wheeler.chainSkills.Add(skillData);
                 }
 
-                // ÆÐ½Ãºê ½ºÅ³ 
+                // ï¿½Ð½Ãºï¿½ ï¿½ï¿½Å³ 
                 for (int idx = 0; idx < characters[i].equippedPassiveSkills.Count; idx++)
                 {
                     if( characters[i].equippedPassiveSkills[idx] == null )
@@ -334,35 +334,35 @@ public class SaveManager : MonoBehaviour
     }
     
 
-    // °ÔÀÓ¿¡ ÀúÀåÇÑ Á¤º¸ ¼¼ÆÃ ÈÙ·¯ 
+    // ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ 
     public void  ApplyWheelers()
     {
         foreach(var wheelerPair in saveData.wheelerDatas)
         {
             if (wheelerPair.Value == null) continue;
-            // ÀÚ½ÅÀÌ ¼ÒÀ¯ÇÑ Ä³¸¯ÅÍ·Î Ãß°¡ 
+            // ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ß°ï¿½ 
             var wheeler = wheelerPair.Value;
             CharStat charStat = PlayerDatabase.instance.GetCharStat(wheeler.wheelerID);
             charStat.level = wheeler.level;
             Character tempPlayer = new Character();
             tempPlayer.MyID = wheeler.wheelerID;
             tempPlayer.objectID = wheeler.wheelerID;
-            // ½ºÅÈ 
+            // ï¿½ï¿½ï¿½ï¿½ 
             tempPlayer.MyStat = charStat;
-            // ÀåÂø Àåºñ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             foreach(var equipItemData in wheeler.equipItems)
             {
                 var equipItem =  Inventory.instance.GetItemByUniqueID(equipItemData.uniqueID);
                 tempPlayer.EquipItem(equipItem as EquipItem);
             }
 
-            // todo ÀåÂø ½ºÅ³  - id·Î »ý°¢ÇØ¾ßÇÒµí..
+            // todo ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³  - idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Òµï¿½..
             //tempPlayer.equippedPassiveSkills.Add()
             
             
-            // ? À¯¹«¿ï?
+            // ? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 
-            // Ä³¸¯ÅÍ Á¤º¸ ÀúÀå 
+            // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             InfoManager.instance.AddMyPlayerInfo(wheeler.wheelerID, tempPlayer);
         }
     }
@@ -416,7 +416,7 @@ public class SaveManager : MonoBehaviour
 
     }
 
-    // °ÔÀÓ¿¡ ÀúÀåÇÑ Á¤º¸ ¼¼ÆÃ ÀÎº¥Åä¸®
+    // ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®
     public void ApplyInvetory()
     {
         InventoryManager.instance.ApplySaveItemData(saveData.inventory);
@@ -433,43 +433,43 @@ public class SaveManager : MonoBehaviour
 
     public void LoadData()
     {
-        // ¼±ÅÃÇÑ saveCount °ª¿¡ ´ëÀÀÇÏ´Â ÆÄÀÏÀÌ ¾ø´Ù¸é »õ·Ó°Ô ½ÃÀÛÇÏ´Â °Í 
-        // °ªÀÌ ÀÖ´Â °æ¿ì 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ saveCount ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ó°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ 
         if (File.Exists(SAVE_DATA_DIRECTROTY + SAVE_FILENAME))
         {
             isExistFile = true;
             string data = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
-            // ÆÄÀÏ¿¡¼­ ¼¼ÀÌºê ÆÄÀÏÀ» °¡Á®¿Í ¼¼ÆÃÇÑ´Ù. 
+            // ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
             saveData = JsonConvert.DeserializeObject<SaveData>(data);
             
             LoadSoundData();
 
-            // Å½»ç ÁøÇàµµ °ü·Ã
+            // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½àµµ ï¿½ï¿½ï¿½ï¿½
             StageInfoManager.FLAG_ADVENTURE_MODE = saveData.isAdventure;
             StageInfoManager.initJoinPlayGameModeFlag = saveData.initJoingFlag;
             StageInfoManager.instance.currentChapter = saveData.currentChapter;
             StageInfoManager.instance.SetStageList(saveData.stageDictList);
 
-            // ·¹ÄÚµå 
+            // ï¿½ï¿½ï¿½Úµï¿½ 
             RecordManager.CHOICED_COMPLETE_RECORD = saveData.choiceRecord;
-            // ·¹ÄÚµå 
+            // ï¿½ï¿½ï¿½Úµï¿½ 
             foreach (var id in saveData.recordList)
             {
               RecordManager.instance.SelectRecord(id);
             }
 
-            // À¯Àú Á¤º¸ ¼¼ÆÃ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             ApplyUserInfo();
 
         }
-        // °ªÀÌ ¾ø´Â °æ¿ì 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
         else
         {
             isExistFile = false;
-            // ¾øÀ¸¸é »õ·Î ½ÃÀÛ 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             Debug.Log("Don't have a save file");
 
-            // todo ³ªÁß¿¡ ÇØ±Ý°ü·ÃÇØ¼­ Ä³¸¯ÅÍ¸¦ ¾òÀ¸¸é Ç®·ÁÁöµµ·Ï ¼öÁ¤ÇØº¸ÀÚ Áö±ÝÀº ³²»ýÀÌ¸¸ ³Ö´Â´Ù.
+            // todo ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ø±Ý°ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Øºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Ö´Â´ï¿½.
             InfoManager.instance.AddMyPlayerInfo(1);
         }
     }

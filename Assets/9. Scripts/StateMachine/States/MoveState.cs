@@ -5,8 +5,8 @@ using UnityEngine;
 public class MoveState : BaseState
 {
 
-    // ¿©±â¼± ¿òÁ÷ÀÓÀ» °ü¸®ÇÑ´Ù.
-    // µµÂø °ü·Ã º¯¼öÀÎ destinationÀ» ¼³Á¤ÇÏ´Â ½ºÅ×ÀÌÆ®ÀÌ±âµµ ÇÔ 
+    // ï¿½ï¿½ï¿½â¼± ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ destinationï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ì±âµµ ï¿½ï¿½ 
 
     public MoveState(WheelerController context)
     {
@@ -21,10 +21,10 @@ public class MoveState : BaseState
 
         if (Physics.Raycast(destination, destination + Vector3.down, out hit, 100f))
         {
-            //Debug.Log(hit.collider.name + "Ãæµ¹Ã¼");
+            //Debug.Log(hit.collider.name + "ï¿½æµ¹Ã¼");
             if (!hit.collider.CompareTag("land"))
             {
-             //   Debug.Log("Á¤ÇØÁø ¶¥ÀÌ ¾øÀ½ µµÂøÁöÁ¡ Àç¼³Á¤ ");
+             //   Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ç¼³ï¿½ï¿½ ");
               //  SetDestination(sm);
             }
         }
@@ -44,19 +44,19 @@ public class MoveState : BaseState
 
         if (owner.myState == PlayerState.Move)
         {
-            // À§Ä¡¸¦ ÀÚ±â Áß½É¿¡¼­ ·£´ýÇÑ ´ë»óÀ» °í¸¥´Ù.
+            // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ú±ï¿½ ï¿½ß½É¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
             SetRandomDestination(owner);
         }
         else if (owner.myState == PlayerState.Chase)
         {
-            // ¸ñÀûÁö¸¦ ´ë»óÀ¸·Î ¼³Á¤ÇÑ´Ù.
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
             SetDestination(owner.fieldOfView.GetTargetPos());
         }
     }
 
     public override void ExitState()
     {
-    //    Debug.Log("¹«ºê ½ºÅ×ÀÌÆ® Å»Ãâ");
+    //    Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å»ï¿½ï¿½");
         destination = Vector3.zero;
     }
 
@@ -68,34 +68,34 @@ public class MoveState : BaseState
         {
             case PlayType.None:
                 {
-                   // Debug.Log("¹«ºê ½ºÅ×ÀÌÆ® ½ÇÇà Áß");
+                   // Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½");
                     if (owner.MyAgent != null)
                     {
-                        // ¸ñÀûÁö±îÁö µµÂøÇÞ´ÂÁö °Ë»ç 
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ 
                         if (CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance))
                         {
 
-                            // ÀûÀÌ º¸ÀÎ´Ù¸é Ãß°Ý 
+                            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´Ù¸ï¿½ ï¿½ß°ï¿½ 
                             if (owner.fieldOfView.View() && owner.myState != PlayerState.Chase)
                                 owner.myState = PlayerState.Chase;
-                            // ÀûÀÌ °ø°Ý ¹üÀ§ ³»¿¡ Á¸ÀçÇÑ´Ù¸é °ø°Ý
+                            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
                             else if (owner.fieldOfView.MeeleAttackRangeView())
                                 owner.myState = PlayerState.Attack;
-                            // ±×¿Ü¿£ ÀÏ´Ü ´ë±â»óÅÂ
+                            // ï¿½×¿Ü¿ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             else
                                 owner.myState = PlayerState.Idle;
                         }
-                        // µµÂøÇÏÁö¾Ê¾Ò´Ù¸é °è¼Ó À§Ä¡¸¦ Ã£¾Æ³»¼­ ¿òÁ÷ÀÎ´Ù.
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Ò´Ù¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ Ã£ï¿½Æ³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½.
                         else
                         {
-                            //  Debug.Log("¹«ºê ½ºÅ×ÀÌÆ® ¿¡ÀÌÀüÆ® °Ë»ç ");
+                            //  Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½ ");
                             owner.MyAgent.SetDestination(owner.fieldOfView.GetTargetPos());
                         }
                     }
                 }
                 break;
             case PlayType.Playerable:
-                // ÁÖÀÎ °´Ã¼ÀÇ Move ¸Þ¼Òµå¸¦ È£ÃâÇÑ´Ù. 
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ Move ï¿½Þ¼Òµå¸¦ È£ï¿½ï¿½ï¿½Ñ´ï¿½. 
                 owner.Move();
                 break;
         }
@@ -106,15 +106,15 @@ public class MoveState : BaseState
     {
         if (owner == null) return; 
 
-        // ÇÃ·¹ÀÌ¾îºí Å¸ÀÔÀÌ¸é µ¿ÀÛÇÏÁö ¾Êµµ·Ï
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½
         if (owner.myPlayType == PlayType.Playerable)
             return;
 
-        // 23. 02. 15Å¸°ÙÀÌ ÀÌ¹Ì ¼³Á¤µÇ¾î ÀÖ´Ù¸é ÃßÀû ½ºÅ×ÀÌÆ®·Î º¯°æÇÏµµ·Ï Ãß°¡ 
-        // Å¸°ÙÀÌ ½Ã¾ß¿¡ µé¾î¿Ô´Ù¸é ÃßÀû ½ºÅ×ÀÌÆ®·Î 
+        // 23. 02. 15Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
+        // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¾ß¿ï¿½ ï¿½ï¿½ï¿½Ô´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ 
         if (owner.fieldOfView.View() == true || owner.fieldOfView.GetTargetPos() != Vector3.zero)
             owner.myState = PlayerState.Chase;
-        // Å¸°ÙÀÌ ±ÙÁ¢ ¹üÀ§±îÁö ¿Ô´Ù¸é °ø°Ý ½ºÅ×ÀÌÆ®·Î º¯È¯ 
+        // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½È¯ 
         if (owner.fieldOfView.MeeleAttackRangeView())
         {
             owner.MyAgent.ResetPath();
@@ -123,3 +123,4 @@ public class MoveState : BaseState
     }
 
 }
+

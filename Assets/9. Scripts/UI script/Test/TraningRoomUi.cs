@@ -6,43 +6,43 @@ using System.Linq.Expressions;
 
 public class TraningRoomUi : UiBase
 {
-    // ÇÊ¿äÇÑ ¿ÀºêÁ§Æ®µé 
+    // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ 
     public GameObject enemyClearButton; 
     public GameObject buttonBase;
     public GameObject scrollBase;
 
-    public GameObject attackSwitchButton;  // °ø°Ý °³½Ã ¹öÆ°
+    public GameObject attackSwitchButton;  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
     public TextMeshProUGUI switchButtonText;
 
     public Button firstSummonButton; 
 
-    // Ä«Å×°í¸® 
-    public Button normalMonsterButton;  // ÀÏ¹Ý ¸ó½ºÅÍ ¼ÒÈ¯ ¹öÆ°
-    public Button bossMonsterButton;    // º¸½º ¸ó½ºÅÍ ¼ÒÈ¯ ¹öÆ° 
+    // Ä«ï¿½×°ï¿½ 
+    public Button normalMonsterButton;  // ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½Æ°
+    public Button bossMonsterButton;    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½Æ° 
 
 
     public GameObject contentObject; 
-    public GameObject imageSlot;    // ½ºÅ©·Ñ ºä¿¡ º¸ÀÏ ¾ÆÀÌÅÛ ¿ÀºêÁ§Æ® 
+    public GameObject imageSlot;    // ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ä¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® 
     
-    private GameObject prevSelectSlot;  // ÀÌÀü¿¡ ¼±ÅÃÇÑ ¿ÀºêÁ§Æ®
-    private MonsterData selectData;   // ¼±ÅÃÇÑ µ¥ÀÌÅÍ 
+    private GameObject prevSelectSlot;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    private MonsterData selectData;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 
-    public TextMeshProUGUI nameText;   // ¼±ÅÃÇÑ ´ë»óÀÇ ÀÌ¸§À» Ç¥½ÃÇØÁÖ´Â ÅØ½ºÆ®
-    // ¼ÒÈ¯ ¹öÆ° 
+    public TextMeshProUGUI nameText;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ø½ï¿½Æ®
+    // ï¿½ï¿½È¯ ï¿½ï¿½Æ° 
     public Button summonButton;
 
-    private bool isAttackSwitch = false;    // °ø°Ý °³½Ã °ü·Ã ½ºÀ§Ä¡ º¯¼ö 
+    private bool isAttackSwitch = false;    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ 
 
-    // PRIVATE - ¼±ÅÃÇÑ Á¤º¸¿¡ ´ëÇØ¼­ °ü·ÃÇÑ ¿ÀºêÁ§Æ®µé ÃÊ±âÈ­ 
+    // PRIVATE - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ê±ï¿½È­ 
     private void InitSelectObject()
     {
-        // ui¿¡ ³ªÅ¸³ª´Â ÀÌ¸§ º¯°æ 
+        // uiï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         if (nameText != null)
         {
             nameText.text = "";
         }
 
-        // ¼ÒÈ¯ ¹öÆ° È°¼ºÈ­ 
+        // ï¿½ï¿½È¯ ï¿½ï¿½Æ° È°ï¿½ï¿½È­ 
         summonButton.interactable = false;
 
     }
@@ -57,7 +57,7 @@ public class TraningRoomUi : UiBase
 
         VisibleEnemyAttackSwitchButton();
 
-        // ½ºÀ§Ä¡ ¹öÆ° ÅØ½ºÆ® ±×¸®±â
+        // ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½Æ° ï¿½Ø½ï¿½Æ® ï¿½×¸ï¿½ï¿½ï¿½
         DrawAttackSwitchButtonText();
     }
 
@@ -69,14 +69,14 @@ public class TraningRoomUi : UiBase
         }
     }
 
-    // 1. Àû ¼ÒÈ¯ ¹öÆ° Å¬¸¯ 
+    // 1. ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ 
     public void SummonEnemyButton()
     {
         if (buttonBase == null) return;
-        // 2. º£ÀÌ½º°¡ µîÀå 
+        // 2. ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         buttonBase.SetActive(!buttonBase.activeSelf);
         
-        // À§¿¡ º£ÀÌ½º¿¡ µû¶ó ÄÑÁö°í ²¨Áöµµ·Ï ÇÑ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. 
         if(scrollBase != null)
         {
             scrollBase.SetActive(false);
@@ -84,10 +84,10 @@ public class TraningRoomUi : UiBase
     }
 
 
-    // 3. ¼±ÅÃ Áß ÇÏ³ª¸¦ ¼±ÅÃ (ÀÏ¹Ý/º¸½º)
+    // 3. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ï¹ï¿½/ï¿½ï¿½ï¿½ï¿½)
     public void SummonTargetGradeEnemyMonster(int grade)
     {
-        // µ¥ÀÌÅÍº£ÀÌ½º¿¡¼­ ¸ó½ºÅÍ Á¤º¸¸¦ °¡Á®¿Â´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
         if (MonsterDatabase.instance == null) return;
 
         var list = MonsterDatabase.instance.GetMonsterDatas((MonsterGrade)grade);
@@ -97,29 +97,29 @@ public class TraningRoomUi : UiBase
         DrawMonsterGroupUi(list);
     }
 
-    //PRIVATE - ½½·Ô¿¡ ±â´É ¼³Á¤ÇÏ±â 
+    //PRIVATE - ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ 
     private void SetImageSlot(GameObject subObject, MonsterData data)
     {
         if (subObject == null || data == null)
             return;
 
-        // ÀÌ¹ÌÁö ¼¼ÆÃ 
+        // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         var image = subObject.GetComponent<Image>();
         if (image != null)
         {
             image.sprite = data.monsterSprite;
         }
 
-        // ¹öÆ° ÀÌº¥Æ® Ãß°¡ 
+        // ï¿½ï¿½Æ° ï¿½Ìºï¿½Æ® ï¿½ß°ï¿½ 
         var button = subObject.GetComponent<Button>();
         if (button != null)
         {
-            // ÀÌº¥Æ® ÃÊ±âÈ­ 
+            // ï¿½Ìºï¿½Æ® ï¿½Ê±ï¿½È­ 
             button.onClick.RemoveAllListeners();
 
             button.onClick.AddListener(() =>
             {
-                // ÀÌÀü¿¡ ¼±ÅÃÇÑ µ¥ÀÌÅÍÀÎÁö °Ë»ç
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
                 bool isPrevSelected = false; 
                 if(selectData != null)
                 {
@@ -127,51 +127,51 @@ public class TraningRoomUi : UiBase
                         isPrevSelected = true; 
                 }
 
-                // ÀÌÀü¿¡ ¼±ÅÃÇÑ Á¤º¸ ÀüºÎ ÃÊ±âÈ­.
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­.
                 InitSelectObject(); 
 
-                // ÀÌÀü¿¡ ¼±ÅÃÇÑ Á¤º¸¶û °°´Ù¸é ´õ ÀÌ»ó ÁøÇàÇÏÁö ¾Êµµ·Ï 
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ 
                 if(isPrevSelected == true)
                 {
                     return; 
                 }
-                // ¼±ÅÃÇÑ µ¥ÀÌÅÍ ¼³Á¤ 
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                 selectData = data; 
 
-                // ui¿¡ ³ªÅ¸³ª´Â ÀÌ¸§ º¯°æ 
+                // uiï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                 if (nameText != null)
                 {
                     nameText.text = data.monsterName;
                 }
 
-                // ¼ÒÈ¯ ¹öÆ° È°¼ºÈ­ 
+                // ï¿½ï¿½È¯ ï¿½ï¿½Æ° È°ï¿½ï¿½È­ 
                 summonButton.interactable = true; 
 
-                // ÀÌ ¿ÀºêÁ§Æ®ÀÇ select ui ÄÑÁÖ±â 
-                // ÀÌÀü¿¡ ¼±ÅÃÇÑ ¿ÀºêÁ§Æ®°¡ ÀÕ´Ù¸é ÇØ´ç ¿ÀºêÁ§Æ®ÀÇ selectui´Â ²ö´Ù.
+                // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ select ui ï¿½ï¿½ï¿½Ö±ï¿½ 
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Õ´Ù¸ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ selectuiï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
                 if (prevSelectSlot != null)
                 {
                     prevSelectSlot.transform.GetChild(0)?.gameObject.SetActive(false);
                 }
-                // ¼±ÅÃÇÑ ÀÌ ¿ÀºêÁ§Æ®¸¦ ÀÌÀü °ª¿¡ ³Ö¾îÁÖ±â 
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ö±ï¿½ 
                 prevSelectSlot = subObject; 
 
             });
         }
 
-        // ÇØ´ç ¿ÀºêÁ§Æ® È°¼ºÈ­
+        // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­
         subObject.SetActive(true);
     }
 
 
-    // 4. ÇØ´ç Ä«Å×°í¸®¿¡¼­ ³ª´²Áø ¸ó½ºÅÍ UI µîÀå 
+    // 4. ï¿½Ø´ï¿½ Ä«ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ 
     public void DrawMonsterGroupUi(List<MonsterData> list)
     {
         if (list == null || scrollBase == null ||
             contentObject == null || imageSlot == null )
             return;
 
-        // ÀÌÀü¿¡ ¸¸µç ¿ÀºêÁ§Æ®°¡ ÀÖ´Ù¸é ÀüºÎ ºñÈ°¼ºÈ­ Ã³¸® 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ Ã³ï¿½ï¿½ 
         if(contentObject.gameObject.transform.childCount > 0)
         {
             for(int i = 0; i < contentObject.gameObject.transform.childCount; i++)
@@ -181,13 +181,13 @@ public class TraningRoomUi : UiBase
             }
         }
 
-        // ¸ó½ºÅÍ ¸®½ºÆ® ¼ö ¸¸Å­ ui ¹öÆ° ¸¸µé±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½Å­ ui ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½
         int count = 0; 
         foreach(var data in list)
         {
             if (data == null) continue; 
 
-            // ÀÌ¹Ì ºÎ¸ð ¿ÀºêÁ§Æ®¿¡ ÁöÁ¤ÇÑ ¿ÀºêÁ§Æ®µéÀÌ ÀÖ´Ù¸é ±×°ÍºÎÅÍ »ç¿ë 
+            // ï¿½Ì¹ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½×°Íºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
             if(contentObject.gameObject.transform.childCount >= count+1)
             {
                 var subObjectTransform = contentObject.gameObject.transform.GetChild(count);
@@ -199,7 +199,7 @@ public class TraningRoomUi : UiBase
 
                 SetImageSlot(subObjectTransform.gameObject, data);
             }
-            // ¾ø´Ù¸é »õ·Î »ý¼º 
+            // ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             else
             {
                 var subObject = Instantiate(imageSlot, contentObject.gameObject.transform);
@@ -209,15 +209,15 @@ public class TraningRoomUi : UiBase
             count++; 
         }
 
-        // º£ÀÌ½º ÄÑÁÖ±â 
+        // ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½Ö±ï¿½ 
         if (scrollBase != null)
             scrollBase.SetActive(true);
     }
 
-    // Àû Á¦°Å ¹öÆ° º¸ÀÌ°Ô ÇÏ´Â ±â´É 
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ 
     private void VisibleEnemyClearButton()
     {
-        // ÀûÀÌ ¾ø´Ù¸é º¸ÀÌÁö ¾Ê´Â´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
         if (enemyClearButton == null) return;
 
         if (GameManager.MyInstance?.enemyTeam != null)
@@ -238,7 +238,7 @@ public class TraningRoomUi : UiBase
         }
     }
 
-    // Àû °ø°Ý °³½Ã ¹öÆ° 
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° 
     private void VisibleEnemyAttackSwitchButton()
     {
         if (attackSwitchButton == null) return;
@@ -261,10 +261,10 @@ public class TraningRoomUi : UiBase
     }
 
 
-    // 5. ¼ÒÈ¯¹öÆ°À» ´©¸£¸é ¸ó½ºÅÍ ¼±ÅÃ ÈÄ µîÀåÇÑ ¸ðµç UI°¡ ²¨Áö°í ¸ó½ºÅÍ ¼ÒÈ¯ 
+    // 5. ï¿½ï¿½È¯ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public void SummonButtonEvent()
     {
-        // ÄÑÁ® ÀÖ´Â UI ½½·Ô º£ÀÌ½º, Ä«Å×°í¸® ºÐ·ù º£ÀÌ½º µîÀ» ²ö´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½, Ä«ï¿½×°ï¿½ ï¿½Ð·ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         if (scrollBase != null)
         {
             scrollBase.SetActive(false);
@@ -276,32 +276,32 @@ public class TraningRoomUi : UiBase
         }
 
 
-        // ¸ó½ºÅÍ ¼ÒÈ¯ ·çÆ¾
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½Æ¾
         if (selectData == null)
         {
             Debug.Log("Not exist the selected Data");
-            return; //  ¼±ÅÃµÈ µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é ¾ÈµÈ´Ù. 
+            return; //  ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½. 
         }
 
         if (GameManager.MyInstance != null)
         {
-            // ¸ó½ºÅÍ°¡ »ý¼ºµÇ±â Àü¿¡ ÀÌÀü¿¡ ¸ó½ºÅÍµéÀ» Á¦°ÅÇÑ´Ù. 
+            // ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
             GameManager.MyInstance.AllClearEnemyTeam();
 
-            // °ÔÀÓ ¸Å´ÏÀú¸¦ ÅëÇØ ¸ó½ºÅÍ¸¦ ¼ÒÈ¯ÇÏ°Ô ÇÑ´Ù. 
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½È¯ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½. 
             GameManager.MyInstance.RespwanTrainingBot(selectData);
         }
 
-        // ¸ó½ºÅÍ Á¦°Å ¹öÆ° 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° 
         VisibleEnemyClearButton();
 
-        // ¸ó½ºÅÍ °ø°Ý ¹öÆ°
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
         VisibleEnemyAttackSwitchButton();
     }
 
 
 
-    // ¼ÒÈ¯ ÇØÁ¦ ¹öÆ° 
+    // ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° 
     public void CloseSummonButton()
     {
         if(GameManager.MyInstance != null)
@@ -313,18 +313,18 @@ public class TraningRoomUi : UiBase
     }
 
 
-    // PRAIVTE - ½ºÀ§Ä¡ ¹öÆ° ÅØ½ºÆ® ±×¸®±â 
+    // PRAIVTE - ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½Æ° ï¿½Ø½ï¿½Æ® ï¿½×¸ï¿½ï¿½ï¿½ 
     private void DrawAttackSwitchButtonText()
     {
-        // ¹öÆ° ÅØ½ºÆ®¸¦ º¯°æ
+        // ï¿½ï¿½Æ° ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (switchButtonText != null)
         {
-            // °ø°Ý °³½Ã »óÅÂ 
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             if (isAttackSwitch == true)
             {
                 switchButtonText.text = "Attack On";
             }
-            // °ø°Ý ÁßÁö
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             else
             {
                 switchButtonText.text = "Attack Off";
@@ -332,7 +332,7 @@ public class TraningRoomUi : UiBase
         }
     }
 
-    // ¸ó½ºÅÍ °ø°Ý ±â´É ¹öÆ°
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
     public void SwitchEnemyAttack()
     {
         if (GameManager.MyInstance != null)
@@ -341,7 +341,7 @@ public class TraningRoomUi : UiBase
             GameManager.MyInstance.SwitchEnmeyContol(isAttackSwitch); 
         }
 
-        // ½ºÀ§Ä¡ ¹öÆ° ÅØ½ºÆ® ±×¸®±â
+        // ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½Æ° ï¿½Ø½ï¿½Æ® ï¿½×¸ï¿½ï¿½ï¿½
         DrawAttackSwitchButtonText();
     }
 

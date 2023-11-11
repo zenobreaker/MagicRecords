@@ -18,20 +18,20 @@ public enum AbilityType
     CRITRATE = 9,
     CRITDMG = 10,
 
-    BREAK_AROMR = 100,        // ¹æ¾î±¸ ÆÄ±« (¹æ¾î·Â °¨¼Ò)
-    BREAK_WEAPON,       // ¹«±â ÆÄ±« (°ø°Ý·Â °¨¼Ò) 
-    DOWN_ATTACK_SPEED,  // °ø°Ý¼Óµµ °¨¼Ò
+    BREAK_AROMR = 100,        // ï¿½ï¿½î±¸ ï¿½Ä±ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    BREAK_WEAPON,       // ï¿½ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½ (ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½ï¿½ï¿½) 
+    DOWN_ATTACK_SPEED,  // ï¿½ï¿½ï¿½Ý¼Óµï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    BLEED,              // ÃâÇ÷  - Áö¼Ó µ¥¹ÌÁö + °ø°Ý·Â °¨¼Ò 
-    BURN,               // È­»ó - Áö¼Ó µ¥¹ÌÁö + ¹æ¾î·Â °¨¼Ò
-    CURSE,              // ÀúÁÖ (¸ðµç ½ºÅ×ÀÌÅÍ½º °¨¼Ò)
-    HOLD,               // ¼Ó¹Ú - ÀÌµ¿ºÒ°¡ 
-    SLOW,               // µÐÈ­ - °ø°Ý¼Óµµ / ÀÌµ¿¼Óµµ °¨¼Ò
-    STURN,              // ±âÀý - °ø°Ý/ÀÌµ¿ ºÒ°¡ 
-    ICE,                // ºù°á - ±âÀý°ú °°À½
+    BLEED,              // ï¿½ï¿½ï¿½ï¿½  - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    BURN,               // È­ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    CURSE,              // ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    HOLD,               // ï¿½Ó¹ï¿½ - ï¿½Ìµï¿½ï¿½Ò°ï¿½ 
+    SLOW,               // ï¿½ï¿½È­ - ï¿½ï¿½ï¿½Ý¼Óµï¿½ / ï¿½Ìµï¿½ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+    STURN,              // ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½/ï¿½Ìµï¿½ ï¿½Ò°ï¿½ 
+    ICE,                // ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    // Æ¯¼ö »óÅÂÀÌ»ó
-    CURSE_HATED = 404,  // Áõ¿ÀÀÇ ÀúÁÖ - ½ÃÀüÀÚÀÇ °ø°Ý·Â ÀÏÁ¤ ºñ¸¸Å­ ÃÊ¸¶´Ù ÇÇÇØ
+    // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½
+    CURSE_HATED = 404,  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½Ê¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 
 [System.Serializable]
@@ -50,12 +50,12 @@ public struct ItemAbility
 public enum EquipType
 {
     NONE = 0,
-    WEAPON = 1,         // ¹«±â 
-    ARMOR,          // Àåºñ
-    WHEEL,          // ¹ÙÄû
-    ACCSESORRY_1,   // ¾Ç¼¼»ç¸® 1
-    ACCSESORRY_2,   // ¾Ç¼¼»ç¸® 1
-    ACCSESORRY_3,   // ¾Ç¼¼»ç¸® 3
+    WEAPON = 1,         // ï¿½ï¿½ï¿½ï¿½ 
+    ARMOR,          // ï¿½ï¿½ï¿½
+    WHEEL,          // ï¿½ï¿½ï¿½ï¿½
+    ACCSESORRY_1,   // ï¿½Ç¼ï¿½ï¿½ç¸® 1
+    ACCSESORRY_2,   // ï¿½Ç¼ï¿½ï¿½ç¸® 1
+    ACCSESORRY_3,   // ï¿½Ç¼ï¿½ï¿½ç¸® 3
     DRONE = 7, 
     RUNE = 8,
 }
@@ -63,12 +63,12 @@ public enum EquipType
 [System.Serializable]
 public class EquipItem : Item
 {
-    //public Player equipTarget;  // ÀåÂø ´ë»ó 
-    public EquipType equipType; // Àåºñ Å¸ÀÔ
-    public int itemEnchantRank; // ¾ÆÀÌÅÛ °­È­ µî±Þ
-    public bool isEquip;      // ¾ÆÀÌÅÛ ÀåÂø ¿©ºÎ 
-    public const int MAIN = 0, ADD1 = 0, ADD2 = 1, ADD3 = 2;      // ¾ÆÀÌÅÛ ´É·Â ¼ø¼­ 
-    public ItemAbility itemMainAbility; // ¾ÆÀÌÅÛ ´É·Â ¼öÄ¡ 
+    //public Player equipTarget;  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+    public EquipType equipType; // ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+    public int itemEnchantRank; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½
+    public bool isEquip;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    public const int MAIN = 0, ADD1 = 0, ADD2 = 1, ADD3 = 2;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    public ItemAbility itemMainAbility; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ ï¿½ï¿½Ä¡ 
     public ItemAbility[] itemAbilities;
 
     public EquipItem(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye,

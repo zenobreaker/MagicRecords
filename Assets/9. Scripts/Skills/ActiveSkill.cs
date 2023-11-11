@@ -106,5 +106,4 @@ public class ActiveSkill : Skill
 
         return result;
     }
-
 }

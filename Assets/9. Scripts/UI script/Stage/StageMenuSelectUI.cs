@@ -47,17 +47,17 @@ public class StageMenuSelectUI : MonoBehaviour
         return selectIconNumber;
     }
 
-    // ¾ÆÀÌÄÜ ¼±ÅÃ ±â´É - ¹öÆ°¿¡ ÇÒ´çµÇ´Â ÀÌº¥Æ® 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ò´ï¿½Ç´ï¿½ ï¿½Ìºï¿½Æ® 
     public void SelectEventIcon(int _select)
     {
         if (contentObject == null) return;
 
-        // °°Àº ´ë»óÀ» ¼±ÅÃÇßÀ» °æ¿ì 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
         if (selectIconNumber == _select)
         {
             selectIconNumber = -1;
         }
-        // ¼±ÅÃÇÏÁö ¾ÊÀº ´Ù¸¥ ´ë»ó 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ 
         else
         {
             selectIconNumber = _select;
@@ -67,7 +67,7 @@ public class StageMenuSelectUI : MonoBehaviour
         for (int i = 0; i < contentObject.transform.childCount; i++)
         {
             int index = i;
-            // ºäÆ÷Æ®¿¡ÀÖ´Â ½½·ÔÀÇ ¼³Á¤ UI¸¦ º¸ÀÌ°ÔÇÑ´Ù. 
+            // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ï¿½Ñ´ï¿½. 
             var eventSlot = contentObject.transform.GetChild(index).gameObject;
             if (eventSlot == null) continue; 
 
@@ -85,7 +85,7 @@ public class StageMenuSelectUI : MonoBehaviour
         }
 
 
-        // ½½·ÔÀ» ¼±ÅÃÇÏ°Å³ª ÇÏÁö¾ÊÀ¸¸é È®ÀÎ ¹öÆ°ÀÇ È°¼ºÈ­¸¦ Ç¥Çö
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ Ç¥ï¿½ï¿½
         if(selectIconNumber != -1 && confirmButton != null)
         {
             confirmButton.interactable = true;
@@ -97,7 +97,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
     }
 
-    // ÀÌº¥Æ® ½½·Ô ¹èÄ¡ÇÏ±â 
+    // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï±ï¿½ 
     public void DeploySelectEventSlot(ref StageTableClass stageTable)
     {
         if (stageTable == null) return;
@@ -106,7 +106,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
         if (contentObject == null) return;
 
-        // UI¿¡ ½½·Ô °³¼ö¿Í ÀÌº¥Æ®¿¡ ÀÌº¥Æ® °³¼ö¸¦ ºñ±³ÇÏ¿© ½½·ÔÀ» ¸¸µé°Å³ª ²ö´Ù
+        // UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½
         int childCount = contentObject.transform.childCount;
         int infoCount = stageTable.eventInfoList.Count;
         if (childCount < infoCount)
@@ -117,7 +117,7 @@ public class StageMenuSelectUI : MonoBehaviour
             }
         }
 
-        // ±×·ÁÁø ½½·ÔÀº ´Ù ²¨µÐ´Ù.
+        // ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ð´ï¿½.
         for (int i = 0; i < childCount; i++)
         {
             var slot = contentObject.transform.GetChild(i);
@@ -133,7 +133,7 @@ public class StageMenuSelectUI : MonoBehaviour
             slot.gameObject.SetActive(true);
             slot.transform.name = "slot" + i + 1;
 
-            // ¹öÆ° ±â´É ³Ö±â 
+            // ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ 
             var button = slot.GetComponent<Button>();
             if (button != null)
             {
@@ -142,7 +142,7 @@ public class StageMenuSelectUI : MonoBehaviour
                 button.onClick.AddListener(() => SelectEventIcon(index));
             }
 
-            // ÀÌ¹ÌÁö ±³Ã¼ 
+            // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ 
             var slotImage = slot.GetComponent<Image>();
             var eventInfo = stageTable.eventInfoList[i];
 
@@ -151,7 +151,7 @@ public class StageMenuSelectUI : MonoBehaviour
     }
 
 
-    // ½ºÅ×ÀÌÁö¿¡ ¸Â´Â ¸ó½ºÅÍ ÀÌ¹ÌÁö ¼¼ÆÃ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     void DrawStageIcon(Image image, StageEventInfo stageEventInfo)
     {
         if (image == null || stageEventInfo == null)
@@ -173,7 +173,7 @@ public class StageMenuSelectUI : MonoBehaviour
                 }
                 break;
             case StageType.EVENT:
-                //todo ÀÌº¥Æ® id¿¡ µû¶ó ÀÌ¹ÌÁö¸¦ ´Þ¸® ÇÒ¼öÀÕµµ·Ï
+                //todo ï¿½Ìºï¿½Æ® idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ ï¿½Ò¼ï¿½ï¿½Õµï¿½ï¿½ï¿½
                 sprite = Resources.Load<Sprite>("Image/Event");
                 break;
             case StageType.SHOP:
@@ -185,3 +185,4 @@ public class StageMenuSelectUI : MonoBehaviour
         image.sprite = sprite;
     }
 }
+

@@ -10,7 +10,7 @@ public class CharStat
 
     public MonsterGrade myGrade;
     public int level = 1;
-    // Åë»ó Àåºñ³ª ·¹º§¾÷ °°Àº ½ºÅÈÀÌ Àû¿ëµÇ¾î º¸ÀÌ´Â ½ºÅÈµé 
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½Èµï¿½ 
     public int totalATK;
     public int totalDEF;
     public float totalASPD;
@@ -23,7 +23,7 @@ public class CharStat
     public float totalCritDmg;
 
 
-    // ±âº»ÀûÀ¸·Î °®°í ÀÖ´Â ½ºÅÈ 
+    // ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public int attack;
     public int defense;
     public float attackSpeed;
@@ -42,9 +42,9 @@ public class CharStat
 
     public ExtraStat extraStat = new ExtraStat();
 
-    public float passiveAdditionalDamageRate = 0; //  ÆÐ½Ãºê È¿°ú¿¡ ÀÇÇÑ Ãß°¡µ¥¹ÌÁö
-    public float passiveAdditionalLostHealthRate = 0; // ÆÐ½Ãºê È¿°ú¿¡ ÀÇÇÑ ÀÒÀº Ã¼·Â ºñ·Ê µ¥¹ÌÁö
-    public float passiveAdditionalMaxHealthRate = 0; // ÆÐ½Ãºê È¿°ú¿¡ ÀÇÇÑ ÃÖ´ë Ã¼·Â ºñ·Ê µ¥¹ÌÁö
+    public float passiveAdditionalDamageRate = 0; //  ï¿½Ð½Ãºï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float passiveAdditionalLostHealthRate = 0; // ï¿½Ð½Ãºï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float passiveAdditionalMaxHealthRate = 0; // ï¿½Ð½Ãºï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public CharStat()
     {
         attack = 0;
@@ -113,19 +113,19 @@ public class CharStat
         ApplyOption();
     }
 
-    // Ä³¸¯ÅÍ °æÇèÄ¡ °è»êÃ³¸®
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
     public void CalcMaxExp(int level = 1)
     {
         this.maxExp = Mathf.FloorToInt(100 * Mathf.Pow(level, 1.5f));
     }
 
-    //  Ä³¸¯ÅÍ ¼ºÀå 
+    //  Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void GrowUp(int _exp)
     {
         this.exp += _exp; 
         while(this.exp >= this.maxExp)
         {
-            // °¢ ½ºÅÈº° ´É·ÂÄ¡ Áõ°¡ todo °è»ê½ÄÀ» ¹Þ¾Æ¼­ Ã³¸®ÇØº¸µµ·Ï ÇÏÀå
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½Èºï¿½ ï¿½É·ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ todo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ Ã³ï¿½ï¿½ï¿½Øºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             this.level += level + 1;
 
             exp -= maxExp;
@@ -174,7 +174,7 @@ public class CharStat
         totalSPD = (int)Mathf.Round(resultSPD * 1.0f * extraStat.increaseSpeedRate)
            + extraStat.extraSpeed;
        
-        // ¼º°ÝÀÌ ´Ù¸¥ ½ºÅÈ 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         totalASPD = extraStat.extraAttackSpeed + resultAspd;
         totalCritRate = extraStat.extraCritRate + critRate;
         totalCritDmg =  baseCritDamage + extraStat.extraCritDmg + critDmg;

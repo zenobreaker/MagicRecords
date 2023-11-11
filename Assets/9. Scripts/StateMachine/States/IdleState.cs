@@ -15,12 +15,12 @@ public class IdleState : BaseState
     {
         if (owner == null) return;
 
-        //  Debug.Log("¾ÆÀÌµé ½ºÅ×ÀÌÆ® ÁøÀÔ");
+        //  Debug.Log("ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½");
         idleTime = owner.idleTime;
-        // ownerÀÇ wait ÇÔ¼ö¸¦ È£ÃâÇÑ´Ù. 
+        // ownerï¿½ï¿½ wait ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ñ´ï¿½. 
         owner.Wait();
 
-        // Á¶Á¾ÇÏ´Â ´ë»óÀÌ ¾Æ´Ï¸é »ý°¢½ÃÅ°±â 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ 
         if (owner.myPlayType == PlayType.None)
         {
             owner.Think();
@@ -30,7 +30,7 @@ public class IdleState : BaseState
  
     public override void ExitState()
     {
-       // Debug.Log("¾ÆÀÌµé ½ºÅ×ÀÌÆ® Å»Ãâ");
+       // Debug.Log("ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å»ï¿½ï¿½");
     }
 
 
@@ -43,13 +43,13 @@ public class IdleState : BaseState
     {
         if (owner == null) return; 
 
-        //   Debug.Log("¾ÆÀÌµé ½ºÅ×ÀÌÆ® ½ÇÇà Áß");
+        //   Debug.Log("ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½");
         if (owner.fieldOfView != null)
         {
-            // ¸ñÀûÁö±îÁö µµÂøÇÞ´ÂÁö °Ë»ç 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ 
             var isAlive = CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance);
 
-            // ´ë»óÀÌ ÀÎ½Ä ¹üÀ§¿¡ º¸¿´´Ù¸é ÃßÀû ½ºÅ×ÀÌÆ®·Î º¯°æ ÈÄ Å»Ãâ 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å»ï¿½ï¿½ 
             if ((owner.fieldOfView.View() && isAlive == false) 
                 || owner.fieldOfView.GetTargetTransform() != null)
             {
@@ -58,7 +58,7 @@ public class IdleState : BaseState
             }
         }
 
-        // ÀÏÁ¤ ½Ã°£ÀÌ Áö³ª¸é ¿òÁ÷ÀÌ°Ô ÇÑ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ñ´ï¿½. 
         if (idleTime > 0 && owner.myState == PlayerState.Idle)
         {
             idleTime -= Time.deltaTime;
@@ -69,3 +69,4 @@ public class IdleState : BaseState
         }
     }
 }
+

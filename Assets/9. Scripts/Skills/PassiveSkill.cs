@@ -6,11 +6,11 @@ public class PassiveSkill : Skill
 {
     public bool isUnlocked;
 
-    // ¹öÇÁ/µð¹öÇÁ Áö¼Ó½Ã°£ °ü·Ã ¼öÄ¡ 
-    public float addionalStatusEffectTime;      // Áö¼Ó½Ã°£ Ãß°¡ È¤Àº °¨¼Ò
+    // ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
+    public float addionalStatusEffectTime;      // ï¿½ï¿½ï¿½Ó½Ã°ï¿½ ï¿½ß°ï¿½ È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    // »óÅÂÀÌ»ó °ü·Ã Ãß°¡ ÇÇÇØ
-    public float additionalDamageOnStatusEffect;    // »óÅÂÀÌ»ó Ãß°¡ ÇÇÇØ 
-    public float additionalDamageOnLostHealth;      // ÀÒÀº Ã¼·Â Ãß°¡ ÇÇÇØ
-    public float additionalDamageCountStatusEffect; // »óÅÂÀÌ»ó °³¼ö Ãß°¡ ÇÇÇØ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float additionalDamageOnStatusEffect;    // ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    public float additionalDamageOnLostHealth;      // ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float additionalDamageCountStatusEffect; // ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
 }

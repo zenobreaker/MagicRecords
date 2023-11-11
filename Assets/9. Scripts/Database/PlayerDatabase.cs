@@ -22,7 +22,7 @@ public class PlayerableObjectData
 public class CharacterData
 {
     public int id;
-    public int characterID;     // ´ë»óÀÌ µÇ´Â Ä³¸¯ÅÍÀÇ ID
+    public int characterID;     // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID
     public int statID;
     public string name;
     public Sprite portrait;
@@ -58,15 +58,15 @@ public class PlayerDatabase : MonoBehaviour
     public static PlayerDatabase instance;
 
     private CharacterDataJsonAllData characterDataAllData;
-    private CharacterStatJsonAllData characterAllData;  // Ä³¸¯ÅÍ ´É·ÂÄ¡ Á¤º¸ 
+    private CharacterStatJsonAllData characterAllData;  // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ 
 
-    [Header("Ä³¸¯ÅÍ Á¤º¸ JSON µ¥ÀÌÅÍ")]
+    [Header("Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public TextAsset characterData;
 
-    [Header("Ä³¸¯ÅÍ ±âº» ´É·ÂÄ¡ JSON µ¥ÀÌÅÍ")]
+    [Header("Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½É·ï¿½Ä¡ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public TextAsset characterStatJson;
 
-    [Header("Ä³¸¯ÅÍ")]
+    [Header("Ä³ï¿½ï¿½ï¿½ï¿½")]
     public List<CharacterData> characterdataList = new List<CharacterData>();
 
     public Dictionary<int, CharStat> charStatDic = new Dictionary<int, CharStat>();
@@ -92,7 +92,7 @@ public class PlayerDatabase : MonoBehaviour
     }
 
 
-    // Ä³¸¯ÅÍ ½ºÅÈ Á¤º¸ ÃÊ±âÈ­ 
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ 
     void InitializeCharacterStatData()
     {
         characterAllData = JsonUtility.FromJson<CharacterStatJsonAllData>(characterStatJson.text);
@@ -120,7 +120,7 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
-    // Ä³¸¯ÅÍ json µ¥ÀÌÅÍ¸¦ ÀÏ¹Ý Å¬·¡½º·Î º¯È¯
+    // Ä³ï¿½ï¿½ï¿½ï¿½ json ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ï¹ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public void InitializeCharacterData()
     {
         if (characterData == null) return;
@@ -152,7 +152,7 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
-    // µî±Þ¿¡ ¸Â´Â ¸ó½ºÅÍ¸¦ ¸®½ºÆ®·Î Á¤¸®ÇØ¼­ ¹ÝÈ¯
+    // ï¿½ï¿½Þ¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½È¯
     public List<CharacterData> GetCharacterList(MonsterGrade grade)
     {
         List<CharacterData> list = new List<CharacterData>();
@@ -179,7 +179,7 @@ public class PlayerDatabase : MonoBehaviour
         return list;
     }
 
-    // id °ªÀ» ¹ÞÀ¸¸é CharStat Å¬·¡½º¸¦ ¹ÝÈ¯ÇÑ´Ù. exp´Â °è»êµÇÁö¾ÊÀ½
+    // id ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CharStat Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½. expï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public CharStat GetCharStat(int id)
     {
         if (charStatDic.TryGetValue(id, out CharStat charStat))
@@ -189,7 +189,7 @@ public class PlayerDatabase : MonoBehaviour
         return null;
     }
 
-    // id stat °ªÀ» µñ¼Å³Ê¸®·Î ¹ÝÈ¯
+    // id stat ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public Dictionary<int, CharStat> GetCharactersStatDict()
     {
         Dictionary<int, CharStat> list = new Dictionary<int, CharStat>();
@@ -217,18 +217,16 @@ public class PlayerDatabase : MonoBehaviour
     }
 
 
-    // Ä³¸¯ÅÍ µ¥ÀÌÅÍ °ü·Ã 
-    // id °ªÀ» ¹ÞÀ¸¸é ÇØ´ç Ä³¸¯ÅÍ data¸¦ ¹ÝÈ¯
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    // id ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ ï¿½ï¿½È¯
     public CharacterData GetCharacterData(int id)
     {
         return characterdataList.Where(x => x.id == id).FirstOrDefault();
     }
 
-    // Ä³¸¯ÅÍ data list ¸¦ ¹ÝÈ¯
+    // Ä³ï¿½ï¿½ï¿½ï¿½ data list ï¿½ï¿½ ï¿½ï¿½È¯
     public List<CharacterData> GetCharacterDataList()
     {
         return characterdataList;
     }
 }
-
-

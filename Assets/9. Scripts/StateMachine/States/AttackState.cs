@@ -11,10 +11,10 @@ public class AttackState : BaseState
 
     public override void EnterState()
     {
-        //Debug.Log("¾îÅÃ ½ºÅ×ÀÌÆ® ÁøÀÔ");
+        //Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½");
         if (owner == null) return;
 
-        Debug.Log("¾îÅÃ ½ºÅ×ÀÌÆ® ½ÇÇà Áß" + owner.isAttacking);
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½" + owner.isAttacking);
         if (!owner.isAttacking)
         {
             owner.Attack();
@@ -25,9 +25,9 @@ public class AttackState : BaseState
     public override void ExitState()
     {
         if (owner == null) return;
-        // Debug.Log("¾îÅÃ ½ºÅ×ÀÌÆ® Å»Ãâ");
+        // Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å»ï¿½ï¿½");
         owner.isAttacking = false;
-        // °ø°ÝÈÄ »óÅÂ¸¦ idle·Î ¹Ù²Û´Ù
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ idleï¿½ï¿½ ï¿½Ù²Û´ï¿½
         owner.myState = PlayerState.Idle;
     }
 
@@ -42,4 +42,3 @@ public class AttackState : BaseState
 
    
 }
-        

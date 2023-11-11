@@ -5,12 +5,12 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 
-// ±âº» Ä³¸¯ÅÍ : ³²»ýÀÌ
-// ±Ý±â -  ÀúÁÖ »ç¿ëÀÚ
+// ï¿½âº» Ä³ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½Ý±ï¿½ -  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 public class CursedTurtle : Character
 {
 
-    // ¿©±â¼± ÆÐ½Ãºê ½ºÅ³µéÀ» Á¤ÀÇÇÑ´Ù. 
+    // ï¿½ï¿½ï¿½â¼± ï¿½Ð½Ãºï¿½ ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
 
     public override void ApplyPassiveSkillEffects(Character target)
     {
@@ -22,31 +22,31 @@ public class CursedTurtle : Character
 
             switch(skill.keycode)
             {
-                // 1. ±ÝÁöµÈ ¸¶¼ú 
+                // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                 case "forbiddenMagic":
                     ForbiddenMagic(skill);
                     break;
                 case "injection-Elemental":
                     break;
-                // ¸¶Åº °³Á¶
+                // ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½
                 case "renovatedBullet":
                     RenovateBullet(skill);
                     break;
 
-                // ±Ý±â - ¸ð¸êÇÏ´Â ºñÅº 
+                // ï¿½Ý±ï¿½ - ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Åº 
                 case "forbidden-Grief": 
-                    // character´Â Àû 
+                    // characterï¿½ï¿½ ï¿½ï¿½ 
                     ForbiddenGrief(skill);
                     break;
-                // ±Ý±â - °¡Áõ½º·¯¿î Áõ¿À
+                // ï¿½Ý±ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 case "forbidden-Hatred":
                     ForbiddenHatred(skill);
                     break;
-                // ±Ý±â - ÆÄ¸êÇÏ´Â ºÐ³ë
+                // ï¿½Ý±ï¿½ - ï¿½Ä¸ï¿½ï¿½Ï´ï¿½ ï¿½Ð³ï¿½
                 case "forbidden-Anger":
                     ForbiddenAnger(skill);
                     break;
-                // ÀúÆíÀ¸·ÎºÎÅÍÀÇ ÀúÁÖ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 case "curseBeyond": break;
             }
 
@@ -65,31 +65,31 @@ public class CursedTurtle : Character
 
             switch (skill.keycode)
             {
-                // 1. ±ÝÁöµÈ ¸¶¼ú 
+                // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                 case "forbiddenMagic":
                     ForbiddenMagic(skill, wheelerController);
                     break;
                 case "injection-Elemental":
                     break;
-                // ¸¶Åº °³Á¶
+                // ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½
                 case "renovatedBullet":
                     RenovateBullet(skill);
                     break;
 
-                // ±Ý±â - ¸ð¸êÇÏ´Â ºñÅº 
+                // ï¿½Ý±ï¿½ - ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Åº 
                 case "forbidden-Grief":
-                    // character´Â Àû 
+                    // characterï¿½ï¿½ ï¿½ï¿½ 
                     ForbiddenGrief(skill, wheelerController);
                     break;
-                // ±Ý±â - °¡Áõ½º·¯¿î Áõ¿À
+                // ï¿½Ý±ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 case "forbidden-Hatred":
                     ForbiddenHatred(skill, wheelerController);
                     break;
-                // ±Ý±â - ÆÄ¸êÇÏ´Â ºÐ³ë
+                // ï¿½Ý±ï¿½ - ï¿½Ä¸ï¿½ï¿½Ï´ï¿½ ï¿½Ð³ï¿½
                 case "forbidden-Anger":
                     ForbiddenAnger(skill, wheelerController);
                     break;
-                // ÀúÆíÀ¸·ÎºÎÅÍÀÇ ÀúÁÖ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 case "curseBeyond": break;
             }
 
@@ -99,36 +99,36 @@ public class CursedTurtle : Character
 
 
 
-    // ±ÝÁöµÈ ¸¶¼ú - ÀúÁÖ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½
     private void ForbiddenMagic(Skill skill, WheelerController target = null)
     {
-        // ÇÇÇØ¸¦ ÀÔÈù Àû¿¡°Ô ÀúÁÖ »óÅÂ ºÎ¿© 10()ÃÊ
+        // ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ 10()ï¿½ï¿½
         if(target != null && skill != null)
         {
-            // ÀúÁÖ¹öÇÁ¸¦ ¸¸µç´Ù.
+            // ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
             foreach (var option in skill.bonusSpecialOptionList)
             {
                 if(option.optionType == OptionType.BUFF)
                 {
-                    // ÀÌ ½ºÅ³Àº ¹öÇÁ´Â ÁÖÁö¾ÊÀ¸´Ï ³Ñ±ä´Ù.
+                    // ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½.
                     continue;
                 }
 
                 BuffDebuff buffDebuff = new BuffDebuff();
                 buffDebuff.buffName = "Curse";
-                // todo ÀÓ½Ã·Î ÆÐ½Ãºê ¾ÆÀÌÄÜÀ» ³Ö¾îÁØ´Ù. 
+                // todo ï¿½Ó½Ã·ï¿½ ï¿½Ð½Ãºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½. 
                 buffDebuff.sprite = skill.MyIcon;
                 buffDebuff.Init(BuffType.DEBUFF, option.effectName, option);
                 target.AddBuffDebuff(buffDebuff);
             }
                     
         }
-        // °ø°Ý·Â°ú Ä¡¸íÅ¸ »ó½Â 
+        // ï¿½ï¿½ï¿½Ý·Â°ï¿½ Ä¡ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ 
         else if(skill != null )
         {
-            // ³ª ÀÚ½ÅÀ» »ç¶ûÇÏ¶ó.. 
-            // ÀÌ°Ç ¹öÇÁ°¡ ¾Æ´Ñ ½ºÅÈ ¿µ±¸ Áö¼ÓÀÌ´Ï ÀåºñÃ³·³ °­È­ÇÑ´Ù.
-            // ÀÌ·±½ÄÀ¸·Î ±¸ÇöÇÑ ÀÌÀ¯´Â ¿ÜºÎ ÆÄÀÏÀ» ÅëÇØ ¼öÁ¤À» ¿ëÀÌÇÏ°Ô ÇØº¸±â À§ÇÔ?ÀÌ´Ù..
+            // ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.. 
+            // ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½È­ï¿½Ñ´ï¿½.
+            // ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Üºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Øºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?ï¿½Ì´ï¿½..
             foreach(var option in skill.bonusSpecialOptionList)
             {
                 if(option == null || option.optionType == OptionType.DEBUFF)
@@ -136,8 +136,8 @@ public class CursedTurtle : Character
                     continue; 
                 }
 
-                // º¸¾Æ¶ó ÀÌ ÈûÀ»..!
-                Debug.Log("ÆÐ½Ãºê È¿°ú : " + option.abilityType + " " + option.value);
+                // ï¿½ï¿½ï¿½Æ¶ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..!
+                Debug.Log("ï¿½Ð½Ãºï¿½ È¿ï¿½ï¿½ : " + option.abilityType + " " + option.value);
                 MyStat.extraStat.ApplyOptionExtraStat(option.abilityType, option.value,
                     option.isPercentage);
             }
@@ -147,14 +147,14 @@ public class CursedTurtle : Character
     }
 
 
-    // ¸¶Åº °³Á¶ 
+    // ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½ 
     public void RenovateBullet(Skill skill)
     {
         if (skill == null) return;
-        // ÀÏ¹Ý °ø°Ý ÇÇÇØ°¡ ¹üÀ§ ÇÇÇØ·Î º¯°æ 
-        // todo ¹Ì±¸Çö 
+        // ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+        // todo ï¿½Ì±ï¿½ï¿½ï¿½ 
 
-        // °ø°Ý·Â Áõ°¡
+        // ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½ï¿½ï¿½
         foreach (var option in skill.bonusSpecialOptionList)
         {
             if (option == null || option.optionType == OptionType.DEBUFF)
@@ -162,8 +162,8 @@ public class CursedTurtle : Character
                 continue;
             }
 
-            // º¸¾Æ¶ó ÀÌ ÈûÀ»..!
-            Debug.Log("ÆÐ½Ãºê È¿°ú : " + option.abilityType + " " + option.value);
+            // ï¿½ï¿½ï¿½Æ¶ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..!
+            Debug.Log("ï¿½Ð½Ãºï¿½ È¿ï¿½ï¿½ : " + option.abilityType + " " + option.value);
             MyStat.extraStat.ApplyOptionExtraStat(option.abilityType, option.value,
                 option.isPercentage);
         }
@@ -172,13 +172,13 @@ public class CursedTurtle : Character
 
     }
 
-    // ±Ý±â - ¸ð¸êÇÏ´Â ºñÅº
+    // ï¿½Ý±ï¿½ - ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Åº
     public void ForbiddenGrief(Skill skill, WheelerController target = null)
     {
         if (skill == null || target == null || target.MyPlayer == null) return;
 
-        // »óÅÂÀÌ»óÀ» ÇÏ³ª ÀÌ»ó °®°í ÀÖ´Â ´ë»ó¿¡°Ô ÀÒÀº Ã¼·ÂÀÇ ºñ·ÊÇÏ´Â Ãß°¡ µ¥¹ÌÁö¸¦ ÀÔÈù´Ù.
-        // »óÅÂÀÌ»ó Ä«¿îÆ®
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ó¿¡°ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ Ä«ï¿½ï¿½Æ®
         int debuffCount = 0; 
         foreach(var buff in target.buffDebuffs)
         {
@@ -193,49 +193,49 @@ public class CursedTurtle : Character
 
         if (debuffCount <= 0) return;
 
-        // ÇÏ³ª ÀÌ»ó ÀÖÀ¸´Ï °è»ê
+        // ï¿½Ï³ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
        
-        // ´ë»óÀÇ ÀÒÀº Ã¼·Â ºñ·Ê µ¥¹ÌÁö... 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... 
         float lostHealthPercentage = (target.MyPlayer.MyMaxHP - target.MyPlayer.MyCurrentHP) / (float)target.MyPlayer.MyMaxHP;
 
-        // ÃÖ´ë 10/20/30% Á¦ÇÑ
+        // ï¿½Ö´ï¿½ 10/20/30% ï¿½ï¿½ï¿½ï¿½
         float maxAdditionalDamagePercentage = 0.1f * skill.MySkillLevel; 
 
         target.MyPlayer.MyStat.passiveAdditionalLostHealthRate = maxAdditionalDamagePercentage * lostHealthPercentage;
 
     }
 
-    // ±Ý±â - °¡Áõ½º·¯¿î Áõ¿À
+    // ï¿½Ý±ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void ForbiddenHatred(Skill skill, WheelerController target = null)
     {
         if (skill == null || target == null || MyStat == null) return;
 
-        // Áö¼ÓÀûÀ¸·Î ÇÇÇØ¸¦ ÀÔ´Â "Áõ¿ÀÀÇ ÀúÁÖ" µð¹öÇÁ ºÎ¿© 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½Ô´ï¿½ "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ 
         if (target != null && skill != null)
         {
-            // ÀúÁÖ¹öÇÁ¸¦ ¸¸µç´Ù.
+            // ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
             foreach (var option in skill.bonusSpecialOptionList)
             {
                 if (option.optionType == OptionType.BUFF)
                 {
-                    // ÀÌ ½ºÅ³Àº ¹öÇÁ´Â ÁÖÁö¾ÊÀ¸´Ï ³Ñ±ä´Ù.
+                    // ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½.
                     continue;
                 }
 
                 BuffDebuff buffDebuff = new BuffDebuff();
                 buffDebuff.buffName = "HatredCurse";
                 buffDebuff.Init(BuffType.DEBUFF, option.effectName, option.Clone());
-                // ¿É¼ÇÀ» ¼±ÅÃÇØ¼­ ±â´ÉÀ» ÇÒ´ç
+                // ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½
                 if(buffDebuff.specialOption != null)
                 {
                     float rate = 0.03f;
                     buffDebuff.buffCallFlag = true;
                     buffDebuff.buffCallTime = 1.0f;
-                    buffDebuff.isRefresh = false;   // ÀÌ ¹öÇÁ´Â °»½Å ºÒ°¡
+                    buffDebuff.isRefresh = false;   // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½
                     buffDebuff.specialOption.duration = 3;
                     buffDebuff.specialOption.value = 1.0f + Mathf.Round(MyStat.totalATK * rate);
                     buffDebuff.specialOption.SetCoolTime();
-                    // todo ÀÓ½Ã·Î ÆÐ½Ãºê ¾ÆÀÌÄÜÀ» ³Ö¾îÁØ´Ù. 
+                    // todo ï¿½Ó½Ã·ï¿½ ï¿½Ð½Ãºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½. 
                     buffDebuff.sprite = skill.MyIcon;
                 }
                 target.AddBuffDebuff(buffDebuff);
@@ -243,18 +243,18 @@ public class CursedTurtle : Character
         }
     }
 
-    // ±Ý±â - ÆÄ¸êÇÏ´Â ºÐ³ë
+    // ï¿½Ý±ï¿½ - ï¿½Ä¸ï¿½ï¿½Ï´ï¿½ ï¿½Ð³ï¿½
     public void ForbiddenAnger(Skill skill, WheelerController target = null)
     {
         if (skill == null || target == null || MyStat == null
             || target.MyPlayer == null) return;
 
-        // 1. Ä¡¸íÅ¸ ÇÇÇØ Áõ°¡ 
+        // 1. Ä¡ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         if (skill != null)
         {
-            // ³ª ÀÚ½ÅÀ» »ç¶ûÇÏ¶ó.. 
-            // ÀÌ°Ç ¹öÇÁ°¡ ¾Æ´Ñ ½ºÅÈ ¿µ±¸ Áö¼ÓÀÌ´Ï ÀåºñÃ³·³ °­È­ÇÑ´Ù.
-            // ÀÌ·±½ÄÀ¸·Î ±¸ÇöÇÑ ÀÌÀ¯´Â ¿ÜºÎ ÆÄÀÏÀ» ÅëÇØ ¼öÁ¤À» ¿ëÀÌÇÏ°Ô ÇØº¸±â À§ÇÔ?ÀÌ´Ù..
+            // ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.. 
+            // ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½È­ï¿½Ñ´ï¿½.
+            // ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Üºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Øºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?ï¿½Ì´ï¿½..
             foreach (var option in skill.bonusSpecialOptionList)
             {
                 if (option == null || option.optionType == OptionType.DEBUFF)
@@ -262,16 +262,16 @@ public class CursedTurtle : Character
                     continue;
                 }
 
-                // º¸¾Æ¶ó ÀÌ ÈûÀ»..!
-                Debug.Log("ÆÐ½Ãºê È¿°ú : " + option.abilityType + " " + option.value);
+                // ï¿½ï¿½ï¿½Æ¶ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..!
+                Debug.Log("ï¿½Ð½Ãºï¿½ È¿ï¿½ï¿½ : " + option.abilityType + " " + option.value);
                 MyStat.extraStat.ApplyOptionExtraStat(option.abilityType, option.value,
                     option.isPercentage);
             }
 
             MyStat.ApplyOption();
         }
-        // 2. ´ë»óÀÌ °¡Áö°í ÀÖ´Â »óÅÂÀÌ»óÀÇ °³¼ö ¸¸Å­ Ãß°¡ ÇÇÇØ
-        // 1°³ : 5 % 2°³ 10 % 3°³ 15% 
+        // 2. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // 1ï¿½ï¿½ : 5 % 2ï¿½ï¿½ 10 % 3ï¿½ï¿½ 15% 
         if (target != null)
         {
             int debuffCount = 0;
@@ -286,17 +286,17 @@ public class CursedTurtle : Character
                 }
             }
 
-            // 1°³ ÀÌ»ó 2°³ ¹Ì¸¸
+            // 1ï¿½ï¿½ ï¿½Ì»ï¿½ 2ï¿½ï¿½ ï¿½Ì¸ï¿½
             if(debuffCount >= 1 && debuffCount < 2)
             {
                 target.MyPlayer.MyStat.passiveAdditionalDamageRate = 0.05f;
             }
-            // 2°³ ÀÌ»ó 3°³ ¹Ì¸¸
+            // 2ï¿½ï¿½ ï¿½Ì»ï¿½ 3ï¿½ï¿½ ï¿½Ì¸ï¿½
             else if (debuffCount >= 1 && debuffCount < 2)
             {
                 target.MyPlayer.MyStat.passiveAdditionalDamageRate = 0.1f;
             }
-            // 3°³ ÀÌ»ó
+            // 3ï¿½ï¿½ ï¿½Ì»ï¿½
             else if (debuffCount >= 3)
             {
                 target.MyPlayer.MyStat.passiveAdditionalDamageRate = 0.15f;

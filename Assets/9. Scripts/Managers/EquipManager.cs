@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class EquipManager : MonoBehaviour
 {
@@ -81,3 +81,4 @@ public class EquipManager : MonoBehaviour
     }
 
 }
+
