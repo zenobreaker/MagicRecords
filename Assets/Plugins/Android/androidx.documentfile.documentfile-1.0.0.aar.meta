@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:49e4ebeaecf821122ded866fb51b86d293d914fe885762072b83c8209cedd24e
-size 623
+fileFormatVersion: 2
+guid: 64fe966f6ddda0d4db3cec455cdfb0d7
+labels:
+- gpsr
+PluginImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  iconMap: {}
+  executionOrder: {}
+  defineConstraints: []
+  isPreloaded: 0
+  isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
+  platformData:
+  - first:
+      Android: Android
+    second:
+      enabled: 1
+      settings: {}
+  - first:
+      Any: 
+    second:
+      enabled: 0
+      settings: {}
+  - first:
+      Editor: Editor
+    second:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

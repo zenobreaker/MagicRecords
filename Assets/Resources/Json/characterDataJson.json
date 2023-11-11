@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c9d1ff39bda47aa5056eff40672ec8de0a7994617a4aeafec52bb503223be501
-size 826
+{
+  "characterDataJson": [
+    {
+      "id": "1",
+      "characterID": "1",
+      "namekeycode": "name_pond",
+      "portrait": "namsaengyi",
+      "prefabName": "namsaengyi",
+      "statID": "1",
+      "monsterGrade": "0"
+    },
+    {
+      "id": "2",
+      "characterID": "2",
+      "namekeycode": "name_falco",
+      "portrait": null,
+      "prefabName": null,
+      "statID": "2",
+      "monsterGrade": "0"
+    },
+    {
+      "id": "3",
+      "characterID": "101",
+      "namekeycode": "name_slime",
+      "portrait": "slime",
+      "prefabName": "Slime",
+      "statID": "1001",
+      "monsterGrade": "1"
+    },
+    {
+      "id": "4",
+      "characterID": "102",
+      "namekeycode": "name_treemon",
+      "portrait": "treemon",
+      "prefabName": "Treemon",
+      "statID": "1002",
+      "monsterGrade": "1"
+    }
+  ]
+}

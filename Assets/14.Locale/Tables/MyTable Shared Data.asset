@@ -1,3 +1,359 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b629fcd5de49ddd4f89d503b44b741fe161061d3a734207351f15d4cd2a03e1e
-size 10226
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: MyTable Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: MyTable
+  m_TableCollectionNameGuidString: a5096bdddee18684689f866c548eab8b
+  m_Entries:
+  - m_Id: 14198723373281280
+    m_Key: reinforcedMagicBullet
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723720
+  - m_Id: 14198723436195840
+    m_Key: iceShot
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723721
+  - m_Id: 14198723436195841
+    m_Key: plasmaRay
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723722
+  - m_Id: 14198723436195842
+    m_Key: spreadShot
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723723
+  - m_Id: 14198723436195843
+    m_Key: consecutiveShot
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723724
+  - m_Id: 14198723436195844
+    m_Key: spiralShot
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723725
+  - m_Id: 14198723440390144
+    m_Key: splitBullet
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723726
+  - m_Id: 14198723440390145
+    m_Key: bulletRain
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723727
+  - m_Id: 14198723440390146
+    m_Key: extreamBullet
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723728
+  - m_Id: 14198723440390147
+    m_Key: assistWeapons
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723729
+  - m_Id: 14198723440390148
+    m_Key: forbiddenMagic
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723730
+  - m_Id: 14198723440390149
+    m_Key: injection-Elemental
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723731
+  - m_Id: 14198723440390150
+    m_Key: injection-Curse
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723732
+  - m_Id: 14198723440390151
+    m_Key: renovatedBullet
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723733
+  - m_Id: 14198723440390152
+    m_Key: forbidden-Grief
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723734
+  - m_Id: 14198723440390153
+    m_Key: forbidden-Hatred
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723735
+  - m_Id: 14198723440390154
+    m_Key: forbidden-Anger
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723736
+  - m_Id: 14198723440390155
+    m_Key: curseBeyond
+    m_Metadata:
+      m_Items:
+      - rid: 4255082790452723737
+  - m_Id: 360667407036416
+    m_Key: name_pond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360667407036417
+    m_Key: 'name_falco '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360667411230720
+    m_Key: name_noname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149804019712
+    m_Key: name_reinforcedMagicBullet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149804019713
+    m_Key: name_iceShot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149804019714
+    m_Key: name_plasmaRay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149804019715
+    m_Key: name_spreadShot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214016
+    m_Key: name_consecutiveShot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214017
+    m_Key: name_spiralShot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214018
+    m_Key: name_splitBullet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214019
+    m_Key: name_bulletRain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214020
+    m_Key: name_extreamBullet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214021
+    m_Key: name_assistWeapons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214022
+    m_Key: name_forbiddenMagic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214023
+    m_Key: name_injection-Elemental
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214024
+    m_Key: name_injection-Curse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214025
+    m_Key: name_renovatedBullet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214026
+    m_Key: name_forbidden-Grief
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214027
+    m_Key: name_forbidden-Hatred
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214028
+    m_Key: name_forbidden-Anger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214029
+    m_Key: name_curseBeyond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214030
+    m_Key: name_crushedIronCannon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997376
+    m_Key: name_dur_crit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997377
+    m_Key: name_dur_hpregen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997378
+    m_Key: name_dur_speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997379
+    m_Key: name_dur_atk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997380
+    m_Key: name_dur_def
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997381
+    m_Key: name_dur_atkspd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997382
+    m_Key: name_normal_crit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997383
+    m_Key: name_normal_hpregen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 206963424997384
+    m_Key: name_normal_mpregen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446336
+    m_Key: name_lackofsleep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446337
+    m_Key: name_bumpertobumper
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446338
+    m_Key: name_overconsumption
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446339
+    m_Key: name_kindguidance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446340
+    m_Key: name_boost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446341
+    m_Key: name_crime
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446342
+    m_Key: name_unshinystar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095666446343
+    m_Key: name_swiftness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095670640640
+    m_Key: name_delusion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095670640641
+    m_Key: name_starsmemory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 361095670640642
+    m_Key: name_slipstream
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8333067878618890266
+  references:
+    version: 2
+    RefIds:
+    - rid: 4255082790452723720
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uAC15\uD654 \uB9C8\uD0C4"
+    - rid: 4255082790452723721
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uBE59\uACB0\uD0C4"
+    - rid: 4255082790452723722
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uD50C\uB77C\uC988\uB9C8\uAD11\uC120"
+    - rid: 4255082790452723723
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uC0B0\uD0C4 \uC0AC\uACA9"
+    - rid: 4255082790452723724
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uC5F0\uC18D \uBC1C\uC0AC"
+    - rid: 4255082790452723725
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uB370\uC2A4 \uC2A4\uD30C\uC774\uB7F4"
+    - rid: 4255082790452723726
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uBD84\uC5F4 \uB9C8\uD0C4"
+    - rid: 4255082790452723727
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uB9C8\uD0C4 \uD3ED\uACA9"
+    - rid: 4255082790452723728
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uB9C8\uD0C4 : \uADF9\uC545\uBB34\uB3C4"
+    - rid: 4255082790452723729
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uC5B4\uC2DC\uC2A4\uD2B8 \uC6E8\uD3F0"
+    - rid: 4255082790452723730
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uAE08\uC9C0\uB41C \uB9C8\uC220"
+    - rid: 4255082790452723731
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uC18D\uC131 \uC8FC\uC785"
+    - rid: 4255082790452723732
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uC800\uC8FC \uC8FC\uC785"
+    - rid: 4255082790452723733
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uB9C8\uD0C4 \uAC1C\uC870"
+    - rid: 4255082790452723734
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uAE08\uAE30 - \uBAA8\uBA78\uD558\uB294 \uBE44\uD0C4"
+    - rid: 4255082790452723735
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uAE08\uAE30 - \uAC00\uC99D\uC2A4\uB7EC\uC6B4 \uC99D\uC624"
+    - rid: 4255082790452723736
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uAE08\uAE30 - \uD30C\uBA78\uD558\uB294 \uACA9\uB178"
+    - rid: 4255082790452723737
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uC800\uD3B8\uC73C\uB85C \uBD80\uD130\uC758 \uC800\uC8FC"
+    - rid: 8333067878618890266
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1691118958804

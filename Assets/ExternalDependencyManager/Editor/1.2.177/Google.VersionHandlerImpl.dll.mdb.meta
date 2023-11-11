@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9f217543b71d8f4f93ec8b8b33fa6af9a099c1c4d68e423e8627b1c0d29f44fc
-size 283
+fileFormatVersion: 2
+guid: bd203ff120ed4c69bfdeffa466beec72
+labels:
+- gvh
+- gvh_version-11.4.0
+- gvhp_exportpath-ExternalDependencyManager/Editor/1.2.177/Google.VersionHandlerImpl.dll.mdb
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

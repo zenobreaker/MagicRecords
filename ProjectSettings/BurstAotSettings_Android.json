@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cdfb63de48a42ac6c7acdb65702cc0c62451d88b81632b2ff7bf6af3f2cee8e9
-size 405
+{
+  "MonoBehaviour": {
+    "Version": 4,
+    "EnableBurstCompilation": true,
+    "EnableOptimisations": true,
+    "EnableSafetyChecks": false,
+    "EnableDebugInAllBuilds": false,
+    "DebugDataKind": 1,
+    "EnableArmv9SecurityFeatures": false,
+    "CpuMinTargetX32": 0,
+    "CpuMaxTargetX32": 0,
+    "CpuMinTargetX64": 0,
+    "CpuMaxTargetX64": 0,
+    "CpuTargetsArm64": 512,
+    "OptimizeFor": 0
+  }
+}

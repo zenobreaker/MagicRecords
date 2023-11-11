@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e9ea6f6629edea786d6e64afab223a47c09b27042502dcc75bb4950a901ec897
-size 201
+fileFormatVersion: 2
+guid: a195979ced77aed4988954868a82aa81
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: portraitdata
+  assetBundleVariant: 

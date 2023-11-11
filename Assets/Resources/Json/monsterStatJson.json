@@ -1,3 +1,64 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a0987fb02b15a96a6afa02711213754ae3351c9eae54f9a63bc4aac360666c9e
-size 1312
+{
+  "monsterStatJson": [
+    {
+      "number": "1",
+      "monsterID": "101",
+      "NOEX_memo": "물덩이-일반",
+      "hp": "110",
+      "attack": "20",
+      "defense": "12",
+      "speed": "13",
+      "monsterGrade": "1"
+    },
+    {
+      "number": "2",
+      "monsterID": "102",
+      "NOEX_memo": "나무귀신-일반",
+      "hp": "320",
+      "attack": "23",
+      "defense": "12",
+      "speed": "18",
+      "monsterGrade": "1"
+    },
+    {
+      "number": "3",
+      "monsterID": "201",
+      "NOEX_memo": "물덩이 - 엘리트",
+      "hp": "300",
+      "attack": "35",
+      "defense": "20",
+      "speed": "13",
+      "monsterGrade": "2"
+    },
+    {
+      "number": "4",
+      "monsterID": "202",
+      "NOEX_memo": "나무귀신 - 엘리트",
+      "hp": "450",
+      "attack": "40",
+      "defense": "23",
+      "speed": "18",
+      "monsterGrade": "2"
+    },
+    {
+      "number": "5",
+      "monsterID": "301",
+      "NOEX_memo": "물덩이 - 보스",
+      "hp": "500",
+      "attack": "70",
+      "defense": "27",
+      "speed": "13",
+      "monsterGrade": "3"
+    },
+    {
+      "number": "6",
+      "monsterID": "302",
+      "NOEX_memo": "나무귀신 - 보스",
+      "hp": "640",
+      "attack": "73",
+      "defense": "28",
+      "speed": "18",
+      "monsterGrade": "3"
+    }
+  ]
+}

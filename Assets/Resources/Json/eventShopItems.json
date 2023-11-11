@@ -1,3 +1,49 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:710a3e6125fb0a9bd8c85b0837e946160aefb65df175c828c819cd246eceaf80
-size 1021
+{
+  "eventShopItems": [
+    {
+      "id": "1",
+      "NOEX_memo": "단일 회복 30%",
+      "itemName": "name_nutrients",
+      "itemValue": "100",
+      "targetID": null,
+      "itemType": "1",
+      "itemSprite": "potion1"
+    },
+    {
+      "id": "2",
+      "NOEX_memo": "단체 회복 10%",
+      "itemName": "name_nutrientspack",
+      "itemValue": "210",
+      "targetID": null,
+      "itemType": "1",
+      "itemSprite": "potion1"
+    },
+    {
+      "id": "3",
+      "NOEX_memo": "레코드",
+      "itemName": null,
+      "itemValue": null,
+      "targetID": null,
+      "itemType": "2",
+      "itemSprite": null
+    },
+    {
+      "id": "4",
+      "NOEX_memo": "유물",
+      "itemName": null,
+      "itemValue": null,
+      "targetID": null,
+      "itemType": "3",
+      "itemSprite": null
+    },
+    {
+      "id": "5",
+      "NOEX_memo": "부활제",
+      "itemName": "name_resurrection_medicione",
+      "itemValue": null,
+      "targetID": null,
+      "itemType": "4",
+      "itemSprite": null
+    }
+  ]
+}

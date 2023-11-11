@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:816d723f6aad56847d442bb4a364652c8c56fadb949c4893865c9f9cdd3e6688
-size 571
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c423b488167eac41986304ada38c763, type: 3}
+  m_Name: Portriat Data
+  m_EditorClassIdentifier: 
+  sprites:
+  - id: 1
+    sprite: {fileID: 21300000, guid: 44f216c828585f34297fe119ecc11a9a, type: 3}
+  - id: 0
+    sprite: {fileID: 0}
+  - id: 0
+    sprite: {fileID: 0}

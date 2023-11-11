@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b7f5b7353bc7fce93062d9e593a5ff4bddec289a063f72af4ae73c763978666d
-size 1002
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-English (en)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-English (en)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 121bf37db494dbf45afeeb42f9c79849
+  m_SerializeEntries:
+  - m_GUID: 8a6beff5121efcf408c6b24c3e371345
+    m_Address: MyTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Preload
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 77d0861026820f04b88c0ad585c72807, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a895eefc68279e4408480e32a00c3b65, type: 2}
+    - {fileID: 11400000, guid: c1e45898f81406449868b1edd73ac3b7, type: 2}

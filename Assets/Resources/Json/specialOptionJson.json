@@ -1,3 +1,136 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:538683d7dcad1fe99b9a3e381fff2daea9f57cefb3bd06af60ee20f99d079b6e
-size 3286
+{
+  "specialOptionJson": [
+    {
+      "id": "100",
+      "keycode": "buff_passive_attack",
+      "namekeycode": null,
+      "description": null,
+      "optionType": "1",
+      "conditionType": "0",
+      "conditionValue": "0",
+      "abilityType": "1",
+      "value": "0.1",
+      "isPercentage": "1"
+    },
+    {
+      "id": "101",
+      "keycode": "buff_passive_critrate",
+      "namekeycode": null,
+      "description": null,
+      "optionType": "1",
+      "conditionType": "0",
+      "conditionValue": "0",
+      "abilityType": "9",
+      "value": "0.1",
+      "isPercentage": "1"
+    },
+    {
+      "id": "100001",
+      "keycode": "dur12_cirt12",
+      "namekeycode": "name_dur_crit",
+      "description": null,
+      "optionType": "1",
+      "conditionType": "1",
+      "conditionValue": "12",
+      "abilityType": "9",
+      "value": "0.12",
+      "isPercentage": "1"
+    },
+    {
+      "id": "100002",
+      "keycode": "dur30_hpregen5p",
+      "namekeycode": "name_dur_hpregen",
+      "description": null,
+      "optionType": "1",
+      "conditionType": "1",
+      "conditionValue": "30",
+      "abilityType": "6",
+      "value": "0.05",
+      "isPercentage": "1"
+    },
+    {
+      "id": "100003",
+      "keycode": "dur10_speed50p",
+      "namekeycode": "name_dur_speed",
+      "description": null,
+      "optionType": "1",
+      "conditionType": "1",
+      "conditionValue": "10",
+      "abilityType": "4",
+      "value": "0.3",
+      "isPercentage": "1"
+    },
+    {
+      "id": "100004",
+      "keycode": "dur30_attack10p",
+      "namekeycode": "name_dur_atk",
+      "description": null,
+      "optionType": "1",
+      "conditionType": "1",
+      "conditionValue": "30",
+      "abilityType": "1",
+      "value": "0.1",
+      "isPercentage": "1"
+    },
+    {
+      "id": "100005",
+      "keycode": "dur30_defense10p",
+      "namekeycode": "name_dur_def",
+      "description": null,
+      "optionType": "1",
+      "conditionType": "1",
+      "conditionValue": "30",
+      "abilityType": "3",
+      "value": "0.1",
+      "isPercentage": "1"
+    },
+    {
+      "id": "100006",
+      "keycode": "dur12_attackspeed10p",
+      "namekeycode": "name_dur_atkspd",
+      "description": null,
+      "optionType": "1",
+      "conditionType": "1",
+      "conditionValue": "12",
+      "abilityType": "2",
+      "value": "0.1",
+      "isPercentage": "1"
+    },
+    {
+      "id": "200001",
+      "keycode": "dur10_dec_defense10",
+      "namekeycode": "name_dur_decrease_def",
+      "description": null,
+      "optionType": "2",
+      "conditionType": "1",
+      "conditionValue": "10",
+      "abilityType": "3",
+      "value": "0.1",
+      "isPercentage": "1"
+    },
+    {
+      "id": "400001",
+      "keycode": "debuff_passive_curse",
+      "namekeycode": "name_debuff_curse",
+      "description": null,
+      "optionType": "2",
+      "conditionType": "1",
+      "conditionValue": "10",
+      "abilityType": "105",
+      "value": "0.1",
+      "isPercentage": "0"
+    },
+   {
+      "id": "404001",
+      "keycode": "debuff_passive_curse_hatred",
+      "namekeycode": "name_debuff_curse_hatred",
+      "description": null,
+      "optionType": "2",
+      "conditionType": "1",
+      "conditionValue": "3",
+      "abilityType": "404",
+      "value": "0",
+      "isPercentage": "0"
+    }
+  ]
+}

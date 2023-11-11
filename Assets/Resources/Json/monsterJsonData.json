@@ -1,3 +1,52 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ff553764f1177152f1be88cb52d6f93d8a5da8e6271e455f344140e652189bd7
-size 1190
+{
+  "monsterJsonData": [
+    {
+      "monsterID": "101",
+      "monsterGrade": "1",
+      "monsterName": "물덩이",
+      "monsterImage": "slime",
+      "monsterPrefabName": "Slime",
+      "statID": "1001"
+    },
+    {
+      "monsterID": "102",
+      "monsterGrade": "1",
+      "monsterName": "나무귀신",
+      "monsterImage": "treemon",
+      "monsterPrefabName": "Treemon",
+      "statID": "1002"
+    },
+    {
+      "monsterID": "201",
+      "monsterGrade": "2",
+      "monsterName": "물덩이",
+      "monsterImage": "slime",
+      "monsterPrefabName": "Slime",
+      "statID": "1003"
+    },
+    {
+      "monsterID": "202",
+      "monsterGrade": "2",
+      "monsterName": "나무귀신",
+      "monsterImage": "treemon",
+      "monsterPrefabName": "Treemon",
+      "statID": "1004"
+    },
+    {
+      "monsterID": "301",
+      "monsterGrade": "3",
+      "monsterName": "물덩이",
+      "monsterImage": "slime",
+      "monsterPrefabName": "Slime",
+      "statID": "1005"
+    },
+    {
+      "monsterID": "302",
+      "monsterGrade": "3",
+      "monsterName": "나무귀신",
+      "monsterImage": "treemon",
+      "monsterPrefabName": "Treemon",
+      "statID": "1006"
+    }
+  ]
+}

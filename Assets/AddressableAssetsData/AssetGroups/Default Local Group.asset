@@ -1,3 +1,165 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3d8aa7f1c4609eabce273e63bb06c786d16bedc896bed9cd199c589b75a29710
-size 5906
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 71a80dd143b4cc240b3c6d755a087244
+  m_SerializeEntries:
+  - m_GUID: 1012a3af00b0b1a44ad49c648a633b8c
+    m_Address: Assets/5. Models/Materials/TurtleBody 1.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b49ae13a0a29f4249be6fafaf84562ba
+    m_Address: Assets/7. Prefab/Bullets/AssistWeapon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a89c6a1dc23632f499dbcead24246246
+    m_Address: Assets/7. Prefab/Bullets/BossAttack3Bullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fbde270dba3c48e4e8c5a9972fd63440
+    m_Address: Assets/7. Prefab/Bullets/Bullet03.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: baad525a427c24642938051575af609a
+    m_Address: Assets/7. Prefab/Bullets/Bullet05.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6b138911244620c478bbfd19d022718d
+    m_Address: Assets/7. Prefab/Bullets/BulletRain.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 545a6c5edea7ac547b0534a0b4020682
+    m_Address: Assets/7. Prefab/Bullets/Bullets.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 667681e52eaf6f944bf60edc15b5d129
+    m_Address: Assets/7. Prefab/Bullets/DoubleFireBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4d9245002fd018047a12288a32579ee3
+    m_Address: Assets/7. Prefab/Bullets/IceShot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 90d49c5054c35a740b53e2b28dfc14a1
+    m_Address: Assets/7. Prefab/Bullets/LaserBurst.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 75715a12c07789c4dbefb3a60d362650
+    m_Address: Assets/7. Prefab/Bullets/LaserEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: eefd838582660f54d9b2011020c59947
+    m_Address: Assets/7. Prefab/Bullets/Nuke.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c5d598aa13b30584aa7e111f3bbb4a9a
+    m_Address: Assets/7. Prefab/Bullets/SpiralBurst.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 34b6982447b7831479875b0dc16af4c8
+    m_Address: Assets/7. Prefab/Character
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ad6ab5709dbc8ff4b82cf9c5421d45c0
+    m_Address: Assets/7. Prefab/Effects
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6e9c9a9d284911a40bb4acff1ce57cf8
+    m_Address: Assets/7. Prefab/Item
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2cad29214f5860c47994ff2eb0e6b494
+    m_Address: Assets/7. Prefab/Monster
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c75c4d198655e5547bdf63555d30a268
+    m_Address: Assets/7. Prefab/UI_Prefabs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7bf863a7043640445a6f84b2a5e7cd74
+    m_Address: Assets/7. Prefab/DangerLine.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ff3eaf96302e8864ca4df8cbab69115c
+    m_Address: Assets/7. Prefab/RedSpot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1beaa3c2896aed54895cf8128b47e479
+    m_Address: Assets/7. Prefab/Character/TurtleChar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 42e68d414143ac94c9946a5b40df82ad
+    m_Address: Assets/7. Prefab/Effects/FxT_Dust.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: de1e977b8bc893f4b82bd2188489f353
+    m_Address: Assets/7. Prefab/Effects/FX_HIt_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4e9b9c0b55b520141ac84f1ddbedea0c
+    m_Address: Assets/7. Prefab/Effects/DashEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8bd2a8e779981754ea73dc4ca32a35b7
+    m_Address: Assets/7. Prefab/Effects/MuzzleFlash.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4a8a4c2d080ee61459578abbcc6b4d8b
+    m_Address: Assets/7. Prefab/Effects/ImpactEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2cf2f3a505e8c944ba8ab776d6d0d127
+    m_Address: Assets/7. Prefab/Effects/AquaImpact.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 15395047ff899024e8494441e7c7e147
+    m_Address: Assets/7. Prefab/Effects/BurstHIt.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 49cc63e915e21cb4b961cc4a24c40816
+    m_Address: Assets/7. Prefab/Effects/BoomEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1574dcd3866ae6048a2ad399d17aca84
+    m_Address: Assets/7. Prefab/Effects/MuzzleFlash02.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f6e6e7221e0b42643b81417b7cf8ed7f
+    m_Address: Assets/7. Prefab/Effects/TreeAttack.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: abad0e00ba72ec645802bfeefd702301
+    m_Address: Assets/7. Prefab/Effects/NomalGun_RecochetEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1e13901788d21ea43b1412e5254d925d
+    m_Address: Assets/7. Prefab/Effects/WoodImpact.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 778a854634d2df2469750f07235118c6
+    m_Address: Assets/7. Prefab/Effects/TreeUp.anim
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a195979ced77aed4988954868a82aa81
+    m_Address: Assets/13.ScriptableData/Portriat Data.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 77d0861026820f04b88c0ad585c72807, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bfb1bb09b4e816047be05d4173afc907, type: 2}
+    - {fileID: 11400000, guid: 1c6273451fd35bc4b96232cfc78bf78b, type: 2}

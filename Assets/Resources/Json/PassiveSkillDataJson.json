@@ -1,3 +1,84 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b1303486c0d9e25165805569048c8c10a24e836e540dd1737e36a74d29f13d05
-size 2113
+{
+  "passiveSkillDataJson": [
+    {
+      "id": "1",
+      "skillKeycode": "forbiddenMagic",
+      "maxLevel": "3",
+      "bonusOptionList": "debuff_passive_curse,buff_passive_attack,buff_passive_critrate",
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "1"
+    },
+    {
+      "id": "2",
+      "skillKeycode": "injection-Elemental",
+      "maxLevel": "3",
+      "bonusOptionList": null,
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "0"
+    },
+    {
+      "id": "3",
+      "skillKeycode": "renovatedBullet",
+      "maxLevel": "3",
+      "bonusOptionList": "increaseAttackRate6",
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "1"
+    },
+    {
+      "id": "4",
+      "skillKeycode": "forbidden-Grief",
+      "maxLevel": "3",
+      "bonusOptionList": null,
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "1"
+    },
+    {
+      "id": "5",
+      "skillKeycode": "forbidden-Hatred",
+      "maxLevel": "3",
+      "bonusOptionList": "debuff_passive_curse_hatred",
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "1"
+    },
+    {
+      "id": "6",
+      "skillKeycode": "forbidden-Anger",
+      "maxLevel": "3",
+      "bonusOptionList": "increaseCritDmg10",
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "1"
+    },
+    {
+      "id": "7",
+      "skillKeycode": "curseBeyond",
+      "maxLevel": "3",
+      "bonusOptionList": null,
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "1"
+    },
+    {
+      "id": "8",
+      "skillKeycode": "crushedIronCannon",
+      "maxLevel": "1",
+      "bonusOptionList": null,
+      "enhanceSkillTargetList": null,
+      "leadingSkillList": null,
+      "coefficient": "0",
+      "activation": "0"
+    }
+  ]
+}

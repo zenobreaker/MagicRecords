@@ -1,3 +1,193 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:585edcc4f64e1333a5eb42de18d66cc62e726b3fa59f94837eabd2899ef3ee5d
-size 4139
+{
+  "skillDataJson": [
+    {
+      "id": "1",
+      "userID": "1",
+      "keycode": "reinforcedMagicBullet",
+      "callName": "ReinforcedMagicBullet",
+      "objectName": "Bullet05",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "2",
+      "userID": "1",
+      "keycode": "iceShot",
+      "callName": "IceShot",
+      "objectName": "IceShot",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "3",
+      "userID": "1",
+      "keycode": "plasmaRay",
+      "callName": "PlasmaRay",
+      "objectName": "LaserBurst",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "4",
+      "userID": "1",
+      "keycode": "spreadShot",
+      "callName": "SpreadShot",
+      "objectName": "SpreadBullet",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "5",
+      "userID": "1",
+      "keycode": "consecutiveShot",
+      "callName": "ConsecutiveShot",
+      "objectName": "Consecutive",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "6",
+      "userID": "1",
+      "keycode": "spiralShot",
+      "callName": "SpiralShot",
+      "objectName": "SprialBullet",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "7",
+      "userID": "1",
+      "keycode": "splitBullet",
+      "callName": "SplitBullet",
+      "objectName": "SplitlBullet",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "8",
+      "userID": "1",
+      "keycode": "bulletRain",
+      "callName": "BulletRain",
+      "objectName": "BulletRain",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "9",
+      "userID": "1",
+      "keycode": "extreamBullet",
+      "callName": "ExtreamBullet",
+      "objectName": "Nuke",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "10",
+      "userID": "1",
+      "keycode": "assistWeapons",
+      "callName": "AssistWeapons",
+      "objectName": "AssistWeapon",
+      "isPassive": "0",
+      "activation": "1"
+    },
+    {
+      "id": "11",
+      "userID": "1",
+      "keycode": "forbiddenMagic",
+      "callName": "AssistWeapons",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "1"
+    },
+    {
+      "id": "12",
+      "userID": "1",
+      "keycode": "injection-Elemental",
+      "callName": "InjectionElemental",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "0"
+    },
+    {
+      "id": "13",
+      "userID": "1",
+      "keycode": "injection-Curse",
+      "callName": "InjectionCurse",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "1"
+    },
+    {
+      "id": "14",
+      "userID": "1",
+      "keycode": "renovatedBullet",
+      "callName": "RenovatedBullet",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "1"
+    },
+    {
+      "id": "15",
+      "userID": "1",
+      "keycode": "forbidden-Grief",
+      "callName": "Forbidden-Grief",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "1"
+    },
+    {
+      "id": "16",
+      "userID": "1",
+      "keycode": "forbidden-Hatred",
+      "callName": "ForbiddenHatred",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "1"
+    },
+    {
+      "id": "17",
+      "userID": "1",
+      "keycode": "forbidden-Anger",
+      "callName": "ForbiddenAnger",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "1"
+    },
+    {
+      "id": "18",
+      "userID": "1",
+      "keycode": "curseBeyond",
+      "callName": "CurseBeyond",
+      "objectName": null,
+      "isPassive": "1",
+      "activation": "1"
+    },
+    {
+      "id": "18",
+      "userID": null,
+      "keycode": null,
+      "callName": null,
+      "objectName": null,
+      "isPassive": null,
+      "activation": null
+    },
+    {
+      "id": "19",
+      "userID": null,
+      "keycode": null,
+      "callName": null,
+      "objectName": null,
+      "isPassive": null,
+      "activation": null
+    },
+    {
+      "id": "20",
+      "userID": null,
+      "keycode": null,
+      "callName": null,
+      "objectName": null,
+      "isPassive": null,
+      "activation": null
+    }
+  ]
+}

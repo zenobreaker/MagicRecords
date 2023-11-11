@@ -1,3 +1,99 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ce934229557fbd318b4b07326ce663439ba0963bf1d1599ff3cbc93dea2bda55
-size 2121
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: MyTable_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: a5096bdddee18684689f866c548eab8b, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 10716149804019712
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149804019713
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149804019714
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149804019715
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214016
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214017
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214018
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214019
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214020
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214021
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214022
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214023
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214024
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214025
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214026
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214027
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214028
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214029
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10716149808214030
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
