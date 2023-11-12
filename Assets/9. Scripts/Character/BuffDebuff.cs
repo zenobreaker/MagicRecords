@@ -20,17 +20,17 @@ public enum Buff
 public enum Debuff
 {
     NONE = 0,
-    BREAK_AROMR,        // ¹æ¾î±¸ ÆÄ±« (¹æ¾î·Â °¨¼Ò)
-    BREAK_WEAPON,       // ¹«±â ÆÄ±« (°ø°Ý·Â °¨¼Ò) 
-    DOWN_ATTACK_SPEED,  // °ø°Ý¼Óµµ °¨¼Ò
+    BREAK_AROMR,        // ï¿½ï¿½î±¸ ï¿½Ä±ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    BREAK_WEAPON,       // ï¿½ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½ (ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½ï¿½ï¿½) 
+    DOWN_ATTACK_SPEED,  // ï¿½ï¿½ï¿½Ý¼Óµï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    BLEED,              // ÃâÇ÷  - Áö¼Ó µ¥¹ÌÁö + °ø°Ý·Â °¨¼Ò 
-    BURN,               // È­»ó - Áö¼Ó µ¥¹ÌÁö + ¹æ¾î·Â °¨¼Ò
-    CURSE,              // ÀúÁÖ (¸ðµç ½ºÅ×ÀÌÅÍ½º °¨¼Ò)
-    HOLD,               // ¼Ó¹Ú - ÀÌµ¿ºÒ°¡ 
-    SLOW,               // µÐÈ­ - °ø°Ý¼Óµµ / ÀÌµ¿¼Óµµ °¨¼Ò
-    STURN,              // ±âÀý - °ø°Ý/ÀÌµ¿ ºÒ°¡ 
-    ICE,                // ºù°á - ±âÀý°ú °°À½
+    BLEED,              // ï¿½ï¿½ï¿½ï¿½  - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    BURN,               // È­ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    CURSE,              // ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    HOLD,               // ï¿½Ó¹ï¿½ - ï¿½Ìµï¿½ï¿½Ò°ï¿½ 
+    SLOW,               // ï¿½ï¿½È­ - ï¿½ï¿½ï¿½Ý¼Óµï¿½ / ï¿½Ìµï¿½ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+    STURN,              // ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½/ï¿½Ìµï¿½ ï¿½Ò°ï¿½ 
+    ICE,                // ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 
 
@@ -41,12 +41,12 @@ public class BuffDebuff
     public SpecialOption specialOption;
     public Sprite sprite; 
     public bool isRunning = false;
-    public int buffCount = 0;   // ¹öÇÁ Ä«¿îÆ®
+    public int buffCount = 0;   // ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
 
-    public bool isRefresh = true;  // °»½Å °¡´ÉÇÑ ¹öÇÁÀÎÁö Ã¼Å©
+    public bool isRefresh = true;  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 
     public bool buffCallFlag = false;
-    public float buffCallTime = 0;     // ¹öÇÁ ±â´ÉÀ» ½ÇÇàÇÏ´Â ÁÖ±â
+    public float buffCallTime = 0;     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ö±ï¿½
 
     public void Init(BuffType buffType, string name, SpecialOption option)
     {
@@ -68,7 +68,7 @@ public class BuffDebuff
         if (specialOption != null && wheeler != null 
             && wheeler.MyPlayer != null)
         {
-            // ¹öÇÁ »óÅÂ¿¡ µû¸¥ È¿°ú Àû¿ë
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (specialOption.optionType == OptionType.DEBUFF)
             {
                 switch (specialOption.abilityType)
@@ -84,7 +84,7 @@ public class BuffDebuff
                     case AbilityType.BURN:
                         break;
                     case AbilityType.CURSE:
-                        // °ø°Ý·Â°ú ¹æ¾î·ÂÀ» 10%¾¿ °¨¼Ò ½ÃÅ²´Ù. 
+                        // ï¿½ï¿½ï¿½Ý·Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10%ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½. 
                         wheeler.MyPlayer.MyStat.extraStat.ApplyOptionExtraStat(
                             specialOption.abilityType,
                              specialOption.value, true);
@@ -99,9 +99,9 @@ public class BuffDebuff
                     case AbilityType.ICE:
                         break;
 
-                        // Æ¯¼ö - Áõ¿ÀÀÇ ÀúÁÖ 
+                        // Æ¯ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                     case AbilityType.CURSE_HATED:
-                        // ¸Å ÃÊ¸¶´Ù ½ÃÀüÀÚÀÇ °ø°Ý·Â ºñ¸¸Å­ ÇÇÇØ¸¦ ÀÔ´Â´Ù. 
+                        // ï¿½ï¿½ ï¿½Ê¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½Å­ ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½Ô´Â´ï¿½. 
 
                         break; 
 
@@ -122,7 +122,7 @@ public class BuffDebuff
 
         if (specialOption != null && wheeler.MyPlayer != null)
         {
-            // ¹öÇÁ »óÅÂ¿¡ µû¸¥ È¿°ú Àû¿ë
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (specialOption.optionType == OptionType.DEBUFF)
             {
                 switch (specialOption.abilityType)
@@ -148,9 +148,9 @@ public class BuffDebuff
                     case AbilityType.ICE:
                         break;
 
-                    // Æ¯¼ö - Áõ¿ÀÀÇ ÀúÁÖ 
+                    // Æ¯ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                     case AbilityType.CURSE_HATED:
-                        // ¸Å ÃÊ¸¶´Ù ½ÃÀüÀÚÀÇ °ø°Ý·Â ºñ¸¸Å­ ÇÇÇØ¸¦ ÀÔ´Â´Ù. 
+                        // ï¿½ï¿½ ï¿½Ê¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½Å­ ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½Ô´Â´ï¿½. 
                         // deald
                         wheeler.DotDamage((int)specialOption.value);
                         break;

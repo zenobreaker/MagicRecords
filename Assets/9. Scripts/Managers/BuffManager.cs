@@ -34,12 +34,12 @@ public class BuffManager : MonoBehaviour
         {
             buffDebuff.specialOption.coolTime -= 0.1f;
             timer += 0.1f;
-            // ¹öÇÁ ±â´ÉÀ» ½ÇÇàÇÏ´Â °æ¿ì Ã¼Å© 
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ Ã¼Å© 
             if(buffDebuff.buffCallFlag == true &&
                 buffDebuff.buffCallTime <= timer)
             {
                 timer = 0;
-                // ¹öÇÁ ±â´É ¹ßÇö
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 //buffDebuff.Excute(character);
             }
 

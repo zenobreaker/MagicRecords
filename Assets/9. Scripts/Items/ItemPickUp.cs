@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,3 +33,4 @@ public class ItemPickUp : MonoBehaviour
         rigidbody.AddExplosionForce(m_force, transform.position + m_offset, 10f);
     }
 }
+

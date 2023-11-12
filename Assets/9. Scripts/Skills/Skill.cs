@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -115,3 +115,4 @@ public class Skill : IUseable, IMoveable
         }
     }
 }
+

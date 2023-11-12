@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using static Item;
 using Random = UnityEngine.Random;
@@ -330,6 +330,4 @@ public class ItemDatabase : MonoBehaviour
     }
 
 }
-
-
 

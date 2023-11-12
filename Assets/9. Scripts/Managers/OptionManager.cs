@@ -5,15 +5,15 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-// ¿É¼Ç ¹ß»ý Á¶°Ç Å¸ÀÔ 
+// ï¿½É¼ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ 
 public enum ConditionType
 {
     NONE = 0,  
-    DURATION,    // º° Á¶°Ç¾øÀÌ ÀÏÁ¤½Ã°£µ¿¾È È¿°ú Àû¿ë 
-    ADJOIN,      // Æ¯Á¤ ¹üÀ§ ³»¿¡ ¿À¸é ¹ßµ¿
-    TRY_ATTACK,   // °ø°Ý ½Ã ¹ßµ¿
-    TRY_HIT,     // ÇÇ°Ý ½Ã ¹ßµ¿
-    COST,       // ÄÚ½ºÆ®¸¦ ÁöºÒÇÒ °æ¿ì ¹ßµ¿
+    DURATION,    // ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    ADJOIN,      // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ßµï¿½
+    TRY_ATTACK,   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ßµï¿½
+    TRY_HIT,     // ï¿½Ç°ï¿½ ï¿½ï¿½ ï¿½ßµï¿½
+    COST,       // ï¿½Ú½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ßµï¿½
 }
 
 public enum OptionType
@@ -23,19 +23,19 @@ public enum OptionType
     DEBUFF,
 }
 
-// °ÔÀÓ³» »ç¿ëµÉ Æ¯º°ÇÑ È¿°ú Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó³ï¿½ ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public class SpecialOption
 {   
-    public int effectID;        // È¿°ú ID
-    public string keycode;      // °íÀ¯ Å°ÄÚµå°ª
-    public ConditionType conditionType; //È¿°ú ¹ß»ý Á¶°Ç
-    public string effectName;   // È¿°ú ÀÌ¸§
-    public OptionType optionType;   // È¿°ú Å¸ÀÔ
-    public string description;  // È¿°ú ¼³¸í 
-    public float value;         // È¿°ú ¼öÄ¡
-    public float duration;      // È¿°ú À¯Áö ½Ã°£
-    public AbilityType abilityType; // È¿°ú Å¸ÀÔ 
+    public int effectID;        // È¿ï¿½ï¿½ ID
+    public string keycode;      // ï¿½ï¿½ï¿½ï¿½ Å°ï¿½Úµå°ª
+    public ConditionType conditionType; //È¿ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public string effectName;   // È¿ï¿½ï¿½ ï¿½Ì¸ï¿½
+    public OptionType optionType;   // È¿ï¿½ï¿½ Å¸ï¿½ï¿½
+    public string description;  // È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    public float value;         // È¿ï¿½ï¿½ ï¿½ï¿½Ä¡
+    public float duration;      // È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    public AbilityType abilityType; // È¿ï¿½ï¿½ Å¸ï¿½ï¿½ 
     public bool isPercentage;
     public float coolTime;
 
@@ -93,7 +93,7 @@ public class SpecialOptionInfoJsonAllData
 }
 
 
-// Option Á¤º¸¸¦ °¡Áø json Å¬·¡½º 
+// Option ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ json Å¬ï¿½ï¿½ï¿½ï¿½ 
 [System.Serializable] 
 public class OptionInfoJson
 {
@@ -105,7 +105,7 @@ public class OptionInfoJson
 }
 
 
-//OptionInfoJson Å¬·¡½º¸¦ ¸®½ºÆ®·Î ´ã°í ÀÖ´Â Å¬·¡½º 
+//OptionInfoJson Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
 [System.Serializable]
 public class OptionInfoJsonAllData
 {
@@ -114,24 +114,24 @@ public class OptionInfoJsonAllData
 
 
 
-// °ÔÀÓ ³»¿¡ È¿°úµéÀ» °ü¸®ÇÏ´Â ¸Å´ÏÀú 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ 
 public class OptionManager : MonoBehaviour
 {
     public static OptionManager instance;
 
-    [Header("È¿°ú Á¤º¸ JSON µ¥ÀÌÅÍ")]
+    [Header("È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public TextAsset optionInfoJsonData;
-    [Header("Æ¯º°ÇÑ È¿°ú Á¤º¸ JSON µ¥ÀÌÅÍ")]
+    [Header("Æ¯ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public TextAsset specialOptionJsonData; 
 
     private OptionInfoJsonAllData optionInfoJsonAllData;
 
     private SpecialOptionInfoJsonAllData specialOptionInfoAllData; 
 
-    // Æ¯º°ÇÑ È¿°úµéÀÌ ´ã°ÜÁø µñ¼Å³Ê¸® keycode class
+    // Æ¯ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½ keycode class
     public Dictionary<string, SpecialOption> specialOptionsDictionary = new Dictionary<string, SpecialOption>();
 
-    // ÀÏ¹Ý È¿°úµéÀÌ ´ã°ÜÁø µñ¼Å³Ê¸®
+    // ï¿½Ï¹ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½
     public Dictionary<string, SpecialOption> specialOptionsDictionary2 = new Dictionary<string, SpecialOption>();
 
     private void Awake()
@@ -155,25 +155,25 @@ public class OptionManager : MonoBehaviour
         {
             if (data == null) continue;
 
-            // data¿¡¼­ conditionType ¼öÁ¤
+            // dataï¿½ï¿½ï¿½ï¿½ conditionType ï¿½ï¿½ï¿½ï¿½
             ConditionType type = (ConditionType)data.conditionType;
             AbilityType abilityType = (AbilityType)data.abilityType;
 
-            // Å¬·¡½º »ý¼º
+            // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             SpecialOption specialOption = new SpecialOption(data.id,
                 data.namekeycode, data.description, data.optionType, 
                 type, data.conditionValue,
                 abilityType, data.value, data.isPercentage);
 
-            // 2023.09.14 keycode Ãß°¡
+            // 2023.09.14 keycode ï¿½ß°ï¿½
             specialOption.keycode = data.keycode;
 
-            // µñ¼Å³Ê¸®¿¡ °ª Ãß°¡
+            // ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½
             specialOptionsDictionary.Add(data.keycode.ToString(), specialOption);
         }
     }
 
-    // id °ªÀ» ÅëÇØ ½ºÆä¼È ¿É¼ÇÀ» ¹ÝÈ¯
+    // id ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public SpecialOption GetSpecialOption(int id)
     {
         if (id < 0) return null;
@@ -192,7 +192,7 @@ public class OptionManager : MonoBehaviour
     }
 
 
-    // keycode °ªÀ¸·Î ½ºÆä¼È ¿É¼Ç ¹ÝÈ¯
+    // keycode ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½ï¿½È¯
     public SpecialOption GetSpecialOptionByKeycode(string keycode)
     {
         if (keycode == "") return null;

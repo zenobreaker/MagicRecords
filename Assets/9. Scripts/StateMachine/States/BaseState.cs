@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class BaseState
 {
-    protected WheelerController owner;    // ÀÌ ½ºÅ×ÀÌÆ®¸¦ °¡Áö´Â ´ë»ó
-    public Vector3 destination; // µµÂø ÁöÁ¡ °ü·Ã
+    protected WheelerController owner;    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    public Vector3 destination; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public abstract void EnterState();
     public abstract void UpdateState();
@@ -13,7 +13,7 @@ public abstract class BaseState
     public abstract void ExitState();
 
 
-    // ÀÏÁ¤ ¹üÀ§±îÁö µµÂøÇß´ÂÁö °Ë»çÇÏ´Â ÇÔ¼ö 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
     public bool CheckAlived(Vector3 tr, Vector3 destination, float stopDist)
     {
         var result = Vector3.Distance(tr, destination);
@@ -26,3 +26,4 @@ public abstract class BaseState
         return false;
     }
 }
+

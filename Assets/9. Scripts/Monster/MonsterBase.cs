@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class MonsterBase : WheelerController
@@ -348,4 +348,5 @@ public class MonsterBase : WheelerController
         }
     }
 }
+
 

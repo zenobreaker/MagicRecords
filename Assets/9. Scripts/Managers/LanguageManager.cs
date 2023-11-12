@@ -20,11 +20,11 @@ public class LanguageManager : MonoBehaviour
 {
     public static LanguageManager Instance;
 
-//    private string defaultLanguageCode = "ko-KR"; // ±âº» ¾ð¾î ¼³Á¤
+//    private string defaultLanguageCode = "ko-KR"; // ï¿½âº» ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    public TextAsset[] languageFiles; // ¾ð¾î ¸®¼Ò½º ÆÄÀÏ
+    public TextAsset[] languageFiles; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    // key °ª°ú º¯È¯µÈ ¾ð¾î ³»¿ëÀ» °¡Áö´Â µñ¼Å³Ê¸®
+    // key ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½
     private Dictionary<string, string> localizedTextDict = new Dictionary<string, string>();
     private bool isChanging;
 
@@ -88,9 +88,9 @@ public class LanguageManager : MonoBehaviour
 
     private string GetUserSelectedLanguage()
     {
-        // »ç¿ëÀÚ°¡ ¼±ÅÃÇÑ ¾ð¾î ÄÚµå¸¦ °¡Á®¿À´Â ·ÎÁ÷
-        // ¿¹½Ã: ÇÃ·¹ÀÌ¾î ÇÁ·ÎÇÊ, °ÔÀÓ ¼³Á¤ µî¿¡¼­ ¾ð¾î ¼³Á¤À» °¡Á®¿È
-        return "ko-KR"; // ÀÓ½Ã·Î "ko-KR"À» ¹ÝÈ¯ÇÏ´Â ¿¹½Ã
+        // ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½: ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        return "ko-KR"; // ï¿½Ó½Ã·ï¿½ "ko-KR"ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public string ReplaceVariables(string text, Dictionary<string, object> variables,
@@ -137,7 +137,7 @@ public class LanguageManager : MonoBehaviour
         return result; 
     }
 
-    // º¯¼öµéÀ» ¹ÞÀ¸¸é ÇØ´ç º¯¼ö°ªÀ» Ä¡È¯ÇØ¼­ ¹ÝÈ¯ÇÏ´Â ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¡È¯ï¿½Ø¼ï¿½ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     public string GetLocalizationWithValues(string key, float duration, float value,
          bool isPercentage = false)
     {
@@ -155,10 +155,10 @@ public class LanguageManager : MonoBehaviour
     }
 
 
-    // Å°°ªÀ» ¹ÞÀ¸¸é ·ÎÄÃ°ü·ÃÇÑ Å×ÀÌºí¿¡¼­ Ã£¾Æ¼­ ÇØ´ç ¾ð¾î·Î º¯È¯µÈ °ªÀ» ¹ÝÈ¯
+    // Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public string GetLocaliztionValue(string key)
     {
-        // ÇöÀç ¼±ÅÃÇÑ ¾ð¾î 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
         Locale currentLocale = LocalizationSettings.SelectedLocale;
 
         var value = LocalizationSettings.StringDatabase.GetLocalizedString(
@@ -167,10 +167,10 @@ public class LanguageManager : MonoBehaviour
         return value;
     }
 
-    // ½ºÅ³ Àü¿ë Å°°ªÀ» ¹ÞÀ¸¸é Å×ÀÌºí¿¡¼­ ¾ð¾î·Î º¯È¯µÈ °ªÀ» ¹ÝÈ¯
+    // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public string GetLocalizationSkillDesc(string skillKeycode)
     {
-        // ÇöÀç ¼±ÅÃÇÑ ¾ð¾î 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
         Locale currentLocale = LocalizationSettings.SelectedLocale;
 
         var value = LocalizationSettings.StringDatabase.GetLocalizedString(
@@ -179,7 +179,7 @@ public class LanguageManager : MonoBehaviour
         return value;
     }
     
-    // ¾ð¾î º¯°æ ÀÌº¥Æ® 
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® 
 
     public void ChangeLocale(int index)
     {
@@ -199,7 +199,7 @@ public class LanguageManager : MonoBehaviour
         isChanging = false;
     }
 
-    // °ÔÀÓ ÇÃ·¹À× Áß º¯°æ
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     void OnChangeLocale(Locale locale)
     {
         StartCoroutine(ChangeLocaleRoutine(locale));
@@ -216,7 +216,7 @@ public class LanguageManager : MonoBehaviour
 
             //string talkerName = table.GetEntry().GetLoacaliztionString(); 
 
-            // º¯È¯µÉ ÀÌº¥Æ® Á¤¸® 
+            // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ 
         }
     }
 }

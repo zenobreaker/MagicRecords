@@ -3,15 +3,15 @@ using System.Linq;
 using UnityEngine;
 
 
-// ÀåÂø ½½·Ô °ü·Ã
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //public enum EquipmentSlot
 //{
-//    WEAPON,         // ¹«±â 
-//    ARMOR,          // Àåºñ
-//    WHEEL,          // ¹ÙÄû
-//    ACCSESORRY_1,   // ¾Ç¼¼»ç¸® 1
-//    ACCSESORRY_2,   // ¾Ç¼¼»ç¸® 1
-//    ACCSESORRY_3,   // ¾Ç¼¼»ç¸® 3
+//    WEAPON,         // ï¿½ï¿½ï¿½ï¿½ 
+//    ARMOR,          // ï¿½ï¿½ï¿½
+//    WHEEL,          // ï¿½ï¿½ï¿½ï¿½
+//    ACCSESORRY_1,   // ï¿½Ç¼ï¿½ï¿½ç¸® 1
+//    ACCSESORRY_2,   // ï¿½Ç¼ï¿½ï¿½ç¸® 1
+//    ACCSESORRY_3,   // ï¿½Ç¼ï¿½ï¿½ç¸® 3
 //}
 public enum SkillSlotNumber
 { 
@@ -31,38 +31,38 @@ public enum SkillSlotNumber
 [System.Serializable]
 public class Character
 {
-    /*  ÇÃ·¹ÀÌ¾î °´Ã¼ Á¤ÀÇ
-     *  CharStat°ú EquipItemÀ» ÇÊµå·Î °®´Â´Ù
+    /*  ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
+     *  CharStatï¿½ï¿½ EquipItemï¿½ï¿½ ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½
     */
     public int objectID = 0;
 
     [SerializeField]
-    private int playerID; // ÇÃ·¹ÀÌ¾î ID Àåºñ Âø¿ëÇÑ ´ë»óÀ» Ã£À» ¶§ 
+    private int playerID; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ID ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ 
 
     [SerializeField]
     private CharStat charStat = null;
     private int playerHP;
     private int playerMP;
 
-    // Ä³¸¯ÅÍ°¡ ÀåÂøÇÑ Àåºñ 
+    // Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
     public Dictionary<EquipType, EquipItem> equipItems = new Dictionary<EquipType, EquipItem>();
 
-    // Ä³¸¯ÅÍ°¡ ÀåÂøÇÑ ½ºÅ³ 
+    // Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ 
     private int chainIdx;
     public Dictionary<SkillSlotNumber, Skill> skills = new Dictionary<SkillSlotNumber, Skill>();
     public Dictionary<SkillSlotNumber, Skill> chainsSkills = new Dictionary<SkillSlotNumber, Skill>();
     public List<PassiveSkill> equippedPassiveSkills = new List<PassiveSkill>();
     
-    //public PassiveClass myPassiveClass;// ÀÚ½ÅÀÇ Ä³¸¯ÅÍ(Á÷¾÷)
-    // ÀåÂøÇÑ µå·Ð
+    //public PassiveClass myPassiveClass;// ï¿½Ú½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     public MagicalDrone drone;
 
-    // ÇØ´ç Ä³¸¯ÅÍ°¡ Àû¿ë¹Þ´Â ·¹ÄÚµå ¸ñ·Ï < ÀÌ°Ç ÃßÈÄ¿¡ À¯¹°·Î º¯°æ 
+    // ï¿½Ø´ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ < ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
 
-    public bool isAction = true;    // Çàµ¿ °¡´ÉÇÑÁö Ã¼Å© flag
-    public bool isDead = false; // Á×¾ú´ÂÁö ÆÇº°
+    public bool isAction = true;    // ï¿½àµ¿ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© flag
+    public bool isDead = false; // ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çºï¿½
 
     public Character()
     {
@@ -163,7 +163,7 @@ public class Character
    
     public void Damage(int damage, bool isCrit = false)
     {
-        // µ¥¹ÌÁö¿¡ µû¸¥ Ã¼·Â °¨¼ÒÇØº¸±â 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Øºï¿½ï¿½ï¿½ 
         MyCurrentHP -= damage;
         if(MyCurrentHP <= 0)
         {
@@ -171,7 +171,7 @@ public class Character
         }
     }
 
-    // ÀåÂø Àåºñ ÃÊ±âÈ­ 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ 
     public void InitailizeEquipment()
     {
         equipItems.Clear();
@@ -184,7 +184,7 @@ public class Character
         equipItems.Add(EquipType.DRONE, null);
     }
 
-    // ÀåÂø ½ºÅ³ ÃÊ±âÈ­ 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½Ê±ï¿½È­ 
     public void InitializeSkillSlot()
     {
         skills.Clear();
@@ -201,7 +201,7 @@ public class Character
 
 
   
-    // ÀåÂøÇÏ·Á´Â ¾ÆÀÌÅÛÀÌ ÀÖ´ÂÁö °Ë»ç 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ 
     public bool CheckHadItem(EquipItem p_EquipItem)
     {
         foreach(var equipment in equipItems)
@@ -220,25 +220,25 @@ public class Character
     }
 
 
-    // Àåºñ ÀåÂø 
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void EquipItem(EquipItem equipItem)
     {
         if (equipItem == null) return;
 
-        // ±âÁ¸¿¡ ÇØ´ç ºÎÀ§¿¡ Àåºñ¸¦ ÀåÂøÇß´ÂÁö °Ë»ç
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
         if (equipItems.ContainsKey(equipItem.equipType) == true)
         {
-            // ±âÁ¸¿¡ ÀåÂøÇÑ Àåºñ Á¤º¸ ÇØÁ¦
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             RemoveEquipment(equipItem.equipType);
         }
         
-        // Àåºñ ÀåÂø
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         equipItems[equipItem.equipType] = equipItem;
 
-        // ¾ÆÀÌÅÛ ´É·ÂÄ¡ Àû¿ë 
-        // ¸ÞÀÎ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ 
+        // ï¿½ï¿½ï¿½ï¿½
         MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility);
-        // ¼­ºê
+        // ï¿½ï¿½ï¿½ï¿½
         foreach (var ability in equipItem.itemAbilities)
         {
             MyStat.extraStat.ApplyOptionExtraStat(ability);
@@ -247,16 +247,16 @@ public class Character
         MyStat.ApplyOption();
     }
 
-    // Àåºñ ÇØÁ¦ 
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void RemoveEquipment(EquipType _typeSlot)
     {
         var equipItem = equipItems[_typeSlot];
-        // ¾ÆÀÌÅÛ ´É·ÂÄ¡ Àû¿ë 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ 
         if (equipItem != null)
         {
-            // ¸ÞÀÎ
+            // ï¿½ï¿½ï¿½ï¿½
             MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility, true);
-            // ¼­ºê
+            // ï¿½ï¿½ï¿½ï¿½
             foreach (var ability in equipItem.itemAbilities)
             {
                 MyStat.extraStat.ApplyOptionExtraStat(ability, true);
@@ -267,7 +267,7 @@ public class Character
         equipItems[_typeSlot] = null;
     }
  
-    // ½ºÅ³ ÀåÂø 
+    // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ 
     public void SetSkill(Skill p_Target, int p_idx, bool isChain )
     {
         if (p_idx < 0 || skills.Count < p_idx)
@@ -279,7 +279,7 @@ public class Character
             chainsSkills[(SkillSlotNumber)p_idx] = p_Target;
     }
 
-    // ½ºÅ³ ÀåÂø ÇØÁ¦ 
+    // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void UnequipSkill(Skill skill)
     {
 
@@ -290,7 +290,7 @@ public class Character
         {
             if (skillPair.Value == null) continue; 
 
-            // Ã£´Â ½ºÅ³ÀÌ ¸Â´Ù¸é ÇØ´ç ½½·Ô¿¡¼­ Á¦°Å
+            // Ã£ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½Â´Ù¸ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if(skillPair.Value.Equals(skill))
             {
                 slot = skillPair.Key;
@@ -302,7 +302,7 @@ public class Character
         {
             if (skillPair.Value == null) continue;
 
-            // Ã£´Â ½ºÅ³ÀÌ ¸Â´Ù¸é ÇØ´ç ½½·Ô¿¡¼­ Á¦°Å
+            // Ã£ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½Â´Ù¸ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (skillPair.Value.Equals(skill))
             {
                 slot = skillPair.Key;
@@ -310,16 +310,16 @@ public class Character
             }
         }
 
-        // ÇØ´ç ½½·ÔÀÇ ½ºÅ³ÀÌ Ã¼ÀÎÀÌ °É·Á ÀÖ´ÂÁö °Ë»ç
+        // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
         if (skills[slot] != null && skills[slot].IsChain == true)
         {
-            // Ã¼ÀÎÀÌ¶ó¸é ¸ðµç Ã¼ÀÎ ½ºÅ³ ÇØÁ¦ 
+            // Ã¼ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ 
             chainsSkills[SkillSlotNumber.CHAIN1] = null;
             chainsSkills[SkillSlotNumber.CHAIN2] = null;
             //chainsSkills[SkillSlotNumber.CHAIN3] = null;
         }
 
-        // ÇØ´ç ½½·ÔÀÇ ½ºÅ³ Á¦°Å 
+        // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ 
         if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
         {
             skills[slot] = null;
@@ -331,10 +331,10 @@ public class Character
     }
 
 
-    // ½ºÅ³À» ÀåÂøÇÑ´Ù.
+    // ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     public void EquipSkill(SkillSlotNumber slot, Skill skill, bool isChain = false)
     {
-        // ½ºÅ³À» ¼¼ÆÃÇÏ´Âµ¥ ½ºÅ³ÀÌ ¾øÀ¸¸é ºñ¾îÁö°Ô ÇÑ´Ù. 
+        // ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. 
         if(skill== null)
         {
             if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
@@ -346,10 +346,10 @@ public class Character
                 chainsSkills[slot] = null; 
             }
         }
-        // ½ºÅ³ Á¤º¸°¡ ÀÖ´Â °æ¿ì 
+        // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ 
         else 
         {
-            // ½½·Ô¿¡ À§Ä¡ È®ÀÎ
+            // ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½Ä¡ È®ï¿½ï¿½
             if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
             {
                 if (skills.ContainsValue(skill))
@@ -397,7 +397,7 @@ public class Character
     }
 
 
-    // ÀÏ¹Ý ½ºÅ³¿¡¼­ Ã¼ÀÎÀ¸·Î µÇ¾î ÀÖ´ÂÁö °á°ú ¹ÝÈ¯
+    // ï¿½Ï¹ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public bool GetSlotisChain(SkillSlotNumber slot)
     {
         if (skills[slot] == null) return false;
@@ -406,7 +406,7 @@ public class Character
     }
 
 
-    // ÀÏ¹Ý ½ºÅ³ ½½·Ô¿¡¼­ Ã¼ÀÎÀ» ÇÑ °æ¿ì°¡ ÀÖ´ÂÁö ¹ÝÈ¯
+    // ï¿½Ï¹ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public bool GetWasChianSkill()
     {
         foreach (var skillPair in skills)
@@ -421,7 +421,7 @@ public class Character
     }
 
     
-    // ½ºÅ³ keycode¸¦ ¹ÞÀ¸¸é ÇØ´ç ½ºÅ³À» ÀåÂøÇß´ÂÁö ¿©ºÎ ¹ÝÈ¯
+    // ï¿½ï¿½Å³ keycodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public bool CheckEquppiedSkillBySkillKeycode(string keycode)
     {
         foreach(var skillPair in skills)
@@ -436,7 +436,7 @@ public class Character
 
         return false; 
     }
-    // keycode¸¦ ¹ÞÀ¸¸é Ã¼ÀÎ ½ºÅ³·Î ÀåÂøÇß´ÂÁö ¿©ºÎ ¹ÝÈ¯ 
+    // keycodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public bool CheckEquippedChainSkillBySkillKeycode(string keycode)
     {
         foreach (var skillPair in chainsSkills)
@@ -453,7 +453,7 @@ public class Character
     }
 
 
-    // Ã¹ ¹øÂ° Ã¼ÀÎ ½ºÅ³ÀÇ keycode °ª ¹ÝÈ¯ 
+    // Ã¹ ï¿½ï¿½Â° Ã¼ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ keycode ï¿½ï¿½ ï¿½ï¿½È¯ 
     public string GetFirstChainSkillID()
     {
         if(chainsSkills.ContainsKey(SkillSlotNumber.CHAIN1))
@@ -467,7 +467,7 @@ public class Character
         return ""; 
     }
 
-    // ¼±ÅÃÇÑ ½½·Ô¿¡ ½ºÅ³À» Ã¼ÀÎ ½ºÅ³ µî·Ï
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½
     public void SetChainSkillByNormalSlot(SkillSlotNumber slot)
     {
         if (skills.ContainsKey(slot) == false)
@@ -475,14 +475,14 @@ public class Character
             return; 
         }
 
-        // ÀüÃ¼ ½ºÅ³¸®½ºÆ®¿¡¼­ Ã¼ÀÎÀÌ °É·ÁÀÖ´Â°Ô ÀÖ´Ù¸é ÇØÁ¦
+        // ï¿½ï¿½Ã¼ ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ï¿½Ö´Â°ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         foreach(var skill in skills)
         {
             if (skill.Value == null) continue;
             skill.Value.isChain = false; 
         }
 
-        // ÇØ´ç ½ºÅ³ Ã¼ÀÎ 
+        // ï¿½Ø´ï¿½ ï¿½ï¿½Å³ Ã¼ï¿½ï¿½ 
         skills[slot].IsChain = true;
     }
 
@@ -500,7 +500,7 @@ public class Character
         }
     }
 
-    // ÆÐ½Ãºê ½ºÅ³ °ü·Ã
+    // ï¿½Ð½Ãºï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
 
     public  virtual void ApplyPassiveSkillEffects(Character target)
     {
@@ -515,13 +515,13 @@ public class Character
         
     }
 
-    // ÆÐ½Ãºê ½ºÅ³ ½Àµæ
+    // ï¿½Ð½Ãºï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
     public void SetPassiveSkill(PassiveSkill skill)
     {
         if (skill == null ) return;
 
         //myPassiveClass.SetPassiveSkill(skill);
-        // ±âÁ¸¿¡ ½ºÅ³ÀÌ ÀÖ´ÂÁö °Ë»ç 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ 
         var existSkill = equippedPassiveSkills.FirstOrDefault(passive => passive.keycode ==
         skill.keycode);
         if (existSkill != null)
@@ -532,17 +532,17 @@ public class Character
         {
             equippedPassiveSkills.Add(skill);
         }
-        // ½ºÅ³ È¿°ú Àû¿ë 
+        // ï¿½ï¿½Å³ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         ApplyPassiveSkillEffects(null);
     }
 
-    // ÆÐ½Ãºê ½ºÅ³ °Ë»ç 
+    // ï¿½Ð½Ãºï¿½ ï¿½ï¿½Å³ ï¿½Ë»ï¿½ 
     public bool CheckLearendPassiveSkill(string keycode)
     {
         return equippedPassiveSkills.Any(skill => skill.keycode == keycode);
     }
 
-    // Ä³¸¯ÅÍ °æÇèÄ¡ ¼¼ÆÃ½ÃÅ°°í °æÇèÄ¡°¡ µÇ¸é ·¹º§¾÷À» ½ÃÅ²´Ù.  
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½Ã½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.  
     public void GrowUp(int _exp)
     {
         if(this.MyStat == null)
@@ -550,21 +550,21 @@ public class Character
             return; 
         }
 
-        // ÀÌ Ä³¸¯ÅÍÀÇ ½ºÅÈÅ¬·¡½º¿¡ °æÇèÄ¡ Áö±Þ
+        // ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
         this.MyStat.GrowUp(_exp);
     }
 
 
 
-    // ·¹ÄÚµå ´É·Â Àû¿ë 
+    // ï¿½ï¿½ï¿½Úµï¿½ ï¿½É·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void ApplyRecordAbility(RecordInfo record)
     {
         if (record == null || selectRecordInfos.Contains(record) == true) return;
 
-        // È¿°ú Á¤º¸°¡ ÀÖ´ÂÁö °Ë»ç 
+        // È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ 
         if (record.specialOption == null)
         {
-            // ¾ø´Ù¸é ¸Å´ÏÀú¸¦ ÅëÇØ ÇÒ´ç½ÃÅ²´Ù. 
+            // ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Å²ï¿½ï¿½. 
             if (RecordManager.instance == null) return;
 
             record.specialOption = RecordManager.instance.GetSpecialOptionToRecordInfo(record.specialOptionID);
@@ -577,7 +577,7 @@ public class Character
         MyStat.ApplyOption();
     }
 
-    // ·¹ÄÚµå ´É·Â Àû¿ë Á¦°Å
+    // ï¿½ï¿½ï¿½Úµï¿½ ï¿½É·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void RemoveRecordAbility(RecordInfo record)
     {
         if (record == null) return;

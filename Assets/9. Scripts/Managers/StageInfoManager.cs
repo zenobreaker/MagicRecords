@@ -6,15 +6,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-// °ÔÀÓ ³­ÀÌµµ 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ 
 public enum GamePlayLevel
 { 
-    NORMAL = 1,     // ÀÏ¹Ý
-    HARD = 2,       // ÇÏµå
-    SPECIAL = 3,    // Æ¯¼ö 
+    NORMAL = 1,     // ï¿½Ï¹ï¿½
+    HARD = 2,       // ï¿½Ïµï¿½
+    SPECIAL = 3,    // Æ¯ï¿½ï¿½ 
 };
 
-// 1. ¸ó½ºÅÍ  ¹èÆ² 2. ÀÌº¥Æ® 3. È¥ÇÕ 4. »óÁ¡
+// 1. ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½Æ² 2. ï¿½Ìºï¿½Æ® 3. È¥ï¿½ï¿½ 4. ï¿½ï¿½ï¿½ï¿½
 public enum StageType 
 {
     NONE = 0, 
@@ -35,41 +35,41 @@ public enum EventSlot
     SPECIAL
 };
 
-// ÀÌº¥Æ® ÇüÅÂ 
+// ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ 
 public enum EventCategory
 {
     STORY = -1,     
-    FIND_RECORD = 0,        // ·¹ÄÚµå 
-    FIND_RELRIC,        // À¯¹° ¹ß°ß
-    SPECIAL,        // È¥ÇÕÇü (·¹ÄÚµå¸¦ È¹µæÇÏ°í ÀüÅõ µ¹ÀÔ)
-    SHOP,           // ¶°µ¹ÀÌ »óÀÎ 
+    FIND_RECORD = 0,        // ï¿½ï¿½ï¿½Úµï¿½ 
+    FIND_RELRIC,        // ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    SPECIAL,        // È¥ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Úµå¸¦ È¹ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    SHOP,           // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     MAX = SHOP,
 };
 
-// ÀÌº¥Æ® º¸»ó Å¸ÀÔ
+// ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
 public enum EventRewardType
 {
     NONE = 0, 
-    GAME_MONEY,     // °ÔÀÓÀçÈ­ 
-    RELIC,          // À¯¹°
-    MEMORY,         // ¸Þ¸ð¸® 
-    PRIVATE_REWRAD, // ÇØ´ç ÀÌº¥Æ® Àü¿ë 
+    GAME_MONEY,     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ 
+    RELIC,          // ï¿½ï¿½ï¿½ï¿½
+    MEMORY,         // ï¿½Þ¸ï¿½ 
+    PRIVATE_REWRAD, // ï¿½Ø´ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ 
 };
 
 
-// ½ºÅ×ÀÌÁö Å¸ÀÔº° ³ªÅ¸³ª´Â Á¤º¸
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ôºï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public class StageAppearInfo
 {
-    // ÀüÅõ °ü·Ã 
-    //ÀÏ¹Ý / ¿¤¸®Æ® /  º¸½º ½ºÅ×ÀÌÁöÀÎÁö? 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    //ï¿½Ï¹ï¿½ / ï¿½ï¿½ï¿½ï¿½Æ® /  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½? 
     public MonsterGrade monsterGrade; 
     public int wave;
-    public int maxWave; // ¿þÀÌºê ¹æ½ÄÀÌ¶ó¸é ÃÖ´ë ¿þÀÌºê °ª 
+    public int maxWave; // ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ 
     public string stageName;
-    public int mapID;   // ¾î¶°ÇÑ ¸ÊÀ» ±×·Á¾ßÇÏ´Â°¡ 
+    public int mapID;   // ï¿½î¶°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ 
 
-    // µîÀåÇÒ ¸ó½ºÅÍ³ª ±âÅ¸ ID ¸®½ºÆ®
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í³ï¿½ ï¿½ï¿½Å¸ ID ï¿½ï¿½ï¿½ï¿½Æ®
     public List<int> appearIDList = new List<int>();
 
     public StageAppearInfo(MonsterGrade monsterGrade = MonsterGrade.NORMAL, int wave = 1, 
@@ -83,11 +83,11 @@ public class StageAppearInfo
     }
 
 
-    // ¸Å°³º¯¼ö´ë·Î ¸®½ºÆ®¿¡ ¸ó½ºÅÍ µ¥ÀÌÅÍ¸¦ ¼³Á¤ÇÑ´Ù. 
+    // ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
     public void SetAppearIDList(List<int> list)
     {
         appearIDList.Clear();
-        // ¸®½ºÆ®¿¡ ¸ó½ºÅÍ Á¤º¸¸¦ ³Ö¾îÁØ´Ù 
+        // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½ 
         appearIDList = list.ToList();
     }
 
@@ -99,23 +99,23 @@ public class StageAppearInfo
 }
 
 [System.Serializable]
-// ½ºÅ×ÀÌÁö¿¡ µé¾î°¡´Â ÀÌº¥Æ® Á¤º¸°¡ ´ã±ä Å¬·¡½º 
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
 public class StageEventInfo
 {
     public uint stageId;
 
     public StageType stageType;
-    // ¸ÞÀÎ ÀÌº¥Æ® Çü½Ä  
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½  
     public EventCategory mainEventCategory;
-    // ¼­ºê ÀÌº¥Æ® 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® 
     public EventCategory subEventCategory;
-    // ¹» ³ÖÁö 
-    // ½ºÅä¸® ÀÌº¥Æ®¸é ³ªÅ¸³¯ ½ºÅä¸® ÄÆ½Å Á¤º¸ 
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    // ï¿½ï¿½ï¿½ä¸® ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸® ï¿½Æ½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     
-    // ½ºÅ×ÀÌÁö Å¸ÀÔ¿¡ µû¸¥ ³ªÅ¸³¯ ±×·ì Á¤º¸
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½×·ï¿½ ï¿½ï¿½ï¿½ï¿½
     public StageAppearInfo appearInfo;
 
-    // ³ªÅ¸³¯ Á¤º¸»ý¼º 
+    // ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
     public void CreateAppearInfo()
     {
         appearInfo = new StageAppearInfo();
@@ -124,23 +124,23 @@ public class StageEventInfo
 };
 
 /// <summary>
-/// ÀÌ Å¬·¡½º´Â ½ºÅ×ÀÌÁö¿¡ ¹èÄ¡µÇ´Â ³ëµåµé¿¡ ´ëÇÑ Á¤º¸¸¦ °¡Áø Å¬·¡½ºÀÌ´Ù.
-/// ÀÌº¥Æ®¸¶´Ù »óÀÌÇÏ¸ç ¸ó½ºÅÍ ÀüÅõ ¿Ü¿¡ ¿©·¯ ÀÌº¥Æ®µéÀ» ¹èÄ¡ÇÏ¿© º¸¿©ÁØ´Ù 
-/// ¸ó½ºÅÍ - ¸ó½ºÅÍ¸¦ ¹èÄ¡ ½ÃÅ²´Ù.
+/// ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
+/// ï¿½Ìºï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ 
+/// ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½Å²ï¿½ï¿½.
 /// 
 /// </summary>
 [System.Serializable]
 public class StageTableClass
 {
     public int tableOrder; 
-    //½ºÅ×ÀÌÁö ÀÌ¸§
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
     public string stageName;
 
     public StageType type; 
-    // ½ºÅ×ÀÌÁö¿¡ µé¾î ÀÖ´Â °¢Á¾ ÀÌº¥Æ® Á¤º¸µéÀ» ´ã¾ÆÀÖ´Â ¸®½ºÆ® 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
     public List<StageEventInfo> eventInfoList;
 
-    // ½ºÅ×ÀÌÁö Å¸ÀÔº°·Î ³ªÅ¸³¯ id ¸®½ºÆ®
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ôºï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ id ï¿½ï¿½ï¿½ï¿½Æ®
     public List<int> appearTargetIDList = new List<int>(); 
 
     public bool isBossStage;
@@ -164,7 +164,7 @@ public class StageTableClass
         this.isCleared = isCleared;
     }
 
-    // º¯¼ö ÃÊ±âÈ­ 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ 
     public void Init()
     {
         tableOrder = 0;
@@ -179,36 +179,36 @@ public class StageTableClass
 }
 
 
-// ½ºÅ×ÀÌÁö Á¤º¸(¸ó½ºÅÍ / ¸Ê)¸¦ ´ã´Â º¸Á¶ ¸Å´ÏÀú 
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ 
 public class StageInfoManager : MonoBehaviour
 {
     public static StageInfoManager instance;
 
-    public static bool FLAG_ADVENTURE_MODE = false;     // Å½»ç ¸ðµå ÁøÇà ÁßÀÎÁö ÇÃ·¡±× 
-    public static bool initJoinPlayGameModeFlag = false;    // Ã¹ ÁøÀÔÀÎÁö ÇÃ·¡±× 
+    public static bool FLAG_ADVENTURE_MODE = false;     // Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ 
+    public static bool initJoinPlayGameModeFlag = false;    // Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ 
     public static readonly int LEVEL_NORMAL_MAX_STAGE_COUNT = 5;
     public static readonly int LEVEL_HARD_MAX_STAGE_COUNT = 7;
     public const int MAX_STAGE_COUNT = 5;
-    public const int MAX_STAGE_SELECT_COUNT = 3;     // °¢ ½ºÅ×ÀÌÁöº° °í¸¦ ¼ö ÀÖ´Â ÇÏÀ§ ½ºÅ×ÀÌÁö ¼ö
+    public const int MAX_STAGE_SELECT_COUNT = 3;     // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
 
     public string stageName;
-    public int currentChapter;      // ÁøÇà ÁßÀÎ Ã©ÅÍ ¼ö 
+    public int currentChapter;      // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã©ï¿½ï¿½ ï¿½ï¿½ 
     public int maxChapter; 
-    public int enemyCount;              // °ÔÀÓ ³» Àû ¼ö 
+    public int enemyCount;              // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ 
     public int itemCount;
-    public int selectStageEventNum;   // ¼±ÅÃÇÑ ¸ó½ºÅÍ ½ºÅ×ÀÌÁö ¹øÈ£ 
+    public int selectStageEventNum;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ 
 
-    int eliteAppearPoint;   // ¿¤¸®Æ®°¡ µîÀåÇÒ ¼ö ÀÖ´Â ÃÖ¼Ú°ª 
+    int eliteAppearPoint;   // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ö¼Ú°ï¿½ 
 
     public bool isTest = false;
     [SerializeField] private StageTableClass selectStageTable;
 
     [SerializeField] List<StageTableClass> stageTables = null;
-    [SerializeField] GamePlayLevel gameLevel = 0; // °ÔÀÓ ³­ÀÌµµ
+    [SerializeField] GamePlayLevel gameLevel = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
     [SerializeField] public Dictionary<GamePlayLevel, float> playLevelPair = new Dictionary<GamePlayLevel, float>();
-    [SerializeField] List<List<int>> stageLocateList;       // ½ºÅ×ÀÌÁö ¹èÄ¡ Á¤º¸¸¦ °¡Áø ¸®½ºÆ® 
-    // Ã©ÅÍ, stagetable ¼ø 
+    [SerializeField] List<List<int>> stageLocateList;       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
+    // Ã©ï¿½ï¿½, stagetable ï¿½ï¿½ 
     private Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>(); 
 
     private void Awake()
@@ -229,18 +229,18 @@ public class StageInfoManager : MonoBehaviour
     {
         if (playLevelPair.Count <= 0)
         {
-            // ³ë¸» 20ÆÛ 
+            // ï¿½ë¸» 20ï¿½ï¿½ 
             playLevelPair.Add(GamePlayLevel.NORMAL, 0.2f);
 
-            // ÇÏµå 40ÆÛ
+            // ï¿½Ïµï¿½ 40ï¿½ï¿½
             playLevelPair.Add(GamePlayLevel.HARD, 0.4f);
 
-            // Æ¯¼ö 30ÆÛ
+            // Æ¯ï¿½ï¿½ 30ï¿½ï¿½
             playLevelPair.Add(GamePlayLevel.SPECIAL, 0.3f);
         }
 
         currentChapter = 1;
-        // todo ÀÓ½Ã·Î ÇÏ³ª¸¸ ÇØ³õÀ½.
+        // todo ï¿½Ó½Ã·ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ø³ï¿½ï¿½ï¿½.
         maxChapter = 1; 
     }
 
@@ -260,7 +260,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    // ÇÃ·¹ÀÌÇÒ ½ºÅ×ÀÌÁö¸¦ ¼³Á¤ÇØ³õ´Â ÇÔ¼ö 
+    // ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ 
     public void ChoiceStageInfoForPlaying(int _chapter, int _selectStageNumber, int _selectEventNumber)
     {
         if(stageDictList.Count <= 0)
@@ -274,17 +274,17 @@ public class StageInfoManager : MonoBehaviour
 
         if (_selectStageNumber - 1 < 0)
         {
-            Debug.Log("¼±ÅÃÇÒ ½ºÅ×ÀÌÁö ÀÎµ¦½º°¡ 0 ¹Ì¸¸ ÆÇÁ¤");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ 0 ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½");
             return;
         }
 
-        selectStageTable = stageInfo[_selectStageNumber-1];    // ¼±ÅÃÇÑ ½ºÅ×ÀÌÁö Á¤º¸    
-        selectStageEventNum = _selectEventNumber;    // ¼­ºê ½ºÅ×ÀÌÁö ¼±ÅÃÇÑ Á¤º¸
+        selectStageTable = stageInfo[_selectStageNumber-1];    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½    
+        selectStageEventNum = _selectEventNumber;    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public void ChoiceTestStage()
     {
-        // Å×½ºÆ®¿ë ½ºÅ×ÀÌÁö Å×ÀÌºí Å¬·¡½º 
+        // ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
         StageTableClass testStageClass = new StageTableClass();
         StageEventInfo stageEventInfo = new StageEventInfo();
         stageEventInfo.stageType = StageType.TEST;
@@ -301,13 +301,13 @@ public class StageInfoManager : MonoBehaviour
         selectStageTable = _stage;
     }
 
-    // ¼±ÅÃÇÑ ½ºÅ×ÀÌÁö Å×ÀÌºí Å¬·¡½º ¹ÝÈ¯
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public StageTableClass GetStageTableClass()
     {
         return selectStageTable;
     }
 
-    // ¼±ÅÃÇÑ ½ºÅ×ÀÌÁö ÀÌº¥Æ® Å¬·¡½º ¹ÝÈ¯ 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public StageEventInfo GetStageEventClass()
     {
         if (selectStageTable == null || selectStageTable.eventInfoList == null) return null; 
@@ -315,7 +315,7 @@ public class StageInfoManager : MonoBehaviour
         return selectStageTable.eventInfoList[selectStageEventNum];
     }
 
-    // ¹èÄ¡µÈ ½ºÅ×ÀÌÁö Á¤º¸ °¡Á®¿À±â 
+    // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
     public StageTableClass GetLocatedStageInfo(int _count)
     {
         if (stageDictList.Count <= 0) return null;
@@ -330,7 +330,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    // ¹èÄ¡µÈ ½ºÅ×ÀÌÁö Á¤º¸¸®½ºÆ®¸¦ °¡Á®¿Â´Ù. 
+    // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½. 
     public void GetLocatedStageInfoList(out List<StageTableClass> list, int chpapter = 1)
     {
         list = new List<StageTableClass>();
@@ -351,7 +351,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    // ½ºÅ×ÀÌÁö Å¬¸®¾î ÈÄ ´Ù¸¥ ½ºÅ×ÀÌÁö Á¤º¸ °»½Å½ÃÅ²´Ù
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½
     public void RefreshCurrentChapterStageTableClass()
     {
         if (currentChapter == 0 || isTest == true) return;
@@ -361,34 +361,34 @@ public class StageInfoManager : MonoBehaviour
 
         foreach (var stageTable in stageTables)
         {
-            // ¼±ÅÃÇÑ ½ºÅ×ÀÌÁöÀÇ Å¬¸®¾î Ã³¸® 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ 
             if(selectStageTable.tableOrder == stageTable.tableOrder)
             {
                 stageTable.isCleared = true;
                 stageTable.isLocked = true;
 
-                // ¼±ÅÃÇÑ ½ºÅ×ÀÌÁö°¡ ¸¶Áö¸·ÀÌ°í Å¬¸®¾î Çß´Ù¸é ´ÙÀ½ Ã©ÅÍ·Î ³Ñ¾î°£´Ù.
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ß´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã©ï¿½Í·ï¿½ ï¿½Ñ¾î°£ï¿½ï¿½.
                 if(stageTables.Last().isCleared == true)
                 {
                     currentChapter += 1;
-                    // ³Ñ¾î°¥ Ã©ÅÍ°¡ ¾øÀ¸¸é ÁøÇàÀÌ ºÒ°¡´ÉÇÏ¹Ç·Î °ÔÀÓ ¸ðµå ÇÃ·¡±×¸¦ ²ö´Ù.
+                    // ï¿½Ñ¾î°¥ Ã©ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½.
                     if(currentChapter > maxChapter)
                     {
                         StageInfoManager.FLAG_ADVENTURE_MODE = false; 
-                        // °ÔÀÓ¸ðµå°¡ ²¨Áü¿¡ µû¶ó ±×µ¿¾È ¹Þ¾Æ¿Ô´ø ·¹ÄÚµåµé »èÁ¦ 
+                        // ï¿½ï¿½ï¿½Ó¸ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×µï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Ô´ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                         if(RecordManager.instance != null)
                         {
                             RecordManager.instance.ClearRecords();
                         }
-                        // Ã©ÅÍ¸¦ ´Ù½Ã 1·Î º¹±Í
+                        // Ã©ï¿½Í¸ï¿½ ï¿½Ù½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                         currentChapter = 1;
-                        stageDictList.Clear(); // ÁøÇàÇß´ø ½ºÅ×ÀÌÁöµéÀ» ÀüºÎ Á¦°Å 
+                        stageDictList.Clear(); // ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                     }
 
                     break;
                 }
             }
-            // ¼±ÅÃÇÑ ½ºÅ×ÀÌÁö¿¡ ´ÙÀ½  ½ºÅ×ÀÌÁö Àá±Ý ÇØÁ¦
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             else if(selectStageTable.tableOrder + 1 == stageTable.tableOrder)
             {
                 stageTable.isLocked = false;
@@ -398,11 +398,11 @@ public class StageInfoManager : MonoBehaviour
 
 
 
-    // ½ºÅ×ÀÌÁö »ý¼º °ü·Ã  
-    // ±æÀÌ¸¦ ¾Ë·ÁÁÖ¸é ±× »çÀÌ °ªÀ» ÀÏÁ¤ÇÑ ºñÀ²·Î Ã¤¿ì´Â ÇÔ¼ö 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  
+    // ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Ë·ï¿½ï¿½Ö¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ 
     void SetStagePosOneLine(int length, float rate = 1.0f)
     {
-        // ÀÌ¹Ì ¸¸µé¾î Á³´Ù¸é µû·Î »ý¼ºÇÏÁö ¾Ê´Â´Ù. 
+        // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½. 
         if (stageLocateList != null)
         {
             return;
@@ -410,21 +410,21 @@ public class StageInfoManager : MonoBehaviour
 
         stageLocateList = new List<List<int>>();
 
-        // ½ÃÀÛ°ú ³¡Àº °íÁ¤ÀÌ´Ù. 
+        // ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½. 
         List<int> start = new List<int>(1) { 1, 1, 1 };
         List<int> end = new List<int>(1) { 1 };
         stageLocateList.Add(start);
 
-        // ¸ÕÀú ½ÃÀÛ°ú ³¡À» »« ³²Àº ±æÀÌ¸¦ °è»êÇÑ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
         int diff = length - 2;
 
-        // ³²Àº ±æÀÌ¿¡ ¹èÄ¡ÇÒ ¶§ 80%·Î ¸ó½ºÅÍ 20·Î ÀÌº¥Æ®´Ù 
-        // ±âÈ¹ º¯°æ - ÀÌº¥Æ® ½ºÅ×ÀÌÁö¸¦ ¹«Á¶°Ç ÇÏ³ª ¹èÄ¡ÇÏ°í ±× ¾È¿¡¼­ »óÁ¡ÀÌ Ãß°¡·Î ¹èÄ¡µÉÁö °áÁ¤ÇÑ´Ù.
-        // 1´Ü°è 1½ºÅ×ÀÌÁö °æ¿ì 5°³ ½ºÅ×ÀÌÁö ¹Û¿¡ ¾øÀ¸´Ï 1 1 2 3 1 ·Î ¹èÄ¡ÇÑ´Ù.
-        // ¶Ç ÀÌº¥Æ®¸¦ ¹èÄ¡ÇÒ ¶§µµ »óÁ¡ÀÌ Áßº¹À¸·Î ¹èÄ¡µÇ¸é °ï¶õÇÏ´Ï »óÁ¡¸¸ ¹èÄ¡ÇÒ ¶© µ¶¸³ÀûÀ¸·Î Àû¿ëÇÑ´Ù. 
-        // ³²Àº ¼öÄ¡¸¸Å­ ¹Ýº¹ÇØ¼­ ´ëÀÔ,
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ 80%ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 20ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ 
+        // ï¿½ï¿½È¹ ï¿½ï¿½ï¿½ï¿½ - ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½Ä¡ï¿½Ï°ï¿½ ï¿½ï¿½ ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+        // 1ï¿½Ü°ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 5ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1 1 2 3 1 ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ñ´ï¿½.
+        // ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å­ ï¿½Ýºï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½,
 
-        // ÇÑ ½ºÅ×ÀÌÁö ³ëµå¿¡ µé¾î°¥ ÀÌº¥Æ® ³ëµå ÃÖ´ë ¼ö´Â 3°³
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½î°¥ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ 3ï¿½ï¿½
         int maxEventNodeCount = 3;
         int minEventNodeCount = 1;
 
@@ -432,11 +432,11 @@ public class StageInfoManager : MonoBehaviour
 
         bool isElitePosFlag = false;
         bool isShopFlag = false; 
-        // µÎ ¹øÂ° ½ºÅ×ÀÌÁöºÎÅÍ ¹èÄ¡ 
+        // ï¿½ï¿½ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
         for (int i = 1; i < length - 1; i++)
         {
             var sublist = new List<int>();
-            // ³ÖÀ¸·Á´Â ½ºÅ×ÀÌÁö À§Ä¡°¡ ÀüÃ¼ ±æÀÌ¿¡¼­ ÀÏÁ¤ À§Ä¡ °ªÀ» ³ÑÀº »óÅÂ¶ó¸é ¿¤¸®Æ®¶û ÀÌº¥Æ®°¡ µ¿½Ã¿¡ ¹èÄ¡µÈ´Ù. 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½Ä¡ï¿½È´ï¿½. 
             if (i > eliteAppearPoint)
             {
                 isElitePosFlag = true;
@@ -444,11 +444,11 @@ public class StageInfoManager : MonoBehaviour
             int currentNodeCount = Random.Range(minEventNodeCount, maxEventNodeCount + 1);
             for (int j = 0; j < currentNodeCount; j++)
             {
-                // ¿¤¸®Æ®°¡ ¹èÄ¡µÇ¾ú´Ù´Â ÇÃ·¡±×¸¦ ¾ò¾úÀ¸´Ï ÀÌº¥Æ®¸¦ ¹èÄ¡ÇÑ´Ù. 
+                // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ç¾ï¿½ï¿½Ù´ï¿½ ï¿½Ã·ï¿½ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ñ´ï¿½. 
                 if (isElitePosFlag == true)
                 {
-                    // »óÁ¡ ÀÌº¥Æ® ¹èÄ¡ È®·ü 
-                    // µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Âµ¥ ÀÖ¾î¼­ Æí¸®ÇÏµµ·Ï StageType¿¡ »óÁ¡¿¡ ´ëÇÑ enum°ªÀ¸·Î ¹Ù·Î ´ëÀÔ 
+                    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½Ä¡ È®ï¿½ï¿½ 
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ StageTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ enumï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                     int randShop = Random.Range(0, 10);
                     if (isShopFlag == false && randShop < 3 )
                     {
@@ -460,7 +460,7 @@ public class StageInfoManager : MonoBehaviour
                         sublist.Add((int)StageType.EVENT);
                     }
                 }              
-                // ¸ó½ºÅÍ ½ºÅ×ÀÌÁö·Î °áÁ¤ 
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                 else
                 {
                     sublist.Add((int)StageType.BATTLE);
@@ -468,23 +468,23 @@ public class StageInfoManager : MonoBehaviour
 
             }
 
-            // ´Ù½Ã ÇÃ·¡±× ¿ø À§Ä¡
+            // ï¿½Ù½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡
             isElitePosFlag = false;
             stageLocateList.Add(sublist);
         }
 
-        // ¸ðµç ·çÇÁ¸¦ µ¹¾ÒÀ¸´Ï ¸¶Áö¸·Àº °íÁ¤°ªÀ» ³Ö¾îÁØ´Ù. 
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½. 
         stageLocateList.Add(end);
 
         return;
     }
 
-    // StageTableClass ¸®½ºÆ® °ªÀ» ¹ÞÀ¸¸é ½ºÅ×ÀÌÁö Å¸ÀÔ¿¡ µû¸¥ ¸ó½ºÅÍ³ª ÀÌº¥Æ®¸¦ ¹èÄ¡½ÃÅ²´Ù.
+    // StageTableClass ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í³ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å²ï¿½ï¿½.
     void SetStageTableClassListByStateTypeData(ref List<StageTableClass> list)
     {
         if (list == null || list.Count <= 0) return;
 
-        // ½ºÅ×ÀÌÁö Å¸ÀÔ °Ë»ç 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½Ë»ï¿½ 
         foreach (StageTableClass tableClass in list)
         {
             if (tableClass == null || tableClass.eventInfoList == null) continue;
@@ -493,71 +493,71 @@ public class StageInfoManager : MonoBehaviour
             {
                 if (eventInfo == null) continue;
 
-                // ½ºÅ×ÀÌÁö Å¸ÀÔÀÌ ÀüÅõ Å¸ÀÔÀÏ °æ¿ì 
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
                 if (eventInfo.stageType == StageType.BATTLE)
                 {
-                    // µîÀåÇÒ ¸ó½ºÅÍ ID ¸®½ºÆ® ¸¸µé±â
-                    // todo °ÔÀÓ ·¹º§ º¯¼ö¸¦ Àü´ÞÇØ¾ßÇÑ´Ù.
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½
+                    // todo ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
                     MonsterDatabase.instance.GetMonsterIDListFromTargetStage(
                         currentChapter, (int)1,
                         eventInfo);
                 }
-                // ÀÌº¥Æ® ¹ß»ý Å¸ÀÔÀÏ °æ¿ì 
+                // ï¿½Ìºï¿½Æ® ï¿½ß»ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
                 else if (eventInfo.stageType == StageType.EVENT)
                 {
-                    // ¸ÞÀÎ ÀÌº¥Æ® °ª ¼³Á¤ 
+                    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                     int randomCategory = Random.Range(0, (int)EventCategory.MAX);
-                    // todo ÀÏ´Ü °³¹ß Å×½ºÆ®¿ëÀ¸·Î ¹«Á¶°Ç ·¹ÄÚµå ³ª¿À°Ô 
+                    // todo ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
                     randomCategory = (int)EventCategory.FIND_RECORD;
                     eventInfo.mainEventCategory = (EventCategory)randomCategory;
                     
-                    // 1. ·¹ÄÚµå°¡ µîÀåÇÏ´Â ÀÌº¥Æ® 
+                    // 1. ï¿½ï¿½ï¿½Úµå°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ìºï¿½Æ® 
                     if (eventInfo.mainEventCategory == EventCategory.FIND_RECORD)
                     {
-                        // ¿©±â¼­ µîÀå ½ÃÅ³ ·¹ÄÚµå »ý¼º
+                        // ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
                         if (RecordManager.instance != null)
                         {
                             RecordManager.instance.GetStageEventRewardRecord(eventInfo);
                         }
                     }
-                    // 2. À¯¹°(= ¾ÆÆ¼ÆÑÆ®)°¡ ³ªÅ¸³ª´Â ÀÌº¥Æ®
+                    // 2. ï¿½ï¿½ï¿½ï¿½(= ï¿½ï¿½Æ¼ï¿½ï¿½Æ®)ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®
                     else
                     {
 
                     }
                 }
-                // »óÁ¡ÀÌ ³ªÅ¸³ª´Â ÀÌº¥Æ® 
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® 
                 else if(eventInfo.stageType == StageType.SHOP)
                 {
-                    // todo. »óÁ¡¿¡ ³ª¿Ã ¾ÆÀÌÅÛ ·£´ýÇÏ°Ô ³ª¿Àµµ·Ï ·ÎÁ÷ ÇÊ¿ä
+                    // todo. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
                 }
 
             }
         }
     }
 
-    // ¸®½ºÆ®¸¦ ¹ÞÀ¸¸é ¸ó½ºÅÍ ºÎºÐ¸¸ ´Ù½Ã µî±ÞÀ» ³ª´«´Ù (º¸½º¸ó½ºÅÍ´Â Á¦¿Ü) 
+    // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÎºÐ¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½ï¿½) 
     void SetMonsterStageGrade(ref List<StageTableClass> list)
     {
         if (list == null) return;
 
-        // ½ºÅ×ÀÌÁöÀÇ ÃÖÁ¾ ±æÀÌ¸¦ °è»êÇØ¼­ ºñÀ²À» Ã¥Á¤ÇÑ´Ù.
-        // ¿¤¸®Æ®¸¸ ³ª¿À´Â ½ºÅ×ÀÌÁö°¡ ÀÖÀ» ¼ö ÀÖÁö¸¸ ÀÌ°Ô ¿¬¼ÓÀûÀ¸·Î µîÀåÇÏ¸é ¾ÈµÈ´Ù. 
-        // 5°³ÀÇ ½ºÅ×ÀÌÁö°¡ÀÕÀ¸¸é 1°³´Â ¿¤¸®Æ®°¡ Æ÷ÇÔµÇ¾î ÀÖ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¥ï¿½ï¿½ï¿½Ñ´ï¿½.
+        // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½. 
+        // 5ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½Ö´ï¿½. 
         int stageCount = list.Count;
-        // ¿¤¸®Æ® ¸ó½ºÅÍ ¼ö 
+        // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
         int maxEliteMonsterCount = 1;
-        // ÃÑ ½ºÅ×ÀÌÁö ³ëµå °³¼ö¸¦ ³ª´«´Ù. 
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 
         int resultDivineStageCount = stageCount / 2;
 
         if (playLevelPair.Count() < 0)
             return;
 
         float value = 0;
-        // ±× °ªÀÌ 0º¸´Ù Å©´Ù¸é ¿¤¸®Æ® »ý¼º °³¼ö¿¡ Ãß°¡ÇÒÁö ¸»Áö °áÁ¤ÇÑ´Ù. ³­ÀÌµµ¿¡ µû¶ó È®·üÀÌ ´Ù¸£´Ù. 
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ Å©ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½. 
         if (gameLevel == GamePlayLevel.NORMAL)
         {
-            // NORAML È®·ü
+            // NORAML È®ï¿½ï¿½
             value = playLevelPair[GamePlayLevel.NORMAL];
         }
         else if (gameLevel == GamePlayLevel.HARD)
@@ -572,13 +572,13 @@ public class StageInfoManager : MonoBehaviour
         var randValue = Random.Range(0, 1.0f);
         if (randValue <= value)
         {
-            // È®·ü¿¡ ´çÃ·µÇ¸é °¹¼ö Ãß°¡ 
+            // È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã·ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
             maxEliteMonsterCount += resultDivineStageCount;
         }
 
         int currentElitLocateCount = 0;
-        bool possibleElite = false; // ¿¤¸®Æ® ¹èÄ¡°¡´ÉÇÑÁö Ã¼Å© 
-        // tableclass ¸®½ºÆ®¸¦ µ¹¸é¼­ °ªÀ» ÇÒ´çÇÑ´Ù. 
+        bool possibleElite = false; // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© 
+        // tableclass ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Ñ´ï¿½. 
         for (int i = 0; i < list.Count; i++)
         {
             var stage = list[i];
@@ -593,7 +593,7 @@ public class StageInfoManager : MonoBehaviour
                 isBossStage = true;
             }
 
-            // ¸®½ºÆ® ³»ºÎ¿¡ Á¤º¸¿¡¼­ monstertype°Í¸¸ °Çµç´Ù. 
+            // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ monstertypeï¿½Í¸ï¿½ ï¿½Çµï¿½ï¿½. 
             foreach (var eventInfo in stage.eventInfoList)
             {
                 if (eventInfo == null || eventInfo.appearInfo == null)
@@ -601,20 +601,20 @@ public class StageInfoManager : MonoBehaviour
                     continue;
                 }
 
-                // ÀüÅõ Å¸ÀÔÀÌ ¾Æ´Ï¸é ¾ÈµÈ´Ù.
+                // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
                 if (eventInfo.stageType != StageType.BATTLE)
                 {
                     continue;
                 }
 
-                // º¸½º ½ºÅ×ÀÌÁö Á¤º¸¸¦ ¼¼ÆÃ ÁßÀÎ »óÅÂ
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (isBossStage == true)
                 {
                     eventInfo.appearInfo.monsterGrade = MonsterGrade.BOSS;
                     continue;
                 }
 
-                // ¿¤¸®Æ®´Â ¹«Á¶°Ç ÇÏ³ª´Â ¹èÄ¡ 
+                // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
                 if (possibleElite == true &&
                     currentElitLocateCount < maxEliteMonsterCount &&
                     maxEliteMonsterCount >= 1)
@@ -623,14 +623,14 @@ public class StageInfoManager : MonoBehaviour
 
                     eventInfo.appearInfo.monsterGrade = MonsterGrade.ELITE;
                 }
-                // ÇÏ³ª ÀÌ»ó ¹èÄ¡ ÇßÀ» ¶§ 
+                // ï¿½Ï³ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
                 else if (possibleElite == true &&
                     currentElitLocateCount >= 1 &&
                      currentElitLocateCount < maxEliteMonsterCount)
                 {
-                    // ¸ó½ºÅÍ ½ºÅ×ÀÌÁö¸é ÀÌ ½ºÅ×ÀÌÁöÀÇ ¸ó½ºÅÍ µî±ÞÀ» ¼³Á¤ÇÑ´Ù. 
+                    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
                     var eliteCount = Random.Range(0, 1.0f);
-                    // 8%Á¤µµ¶ó¸é Ãß°¡·Î ¹èÄ¡½ÃÅ²´Ù. 
+                    // 8%ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å²ï¿½ï¿½. 
                     if (eliteCount <= 0.08f)
                     {
                         eventInfo.appearInfo.monsterGrade = MonsterGrade.ELITE;
@@ -645,8 +645,8 @@ public class StageInfoManager : MonoBehaviour
         }
     }
 
-    // ¸ðµç ½ºÅ×ÀÌÁö Àá±Ý Ã³¸® (1½ºÅ×ÀÌÁö Á¦¿Ü)
-    // Æ¯Á¤ ½ºÅ×ÀÌÁö Å¬¸®¾î ¿©ºÎ¿¡ µû¶ó ¼¼ÆÃ 
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ (1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     private void LockedAllStage()
     {
         if (stageTables == null) return;
@@ -658,25 +658,25 @@ public class StageInfoManager : MonoBehaviour
         }
     }
 
-    // ½ºÅ×ÀÌÁö Å×ÀÌºí »ý¼º
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½
     public void CreateStageTableList(int level = 1)
     {
-        // 0. ÇÏ³ªÀÇ ¶óÀÎ¸¸ »ý°¢ÇÑ´Ù. ÇÑ ½ºÅ×ÀÌÁö ³ëµå¿¡¼­ ÀÌº¥Æ® ÃÖ´ë 3°³¸¦ Ãâ·Â. 
-        // 3°³ÀÇ ÀÌº¥Æ®´Â ¸ó½ºÅÍ ÀüÅõ, Æ¯Á¤ »ç°Ç, »óÁ¡ µîÀÇ ÀÌº¥Æ®µé·Î ³ª´µ¾îÁø´Ù. 
-        // ½ºÅ×ÀÌÁö ³ëµå´Â ÃÖ´ë 5°³ (ÀÏ¹Ý), ÇÏµå´Â 7°³ 
+        // 0. ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½Ö´ï¿½ 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½. 
+        // 3ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ 5ï¿½ï¿½ (ï¿½Ï¹ï¿½), ï¿½Ïµï¿½ï¿½ 7ï¿½ï¿½ 
 
-        // todo ÀúÀåµÈ°Ô ÀÖ´ÂÁö °Ë»çÇØ¾ßÇÑ´Ù. 
+        // todo ï¿½ï¿½ï¿½ï¿½È°ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½. 
 
-        // ÀúÀåµÈ°Ô ¾ø´Ù¸é µ¥ÀÌÅÍ¸¦ Ã³À½ºÎÅÍ ¸¸µé¾î¾ßÇÏ¹Ç·Î ÇÃ·¡±×µµ ÄÑÁØ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½È°ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½Ã·ï¿½ï¿½×µï¿½ ï¿½ï¿½ï¿½Ø´ï¿½. 
         initJoinPlayGameModeFlag = true; 
 
-        // ÀÌ¹Ì ½ºÅ×ÀÌÁöµéÀ» ¸¸µé¾î³ù´Ù¸é º°µµ·Î ¸¸µéÁö¾Ê´Â´Ù. 
+        // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê´Â´ï¿½. 
         if (stageDictList.ContainsKey(currentChapter) == true && 
             stageDictList[currentChapter] != null && 
             stageDictList[currentChapter].Count > 0)
             return; 
 
-        // 1. ³­ÀÌµµ¿¡ µû¸¥ ÃÖ´ë ½ºÅ×ÀÌÁö¸¦ »ý¼ºÇÑ´Ù 
+        // 1. ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ 
         int maxStageCount = LEVEL_NORMAL_MAX_STAGE_COUNT;
         if (level == (int)GamePlayLevel.HARD)
         {
@@ -692,18 +692,18 @@ public class StageInfoManager : MonoBehaviour
             stageTables.Clear();
         }
 
-        // ½ºÅ×ÀÌÁö ¹èÄ¡Çü ¸®½ºÆ®¸¦ »ý¼º 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
          SetStagePosOneLine(maxStageCount);
-        // 1-1 ½ºÅ×ÀÌÁö ¹èÄ¡Çü ¸®½ºÆ® ¸¸Å­ »ý¼ºÇÏ±â
+        // 1-1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
         for (int i = 0; i < stageLocateList.Count; i++)
         {
             StageTableClass stageTable = new StageTableClass
             {
-                // ½ºÅ×ÀÌÁö °ª Á¤·Ä order ¼¼ÆÃ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ order ï¿½ï¿½ï¿½ï¿½
                 tableOrder = i + 1,
-                // 2.1 ½ºÅ×ÀÌÁö ÀÌ¸§ ¼³Á¤
+                // 2.1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
                 stageName = currentChapter + "-" + i + 1,
-                // 2.2 ½ºÅ×ÀÌÁö¿¡ Å¸ÀÔ ¼³Á¤ 
+                // 2.2 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                 //  stageType = (StageType)stageLocateList[i].First(),
                 eventInfoList = new List<StageEventInfo>()
             };
@@ -724,19 +724,19 @@ public class StageInfoManager : MonoBehaviour
 
         }
 
-        // ¸¶Áö¸· ½ºÅ×ÀÌÁö´Â º¸½º ½ºÅ×ÀÌÁö·Î °íÁ¤ÇØ³õ´Â´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø³ï¿½ï¿½Â´ï¿½.
         if (stageTables.Last() != null)
         {
             stageTables.Last().isBossStage = true;
         }
 
         // 3. 
-        // ¸ó½ºÅÍ Å¸ÀÔÀº º°µµ·Î ¼¼ºÎÈ­ÇØ¾ßÇÑ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½. 
         SetMonsterStageGrade(ref stageTables);
-        // Å¸ÀÔº° Á¤º¸ ¼¼ÆÃ 
+        // Å¸ï¿½Ôºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         SetStageTableClassListByStateTypeData(ref stageTables);
 
-        // 4. ½ºÅ×ÀÌÁö Àá±×±â
+        // 4. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½×±ï¿½
         LockedAllStage();
 
         SetStageList(currentChapter, ref stageTables); 

@@ -5,31 +5,31 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 
-// Ä³¸¯ÅÍ ÇØ±Ý °ü·Ã 
+// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ø±ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 public class OpenCharInfo
 {
     int id;
     bool isOpen; 
 }
 
-// Ä³¸¯ÅÍ Á¤º¸¸®½ºÆ®¸¦ °ü¸®ÇÏ´Â ¸Å´ÏÀú
+// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Å´ï¿½ï¿½ï¿½
 public class InfoManager : MonoBehaviour
 {
     // 
     public static InfoManager instance;
 
-    public static int coin;   // À¯Àú°¡ »ç¿ëÇÏ´Â °ÔÀÓÀçÈ­ 
+    public static int coin;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ 
 
-    // ÀüÃ¼ Ä³¸¯ÅÍ Á¤º¸ ¸®½ºÆ® 
+    // ï¿½ï¿½Ã¼ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
     private Dictionary<int, Character> allPlayerList = new Dictionary<int, Character>();
 
-    // ÇöÀç ³»°¡ °¡Áö°í ÀÖ´Â Ä³¸¯ÅÍ ¸®½ºÆ® 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
     private Dictionary<int, Character> myCharacterPlayerList = new Dictionary<int, Character>();
 
-    // Å½»çÇÒ Ä³¸¯ÅÍ ¸®½ºÆ® 
+    // Å½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
     private Dictionary<int, Character> partyCharacters  = new Dictionary<int, Character>();
 
-    // ½ºÅ×ÀÌÁö¿¡¼­ ½Î¿ì´Â Ä³¸¯ÅÍµéÀÇ ¸®½ºÆ® 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
     private Dictionary<int, Character> selectPlayerList = new Dictionary<int, Character>();
 
     // Start is called before the first frame update
@@ -48,12 +48,12 @@ public class InfoManager : MonoBehaviour
 
         // 
         SetDefaultAndAllPlayers(); 
-        // ÀÓ½Ã ÇÃ·¹ÀÌ¾î °´Ã¼ »ý¼º ÈÄ ¸®½ºÆ®¿¡ Ãß°¡
+        // ï¿½Ó½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
         TestSetPlayers();
     }
 
 
-    // ÇÃ·¹ÀÌ¾î Á¤º¸ ¼¼ÆÃÇÑ´Ù.
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     public void SetDefaultAndAllPlayers()
     {
         var statDict = PlayerDatabase.instance.GetCharactersStatDict();
@@ -96,13 +96,13 @@ public class InfoManager : MonoBehaviour
         //AddMyPlayerInfo(tempPlayer2.MyID);
     }
 
-    // Ä³¸¯ÅÍ  ¸¸µé±â
+    // Ä³ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½
     public void CreateCharacter()
     {
         Character tempPlayer = new Character();
         tempPlayer.MyID = 1001;
         tempPlayer.objectID = 1;
-        // todo db³ª º°µµÀÇ ÀúÀå°ø°£¿¡¼­ °¡Á®¿Í¼­ ¼¼ÆÃ
+        // todo dbï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         tempPlayer.MyStat = new CharStat(1, 10, 10, 20, 150, 100, 10);
         //tempPlayer.SetEquipment(EquipType.WEAPON);
     }
@@ -117,7 +117,7 @@ public class InfoManager : MonoBehaviour
         allPlayerList.Add(key, playerInfo);
     }
 
-    // ÀÚ½ÅÀÌ ¼ÒÁöÇÑ Ä³¸¯ÅÍ Ãß°¡ÇÏ±â 
+    // ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½ 
     public void AddMyPlayerInfo(int key)
     {
         var info = GetPlayerInfo(key);
@@ -136,7 +136,7 @@ public class InfoManager : MonoBehaviour
         myCharacterPlayerList.Add(id, character);
     }
 
-    // ÀÚ½ÅÀÌ ¼ÒÁöÇÑ Ä³¸¯ÅÍ ¹ÝÈ¯ 
+    // ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public Character GetMyPlayerInfo(int uniqueID)
     {
         if (myCharacterPlayerList.ContainsKey(uniqueID) == true)
@@ -145,7 +145,7 @@ public class InfoManager : MonoBehaviour
         }
         return null;
     }
-    // ÀÚ½ÅÀÌ ¼ÒÁöÇÑ Ä³¸¯ÅÍ ¸®½ºÆ® ¹ÝÈ¯ 
+    // ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¯ 
     public List<Character> GetMyPlayerInfoList()
     {
         var list = new List<Character>(myCharacterPlayerList.Values);
@@ -163,7 +163,7 @@ public class InfoManager : MonoBehaviour
         return myCharacterPlayerList;
     }
 
-    //  ¸ðµç Ä³¸¯ÅÍ ¸®½ºÆ®¸¦ ´ã´Â °Í Áß¿¡ Å°°ªÀ¸·Î ÇØ´ç Ä³¸¯ÅÍ ¹ÝÈ¯ 
+    //  ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß¿ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public Character GetPlayerInfo(int key)
     {
         if (allPlayerList.ContainsKey(key) == true)
@@ -172,11 +172,11 @@ public class InfoManager : MonoBehaviour
         }
         else
             return null;
-        // µ¥ÀÌÅÍ¸¦ ÀúÀåÇß´Ù¸é ±âÁ¸ µ¥ÀÌÅÍ´Â Áö¿î´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½. 
         //_playerList.Clear();
     }
 
-    // °ÔÀÓ¿¡ Âü¿©ÇÒ ÆÄÆ¼ Ä³¸¯ÅÍ ¸®½ºÆ® »ý¼º
+    // ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     public void InitMyPartyPlayList()
     {
         partyCharacters.Clear();
@@ -199,7 +199,7 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // ½ºÅ³ Á¤º¸¸¦ ÃÖ½ÅÈ­ÇÑ´Ù. 
+    // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½È­ï¿½Ñ´ï¿½. 
     public void ApplySkillDataSelcetedPlayer(int id)
     {
         var info = GetPlayerInfo(id);
@@ -209,7 +209,7 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // ÀÚ½ÅÀÌ °®°í ÀÖ´Â ÇÃ·¹ÀÌ¾î Á¤º¸ Áß ¼±ÅÃÇÑ ÇÃ·¹ÀÌ¾î Á¤º¸¸¦ ´ã´Â´Ù.
+    // ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
     public void SetSelectPlayer(int key)
     {
         //var info = GetMyPlayerInfo(key);
@@ -226,7 +226,7 @@ public class InfoManager : MonoBehaviour
         }
     }
 
-    // ÇÃ·¹ÀÌÇÒ Ä³¸¯ÅÍµéÀ» ÀúÀå
+    // ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SetSelectPlayers(int[] keys)
     {
         selectPlayerList.Clear();
@@ -237,25 +237,25 @@ public class InfoManager : MonoBehaviour
         }
     }
 
-    // ¼±ÅÃÇÑ ÇÃ·¹ÀÌ¾î Á¤º¸ ¹ÝÈ¯ 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public Dictionary<int, Character> GetSelectPlayers()
     {
         return selectPlayerList;
     }
 
-    // ÀÚ½ÅÀÌ °¡Áö°í ÀÖ´Â Ä³¸¯ÅÍµé Áß ¼±ÅÃµÇÁö ¾ÊÀº ³à¼®µéÀ» ¹ÝÈ¯
+    // ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½Íµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½à¼®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     public Dictionary<int, Character> GetUnselectCharacters()
     {
-        // ¹Ì¼±ÅÃµÈ Ä³¸¯ÅÍ¸®½ºÆ®
+        // ï¿½Ì¼ï¿½ï¿½Ãµï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½Æ®
         Dictionary<int, Character> unselectList = new Dictionary<int, Character>();
 
-        // ¼±ÅÃÇß´ø ¸®½ºÆ®
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
         var selectList = GetSelectPlayers(); 
 
-        // ÀüÃ¼ Ä³¸¯ÅÍ ¸®½ºÆ® 
+        // ï¿½ï¿½Ã¼ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
         var myCharacterList = GetMyPlayerInfoPairList();
 
-        // ÀüÃ¼ ¸®½ºÆ®¿¡¼­ ¼±ÅÃÇÞ´ø ¾ÖµéÀº Á¦¿Ü 
+        // ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ´ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         foreach(var pair in myCharacterList)
         {
             if (selectList.TryGetValue(pair.Key, out Character character) == false)
@@ -269,7 +269,7 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // ¼±ÅÃÇÑ Ä³¸¯ÅÍµéÀÇ ´É·ÂÄ¡ Àû¿ë
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ ï¿½É·ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
     public void SetSelectMyPlayerApplyData(int id, Character player)
     {
         if (player == null) return;
@@ -285,15 +285,15 @@ public class InfoManager : MonoBehaviour
 
 
     /////////////////////////////////////
-    // ¼ºÀå °ü·Ã 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     /////////////////////////////////////
     
-    // Æ¯Á¤ Ä³¸¯ÅÍ°¡ ¼ºÀåÇÏ¸é ¼ºÀå °è»ê °ø½ÄÀ» ÅëÇØ °¢ ½ºÅÈº° ¼ºÀå°ªÀ» ¹ÝÈ¯ÇÑ´Ù.
-    // Ä³¸¯ÅÍ ¸¶´Ù ·¹º§ ¸¶´Ù ´Ù¸¦ ¼ö ÀÖ´Ù. 
-    // todo. Ä³¸¯ÅÍÀÇ Å¸ÀÔº°·Î ³ª´­ ¼öµµ ÀÖ´Ù°í °¡Á¤ÇÒ ¼ö ÀÌ¤¨ ÈÄ¿£ 
-    // todo. ±¸»óÇÏ°í º¸´Ï Ä³¸¯ÅÍ ±âº» ½ºÅÈÀÌ ÇÊ¿äÇÑ°Å°°´Ù. ±âÁ¸ ´É·ÂÄ¡¿¡ Áõ°¡ ÇØ¼­ ºÙÀÌ°í
-    // ³ªÁß¿¡ ÀúÀåÇØ¼­ ºÒ·¯¿Ã ¶© °è¼ö°ªÀ¸·Î ÇÏ±ä Èûµå´Ï±î.. 
-    // Ä³¸¯ÅÍ ¼ºÀå  ½ºÅÈ - ³²»ýÀÌ(°ÅºÏÀÌ)
+    // Æ¯ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Èºï¿½ ï¿½ï¿½ï¿½å°ªï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½. 
+    // todo. Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ôºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¤ï¿½ ï¿½Ä¿ï¿½ 
+    // todo. ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ñ°Å°ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½
+    // ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½.. 
+    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Åºï¿½ï¿½ï¿½)
     public void GetGrowUpTurtle(CharStat _targetStat)
     {
 
@@ -301,18 +301,18 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // ·¹º§ °ªÀ» ¹ÞÀ¸¸é °è¼ö¸¸Å­ °è»êÇØ¼­ ¹ÝÈ¯ 
-    // ±âº» °ø½Ä : ±âº» ½ºÅÈ + (¼ºÀå °è¼ö * (level - 1)) 
-    // °ø°Ý·Â 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½È¯ 
+    // ï¿½âº» ï¿½ï¿½ï¿½ï¿½ : ï¿½âº» ï¿½ï¿½ï¿½ï¿½ + (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ * (level - 1)) 
+    // ï¿½ï¿½ï¿½Ý·ï¿½ 
     public int GetGrowUpAttack(int _level,  int _attack = 5, float _rate = 1.0f)
     {
-        // °ø½Ä todo °ø½Ä°ªÀÌ ¼º¸³µÇ¸é ¼öÁ¤ÇØ¾ßÇÑ´Ù. 
+        // ï¿½ï¿½ï¿½ï¿½ todo ï¿½ï¿½ï¿½Ä°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½. 
         int result = 0;
         result = _attack + Mathf.RoundToInt(_rate * (_level-1));
 
         return result; 
     }
-    // ¹æ¾î·Â 
+    // ï¿½ï¿½ï¿½ï¿½ 
     public int GetGrowUpDefense(int _level, int _defense = 5, float _rate =  1.0f)
     {
         int result = 0;
@@ -331,11 +331,11 @@ public class InfoManager : MonoBehaviour
         return result; 
     }
 
-    // Ã¼·Â Àç»ý
+    // Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½
 
     public int GetGrowUpHPRecovery(int _level, int _hpr = 2, float _rate = 1.0f)
     {
-        // °ø½Ä level * rate + HPR(2)
+        // ï¿½ï¿½ï¿½ï¿½ level * rate + HPR(2)
         int result = 0;
         result = _hpr + Mathf.RoundToInt(_rate * (_level - 1));
 
@@ -350,7 +350,7 @@ public class InfoManager : MonoBehaviour
 
         return result;
     }
-    // ¸¶³ª Àç»ý 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
     public int GetGrowUpMPRecovery(int _level, int _mpr = 1, float _rate = 1.0f)
     {
         int result = 0;
@@ -359,10 +359,10 @@ public class InfoManager : MonoBehaviour
         return result;
     }
 
-    // °ø°Ý ¼Óµµ (todo 2023 04 24ÀÏ±îÁö ¾øÀ½ Ãß°¡µÇ¸é ¿©±âµµ ¼öÁ¤) 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ (todo 2023 04 24ï¿½Ï±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½âµµ ï¿½ï¿½ï¿½ï¿½) 
     public float GetGrowUpAttackSpeed(int _level, float _aspd = 1.0f, float _rate = 1.0f)
     {
-        // Æ¯Á¤ ·¹º§ÀÏ ¶§¸¸ Áõ°¡ 
+        // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         float result = _aspd;
         if (_level % 3 == 0)
         {
@@ -374,11 +374,11 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // ÀÌµ¿ ¼Óµµ 
+    // ï¿½Ìµï¿½ ï¿½Óµï¿½ 
     public int GetGrowUpSpeed(int _level, int _spd = 1, float _rate = 1.0f)
     {
-        // Æ¯Á¤ ·¹º§ÀÏ ¶§¸¸ Áõ°¡ 
-        // °ø½Ä SPD(1) + Mathf.RoundToInt(_rate * (_level - 1))
+        // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+        // ï¿½ï¿½ï¿½ï¿½ SPD(1) + Mathf.RoundToInt(_rate * (_level - 1))
         int result = _spd;
         if (_level % 3 == 0)
         {
@@ -388,3 +388,4 @@ public class InfoManager : MonoBehaviour
         return result;
     }
 }
+

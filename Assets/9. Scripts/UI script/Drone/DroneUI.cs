@@ -5,51 +5,51 @@ using UnityEngine;
 
 public class DroneUI : MonoBehaviour
 {
-    // µå·Ð UI ¸¦ ±×¸°´Ù 
+    // ï¿½ï¿½ï¿½ UI ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ 
 
-    // µå·ÐÀ» ÀåÂøÇÑ Ä³¸¯ÅÍ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½
     private readonly WheelerController selectedCharacter;
 
-    // Ä³¸¯ÅÍ¿¡¼­ ²¨³½ µå·Ð
+    // Ä³ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     MagicalDrone selectedDrone;
 
-    // ¼±ÅÃÇÑ ½½·Ô ¹øÈ£
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
     public int selctedSlotNumber = 0; 
-    // ±×·Á¾ßÇÒ ½½·Ô ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ
+    // ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     InvenSlot pf_Slot;
 
-    GameObject selectDroneObject;       // ¼±ÅÃµÈ µå·Ð ¿ÀºêÁ§Æ® 
+    GameObject selectDroneObject;       // ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® 
 
     public GameObject go_magicalDrone_2Slot;
     public GameObject go_magicalDrone_4Slot;
     public GameObject go_magicalDrone_6Slot; 
 
 
-    // Ã³À½¿¡ ÀÌ UI´Â ÀåÂøÇÒ µå·ÐÀÌ ¼±ÅÃµÇ¾îÁ® ÀÖ´Ù. 
-    // ÀÎº¥Åä¸®¿¡ µå·ÐÀ» ¼±ÅÃÇÏ°í ·é ÀåÂøÀ» ÇÏ¸é ÀÌ ÆäÀÌÁö·Î ¿Â´Ù .
-    // ±×³É ¿À¸é ÀåÂøÀ» ½ÃµµÇÑ µå·ÐÀÌ ¾øÀ¸¹Ç·Î µå·ÐÀ» ¼±ÅÃÇÏµµ·Ï µå·ÐÆäÀÌÁö¸¦ ÆîÄ£´Ù 
+    // Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÃµÇ¾ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½. 
+    // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ .
+    // ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä£ï¿½ï¿½ 
 
-    // µå·Ð ¿ÀºêÁ§Æ® ¹èÄ¡
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ä¡
     public void InitializeDroneObject()
     {
         if (selectedDrone == null) return;
 
-        // ¸ðµç ¿ÀºêÁ§Æ®µéÀ» ´Ù ²¨³õ´Â´Ù 
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½ 
         go_magicalDrone_2Slot.SetActive(false);
         go_magicalDrone_4Slot.SetActive(false);
         go_magicalDrone_6Slot.SetActive(false);
 
         switch (selectedDrone.maxSlotCount)
         {
-            case 2: // µÎ °³ÀÇ ½½·ÔÀ» °¡Áø µå·Ð
+            case 2: // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 go_magicalDrone_2Slot.SetActive(true);
                 selectDroneObject = go_magicalDrone_2Slot;
                 break;
-            case 4:     // ³× °³ÀÇ ½½·ÔÀ» °¡Áø µå·Ð
+            case 4:     // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 go_magicalDrone_4Slot.SetActive(true);
                 selectDroneObject = go_magicalDrone_4Slot;
                 break;
-            default:    // ±×¿Ü¿£ 6°³
+            default:    // ï¿½×¿Ü¿ï¿½ 6ï¿½ï¿½
                 go_magicalDrone_6Slot.SetActive(true);
                 selectDroneObject = go_magicalDrone_6Slot;
                 break;
@@ -57,12 +57,12 @@ public class DroneUI : MonoBehaviour
         }
 
 
-        // ½½·ÔÀ» ±×¸®±â À§ÇØ µå·ÐÀ» ´Ù½Ã ±×¸°´Ù.  
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½.  
         DrawDroneForm();
 
     }
 
-    // µå·ÐÀ» ¼±ÅÃÇÑ Ä³¸¯ÅÍ¿¡¼­ ²¨³»³õ´Â´Ù
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½
     public void SetDroneToCharacter()
     {
         if (selectedCharacter == null || selectedDrone == null) return;
@@ -70,24 +70,24 @@ public class DroneUI : MonoBehaviour
         //selectedDrone = selectedCharacter.GetMyDrone(); 
     }
 
-    // ÀåÂøÇÑ µå·Ð¿¡ µû¸¥ ½½·ÔµéÀ» ±×¸°´Ù ¿¹¸¦ µé¸é 2·é ½½·ÔÀ» °¡Áø µå·ÐÀÌ¸é 2½½·ÔÀÌ º¸ÀÎ´Ù 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½ 
     public void DrawDroneForm()
     {
         if (selectedCharacter == null || selectedDrone == null) return;
 
-        // µå·Ð¿¡ ÀåÂøµÈ ·é °³¼ö¸¦ °¡Á®¿Í ±×¸°´Ù 
+        // ï¿½ï¿½Ð¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ 
 
         var runeDic = selectedDrone.GetRuneDicionary();
         if (runeDic.Count <= 0) return;
 
-        // °³¼ö ¸¸Å­ Á¤·ÄµÇ¼­ º¸ÀÌ´Â ¸ð½ÀÀ¸·Î ±×·Á¾ßÇÑ´Ù
-        // ±×·± ¼¼ÆÃÇØÁÖ´Â µ¥ÀÌÅÍº£ÀÌ½º°ªÀÌ ¾øÀ¸¹Ç·Î ±×³É ÇÏ±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ÄµÇ¼ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
+        // ï¿½×·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½×³ï¿½ ï¿½Ï±ï¿½
         if (selectDroneObject == null) return;
 
         var droneObject = selectDroneObject.GetComponent<DroneObject>();
         if (droneObject == null) return;
 
-        // µå·ÐÀÇ ½½·ÔÀ» ±×·ÁÁØ´Ù 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½Ø´ï¿½ 
         for (int i = 0; i < runeDic.Count; i++)
         {
             var slot = droneObject.slots[i];
@@ -98,28 +98,28 @@ public class DroneUI : MonoBehaviour
  
     }
     
-    // µå·ÐÀÇ ½½·Ô¿¡ ¼±ÅÃÇÑ ·éÀ» ÀåÂø
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void EquipTargetDroneSlotWithRune(ref MemoryRune _selectedRune)
     {
         if(_selectedRune == null || selctedSlotNumber <= 0) return;
 
-        _selectedRune.isEquip = true;     // ´ë»ó ·é¿¡ °ªÀ» º¯°æ 
-        // µå·Ð¿¡ ·é ÀåÂø 
+        _selectedRune.isEquip = true;     // ï¿½ï¿½ï¿½ ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+        // ï¿½ï¿½Ð¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         selectedDrone.EquipRune(selctedSlotNumber, ref _selectedRune);
 
-        // ½½·ÔÀ» ±×¸®±â À§ÇØ µå·ÐÀ» ´Ù½Ã ±×¸°´Ù.  
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½.  
         DrawDroneForm(); 
     }
 
 
-    // ¼±ÅÃÇÑ µå·ÐÀÇ ½½·Ô¿¡ ·éÀ» ÇØÁ¦ 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void UnequipTargetDroneSlot()
     {
         if (selectedDrone == null || selctedSlotNumber <= 0) return;
 
         selectedDrone.UnequipRune(selctedSlotNumber);
         
-        // ½½·ÔÀ» ±×¸®±â À§ÇØ µå·ÐÀ» ´Ù½Ã ±×¸°´Ù.  
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½.  
         DrawDroneForm();
     }
 

@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,17 @@ using UnityEngine;
 
 
 
-// °ÔÀÓ³» »ç¿ëµÉ ¸Þ¸ð¸® Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public class RecordInfo
 {
-    public int id;          // ½Äº° id
-    public string name;     // ·¹ÄÚµå ÀÌ¸§
-    public string description; // ·¹ÄÚµå¼³¸í 
-    public int grade;       // ·¹ÄÚµå µî±Þ
+    public int id;          // ï¿½Äºï¿½ id
+    public string name;     // ï¿½ï¿½ï¿½Úµï¿½ ï¿½Ì¸ï¿½
+    public string description; // ï¿½ï¿½ï¿½Úµå¼³ï¿½ï¿½ 
+    public int grade;       // ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½
     public int specialOptionID;
-    public string spritePath;   // ·¹ÄÚµå ½ºÇÁ¶óÀÌÆ® °æ·Î
-    public SpecialOption specialOption; // ·¹ÄÚµå È¿°ú 
+    public string spritePath;   // ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
+    public SpecialOption specialOption; // ï¿½ï¿½ï¿½Úµï¿½ È¿ï¿½ï¿½ 
     public RecordInfo(int id, string name, string description, int grade, int specialOptionID)
     {
         this.id = id;
@@ -39,7 +40,7 @@ public class RecordInfo
     }
 }
 
-// Memory Á¤º¸¸¦ °¡Áø Json Å¬·¡½º
+// Memory ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Json Å¬ï¿½ï¿½ï¿½ï¿½
 [System.Serializable]
 public class RecordInfoJson
 {
@@ -50,28 +51,28 @@ public class RecordInfoJson
     public int specialOptionID;
 }
 
-// RecordInfoJson Å¬·¡½º¸¦ ¸®½ºÆ®·Î ´ã°í ÀÖ´Â Å¬·¡½º 
+// RecordInfoJson Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
 [System.Serializable]
 public class RecordInfoJsonAllData
 {
     public RecordInfoJson[] recordInfoJson;
 }
 
-// °ÔÀÓ ³» ÃâÇöÇÏ´Â ¸Þ¸ð¸® °ü¸®ÇÏ´Â ¸Å´ÏÀú
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Å´ï¿½ï¿½ï¿½
 
 public class RecordManager : MonoBehaviour
 {
 
     public static RecordManager instance;
-    public static bool CHOICED_COMPLETE_RECORD = false; // ·¹ÄÚµå ¼±ÅÃ¿Ï·á¿¡ ´ëÇÑ °ª
-    [Header("¸Þ¸ð¸® Á¤º¸ JSON µ¥ÀÌÅÍ")]
+    public static bool CHOICED_COMPLETE_RECORD = false; // ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½Ã¿Ï·á¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    [Header("ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public TextAsset memoryInfoJsonData;
 
     private RecordInfoJsonAllData memoyInfoJsonAlldata;
 
     public Dictionary<int, RecordInfo> recordInfoDictionary = new Dictionary<int, RecordInfo>();
 
-    // °ÔÀÓ Áß¿¡ ¼±ÅÃÇÑ ·¹ÄÚµå ¸®½ºÆ®
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
     private void Awake()
@@ -85,7 +86,7 @@ public class RecordManager : MonoBehaviour
     }
 
 
-    // RecordInfo ÃÊ±âÈ­ 
+    // RecordInfo ï¿½Ê±ï¿½È­ 
     public void InitializeRecordInfo()
     {
         memoyInfoJsonAlldata = JsonUtility.FromJson<RecordInfoJsonAllData>(memoryInfoJsonData.text);
@@ -100,19 +101,19 @@ public class RecordManager : MonoBehaviour
             RecordInfo memoryInfo = new RecordInfo(memInfoJson.id, memInfoJson.namekeycode, 
                 memInfoJson.description, memInfoJson.grade, memInfoJson.specialOptionID);
 
-            // ¿É¼Ç¸Å´ÏÀú¿¡¼­ °¡Á®¿Ã·Á´Â ¿É¼ÇÀÌ ÀÖ´ÂÁö °Ë»ç
+            // ï¿½É¼Ç¸Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
             if (OptionManager.instance != null)
             {
-                // ÇØ´ç info Å¬·¡½º¿¡ ¿É¼Ç Å¬·¡½º¸¦ ³Ö¾îµÐ´Ù.
+                // ï¿½Ø´ï¿½ info Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½Ð´ï¿½.
                 memoryInfo.specialOption = OptionManager.instance.GetSpecialOption(memInfoJson.specialOptionID);
             }
 
-            // ¸®½ºÆ®¿¡ Ãß°¡ÇÏ±â 
+            // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½ 
             recordInfoDictionary.Add(memInfoJson.id, memoryInfo);   
         }
     }
 
-    // Æ¯Á¤ ID °ªÀ» ¹ÞÀ¸¸é ÇØ´ç ¸Þ¸ð¸®¸¦ ¹ÝÈ¯ÇÏ´Â ÇÔ¼ö
+    // Æ¯ï¿½ï¿½ ID ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½Þ¸ð¸®¸ï¿½ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     public RecordInfo GetRecordInfoByID(int id)
     {
         if (recordInfoDictionary.ContainsKey(id) == false)
@@ -125,11 +126,11 @@ public class RecordManager : MonoBehaviour
     {
         List<int> resultList = new List<int>();
         
-        // 1. »ý¼ºÇÒ ¸Þ¸ð¸® id¸¦ µñ¼Å³Ê¸®¿¡¼­ Áßº¹ ¾øÀÌ °¡Á®¿Â´Ù. 
+        // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ idï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½. 
         List<int> keys = new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
-            Debug.Log("Å°°ªÀÌ ¾ø½À´Ï´Ù °ÔÀÓ ÁøÇà ºÒ°¡");
+            Debug.Log("Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½");
             return null;
         }
         int min = keys.Min();
@@ -147,7 +148,7 @@ public class RecordManager : MonoBehaviour
             }
             if (recordInfoDictionary.ContainsKey(idx) == true)
             {
-                // 2. ¸¸µç ¸®½ºÆ®¸¦ Åä´ë·Î ¸Þ¸ð¸®¸¦ °¡Á®¿Í Àü´ÞÇÑ´Ù.
+                // 2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ð¸®¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
                 resultList.Add(recordInfoDictionary[idx].id);
             }
 
@@ -159,23 +160,23 @@ public class RecordManager : MonoBehaviour
         return resultList;
     }
 
-    // ¸Þ¸ð¸®¸¦ ·£´ýÀ¸·Î ¹Þ´Â ¸Å°³º¯¼ö¸¸Å­ ¹ÝÈ¯ÇØÁÖ´Â ÇÔ¼ö 
+    // ï¿½Þ¸ð¸®¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½È¯ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½ 
     public List<RecordInfo> GetRandomRewardMemory(int count)
     {
         List<RecordInfo> rewardList = new List<RecordInfo>();
 
-        // 1. »ý¼ºÇÒ ¸Þ¸ð¸® id¸¦ µñ¼Å³Ê¸®¿¡¼­ Áßº¹ ¾øÀÌ °¡Á®¿Â´Ù. 
+        // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ idï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½. 
         List<int> keys = new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
-            Debug.Log("Å°°ªÀÌ ¾ø½À´Ï´Ù °ÔÀÓ ÁøÇà ºÒ°¡");
+            Debug.Log("Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½");
             return null;
         }
         int min = keys.Min();
         int maxCount = keys.Count;
       
 
-        // Áßº¹¾øÀÌ °¹¼ö¸¸Å­ ¸®½ºÆ®¿¡ Ãß°¡ÇÏ±â 
+        // ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½ 
         int prevIndx = 0; 
         while (true)
         {
@@ -189,7 +190,7 @@ public class RecordManager : MonoBehaviour
 
             if(recordInfoDictionary.ContainsKey(idx) == true)
             {
-                // 2. ¸¸µç ¸®½ºÆ®¸¦ Åä´ë·Î ¸Þ¸ð¸®¸¦ °¡Á®¿Í Àü´ÞÇÑ´Ù.
+                // 2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ð¸®¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
                 rewardList.Add(recordInfoDictionary[idx]);
             }
 
@@ -198,15 +199,15 @@ public class RecordManager : MonoBehaviour
         }
 
 
-        // ¸Þ¸ð¸®¸¦ °Ë»çÇØ¼­ ¿É¼Ç µ¥ÀÌÅÍ°¡ ÀÖ´ÂÁö °Ë»ç ¾øÀ¸¸é ¸¸µé¾î¼­ Àü´Þ
+        // ï¿½Þ¸ð¸®¸ï¿½ ï¿½Ë»ï¿½ï¿½Ø¼ï¿½ ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < count; i++)
         {
             if (rewardList[i].specialOption != null) continue;
 
-            // id Á¤º¸´Â ÀÖÀ»ÅÍÀÌ´Ï ±×°ÍÀ» ÅëÇØ optionmanager¿¡°Ô¼­ °¡Á®¿Â´Ù. 
+            // id ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½×°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ optionmanagerï¿½ï¿½ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½. 
             if(OptionManager.instance == null)
             {
-                Debug.Log("¿É¼Ç¸Å´ÏÀú°¡ ¾ø½À´Ï´Ù.");
+                Debug.Log("ï¿½É¼Ç¸Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
                 break; 
             }
 
@@ -218,7 +219,7 @@ public class RecordManager : MonoBehaviour
         return rewardList;
     }
 
-    // ÃÖ¼Ò °³¼ö¿Í ÃÖ´ë °³¼ö¸¦ ¹ÞÀ¸¸é ±× ¾È¿¡¼­ ·£´ýÀ¸·Î ·¹ÄÚµåid ¹ÝÈ¯
+    // ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½id ï¿½ï¿½È¯
     public List<int> GetRandomRecordByRandRange(int start, int end)
     {
         List<int> idList = new List<int>();
@@ -231,11 +232,11 @@ public class RecordManager : MonoBehaviour
 
         int count = Random.Range(start, end + 1);
 
-        // 1. »ý¼ºÇÒ ¸Þ¸ð¸® id¸¦ µñ¼Å³Ê¸®¿¡¼­ Áßº¹ ¾øÀÌ °¡Á®¿Â´Ù. 
+        // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ idï¿½ï¿½ ï¿½ï¿½Å³Ê¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½. 
         List<int> keys = new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
-            Debug.Log("Å°°ªÀÌ ¾ø½À´Ï´Ù °ÔÀÓ ÁøÇà ºÒ°¡");
+            Debug.Log("Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½");
             return null;
         }
 
@@ -244,7 +245,7 @@ public class RecordManager : MonoBehaviour
 
         List<RecordInfo> records = new List<RecordInfo>(recordInfoDictionary.Values);
 
-        // Áßº¹¾øÀÌ °¹¼ö¸¸Å­ ¸®½ºÆ®¿¡ Ãß°¡ÇÏ±â 
+        // ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï±ï¿½ 
         int prevIndex = 0;
         while (true)
         {
@@ -257,7 +258,7 @@ public class RecordManager : MonoBehaviour
             }
 
             idList.Add(id);
-            records.Remove(record); // ³ÖÀº ·¹ÄÚµå´Â Á¦°Å 
+            records.Remove(record); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
             if (idList.Count >= count || records.Count <= 0)
             {
                 break; 
@@ -279,14 +280,14 @@ public class RecordManager : MonoBehaviour
     }
 
 
-    // ½ºÅ×ÀÌÁö¿¡ ÀÌº¥Æ® ´ë»óÀ¸·Î ³ªÅ¸³¯ ·¹ÄÚµå ¹ÝÈ¯
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½È¯
     public void GetStageEventRewardRecord(StageEventInfo eventInfo)
     {
         if (eventInfo == null || eventInfo.appearInfo == null) return;
 
         eventInfo.appearInfo.appearIDList.Clear();
 
-        // ÇÃ·¹ÀÌ¾î°¡ È¹µæÇÑ ·¹ÄÚµå Á¦¿Ü 
+        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ È¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ 
         List<int> recordIDList = GetRanddomRecordID(3);
         if (recordIDList == null || recordIDList.Count <= 0)
         {
@@ -299,9 +300,9 @@ public class RecordManager : MonoBehaviour
         }
     }
 
-    // ¾Æ·¡ ÄÚµå´Â ·¹ÄÚµå°¡ °³º°·Î Àû¿ëÇÒ ¶§ »ç¿ëÇÒ ÄÚµå¿´´Ù. Áö±ÝÀº ¸ðµç ÇÃ·¹ÀÌ¾î¿¡°Ô Àû¿ëÇÒ ¿¹Á¤ÀÌ±â¿¡ 
-    // È¿¿ë¼ºÀÌ ¶³¾îÁö¹Ç·Î ÁÖ¼®Ã³¸®ÇÑ´Ù. 
-    // ÇÊµå¿¡ ³ª¿ÍÀÖ´Â ÇÃ·¹ÀÌ¾îµé¿¡°Ô ·¹ÄÚµå¸¦ Àû¿ëÇÏ´Â ÇÔ¼ö
+    // ï¿½Æ·ï¿½ ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½Úµå°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¿´ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì±â¿¡ 
+    // È¿ï¿½ë¼ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½Ö¼ï¿½Ã³ï¿½ï¿½ï¿½Ñ´ï¿½. 
+    // ï¿½Êµå¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½Úµå¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     //public void ApplyRecordAbilityToAllPlayers(List<Character> players)
     //{
     //    for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
@@ -316,7 +317,7 @@ public class RecordManager : MonoBehaviour
     //    }
     //}
 
-    // ·¹ÄÚµå¸¦ ¼±ÅÃÇÏ´Â ÇÔ¼ö
+    // ï¿½ï¿½ï¿½Úµå¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     public void SelectRecord(int recordID)
     {
         if (recordID == 0) return;
@@ -331,20 +332,20 @@ public class RecordManager : MonoBehaviour
         selectRecordInfos.Add(selectedRecord);
     }
 
-    // ÇÃ·¹ÀÌ¾îµé¿¡°Ô ·¹ÄÚµå Àû¿ëÇÏ±â
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
     public void ApplyRecordToPlayers(List<WheelerController> players)
     {
         for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
         {
             RecordInfo record = selectRecordInfos[i];
-            // ?? specialOption °¡ null ÀÌ¶ó¸é ¿À¸¥ÂÊ¿¡ ¿¬»êÀ» ÅëÇÏ¶ó´Â ¶æ 
+            // ?? specialOption ï¿½ï¿½ null ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ ï¿½ï¿½ 
             record.specialOption ??= GetSpecialOptionToRecordInfo(record.specialOptionID);
 
             foreach (var player in players)
             {
                 if (player.MyPlayer == null) continue;
                 
-                // ¾Æ·¡ ÄÚ·çÆ¾ ½ÇÇà 
+                // ï¿½Æ·ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½ 
                 StartCoroutine(ManageRecordTimer(player.MyPlayer, record));
             }
         }
@@ -365,17 +366,17 @@ public class RecordManager : MonoBehaviour
 
         yield return new WaitForSeconds(record.specialOption.coolTime);
 
-        // todo ÄðÅ¸ÀÓÀÌ ³¡³­ ÈÄ Ã³¸® ·ÎÁ÷ Ãß°¡ ÀÚ¸® 
+        // todo ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ú¸ï¿½ 
     }
 
-    // ¾÷µ¥ÀÌÆ® ¹®¿¡¼­ µ¿ÀÛÇÏ´Â ÇÔ¼ö 
-    // Àû¿ëÇÑ ·¹ÄÚµåµéÀ» ¼øÈ¸ÇÏ¸ç ÄðÅ¸ÀÓÀ» Àé´Ù 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï¸ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
     public void UpdateRecordTiemers()
     {
         for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
         {
             RecordInfo record = selectRecordInfos[i];
-            // ?? specialOption °¡ null ÀÌ¶ó¸é ¿À¸¥ÂÊ¿¡ ¿¬»êÀ» ÅëÇÏ¶ó´Â ¶æ 
+            // ?? specialOption ï¿½ï¿½ null ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ ï¿½ï¿½ 
             record.specialOption ??= GetSpecialOptionToRecordInfo(record.specialOptionID);
 
             if (record.specialOption.coolTime <= 0)
@@ -385,7 +386,7 @@ public class RecordManager : MonoBehaviour
 
         }
     }
-    // ¼±ÅÃÇÑ ·¹ÄÚµåµéÀ» ´Ù ÃÊ±âÈ­ÇÑ´Ù. 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½. 
     public void ClearRecords()
     {
         selectRecordInfos.Clear();  

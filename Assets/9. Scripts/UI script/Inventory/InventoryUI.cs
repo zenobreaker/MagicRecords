@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// ÀÎº¥Åä¸® UI°ú Á÷Á¢ÀûÀ¸·Î ¿¬°üµÈ Å¬·¡½º 
-// Inventory Å¬·¡½ºÀÇ µ¥ÀÌÅÍÀÇ »óÅÂ¿¡ µû¶ó ÀÌ UI Å¬·¡½º°¡ »óÅÂ¸¦ º¸¿©ÁØ´Ù 
+// ï¿½Îºï¿½ï¿½ä¸® UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
+// Inventory Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ UI Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ 
 public class InventoryUI : TabManual
 {
-    public static bool inventoryActivated = false; // ÀÎº¥Åä¸®°¡ ÄÑÁ®ÀÖÀ¸¸é ´Ù¸¥ ±â´ÉµéÀ» Á¤Áö½ÃÅ³ ¼ö ÀÖÀ½
+    public static bool inventoryActivated = false; // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½Éµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å³ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public bool isOpenInventory = false;
 
     private int selectedPage;
 
-    public int maxSlotCount;        // ÃÖ´ë ÀÎº¥ ½½·Ô °³¼ö 
+    public int maxSlotCount;        // ï¿½Ö´ï¿½ ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-    // ÇÊ¿äÇÑ ÄÄÆ÷³ÍÆ®
+    // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     [SerializeField] InvenSlot invenSlot = null;
     [SerializeField] GameObject contentPage = null;
-    [SerializeField] List<InvenSlot> invenSlots = new List<InvenSlot>();   // ÀÎº¥Åä¸® ½½·Ô
+    [SerializeField] List<InvenSlot> invenSlots = new List<InvenSlot>();   // ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½
 
     [SerializeField] List<Item> totalItems = new List<Item>();
 
@@ -26,7 +26,7 @@ public class InventoryUI : TabManual
     void Start()
     {
         totalItems.Clear();
-        // ÀÎº¥Åä¸®ÀÇ ¾ÆÀÌÅÛ ¸®½ºÆ® °¡Á®¿À±â
+        // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         totalItems = Inventory.instance.GetItems();
 
         selectedPage = 1;
@@ -49,7 +49,7 @@ public class InventoryUI : TabManual
         RefreshInventory(); 
     }
 
-    // ÃÖ´ë ½½·Ô ¼ö ¸¸Å­ ÀÎº¥Åä¸® ½½·ÔÀ» ¼³Á¤ÇÑ´Ù 
+    // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ 
     void SettingInventorySlot()
     {
         if (invenSlots.Count < maxSlotCount)
@@ -61,10 +61,10 @@ public class InventoryUI : TabManual
             }
         }
     }
-    // ÀÎº¥Åä¸®¸¦ ÃÖ½ÅÈ­ ÇÑ´Ù
+    // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ö½ï¿½È­ ï¿½Ñ´ï¿½
     public void RefreshInventory()
     {
-        // ÇöÀç ui °¡ °®°í ÀÖ´Â ÃÖ´ë °³¼ö¿Í ÀÎº¥Åä¸® µ¥ÀÌÅÍ°¡ °®°í ÀÖ´Â °³¼ö°¡ ´Ù¸£´Ù¸é ÃÖ½ÅÈ­ÇÑ´Ù
+        // ï¿½ï¿½ï¿½ï¿½ ui ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½Ù¸ï¿½ ï¿½Ö½ï¿½È­ï¿½Ñ´ï¿½
         if (maxSlotCount != Inventory.instance.maxSlotCount)
         {
             maxSlotCount = Inventory.instance.maxSlotCount;
@@ -74,12 +74,12 @@ public class InventoryUI : TabManual
         TabSetting(selectedPage);
     }
 
-    // ÀÎº¥Åä¸®¿¡ ¾ÆÀÌÅÛ ³Ö±â 
+    // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ 
     public void AddItem(Item p_item, int p_Count = 1)
     {
         if (totalItems.Count == invenSlots.Count)
         {
-            Debug.Log("ÀÎº¥Åä¸®°¡ ²ËÃ¡½À´Ï´Ù. ");
+            Debug.Log("ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½Ã¡ï¿½ï¿½ï¿½Ï´ï¿½. ");
             return;
         }
         if (p_item == null) return;
@@ -108,7 +108,7 @@ public class InventoryUI : TabManual
                 {
                     if (selectedPage == (int)(p_item as EquipItem).equipType || selectedPage == 0)
                     {
-                        // ÀÎº¥Åä¸® ¸®½ºÆ®¿¡ Ãß°¡µÈ ±æÀÌ - 1ÀÌ ÀÎµ¦½º°ªÀ¸·Î ÂüÁ¶ 
+                        // ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - 1ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                         invenSlots[totalItems.Count - 1].ClearSlot();
                         invenSlots[totalItems.Count - 1].SetSize(new Vector2(200, 200));
                         invenSlots[totalItems.Count - 1].AddItem(totalItems[totalItems.Count - 1]);
@@ -132,7 +132,7 @@ public class InventoryUI : TabManual
 
   
  
-    // Àåºñ ÇØÁ¦
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void TakeOffEquipment(int _idx)
     {
         invenSlots[_idx].TakeOffItemSlot();
@@ -145,7 +145,7 @@ public class InventoryUI : TabManual
 
         if (p_Items.Count != invenSlots.Count)
         {
-            Debug.Log("µÑÀÇ ±æÀÌ Â÷ÀÌ " + p_Items.Count + " " + invenSlots.Count);
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ " + p_Items.Count + " " + invenSlots.Count);
             if (p_Items.Count > invenSlots.Count)
             {
                 int t_start = invenSlots.Count > 0 ? invenSlots.Count - 1 : 0;
@@ -169,7 +169,7 @@ public class InventoryUI : TabManual
             }
         }
 
-        // ½½·Ô¿¡ ¾ÆÀÌÅÛ ³Ö±â 
+        // ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ 
         for (int i = 0; i < p_Items.Count; i++)
         {
             invenSlots[i].ClearSlot();
@@ -184,14 +184,14 @@ public class InventoryUI : TabManual
     }
 
 
-    // ¾ÆÀÌÅÛÀ» ½½·Ô¿¡ µî·Ï 
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ 
     public void TabSetting(int p_TabNumber)
     {
         SettingSlot(Inventory.instance.GetItemList((InventoryCategory)p_TabNumber));
 
     }
 
-    // ¼¼ÆÃÇÑ ÅÇÀ» ±âÁØÀ¸·Î ÀÎº¥Åä¸®¸¦ ¿ÀÇÂÇÑ´Ù
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
     public void OpenInventoryBySeletedTab(int p_TabNumber)
     {
         SoundManager.instance.PlaySE("Confirm_Click");
