@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +20,11 @@ public class StageMenuSelectUI : MonoBehaviour
 
     public Button confirmButton;
 
+    private List<StageEventInfo> testlist = new List<StageEventInfo>();
+
     private void OnEnable()
     {
+
         selectIconNumber = -1;
 
         if (contentObject == null) return;
@@ -39,6 +43,11 @@ public class StageMenuSelectUI : MonoBehaviour
         {
             confirmButton.interactable = false;
         }
+    }
+
+    private void OnDisable()
+    {
+        testlist.Clear();
     }
 
 
@@ -84,9 +93,30 @@ public class StageMenuSelectUI : MonoBehaviour
             }
         }
 
+        if (testlist.Count > 0 && selectIconNumber>-1)
+        {
+            var testInfo = testlist[selectIconNumber];
 
-        // ������ �����ϰų� ���������� Ȯ�� ��ư�� Ȱ��ȭ�� ǥ��
-        if(selectIconNumber != -1 && confirmButton != null)
+            if (testInfo != null)
+            {
+                StageType type = testInfo.stageType;
+                if(type == StageType.BATTLE)
+                {
+                    StringBuilder idList = new StringBuilder();
+                    foreach(var id  in testInfo.appearInfo.appearIDList )
+                    {
+                        idList.Append(id.ToString()+" ");
+                    }
+                    var stageID = testInfo.stageId;
+                    // todo 
+                    Debug.Log( "스테이지 ID" + stageID  + "등장하는 몬스터 ID 리스트" + idList);
+                }
+            }
+        }
+
+
+        // 선택된것에 따라 버튼 UI 활성화 조정
+        if (selectIconNumber != -1 && confirmButton != null)
         {
             confirmButton.interactable = true;
         }
@@ -97,7 +127,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
     }
 
-    // �̺�Ʈ ���� ��ġ�ϱ� 
+    // 이벤트 슬롯 배치
     public void DeploySelectEventSlot(ref StageTableClass stageTable)
     {
         if (stageTable == null) return;
@@ -133,7 +163,7 @@ public class StageMenuSelectUI : MonoBehaviour
             slot.gameObject.SetActive(true);
             slot.transform.name = "slot" + i + 1;
 
-            // ��ư ��� �ֱ� 
+            // 버튼 기능할당
             var button = slot.GetComponent<Button>();
             if (button != null)
             {
@@ -145,13 +175,13 @@ public class StageMenuSelectUI : MonoBehaviour
             // �̹��� ��ü 
             var slotImage = slot.GetComponent<Image>();
             var eventInfo = stageTable.eventInfoList[i];
-
+            testlist.Add(eventInfo);
             DrawStageIcon(slotImage, eventInfo);
         }
     }
 
 
-    // ���������� �´� ���� �̹��� ����
+    // UI에 정보를 토대로 아이콘을 그린다.
     void DrawStageIcon(Image image, StageEventInfo stageEventInfo)
     {
         if (image == null || stageEventInfo == null)

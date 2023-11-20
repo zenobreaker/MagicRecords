@@ -209,7 +209,9 @@ public class StageInfoManager : MonoBehaviour
     [SerializeField] public Dictionary<GamePlayLevel, float> playLevelPair = new Dictionary<GamePlayLevel, float>();
     [SerializeField] List<List<int>> stageLocateList;       // �������� ��ġ ������ ���� ����Ʈ 
     // é��, stagetable �� 
-    private Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>(); 
+    private Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>();
+
+    private bool isStageLockChet = false;
 
     private void Awake()
     {
@@ -244,7 +246,7 @@ public class StageInfoManager : MonoBehaviour
         maxChapter = 1; 
     }
 
-    public void SetStageList(int _chapter, ref List<StageTableClass> _stageTableList)
+    public void SetStageList(int _chapter, List<StageTableClass> _stageTableList)
     {
         stageDictList[_chapter] = _stageTableList;
     }
@@ -260,7 +262,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    // �÷����� ���������� �����س��� �Լ� 
+    // 스테이지 선택
     public void ChoiceStageInfoForPlaying(int _chapter, int _selectStageNumber, int _selectEventNumber)
     {
         if(stageDictList.Count <= 0)
@@ -274,7 +276,7 @@ public class StageInfoManager : MonoBehaviour
 
         if (_selectStageNumber - 1 < 0)
         {
-            Debug.Log("������ �������� �ε����� 0 �̸� ����");
+            Debug.Log("선택한 데이터가없습니다.");
             return;
         }
 
@@ -351,7 +353,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    // �������� Ŭ���� �� �ٸ� �������� ���� ���Ž�Ų��
+   // 진행중인 현재 챕터 갱신
     public void RefreshCurrentChapterStageTableClass()
     {
         if (currentChapter == 0 || isTest == true) return;
@@ -398,11 +400,9 @@ public class StageInfoManager : MonoBehaviour
 
 
 
-    // �������� ���� ����  
-    // ���̸� �˷��ָ� �� ���� ���� ������ ������ ä��� �Լ� 
+     // 스테이지들을 배치한다.
     void SetStagePosOneLine(int length, float rate = 1.0f)
     {
-        // �̹� ����� ���ٸ� ���� �������� �ʴ´�. 
         if (stageLocateList != null)
         {
             return;
@@ -410,21 +410,13 @@ public class StageInfoManager : MonoBehaviour
 
         stageLocateList = new List<List<int>>();
 
-        // ���۰� ���� �����̴�. 
         List<int> start = new List<int>(1) { 1, 1, 1 };
         List<int> end = new List<int>(1) { 1 };
         stageLocateList.Add(start);
 
-        // ���� ���۰� ���� �� ���� ���̸� ����Ѵ�. 
+        
         int diff = length - 2;
 
-        // ���� ���̿� ��ġ�� �� 80%�� ���� 20�� �̺�Ʈ�� 
-        // ��ȹ ���� - �̺�Ʈ ���������� ������ �ϳ� ��ġ�ϰ� �� �ȿ��� ������ �߰��� ��ġ���� �����Ѵ�.
-        // 1�ܰ� 1�������� ��� 5�� �������� �ۿ� ������ 1 1 2 3 1 �� ��ġ�Ѵ�.
-        // �� �̺�Ʈ�� ��ġ�� ���� ������ �ߺ����� ��ġ�Ǹ� ����ϴ� ������ ��ġ�� �� ���������� �����Ѵ�. 
-        // ���� ��ġ��ŭ �ݺ��ؼ� ����,
-
-        // �� �������� ��忡 �� �̺�Ʈ ��� �ִ� ���� 3��
         int maxEventNodeCount = 3;
         int minEventNodeCount = 1;
 
@@ -432,11 +424,10 @@ public class StageInfoManager : MonoBehaviour
 
         bool isElitePosFlag = false;
         bool isShopFlag = false; 
-        // �� ��° ������������ ��ġ 
         for (int i = 1; i < length - 1; i++)
         {
             var sublist = new List<int>();
-            // �������� �������� ��ġ�� ��ü ���̿��� ���� ��ġ ���� ���� ���¶�� ����Ʈ�� �̺�Ʈ�� ���ÿ� ��ġ�ȴ�. 
+          
             if (i > eliteAppearPoint)
             {
                 isElitePosFlag = true;
@@ -444,11 +435,10 @@ public class StageInfoManager : MonoBehaviour
             int currentNodeCount = Random.Range(minEventNodeCount, maxEventNodeCount + 1);
             for (int j = 0; j < currentNodeCount; j++)
             {
-                // ����Ʈ�� ��ġ�Ǿ��ٴ� �÷��׸� ������� �̺�Ʈ�� ��ġ�Ѵ�. 
+                // 엘리트가 배치되었다면 
                 if (isElitePosFlag == true)
                 {
-                    // ���� �̺�Ʈ ��ġ Ȯ�� 
-                    // �����͸� �����ϴµ� �־ ���ϵ��� StageType�� ������ ���� enum������ �ٷ� ���� 
+                    //상점과 이벤트 스테이지를 배치한다.
                     int randShop = Random.Range(0, 10);
                     if (isShopFlag == false && randShop < 3 )
                     {
@@ -460,7 +450,7 @@ public class StageInfoManager : MonoBehaviour
                         sublist.Add((int)StageType.EVENT);
                     }
                 }              
-                // ���� ���������� ���� 
+                // 그게 아니면 전투
                 else
                 {
                     sublist.Add((int)StageType.BATTLE);
@@ -468,23 +458,23 @@ public class StageInfoManager : MonoBehaviour
 
             }
 
-            // �ٽ� �÷��� �� ��ġ
+            // 배치 종료
             isElitePosFlag = false;
             stageLocateList.Add(sublist);
         }
 
-        // ��� ������ �������� �������� �������� �־��ش�. 
+        // 종료엔 보스를 넣는다.
         stageLocateList.Add(end);
 
         return;
     }
 
-    // StageTableClass ����Ʈ ���� ������ �������� Ÿ�Կ� ���� ���ͳ� �̺�Ʈ�� ��ġ��Ų��.
+    // StageTableClass 리스트를 참조하면서 각 타입별로 배치한다.
     void SetStageTableClassListByStateTypeData(ref List<StageTableClass> list)
     {
         if (list == null || list.Count <= 0) return;
 
-        // �������� Ÿ�� �˻� 
+        // 
         foreach (StageTableClass tableClass in list)
         {
             if (tableClass == null || tableClass.eventInfoList == null) continue;
@@ -493,11 +483,11 @@ public class StageInfoManager : MonoBehaviour
             {
                 if (eventInfo == null) continue;
 
-                // �������� Ÿ���� ���� Ÿ���� ��� 
+                // 전투 타입일 경우 
                 if (eventInfo.stageType == StageType.BATTLE)
                 {
-                    // ������ ���� ID ����Ʈ �����
-                    // todo ���� ���� ������ �����ؾ��Ѵ�.
+                    // 몬스터 값을 가져온다.
+                    // todo 챕터 및 난이도 조정하는 법 수정
                     MonsterDatabase.instance.GetMonsterIDListFromTargetStage(
                         currentChapter, (int)1,
                         eventInfo);
@@ -536,25 +526,23 @@ public class StageInfoManager : MonoBehaviour
         }
     }
 
-    // ����Ʈ�� ������ ���� �κи� �ٽ� ����� ������ (�������ʹ� ����) 
+    // 몬스터 스테이지에게 등급을 설정한다.
     void SetMonsterStageGrade(ref List<StageTableClass> list)
     {
         if (list == null) return;
 
-        // ���������� ���� ���̸� ����ؼ� ������ å���Ѵ�.
-        // ����Ʈ�� ������ ���������� ���� �� ������ �̰� ���������� �����ϸ� �ȵȴ�. 
-        // 5���� ���������������� 1���� ����Ʈ�� ���ԵǾ� �ִ�. 
+        
         int stageCount = list.Count;
-        // ����Ʈ ���� �� 
+        
         int maxEliteMonsterCount = 1;
-        // �� �������� ��� ������ ������. 
+        
         int resultDivineStageCount = stageCount / 2;
 
         if (playLevelPair.Count() < 0)
             return;
 
         float value = 0;
-        // �� ���� 0���� ũ�ٸ� ����Ʈ ���� ������ �߰����� ���� �����Ѵ�. ���̵��� ���� Ȯ���� �ٸ���. 
+        
         if (gameLevel == GamePlayLevel.NORMAL)
         {
             // NORAML Ȯ��
@@ -572,7 +560,6 @@ public class StageInfoManager : MonoBehaviour
         var randValue = Random.Range(0, 1.0f);
         if (randValue <= value)
         {
-            // Ȯ���� ��÷�Ǹ� ���� �߰� 
             maxEliteMonsterCount += resultDivineStageCount;
         }
 
@@ -596,10 +583,13 @@ public class StageInfoManager : MonoBehaviour
             // ����Ʈ ���ο� �������� monstertype�͸� �ǵ��. 
             foreach (var eventInfo in stage.eventInfoList)
             {
-                if (eventInfo == null || eventInfo.appearInfo == null)
+                if (eventInfo == null )
                 {
                     continue;
                 }
+
+                if (eventInfo.appearInfo == null)
+                    eventInfo.CreateAppearInfo();
 
                 // ���� Ÿ���� �ƴϸ� �ȵȴ�.
                 if (eventInfo.stageType != StageType.BATTLE)
@@ -645,8 +635,7 @@ public class StageInfoManager : MonoBehaviour
         }
     }
 
-    // ��� �������� ��� ó�� (1�������� ����)
-    // Ư�� �������� Ŭ���� ���ο� ���� ���� 
+    // 첫 스테이지를 제외하고 모든 스테이지를 잠근다.
     private void LockedAllStage()
     {
         if (stageTables == null) return;
@@ -654,29 +643,21 @@ public class StageInfoManager : MonoBehaviour
         for (int i = 1; i < stageTables.Count; i++)
         {
             if (stageTables[i] == null) continue;
-            stageTables[i].isLocked = true;
+            stageTables[i].isLocked = false;
         }
     }
 
-    // �������� ���̺� ����
+    // 단계에 맞는 Stage Table 클래스 List를 생성
     public void CreateStageTableList(int level = 1)
     {
-        // 0. �ϳ��� ���θ� �����Ѵ�. �� �������� ��忡�� �̺�Ʈ �ִ� 3���� ���. 
-        // 3���� �̺�Ʈ�� ���� ����, Ư�� ���, ���� ���� �̺�Ʈ��� ����������. 
-        // �������� ���� �ִ� 5�� (�Ϲ�), �ϵ�� 7�� 
-
-        // todo ����Ȱ� �ִ��� �˻��ؾ��Ѵ�. 
-
-        // ����Ȱ� ���ٸ� �����͸� ó������ �������ϹǷ� �÷��׵� ���ش�. 
         initJoinPlayGameModeFlag = true; 
 
-        // �̹� ������������ �������ٸ� ������ �������ʴ´�. 
         if (stageDictList.ContainsKey(currentChapter) == true && 
             stageDictList[currentChapter] != null && 
             stageDictList[currentChapter].Count > 0)
             return; 
 
-        // 1. ���̵��� ���� �ִ� ���������� �����Ѵ� 
+        // 1. 난이도 별 최대 스테이지 책정
         int maxStageCount = LEVEL_NORMAL_MAX_STAGE_COUNT;
         if (level == (int)GamePlayLevel.HARD)
         {
@@ -692,18 +673,17 @@ public class StageInfoManager : MonoBehaviour
             stageTables.Clear();
         }
 
-        // �������� ��ġ�� ����Ʈ�� ���� 
+        // 스테이지를 한 줄로 배치하고 해당 하는 기능의 넘버를 담는 리스트를 생성
          SetStagePosOneLine(maxStageCount);
-        // 1-1 �������� ��ġ�� ����Ʈ ��ŭ �����ϱ�
+        // 1-1 한줄 리스트 만큼 순회하면서 해당하는 기능의 클래스 생성하기
         for (int i = 0; i < stageLocateList.Count; i++)
         {
             StageTableClass stageTable = new StageTableClass
             {
-                // �������� �� ���� order ����
+                //  order 
                 tableOrder = i + 1,
-                // 2.1 �������� �̸� ����
+                // 2.1 스테이지 이름 생성
                 stageName = currentChapter + "-" + i + 1,
-                // 2.2 ���������� Ÿ�� ���� 
                 //  stageType = (StageType)stageLocateList[i].First(),
                 eventInfoList = new List<StageEventInfo>()
             };
@@ -724,22 +704,22 @@ public class StageInfoManager : MonoBehaviour
 
         }
 
-        // ������ ���������� ���� ���������� �����س��´�.
+        // 마지막 스테이지는 보스 스테이지로 고정해놓는다
         if (stageTables.Last() != null)
         {
             stageTables.Last().isBossStage = true;
         }
 
         // 3. 
-        // ���� Ÿ���� ������ ����ȭ�ؾ��Ѵ�. 
+        // 몬스터 스테이지라면 등급 설정하기
         SetMonsterStageGrade(ref stageTables);
-        // Ÿ�Ժ� ���� ���� 
+        // 스테이지 타입별로 스테이지 정보에 세부사항 할당
         SetStageTableClassListByStateTypeData(ref stageTables);
 
-        // 4. �������� ��ױ�
+        // 4. 첫 번째를 제외한 스테이지는 전부 잠금처리
         LockedAllStage();
 
-        SetStageList(currentChapter, ref stageTables); 
+        SetStageList(currentChapter, stageTables); 
 
     }
 

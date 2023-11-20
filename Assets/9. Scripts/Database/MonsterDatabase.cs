@@ -93,6 +93,7 @@ public class CharacterStatJsonAllData
 [System.Serializable]
 public class MonsterStatJson
 {
+    public int statID;
     public int monsterID;
     public int hp;
     public int attack;
@@ -460,6 +461,7 @@ public class MonsterDatabase : MonoBehaviour
                     wheeler.MyPlayer.MyStat = value.Clone();
                     wheeler.MyPlayer.InitCurrentHP();
                     wheeler.MyPlayer.InitCurrentMP();
+                    wheeler.MyPlayer.InitCurrentCP();
                     wheeler.InitPattren();
                     // 처리를 다했으니 켜준다. 
                     monsterObject.SetActive(true);
@@ -557,7 +559,7 @@ public class MonsterDatabase : MonoBehaviour
         if (eventInfo == null) return;
 
         // 나타날 정보 생성 
-        eventInfo.CreateAppearInfo();
+        //eventInfo.CreateAppearInfo();
 
         if (eventInfo.appearInfo == null) return; 
         var targetList = eventInfo.appearInfo.appearIDList;

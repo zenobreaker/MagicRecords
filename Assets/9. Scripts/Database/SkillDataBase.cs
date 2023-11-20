@@ -274,7 +274,7 @@ public class SkillDataBase : MonoBehaviour
 
         tempPlayer.SetSkill(activeSkills[2], 0, false);
         
-        skilbtn.playerControl = target;
+        skilbtn.controller = target;
         skilbtn.SetSkill(0);
     }
 

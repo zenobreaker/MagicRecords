@@ -86,9 +86,10 @@ public class PlayerControl : WheelerController
         dashEffect.transform.SetParent(this.transform);
         dashEffect.SetActive(false);
 
-        // 스테이터스 컨트롤러 동작 
-        //InitStatusConteroller();
+        // 재생 관련 스탯 동작 
+        InitRecoveryStat();
     }
+
     void FixedRotation()
     {
         m_rigid.angularVelocity = Vector3.zero;

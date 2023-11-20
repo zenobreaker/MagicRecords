@@ -433,8 +433,11 @@ public class SkillManual : MonoBehaviour
             if (selectedPlayer.GetSlotisChain(quickSlots[i].slot) == true)
             {
                 // 하르키니아 르 살레브아르스 
-                img_ChainSkill.transform.position = quickSlots[i].transform.position;
-                img_ChainSkill.gameObject.SetActive(true);
+                quickSlots[i].DrawChainUi(true);
+            }
+            else
+            {
+                quickSlots[i].DrawChainUi(false);
             }
 
         }
@@ -582,18 +585,31 @@ public class SkillManual : MonoBehaviour
         if (selectedSlot == null || selectedPlayer == null)
             return;
 
-        // 해당 슬롯에서 체인스킬 버튼을 누르면 해당 스킬을 체인 스킬화 한다.
+        // 체인이 걸리는지 검사 
+        bool isChain = false; 
+        if (selectedPlayer.GetSlotisChain(selectedSlot.slot) == false)
+        {
 
-        // 1. 선택한 슬롯에서 스킬을 체인 시킨다. 
-        // 1-1 슬롯번호를 통해서 캐릭터의 해당 슬롯번호에 해당하는 스킬을 체인시킨다.
-        selectedPlayer.SetChainSkillByNormalSlot(selectedSlot.slot);
+            // 해당 슬롯에서 체인스킬 버튼을 누르면 해당 스킬을 체인 스킬화 한다.
+            // 1. 선택한 슬롯에서 스킬을 체인 시킨다. 
+            selectedPlayer.SetChainSkillByNormalSlot(selectedSlot.slot);
+            isChain = true; 
+        }
+        else
+        {
+            // 체인 스킬 해제
+            selectedPlayer.SetOffChainSkill(selectedSlot.slot);
+        }
 
         // 2. UI들을 다시 그린다. 
         DrawSkillManual();
 
-        // 3. 체인 스킬 UI를 열어준다.
-        //OpenCloseChainSkillUI();
-
+        // 체인이 걸리면 해당 UI 열어주기
+        if (isChain == true)
+        {
+            // 3. 체인 스킬 UI를 열어준다.
+            OpenCloseChainSkillUI();
+        }
     }
 
     public void ClearChainSkill()
@@ -614,8 +630,14 @@ public class SkillManual : MonoBehaviour
     // 체인스킬 UI 열기 
     public void OpenCloseChainSkillUI()
     {
-        UIPageManager.instance.OpenClose(chainSkillUI);
-        //
+        UIPageManager.instance.OpenClose(chainSkillUI,
+            ()=>
+            {
+                if(chainSkillUI.TryGetComponent<ChainSkillSetting>(out var component))
+                {
+                    component.SetDrawTarget(selectedPlayer);
+                }
+            });
     }
 
 
@@ -626,22 +648,30 @@ public class SkillManual : MonoBehaviour
     // 퀵슬롯 선택 정보 저장
     public void SelectSkillSlot(SkillQuickSlot slot)
     {
-        if (slot == null) return;
+        if (slot == null || quickSlots == null) return;
         
         // 1. 이전에 선택한 정보가 있다면 선택한 정보가 그리는 걸 끈다 
-        if(selectedSlot != slot && selectedSlot != null)
+        foreach(var quickslot in quickSlots)
         {
-            selectedSlot.DrawSelectUIGroup();
+            // 이전에 선택한 슬롯들 전부 초기화 
+            if(quickslot == slot)
+            {
+                continue;
+            }
+            quickslot.DrawSelectUIGroup(false);
         }
 
         // 2. 이전에 선택한 정보랑 같다면 취소
-        if(selectedSlot == slot)
+        if (selectedSlot == slot)
         {
+            selectedSlot.DrawSelectUIGroup(false);
             selectedSlot = null;
-            return; 
         }
-
-        selectedSlot = slot; 
+        else
+        {
+            selectedSlot = slot;
+            selectedSlot.DrawSelectUIGroup(true);
+        }
     }
    
 }

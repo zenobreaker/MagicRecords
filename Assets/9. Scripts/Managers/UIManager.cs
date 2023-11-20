@@ -26,7 +26,8 @@ public class UIManager : MonoBehaviour
     private Gauge health = null;
     [SerializeField]
     private Gauge mana = null;
-    [SerializeField] Gauge currrentCP = null;
+    [SerializeField] 
+    private Gauge chainPoint = null;
 
     public GameObject BuffUiBase;
     public BuffIcon buffIcon;
@@ -42,7 +43,7 @@ public class UIManager : MonoBehaviour
 
     public Gauge MyCP
     {
-        get { return currrentCP; }
+        get { return chainPoint; }
     }
 
     [Header("캐스팅바")]
@@ -103,8 +104,8 @@ public class UIManager : MonoBehaviour
 
         UpdateGameScore();
         UpdateCounter();
-        //if(CharStat.instance.currentCP == 10)
-        //    UpdateChainIcon();
+
+        UpdateSkillButton();
     }
 
     // HUD랑 선택된 캐릭터 정보랑 연결
@@ -116,8 +117,7 @@ public class UIManager : MonoBehaviour
 
         MyHP.Initalize(selctPlayer.MyCurrentHP, selctPlayer.MyMaxHP);
         MyMP.Initalize(selctPlayer.MyCurrentMP, selctPlayer.MyMaxMP);
-        // TODO : CP 시스템 추가 
-        //MyCP.Initalize(status.); 
+        MyCP.Initalize(selctPlayer.MyCurrentCP, selctPlayer.MyMaxCP); 
     }
 
     // 선택한 플레이어의 스탯에 따른 HUD 업데이트 하기 
@@ -127,6 +127,7 @@ public class UIManager : MonoBehaviour
         
         MyHP.MyCurrentValue = selctPlayer.MyCurrentHP;
         MyMP.MyCurrentValue = selctPlayer.MyCurrentMP;
+        MyCP.MyCurrentValue = selctPlayer.MyCurrentCP;
     }
  
     // HP와 MP는 리젠 시키는 값이 있다. 
@@ -137,6 +138,18 @@ public class UIManager : MonoBehaviour
 //        MyHP.MyCurrentValue 
     }
 
+
+    // 스킬 버튼을 업데이트한다.
+    public void UpdateSkillButton()
+    {
+        if (selctPlayer == null) return;
+
+        // 체인 스킬 아이콘 켜주기 
+        foreach (var ab in actionButtons)
+        {
+            ab.ActiveChainIcon(selctPlayer.MyCurrentCP >= 10);
+        }
+    }
 
     public void OpenClose(CanvasGroup canvasGroup)
     {
@@ -223,29 +236,19 @@ public class UIManager : MonoBehaviour
     }
 
     // 스킬 퀵슬롯에 등록시키기 
-    public void SetQuickSlot(PlayerControl p_targetPlayer)
+    public void SetQuickSlot(WheelerController targetCharacter)
     {
+        if (targetCharacter == null || targetCharacter.MyPlayer == null)
+            return;
+
         for (int i = 0; i < actionButtons.Length; i++)
         {
-            actionButtons[i].playerControl = p_targetPlayer;
-            actionButtons[i].SetSkill(i);
-            
-            if (p_targetPlayer.MyPlayer.skills[(SkillSlotNumber)i] != null 
-                && p_targetPlayer.MyPlayer.skills[(SkillSlotNumber)i].isChain)
-            {
-                 actionButtons[i].ActiveChainIcon();
-            }
-            //  if(p_targetPlayer.MyPlayer.MySkills[i].IsChain)
-
+            actionButtons[i].controller = targetCharacter;
+            actionButtons[i].SetSkill(targetCharacter.MyPlayer.skills[(SkillSlotNumber)i]);
         }
         
     }
 
-    void SetChainSlot(int idx)
-    {
-        actionButtons[idx].isChain = true;
-        
-    }
 
     // 점수 갱신
     public void UpdateGameScore()

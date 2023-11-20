@@ -20,19 +20,18 @@ public class InfoManager : MonoBehaviour
 
     public static int coin;   // ������ ����ϴ� ������ȭ 
 
-    // ��ü ĳ���� ���� ����Ʈ 
+    // 모든 캐릭터 정보 리스트
     private Dictionary<int, Character> allPlayerList = new Dictionary<int, Character>();
 
-    // ���� ���� ������ �ִ� ĳ���� ����Ʈ 
+    // 자신이 소지한 캐릭터 정보 리스트
     private Dictionary<int, Character> myCharacterPlayerList = new Dictionary<int, Character>();
 
-    // Ž���� ĳ���� ����Ʈ 
+    // 파티 조합을 구성한 리스트
     private Dictionary<int, Character> partyCharacters  = new Dictionary<int, Character>();
 
-    // ������������ �ο�� ĳ���͵��� ����Ʈ 
+    // 선택한 캐릭터 리스트 
     private Dictionary<int, Character> selectPlayerList = new Dictionary<int, Character>();
 
-    // Start is called before the first frame update
     void Start()
     {
         if (instance == null)
@@ -48,12 +47,12 @@ public class InfoManager : MonoBehaviour
 
         // 
         SetDefaultAndAllPlayers(); 
-        // �ӽ� �÷��̾� ��ü ���� �� ����Ʈ�� �߰�
+        // 테스트 정보로 캐릭터 세팅 
         TestSetPlayers();
     }
 
 
-    // �÷��̾� ���� �����Ѵ�.
+    // 게임 시작 시 디폴트 캐릭터를 생성한다.
     public void SetDefaultAndAllPlayers()
     {
         var statDict = PlayerDatabase.instance.GetCharactersStatDict();
@@ -117,7 +116,7 @@ public class InfoManager : MonoBehaviour
         allPlayerList.Add(key, playerInfo);
     }
 
-    // �ڽ��� ������ ĳ���� �߰��ϱ� 
+    // 자신의 소지 캐릭터 리스트에 추가하기 
     public void AddMyPlayerInfo(int key)
     {
         var info = GetPlayerInfo(key);
@@ -136,7 +135,7 @@ public class InfoManager : MonoBehaviour
         myCharacterPlayerList.Add(id, character);
     }
 
-    // �ڽ��� ������ ĳ���� ��ȯ 
+    // 자신이 소지한 캐릭터 정보 반환
     public Character GetMyPlayerInfo(int uniqueID)
     {
         if (myCharacterPlayerList.ContainsKey(uniqueID) == true)
@@ -145,7 +144,7 @@ public class InfoManager : MonoBehaviour
         }
         return null;
     }
-    // �ڽ��� ������ ĳ���� ����Ʈ ��ȯ 
+    // 자신의 캐릭터 정보 리스트 반환
     public List<Character> GetMyPlayerInfoList()
     {
         var list = new List<Character>(myCharacterPlayerList.Values);
@@ -163,7 +162,7 @@ public class InfoManager : MonoBehaviour
         return myCharacterPlayerList;
     }
 
-    //  ��� ĳ���� ����Ʈ�� ��� �� �߿� Ű������ �ش� ĳ���� ��ȯ 
+    //  키값을 받으면 캐릭터 정보 반환
     public Character GetPlayerInfo(int key)
     {
         if (allPlayerList.ContainsKey(key) == true)
@@ -176,7 +175,7 @@ public class InfoManager : MonoBehaviour
         //_playerList.Clear();
     }
 
-    // ���ӿ� ������ ��Ƽ ĳ���� ����Ʈ ����
+    // 자신의 파티 캐릭터들 초기화
     public void InitMyPartyPlayList()
     {
         partyCharacters.Clear();
@@ -185,6 +184,7 @@ public class InfoManager : MonoBehaviour
         {
             pair.Value.InitCurrentHP();
             pair.Value.InitCurrentMP();
+            pair.Value.InitCurrentCP();
             pair.Value.isDead = false; 
             partyCharacters.Add(pair.Key, pair.Value);
         }
@@ -209,7 +209,7 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // �ڽ��� ���� �ִ� �÷��̾� ���� �� ������ �÷��̾� ������ ��´�.
+    // 선택한 캐릭터 설정 
     public void SetSelectPlayer(int key)
     {
         //var info = GetMyPlayerInfo(key);
@@ -226,7 +226,7 @@ public class InfoManager : MonoBehaviour
         }
     }
 
-    // �÷����� ĳ���͵��� ����
+    // 선택한 캐리터들을 설정한다
     public void SetSelectPlayers(int[] keys)
     {
         selectPlayerList.Clear();
@@ -237,25 +237,25 @@ public class InfoManager : MonoBehaviour
         }
     }
 
-    // ������ �÷��̾� ���� ��ȯ 
+    // 선택했던 캐릭터리스트 반환
     public Dictionary<int, Character> GetSelectPlayers()
     {
         return selectPlayerList;
     }
 
-    // �ڽ��� ������ �ִ� ĳ���͵� �� ���õ��� ���� �༮���� ��ȯ
+    // 선택하지 않은 캙티더 리스트 반환
     public Dictionary<int, Character> GetUnselectCharacters()
     {
-        // �̼��õ� ĳ���͸���Ʈ
+        // 선택하지않은 캐릭터 리스트를 담을 변수
         Dictionary<int, Character> unselectList = new Dictionary<int, Character>();
 
-        // �����ߴ� ����Ʈ
+        // 선택한 캐릭터들 
         var selectList = GetSelectPlayers(); 
 
-        // ��ü ĳ���� ����Ʈ 
+        // 자신이 소지한 캐릭터들
         var myCharacterList = GetMyPlayerInfoPairList();
 
-        // ��ü ����Ʈ���� �����޴� �ֵ��� ���� 
+        // 선택하지않은 캐릭터들을 찾아 리스트에 추가
         foreach(var pair in myCharacterList)
         {
             if (selectList.TryGetValue(pair.Key, out Character character) == false)

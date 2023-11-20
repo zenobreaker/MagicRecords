@@ -37,27 +37,28 @@ public class Character
     public int objectID = 0;
 
     [SerializeField]
-    private int playerID; // �÷��̾� ID ��� ������ ����� ã�� �� 
+    private int playerID; // 캐릭터의 고유 ID
 
     [SerializeField]
     private CharStat charStat = null;
     private int playerHP;
     private int playerMP;
+    private int playerCP;
 
-    // ĳ���Ͱ� ������ ��� 
+    // 장착된 장비 
     public Dictionary<EquipType, EquipItem> equipItems = new Dictionary<EquipType, EquipItem>();
 
-    // ĳ���Ͱ� ������ ��ų 
+    // 스킬 
     private int chainIdx;
     public Dictionary<SkillSlotNumber, Skill> skills = new Dictionary<SkillSlotNumber, Skill>();
     public Dictionary<SkillSlotNumber, Skill> chainsSkills = new Dictionary<SkillSlotNumber, Skill>();
     public List<PassiveSkill> equippedPassiveSkills = new List<PassiveSkill>();
     
     //public PassiveClass myPassiveClass;// �ڽ��� ĳ����(����)
-    // ������ ���
+    // 드론 
     public MagicalDrone drone;
 
-    // �ش� ĳ���Ͱ� ����޴� ���ڵ� ��� < �̰� ���Ŀ� ������ ���� 
+    // 레코드 정보
     public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
 
@@ -134,10 +135,34 @@ public class Character
 
         }
     }
-
     public int MyMaxMP
     {
         get { return MyStat.totalMP; }
+    }
+
+
+    // Chain Point 
+    public void InitCurrentCP()
+    {
+        MyCurrentCP = 0;    // 초기는 0으로 초기화
+    }
+
+    public int MyMaxCP
+    {
+        get { return MyStat.totalCP; }
+    }
+
+    public int MyCurrentCP
+    {
+        get { return playerCP; }
+        set { playerCP = value; }
+    }
+
+    // ChainPoint 증가시키기
+    public void IncreaseCP(int value)
+    {
+        MyCurrentCP += value;
+        Debug.Log("현재 CP : " + MyCurrentCP);
     }
 
     public int GetExp 
@@ -163,7 +188,7 @@ public class Character
    
     public void Damage(int damage, bool isCrit = false)
     {
-        // �������� ���� ü�� �����غ��� 
+        // 체력 감소
         MyCurrentHP -= damage;
         if(MyCurrentHP <= 0)
         {
@@ -171,7 +196,7 @@ public class Character
         }
     }
 
-    // ���� ��� �ʱ�ȭ 
+    // 장비 슬롯 초기화
     public void InitailizeEquipment()
     {
         equipItems.Clear();
@@ -184,7 +209,7 @@ public class Character
         equipItems.Add(EquipType.DRONE, null);
     }
 
-    // ���� ��ų �ʱ�ȭ 
+    // 스킬 슬롯 초기화
     public void InitializeSkillSlot()
     {
         skills.Clear();
@@ -331,10 +356,10 @@ public class Character
     }
 
 
-    // ��ų�� �����Ѵ�.
+    // 스킬 장착
     public void EquipSkill(SkillSlotNumber slot, Skill skill, bool isChain = false)
     {
-        // ��ų�� �����ϴµ� ��ų�� ������ ������� �Ѵ�. 
+        // 스킬이 없다면 
         if(skill== null)
         {
             if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
@@ -346,10 +371,10 @@ public class Character
                 chainsSkills[slot] = null; 
             }
         }
-        // ��ų ������ �ִ� ��� 
+        // 스킬이 있다면 
         else 
         {
-            // ���Կ� ��ġ Ȯ��
+            // 슬롯 범위 내로 검사
             if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
             {
                 if (skills.ContainsValue(skill))
@@ -436,7 +461,7 @@ public class Character
 
         return false; 
     }
-    // keycode�� ������ ü�� ��ų�� �����ߴ��� ���� ��ȯ 
+    // keycode값을 가져오면 장착된 스킬인지 검사
     public bool CheckEquippedChainSkillBySkillKeycode(string keycode)
     {
         foreach (var skillPair in chainsSkills)
@@ -453,7 +478,7 @@ public class Character
     }
 
 
-    // ù ��° ü�� ��ų�� keycode �� ��ȯ 
+    // 체인스킬의 시작 스킬의 ID값 반환
     public string GetFirstChainSkillID()
     {
         if(chainsSkills.ContainsKey(SkillSlotNumber.CHAIN1))
@@ -467,7 +492,7 @@ public class Character
         return ""; 
     }
 
-    // ������ ���Կ� ��ų�� ü�� ��ų ���
+    // 해당 스킬 슬롯을 체인스킬로 지정한다.
     public void SetChainSkillByNormalSlot(SkillSlotNumber slot)
     {
         if (skills.ContainsKey(slot) == false)
@@ -475,15 +500,25 @@ public class Character
             return; 
         }
 
-        // ��ü ��ų����Ʈ���� ü���� �ɷ��ִ°� �ִٸ� ����
+        // 이전에 체인 걸린 스킬슬롯을 해제
         foreach(var skill in skills)
         {
             if (skill.Value == null) continue;
             skill.Value.isChain = false; 
         }
 
-        // �ش� ��ų ü�� 
+        // 해당스킬 체인
         skills[slot].IsChain = true;
+    }
+
+    public void SetOffChainSkill(SkillSlotNumber slot)
+    {
+        if (skills.ContainsKey(slot) == false)
+        {
+            return;
+        }
+
+        skills[slot].IsChain = false;
     }
 
     public void SetStartChainSkill(int p_TargetIdx)
@@ -500,7 +535,7 @@ public class Character
         }
     }
 
-    // �нú� ��ų ����
+    // 패시브 스킬 관련
 
     public  virtual void ApplyPassiveSkillEffects(Character target)
     {
@@ -515,7 +550,7 @@ public class Character
         
     }
 
-    // �нú� ��ų ����
+    // 패시브 스킬 장착
     public void SetPassiveSkill(PassiveSkill skill)
     {
         if (skill == null ) return;
@@ -536,13 +571,13 @@ public class Character
         ApplyPassiveSkillEffects(null);
     }
 
-    // �нú� ��ų �˻� 
+    // 패시브 스킬을 배웠었는지 검사
     public bool CheckLearendPassiveSkill(string keycode)
     {
         return equippedPassiveSkills.Any(skill => skill.keycode == keycode);
     }
 
-    // ĳ���� ����ġ ���ý�Ű�� ����ġ�� �Ǹ� �������� ��Ų��.  
+    // 스탯 성장
     public void GrowUp(int _exp)
     {
         if(this.MyStat == null)
@@ -550,23 +585,23 @@ public class Character
             return; 
         }
 
-        // �� ĳ������ ����Ŭ������ ����ġ ����
+       
         this.MyStat.GrowUp(_exp);
     }
 
 
 
-    // ���ڵ� �ɷ� ���� 
+    // 레코드 효과 발현
     public void ApplyRecordAbility(RecordInfo record)
     {
         if (record == null || selectRecordInfos.Contains(record) == true) return;
 
-        // ȿ�� ������ �ִ��� �˻� 
+        // 옵션이 없다면
         if (record.specialOption == null)
         {
-            // ���ٸ� �Ŵ����� ���� �Ҵ��Ų��. 
             if (RecordManager.instance == null) return;
 
+            // 옵션을 찾아서 만들어준다.
             record.specialOption = RecordManager.instance.GetSpecialOptionToRecordInfo(record.specialOptionID);
         }
 
@@ -577,7 +612,7 @@ public class Character
         MyStat.ApplyOption();
     }
 
-    // ���ڵ� �ɷ� ���� ����
+    // 레코드 삭제
     public void RemoveRecordAbility(RecordInfo record)
     {
         if (record == null) return;

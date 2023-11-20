@@ -10368,6 +10368,7 @@ MonoBehaviour:
       totalSPD: 0
       totalCritRate: 0
       totalCritDmg: 0
+      totalCP: 0
       attack: 0
       defense: 0
       attackSpeed: 0
@@ -10407,7 +10408,7 @@ MonoBehaviour:
     isDead: 0
   health: {fileID: 1736939999}
   mana: {fileID: 858131212}
-  currrentCP: {fileID: 129239897}
+  chainPoint: {fileID: 129239897}
   BuffUiBase: {fileID: 411837358}
   buffIcon: {fileID: 7482858910322909947, guid: 66b4ae253315f6145bc0cc3b6a707e31,
     type: 3}
@@ -17433,6 +17434,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527c6978a0b33d3458b789187810e90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  content: {fileID: 0}
+  childObject: {fileID: 0}
   enemyClearButton: {fileID: 322083985}
   buttonBase: {fileID: 148464248}
   scrollBase: {fileID: 1696162556}
@@ -22312,7 +22315,9 @@ MonoBehaviour:
   selectStageTable:
     tableOrder: 0
     stageName: 
+    type: 0
     eventInfoList: []
+    appearTargetIDList: 
     isBossStage: 0
     isLocked: 0
     isCleared: 0
@@ -22966,6 +22971,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896729463c2a9da4c960e2eddd1181fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  content: {fileID: 0}
+  childObject: {fileID: 0}
   go_BaseUI: {fileID: 1751654058}
   tabNumber: 0
   soundTab: {fileID: 439471946}

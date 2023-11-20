@@ -47,7 +47,6 @@ public class ChoiceAlert : MonoBehaviour
         if(endDelegate != null && isConfirm == true)
         {
             endDelegate.Invoke(selectPlayer);
-            // ui�� ������ ����� ���� ���� 
             endDelegate = null;
         }
     }
@@ -59,7 +58,6 @@ public class ChoiceAlert : MonoBehaviour
 
         if (isAct == true)
         {
-            // ��ư�� �ִ� ��� ���� ���� 
             confirmButton.onClick.RemoveAllListeners(); 
 
             SetList(InfoManager.instance.GetMyPlayerInfoList());
@@ -70,9 +68,6 @@ public class ChoiceAlert : MonoBehaviour
     public void SelectPlayerSlot(Character p_Target)
     {
 
-        // ������ ����� ������ ��� ���� ����� ���ų� �ٸ� ����� ���� �������� �ʱ�ȭ�Ѵ�.
-        // ������ ĳ���� ������ 
-        // ������ ���¿� ���� ������ ���� ���� ���θ� �׸��٤�. 
         if (p_Target != null)
         {
             selectPlayer = p_Target;
@@ -81,7 +76,6 @@ public class ChoiceAlert : MonoBehaviour
     }
 
 
-    // ĳ���� ���� ��������� ����Ʈ ����
     void SetList(List<Character> p_List)
     {
 
@@ -148,8 +142,6 @@ public class ChoiceAlert : MonoBehaviour
     }
 
 
-    // Ȯ�� ��ư�� ������
-    // �ش� ĳ���͸� �����ؼ� ���������� ���ų� UI�� ���� 
     public void ConfirmSelect(EndDelegate<Character> del)
     {
         if (confirmButton == null) return;
@@ -157,7 +149,6 @@ public class ChoiceAlert : MonoBehaviour
         isConfirm = true; 
         confirmButton.onClick.AddListener(()=>
         {
-            // ���õȰ� ������ �ƹ��͵� ���� �ʴ´�.
             if (selectPlayer == null)
             {
                 return; 

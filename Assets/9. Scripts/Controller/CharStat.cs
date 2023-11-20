@@ -8,9 +8,11 @@ public class CharStat
 {
     public float baseCritDamage = 1.50f;
 
+    public static readonly int MAX_CHAIN_POINT = 100;
+
     public MonsterGrade myGrade;
     public int level = 1;
-    // ��� ��� ������ ���� ������ ����Ǿ� ���̴� ���ȵ� 
+    // 최종적으로 보여주는 스탯 
     public int totalATK;
     public int totalDEF;
     public float totalASPD;
@@ -21,9 +23,9 @@ public class CharStat
     public int totalSPD;
     public float totalCritRate;
     public float totalCritDmg;
+    public int totalCP;
 
-
-    // �⺻������ ���� �ִ� ���� 
+    // 기본적으로 가지는 스탯 
     public int attack;
     public int defense;
     public float attackSpeed;
@@ -42,9 +44,9 @@ public class CharStat
 
     public ExtraStat extraStat = new ExtraStat();
 
-    public float passiveAdditionalDamageRate = 0; //  �нú� ȿ���� ���� �߰�������
-    public float passiveAdditionalLostHealthRate = 0; // �нú� ȿ���� ���� ���� ü�� ��� ������
-    public float passiveAdditionalMaxHealthRate = 0; // �нú� ȿ���� ���� �ִ� ü�� ��� ������
+    public float passiveAdditionalDamageRate = 0; //  패시브로 추가되는 데미지
+    public float passiveAdditionalLostHealthRate = 0; // 패시브로 추가되는 잃은 체력 비례 데미지
+    public float passiveAdditionalMaxHealthRate = 0; // 패시브로 추가되는 최대 체력 비례 데미지 
     public CharStat()
     {
         attack = 0;
@@ -173,7 +175,9 @@ public class CharStat
            + extraStat.extraMPR;
         totalSPD = (int)Mathf.Round(resultSPD * 1.0f * extraStat.increaseSpeedRate)
            + extraStat.extraSpeed;
-       
+
+        totalCP = MAX_CHAIN_POINT;
+
         // ������ �ٸ� ���� 
         totalASPD = extraStat.extraAttackSpeed + resultAspd;
         totalCritRate = extraStat.extraCritRate + critRate;

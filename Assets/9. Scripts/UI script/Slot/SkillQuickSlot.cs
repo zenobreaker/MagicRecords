@@ -6,6 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+// 메인 화면 스킬 화면에 쓰이는 스킬 퀵슬롯 함수
+
 public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
 {
     public int slotNumber;
@@ -61,7 +63,7 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
     {
         if (SkillManual.instance == null || isUiView == true) return;
 
-        if (skill == null || skill is ActiveSkill)
+        if (skill == null)
         {
             SkillManual.instance.RegistToQuickSlot(this);
         }
@@ -70,7 +72,7 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
             SkillManual.instance.SelectSkillSlot(this);
             
             // 스킬이 있다면 UI를 그린다. 
-            DrawSelectUIGroup(); 
+            //DrawSelectUIGroup(true); 
         }
         
         if (isChainSkillSlot == true)
@@ -87,23 +89,17 @@ public class SkillQuickSlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void DrawSelectUIGroup()
+    public void DrawSelectUIGroup(bool isView = false)
     {
         if (selectUIGroup == null) return; 
 
-
-        if(selectUIGroup.activeSelf == true)
+        if(skill != null)
         {
-            selectUIGroup.SetActive(false);
-        }
-        else
-        {
-            selectUIGroup.SetActive(true);
+            selectUIGroup.SetActive(isView);
 
             // 켜질 때 스킬이 있다면 체인 스킬 버튼을 활성화 한다.
             // todo 이후 추가 조건이 필요하면 여기 수정 
-            if(skill != null &&
-                chainSkillButton != null )
+            if(chainSkillButton != null)
             {
                 chainSkillButton.gameObject.SetActive(true);
             }

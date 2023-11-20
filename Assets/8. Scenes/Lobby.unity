@@ -239,7 +239,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -71.00012}
+  m_AnchoredPosition: {x: 0, y: -71}
   m_SizeDelta: {x: 0, y: -142}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &434291
@@ -1843,7 +1843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 165.00244, y: -71.47717}
+  m_AnchoredPosition: {x: 165.00244, y: -71.47705}
   m_SizeDelta: {x: -329.995, y: -142.95398}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &46681889
@@ -6503,7 +6503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 165.00244, y: -71.47717}
+  m_AnchoredPosition: {x: 165.00244, y: -71.47705}
   m_SizeDelta: {x: -329.995, y: -142.954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &160117385
@@ -13466,7 +13466,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 152.25839, y: -436.43167}
+  m_AnchoredPosition: {x: 152.25839, y: -436.43164}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &357403589
@@ -13720,6 +13720,7 @@ MonoBehaviour:
       totalSPD: 0
       totalCritRate: 0
       totalCritDmg: 0
+      totalCP: 0
       attack: 0
       defense: 0
       attackSpeed: 0
@@ -15922,7 +15923,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 509.63232, y: -74.339966}
+  m_AnchoredPosition: {x: 509.63232, y: -74.33984}
   m_SizeDelta: {x: -1019.2646, y: -148.6799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &470408624
@@ -35029,7 +35030,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -74.339966}
+  m_AnchoredPosition: {x: 0, y: -74.33984}
   m_SizeDelta: {x: 0, y: -148.6799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1103961728
@@ -40284,7 +40285,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -75.00012}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 0, y: -149.99994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1294305624 stripped
@@ -49952,7 +49953,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -75.00012}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 0, y: -150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1627441511
@@ -54003,7 +54004,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 362.7, y: -430.93}
+  m_AnchoredPosition: {x: 362.70007, y: -430.93}
   m_SizeDelta: {x: 725.4, y: 861.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1779576331
@@ -63499,6 +63500,7 @@ MonoBehaviour:
       totalSPD: 0
       totalCritRate: 0
       totalCritDmg: 0
+      totalCP: 0
       attack: 0
       defense: 0
       attackSpeed: 0
@@ -63707,7 +63709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3.829956}
+  m_AnchoredPosition: {x: 0, y: -3.8300781}
   m_SizeDelta: {x: -14.168701, y: -8.092346}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2045606913
@@ -64416,7 +64418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 149.14, y: -439.98218}
+  m_AnchoredPosition: {x: 149.14, y: -439.98215}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2061048787
@@ -67243,4 +67245,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aae40ec3a90974448a8957750f0a360d, type: 3}
-

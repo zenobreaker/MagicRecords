@@ -36,15 +36,17 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public PlayType myPlayType;
     public TeamTag teamTag;
 
+    public static readonly int DEFAULT_CHAIN_POINT_VALUE = 1; // 체인 포인트 획득시 포인트값
+
     [SerializeField] protected Rigidbody m_rigid;
     [SerializeField] protected NavMeshAgent m_agent;
     //[SerializeField] protected ConditionController theCondition = null; // 상태 체크용
 
     public string m_charName;
-    public PlayType MyPlayType{get => myPlayType;}
+    public PlayType MyPlayType { get => myPlayType; }
     public Rigidbody MyRigid { get { return m_rigid; } }
     public NavMeshAgent MyAgent { get { return m_agent; } }
-    public FieldOfViewAngle fieldOfView; 
+    public FieldOfViewAngle fieldOfView;
     public PlayerState myState; // 자신의 상태 
     public float idleTime;
 
@@ -68,6 +70,11 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     // 적용중인 버프들
     public List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
 
+    // 체력 / 마나 재생 관련 코루틴 
+    Coroutine recoveryHealth;
+    Coroutine recoveryMana;
+    WaitForSeconds waitForSecondsRecovery = new  WaitForSeconds(1.0f);
+
     protected Character player;
     public Character MyPlayer
     {
@@ -79,7 +86,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     }
 
     // 패턴을 결정하는 추상 메소드 
-    public abstract void Think(); 
+    public abstract void Think();
     public abstract void Attack();
     public abstract void Move();
     public abstract void Wait();
@@ -107,7 +114,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public void DealDamage(Character attackOwn, Transform attackTrasnform = null, float damageRate = 1.0f)
     {
         if (attackOwn == null || attackOwn.MyStat == null || MyPlayer.MyStat == null) return;
-        
+
         // 패시브 효과 적용
         attackOwn.ApplyPassiveSkillEffectsByWC(this);
 
@@ -144,6 +151,9 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         damage = damage * (damageReduction) + additionalDamage;
         MyPlayer.MyStat.passiveAdditionalLostHealthRate = 0; // 계산 후 0 처리
 
+        // 공격자의 CP 증가
+        attackOwn.IncreaseCP(DEFAULT_CHAIN_POINT_VALUE);
+
         Vector3 pos = Vector3.zero;
         if (attackTrasnform != null)
         {
@@ -151,10 +161,10 @@ public abstract class WheelerController : MonoBehaviour, IDamage
             // 공격자의 정보 세팅 정보전달
             SetTargetInfo(attackTrasnform);
         }
-        
+
         Damage((int)damage, pos, isCrit);
 
-       
+
     }
 
     public virtual void Damage(int damage, bool isCrit = false)
@@ -169,9 +179,9 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
         Debug.Log("플레이어 방어력 : " + player.MyStat.totalDEF);
         Debug.Log("데미지 입음 현재 체력 : " + player.MyCurrentHP);
-       
-        
-        
+
+
+
     }
 
     public virtual void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
@@ -198,7 +208,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     {
         if (player.isDead == true)
         {
-            isDead = true; 
+            isDead = true;
             Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
             if (GameManager.MyInstance != null)
             {
@@ -275,7 +285,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         if (buffDebuffs == null || buffDebuffs.Count <= 0)
             yield return null;
 
-        foreach(var buffDebuff in buffDebuffs)
+        foreach (var buffDebuff in buffDebuffs)
         {
 
         }
@@ -321,17 +331,15 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
 
 
-    public void InitRecoveryStat(Character _player)
+    public void InitRecoveryStat()
     {
-        if (_player == null)
+        if (player == null || player.MyStat == null)
             return;
 
-        if (_player.MyCurrentHP > 0)
-        {
-            _player.isDead = false;
-            StartCoroutine(RecorveryMP(_player));
-        }
+        Debug.Log("재생관련 스탯 동작 실시");
 
+        recoveryHealth = StartCoroutine(RecoveryHP());
+        recoveryMana = StartCoroutine(RecoveryMP());
     }
 
     public void EndRecovery()
@@ -339,18 +347,35 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         StopAllCoroutines();
     }
 
-    // 마나 자동회복 
-    public IEnumerator RecorveryMP(Character _player)
+    // 체력 자동회복
+    public IEnumerator RecoveryHP()
     {
-        if (_player == null) yield return null;
-
-        while (_player.isDead == true)
+        if (player == null) yield return null; 
+        
+        while(player.isDead == false)
         {
-            yield return new WaitForSeconds(recoveryTime);
+            yield return waitForSecondsRecovery;
 
-            if (_player.MyCurrentMP <= _player.MyStat.totalMP)
+            if (player.MyCurrentHP <= player.MyMaxHP)
             {
-                _player.MyCurrentMP += 1 + (1 * _player.MyStat.totalMPR);
+                player.MyCurrentHP += 1 + (1 * player.MyStat.totalHPR);
+            }
+        }
+
+    }
+
+    // 마나 자동회복 
+    public IEnumerator RecoveryMP()
+    {
+        if (player == null) yield return null;
+
+        while (player.isDead == false)
+        {
+            yield return waitForSecondsRecovery;
+
+            if (player.MyCurrentMP <= player.MyStat.totalMP)
+            {
+                player.MyCurrentMP += 1 + (1 * player.MyStat.totalMPR);
             }
         }
     }

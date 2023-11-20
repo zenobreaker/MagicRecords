@@ -55,7 +55,6 @@ public class MyBullet : Bullet
                 case Type.ICE:
                     if (other.transform.CompareTag("Monster")) //닿은 대상에 태그가 "Monster"라면
                     {
-                        IncreaseCP();
                         if (other.transform.TryGetComponent<WheelerController>(out WheelerController component))
                         {
                             component.DealDamage(AttackOwn, attackOwnTransform, damageRate);
@@ -103,18 +102,5 @@ public class MyBullet : Bullet
 
             }
         }
-    }
-
-    void IncreaseCP()
-    {
-        //if (CharStat.instance != null)
-        //{
-        //    CharStat.instance.currentMP += 1;
-        //    if (CharStat.instance.currentCP < CharStat.instance.cp)
-        //        CharStat.instance.currentCP += 1;
-        //}
-
-    }
-
-                                                                                                                                              
+    }                                                                                                                                              
 }
