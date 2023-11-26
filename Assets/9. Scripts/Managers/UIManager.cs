@@ -147,7 +147,7 @@ public class UIManager : MonoBehaviour
         // 체인 스킬 아이콘 켜주기 
         foreach (var ab in actionButtons)
         {
-            ab.ActiveChainIcon(selctPlayer.MyCurrentCP >= 10);
+            ab.CheckUseChainSkill(selctPlayer.MyCurrentCP >= 10);
         }
     }
 

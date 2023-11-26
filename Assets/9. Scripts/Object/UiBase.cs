@@ -5,27 +5,27 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 
-// �� Ŭ������  UI�� �⺻
+// UI 기초 클래스
 public class UiBase : MonoBehaviour
 {
-    [Header("��ũ�Ѻ� �θ� ������Ʈ")]
+    [Header("스크롤뷰 자식들을 담을 부모 오브젝트")]
     public GameObject content;
-    [Header("��ũ�Ѻ� �ڽ� ������Ʈ")]
-    public GameObject childObject;  // ��ũ�Ѻ信 �־��� ������Ʈ 
+    [Header("스크롤뷰에 보일 자식 오브젝트")]
+    public GameObject childObject;  
 
-    // ��� �޴� Ŭ������ �Ʒ� Ŭ������ �����Ͽ� �� �� �ִ�.
+    // 갱신 시 아래 함수가 호출되어 진다.
     public virtual void RefreshUI()
     {
 
     }
 
 
-    // ��ũ�Ѻ� ������Ʈ�� ���ϴ� ��ŭ ���δ�. �̹� �ִٸ� ������ ����.
+    // 스크롤 오브젝트 배치
     public void InitScrollviewObject(int count = 0 )
     {
         if (content == null || childObject == null) return;
 
-        // ������ ���� �ڽ� ������Ʈ ���� ��Ȱ��ȭ
+        // 이미 자식들이 잇는지 검사 
         if(content.transform.childCount > 0)
         {
             for(int i = 0; i < content.transform.childCount; i++)
@@ -37,10 +37,8 @@ public class UiBase : MonoBehaviour
             }
         }
 
-        // count �� ��ŭ �ڽ� ������Ʈ ��ġ
 
-        // ������ ����ŭ �ڽĿ�����Ʈ�� �ִٸ� �������� �ʴ´�. 
-        // �̹� �θ� ������Ʈ�� ������ ������Ʈ ���� ��ŭ�ִٸ� �װ͵���� ����ϵ��� 
+        // 이미 원하는 자식들이 있다면 가지고 있는 자식을 쓰도록
         if(content.transform.childCount>= count)
         {
             return; 
@@ -52,7 +50,7 @@ public class UiBase : MonoBehaviour
         }
     }
 
-    // ��ũ�Ѻ� ������Ʈ�� �߰������� �ڽĿ�����Ʈ �߰��ϱ� 
+    // 스크롤뷰 오브젝트에 자식 추가하기 
     public void AddScrollviewObject(int count= 0)
     {
         if (content == null || childObject == null) return;
@@ -64,12 +62,11 @@ public class UiBase : MonoBehaviour
     }
 
     
-    // ��ũ�Ѻ� �ڽ� ������Ʈ ��ü�� ������ �ݹ��� �־��ִ� �Լ� 
+    // 자식 오브젝트들을 설정하고 콜백 기능을 할당한다.
     public virtual void SetScrollviewChildObjectsCallack<T>(Action<T> callback)
     {
         if (content == null || childObject == null) return;
 
-        // �θ� ������Ʈ�� �ڽĵ鿡�� ����
         for (int i = 0; i < content.transform.childCount; i++)
         {
             var childObject = content.transform.GetChild(i);

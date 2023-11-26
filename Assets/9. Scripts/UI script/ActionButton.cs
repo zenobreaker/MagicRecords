@@ -29,6 +29,8 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
     int chainCurrentCount = 0;
     int chainMaxCount = 0;
 
+    int totalDecreseCP; // 체인스킬 사용후 소모시킬 CP값 
+
     public Coroutine chainRoutine;
     public Coroutine chainCoolDownRoutine;
 
@@ -202,6 +204,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
     void InitChainSkillValue()
     {
 
+        totalDecreseCP = 0;
         chainMaxCount = chainSkillQ.Count;
         chainCurrentCount = 0;
         isChainReady = true;
@@ -226,6 +229,13 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         InitChainSkillValue();
     }
 
+    // 체인스킬 활성화 확인
+    public void CheckUseChainSkill(bool isCheck)
+    {
+        isChainReady = isCheck;
+        ActiveChainIcon(isCheck);
+    }
+
     // 체인 스킬 아이콘 활성화 
     public void ActiveChainIcon(bool isView)
     {
@@ -243,6 +253,16 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
     {
         if (chainCurrentCount < chainMaxCount)
         {   
+            if(chainCurrentCount == 0)
+            {
+                totalDecreseCP = 0;
+            }
+            else
+            {
+                // todo 스킬 별로 소모되는 cp값을 정해주어야한다. 임시적으로 고정값 
+                totalDecreseCP += 3;
+            }
+
             selectedSkill = (ActiveSkill)chainSkillQ[chainCurrentCount];
             chainCurrentCount++;
             Debug.Log("스킬 이미지 변환!" + selectedSkill.CallSkillName);
@@ -298,6 +318,11 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
         if (chainIcon.fillAmount == 0)
         {
             chainIcon.fillAmount = 1;
+            // 일정 시간이 지나서 체인스킬쿨타임이 지났다면 해당 캐릭터의 cp를 소모시킨다.
+            if (controller.MyPlayer != null)
+            {
+                controller.MyPlayer.MyCurrentCP -= totalDecreseCP;
+            }
             InitChainSkillValue();
             ChangeOriginSkillIcon();
             yield return null;

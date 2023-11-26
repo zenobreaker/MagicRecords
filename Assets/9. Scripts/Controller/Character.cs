@@ -155,7 +155,13 @@ public class Character
     public int MyCurrentCP
     {
         get { return playerCP; }
-        set { playerCP = value; }
+        set { 
+            playerCP = value;
+            if(playerCP <= 0)
+            {
+                playerCP = 0;
+            }
+        }
     }
 
     // ChainPoint 증가시키기

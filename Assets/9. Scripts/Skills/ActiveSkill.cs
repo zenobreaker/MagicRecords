@@ -89,8 +89,6 @@ public class ActiveSkill : Skill
     public override void UpgradeSkill()
     {
         base.UpgradeSkill();
-        MySkillLevel += 1;
-        CalcUpgradeCost();
         MyDamage = baseDamage + (skillLevel - 1) *  coefficient;
     }
 

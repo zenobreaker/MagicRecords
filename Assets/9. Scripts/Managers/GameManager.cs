@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     public Animator stageAnim;
     public Text stageText;
-    public TraningRoomUi traningRoomUi;
+    public TrainingRoomUi traningRoomUi;
 
     public PlayerControl player;
     public string stageName;

@@ -304,7 +304,7 @@ public class SlotTooltip : UiBase
         if (theEnchant == null) return; 
 
         UIPageManager.instance.OpenClose(theEnchant.go_BaseUI);
-        theEnchant.SetEquip(selectedItem as EquipItem);
+        theEnchant.SetEquipItemInfo(selectedItem as EquipItem);
         //HideToolTip();
     }
 

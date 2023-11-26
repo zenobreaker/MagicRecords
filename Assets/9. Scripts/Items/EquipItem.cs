@@ -17,7 +17,7 @@ public enum AbilityType
     MPR = 8,
     CRITRATE = 9,
     CRITDMG = 10,
-
+    MAX_ABILITY = CRITDMG,
     BREAK_AROMR = 100,        // �� �ı� (���� ����)
     BREAK_WEAPON,       // ���� �ı� (���ݷ� ����) 
     DOWN_ATTACK_SPEED,  // ���ݼӵ� ����
@@ -45,17 +45,27 @@ public struct ItemAbility
     {
         throw new NotImplementedException();
     }
+
+    public ItemAbility Copy()
+    {
+        ItemAbility ability = new ItemAbility();
+        ability.isPercent = this.isPercent;
+        ability.abilityType = this.abilityType;
+        ability.power = this.power;
+
+        return ability;
+    }
 }
 
 public enum EquipType
 {
     NONE = 0,
-    WEAPON = 1,         // ���� 
-    ARMOR,          // ���
-    WHEEL,          // ����
-    ACCSESORRY_1,   // �Ǽ��縮 1
-    ACCSESORRY_2,   // �Ǽ��縮 1
-    ACCSESORRY_3,   // �Ǽ��縮 3
+    WEAPON = 1,     // 무기
+    ARMOR,          // 방어구
+    WHEEL,          // 바퀴
+    ACCSESORRY_1,   // 악세사리 1
+    ACCSESORRY_2,   // 악세사리 2
+    ACCSESORRY_3,   // 악세사리 3
     DRONE = 7, 
     RUNE = 8,
 }
@@ -63,12 +73,12 @@ public enum EquipType
 [System.Serializable]
 public class EquipItem : Item
 {
-    //public Player equipTarget;  // ���� ��� 
-    public EquipType equipType; // ��� Ÿ��
-    public int itemEnchantRank; // ������ ��ȭ ���
-    public bool isEquip;      // ������ ���� ���� 
-    public const int MAIN = 0, ADD1 = 0, ADD2 = 1, ADD3 = 2;      // ������ �ɷ� ���� 
-    public ItemAbility itemMainAbility; // ������ �ɷ� ��ġ 
+    //public Player equipTarget;  
+    public EquipType equipType; // 장비타입
+    public int itemEnchantRank; // 장비 강화 수치
+    public bool isEquip;      // 장착 여부 
+    public const int MAIN = 0, ADD1 = 0, ADD2 = 1, ADD3 = 2;      // 추가 능력치 
+    public ItemAbility itemMainAbility; // 장비의 주요 능력치
     public ItemAbility[] itemAbilities;
 
     public EquipItem(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye,
@@ -99,8 +109,8 @@ public class EquipItem : Item
         this.equipType = equipType;
         this.itemEnchantRank = itemEnchantRank;
         this.isEquip = isEquiped;
-        this.itemMainAbility = itemMainAbility;
-        this.itemAbilities = itemAbilities;
+        this.itemMainAbility = itemMainAbility.Copy();
+        SetSubAbility(itemAbilities);
         this.itemImage = _item.itemImage;
     }
 
@@ -109,8 +119,10 @@ public class EquipItem : Item
         this.equipType = _equipItem.equipType;
         this.itemEnchantRank = _equipItem.itemEnchantRank;
         this.isEquip = _equipItem.isEquip;
-        this.itemMainAbility = _equipItem.itemMainAbility;
-        this.itemAbilities = _equipItem.itemAbilities;
+        this.itemMainAbility = _equipItem.itemMainAbility.Copy();
+        //this.itemAbilities = _equipItem.itemAbilities;
+        SetSubAbility(_equipItem.itemAbilities);
+
         this.itemImage = _item.itemImage;
     }
 
@@ -151,6 +163,25 @@ public class EquipItem : Item
         this.itemAbilities = _itemAbilities;
     }
 
+    // 장비가 갖고 있는 해금되지 않은 가장 가까운 서브아이템 인덱스값 반환
+    // 없다면 -1을 반환한다. 
+    public int GetEmptySubItemAbilityIndex()
+    {
+        int index = -1;
+        int count = 0; 
+        foreach(var ability in itemAbilities)
+        {
+            if(ability.abilityType == AbilityType.NONE)
+            {
+                index = count;
+                break; 
+            }
+            count++; 
+        }
+
+        return index; 
+    }
+
 
     public override object Clone()
     {
@@ -158,6 +189,7 @@ public class EquipItem : Item
 
         EquipItem equipItem = new(item, equipType, itemEnchantRank, isEquip, itemMainAbility,
             itemAbilities);
+
 
         return equipItem;
     }
