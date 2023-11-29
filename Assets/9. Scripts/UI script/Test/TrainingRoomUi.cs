@@ -32,7 +32,7 @@ public class TrainingRoomUi : UiBase
     // ��ȯ ��ư 
     public Button summonButton;
 
-    private bool isAttackSwitch = false;    // 공격 설정 플래그값
+    private bool isAttackSwitch = true;    // 공격 설정 플래그값
 
     // PRIVATE - 선택한 오브젝트가 없다면 일부 UI들을 초기 상태로 돌린다. 
     private void InitSelectObject()
@@ -311,12 +311,12 @@ public class TrainingRoomUi : UiBase
     }
 
 
-    // PRAIVTE - 공격 실행버튼 텍스트 그리기
+    // PRIVATE - 공격 실행버튼 텍스트 그리기
     private void DrawAttackSwitchButtonText()
     {
         if (switchButtonText != null)
         {
-            if (isAttackSwitch == true)
+            if (isAttackSwitch == false)
             {
                 switchButtonText.text = "Attack On";
             }
@@ -332,7 +332,8 @@ public class TrainingRoomUi : UiBase
     {
         if (GameManager.MyInstance != null)
         {
-            GameManager.MyInstance.SwitchEnmeyContol(!isAttackSwitch); 
+            isAttackSwitch = !isAttackSwitch;
+            GameManager.MyInstance.SwitchEnmeyContol(isAttackSwitch); 
         }
 
         DrawAttackSwitchButtonText();

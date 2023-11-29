@@ -362,6 +362,8 @@ public class EnchantManual : MonoBehaviour
             if (InfoManager.coin < t_enchantCost)
             {
                 Debug.Log("강화 불가능! 코인 부족");
+                // 토스트 메시지 
+                ToastMessageContorller.CreateToastMessage("코인이 부족하여 강화가 불가능합니다.");
             }
             // 강화 가능
             else if (InfoManager.coin >= t_enchantCost)
@@ -396,6 +398,7 @@ public class EnchantManual : MonoBehaviour
         else
         {
             Debug.Log("강화 수치가 최종단계입니다. 더 이상 강화가 불가능합니다.");
+            ToastMessageContorller.CreateToastMessage("강화 수치가 최종단계입니다. 더 이상 강화가 불가능합니다.");
         }
     }
 

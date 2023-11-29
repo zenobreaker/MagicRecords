@@ -447,10 +447,13 @@ MonoBehaviour:
   enemyCount: 0
   itemCount: 0
   selectStageEventNum: 0
+  isTest: 0
   selectStageTable:
     tableOrder: 0
     stageName: 
+    type: 0
     eventInfoList: []
+    appearTargetIDList: 
     isBossStage: 0
     isLocked: 0
     isCleared: 0
@@ -1240,9 +1243,9 @@ MonoBehaviour:
   stageNormalInfoList: []
   stageEliteInfoList: []
   stageBossInfoList: []
+  monsterStatJsonData: {fileID: 4900000, guid: 8c847e406d545774f91c75ea34af1370, type: 3}
   monsterJsonData: {fileID: 4900000, guid: 78e2d68f256ff5b46bb97f765d581e8d, type: 3}
   stageJsonData: {fileID: 4900000, guid: e4a469c4a0251e34ba29783176d6482a, type: 3}
-  characterStatJson: {fileID: 4900000, guid: 58ed76f77b85d5745a7683b0f6b9062a, type: 3}
 --- !u!4 &1309575389
 Transform:
   m_ObjectHideFlags: 0
@@ -1434,6 +1437,7 @@ MonoBehaviour:
       totalSPD: 0
       totalCritRate: 0
       totalCritDmg: 0
+      totalCP: 0
       attack: 0
       defense: 0
       attackSpeed: 0
@@ -1465,8 +1469,12 @@ MonoBehaviour:
         increaseHPRegenRate: 1
         increaseMPRate: 1
         increaseMPRegenRate: 1
-    buffDebuffs: []
+      passiveAdditionalDamageRate: 0
+      passiveAdditionalLostHealthRate: 0
+      passiveAdditionalMaxHealthRate: 0
     selectRecordInfos: []
+    isAction: 1
+    isDead: 0
 --- !u!1 &1506641562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,11 +1580,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d85362e6da40345a74ebec6d55ac78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObjectList:
-  - id: 1
-    type: 0
-    playerObject: {fileID: 2347304906794922970, guid: 1beaa3c2896aed54895cf8128b47e479,
-      type: 3}
+  characterData: {fileID: 4900000, guid: b6d9bf17ab44ebb408c1545cda84dc5f, type: 3}
+  characterStatJson: {fileID: 4900000, guid: 58ed76f77b85d5745a7683b0f6b9062a, type: 3}
+  characterdataList: []
 --- !u!4 &1586663697
 Transform:
   m_ObjectHideFlags: 0
@@ -2623,368 +2629,315 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeSkills:
   - id: 0
+    userID: 0
+    keycode: 
     name: ReinforcedMagicBullet
     skillName: "\uAC15\uD654 \uB9C8\uD0C4"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 1500
     coefficient: 10
-    hitCount: 1
-    cost: 20
     icon: {fileID: -6719181506682585773, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 40
-    coolTime: 3
-    castTime: 0
-    skillPrefab: {fileID: 7241659496369239402, guid: baad525a427c24642938051575af609a,
-      type: 3}
+    hitCount: 1
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: e8030000d0070000c4090000b80b0000a00f0000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: IceShot
     skillName: "\uBE59\uACB0\uD0C4"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 130
     coefficient: 10
-    hitCount: 1
-    cost: 25
     icon: {fileID: -4979205637766147949, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 7
-    castTime: 0
-    skillPrefab: {fileID: 2522439491218263427, guid: 4d9245002fd018047a12288a32579ee3,
-      type: 3}
+    hitCount: 1
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: e8030000d0070000c4090000b80b0000a00f0000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: PlasmaRay
     skillName: "\uD50C\uB77C\uC988\uB9C8\uAD11\uC120"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 10
-    damage: 1700
     coefficient: 32
-    hitCount: 3
-    cost: 0
     icon: {fileID: -6871419251673393040, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 10
-    castTime: 1
-    skillPrefab: {fileID: 977056072040370278, guid: 90d49c5054c35a740b53e2b28dfc14a1,
-      type: 3}
+    hitCount: 3
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: e8030000d0070000c4090000b80b0000a00f0000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: SpreadShot
     skillName: "\uC0B0\uD0C4 \uC0AC\uACA9"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 1500
     coefficient: 15
-    hitCount: 0
-    cost: 0
     icon: {fileID: 7009396560195139854, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 10
-    castTime: 0.2
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: d0070000c4090000e8030000b80b0000a00f0000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: ConsecutiveShot
     skillName: "\uC5F0\uC18D \uBC1C\uC0AC"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 190
     coefficient: 30
-    hitCount: 0
-    cost: 0
     icon: {fileID: -53329198806347244, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: b80b0000ac0d0000a00f00009411000088130000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: SpiralShot
     skillName: "\uB370\uC2A4 \uC2A4\uD30C\uC774\uB7F4"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 150
     coefficient: 15
-    hitCount: 0
-    cost: 0
     icon: {fileID: -6609288933157824648, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 6713942369059999796, guid: c5d598aa13b30584aa7e111f3bbb4a9a,
-      type: 3}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: b80b0000ac0d0000a00f00009411000088130000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: SplitBullet
     skillName: "\uBD84\uC5F4 \uB9C8\uD0C4"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 150
     coefficient: 15
-    hitCount: 0
-    cost: 0
     icon: {fileID: 2232602796015459456, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: b80b0000ac0d0000a00f00009411000088130000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: BulletRain
     skillName: "\uBD88\uB81B\uB808\uC778"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 150
     coefficient: 30
-    hitCount: 0
-    cost: 0
     icon: {fileID: 8047199739274405261, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 150485337055829931, guid: 6b138911244620c478bbfd19d022718d,
-      type: 3}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: b80b0000ac0d0000a00f00009411000088130000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: ExtreamBullet
     skillName: "\uB9C8\uD0C4 : \uADF9\uC545"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 2500
     coefficient: 15
-    hitCount: 1
-    cost: 20
     icon: {fileID: -6951174414738519055, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 10
-    castTime: 0.5
-    skillPrefab: {fileID: 0}
+    hitCount: 1
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: b80b0000ac0d0000a00f00009411000088130000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: AssistWeapon
     skillName: "\uC5B4\uC2DC\uC2A4\uD2B8 \uC6E8\uD3F0"
     skillType: 0
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 110
     coefficient: 30
-    hitCount: 0
-    cost: 0
     icon: {fileID: 1851582974730446671, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 5174312418046338825, guid: b49ae13a0a29f4249be6fafaf84562ba,
-      type: 3}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: b80b0000ac0d0000a00f00009411000088130000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   passiveSkills:
   - id: 0
+    userID: 0
+    keycode: 
     name: Forbbiden
     skillName: "\uAE08\uC9C0\uB41C \uBE44\uC220"
     skillType: 1
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 0
     coefficient: 0
-    hitCount: 0
-    cost: 0
     icon: {fileID: 21300000, guid: 22892743e142afa41aa60f2b3440a0f3, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: 000000000000000000000000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: injection
     skillName: "\uC18D\uC131 \uC8FC\uC785"
     skillType: 1
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 0
     coefficient: 0
-    hitCount: 0
-    cost: 0
     icon: {fileID: 0}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: 000000000000000000000000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: UpgradeBullet
     skillName: "\uD0C4\uD658 \uAC1C\uC870"
     skillType: 1
     skillLevel: 1
     skillMaxLevel: 0
-    damage: 0
     coefficient: 0
-    hitCount: 0
-    cost: 0
     icon: {fileID: 21300000, guid: b72fab4aadfbf03419ff6191dc1a8901, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: 000000000000000000000000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: ForbbidenGreif
     skillName: "\uAE08\uAE30-\uBAA8\uBA78\uD558\uB294 \uBE44\uD0C4"
     skillType: 1
     skillLevel: 0
     skillMaxLevel: 0
-    damage: 0
     coefficient: 0
-    hitCount: 0
-    cost: 0
     icon: {fileID: 0}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: 00000000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: ForbbidenHate
     skillName: "\uAE08\uAE30-\uAC00\uC99D\uC2A4\uB7EC\uC6B4 \uC99D\uC624"
     skillType: 0
     skillLevel: 0
     skillMaxLevel: 0
-    damage: 0
     coefficient: 0
-    hitCount: 0
-    cost: 0
     icon: {fileID: 0}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: 00000000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   - id: 0
+    userID: 0
+    keycode: 
     name: ForbbidenFury
     skillName: "\uAE08\uAE30 - \uD30C\uBA78\uD558\uB294 \uACA9\uB178"
     skillType: 1
     skillLevel: 0
     skillMaxLevel: 0
-    damage: 0
     coefficient: 0
-    hitCount: 0
-    cost: 0
     icon: {fileID: -2652187147517464086, guid: e0937790df71a384cb0895fcb2785790, type: 3}
-    speed: 0
-    coolTime: 0
-    castTime: 0
-    skillPrefab: {fileID: 0}
+    hitCount: 0
     bonusOptionList: []
     bonusSpecialOptionList: []
     leadingSkillList: []
-    upgradeCost: 00000000
+    baseCost: 0
+    upgradeCost: 0
     skillSubDesc: 
     skillDesc: 
     isChain: 0
   activeSkillList: []
-  paissveSkilList: []
+  passiveSkillList: []
   skillToolTip: {fileID: 0}
   skilbtn: {fileID: 0}
+  baseUpgradeCost: 5000
   skillDataJson: {fileID: 4900000, guid: 089c631d91d49bd449069dbb5ea3de1b, type: 3}
   activeSkillDataJosn: {fileID: 4900000, guid: 9f06f8b8002109b4787777defb90580f, type: 3}
   passiveSkillDataJson: {fileID: 4900000, guid: 4faa6ecf9cb833a46a8ae76e7e77e3f1,
