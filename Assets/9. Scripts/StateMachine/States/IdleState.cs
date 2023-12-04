@@ -20,11 +20,7 @@ public class IdleState : BaseState
         // owner�� wait �Լ��� ȣ���Ѵ�. 
         owner.Wait();
 
-        // �����ϴ� ����� �ƴϸ� ������Ű�� 
-        if (owner.myPlayType == PlayType.None)
-        {
-            owner.Think();
-        }
+        owner.Think();
     }
 
  
@@ -41,24 +37,31 @@ public class IdleState : BaseState
 
     public override void UpdateState()
     {
-        if (owner == null) return; 
+        if (owner == null) return;
 
-        //   Debug.Log("���̵� ������Ʈ ���� ��");
+        if (owner.myPlayType == PlayType.Playerable && owner.isAutoFlag == false)
+            return; 
+
         if (owner.fieldOfView != null)
         {
-            // ���������� �����޴��� �˻� 
+            // 지정한 곳에 도착했는지 체크
             var isAlive = CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance);
 
-            // ����� �ν� ������ �����ٸ� ���� ������Ʈ�� ���� �� Ż�� 
-            if ((owner.fieldOfView.View() && isAlive == false) 
-                || owner.fieldOfView.GetTargetTransform() != null)
+            // 타겟을 감지한 상태이고 도착하지않았다면 계속 추격상태
+            if ((owner.fieldOfView.View() && isAlive == false) )
+                //|| owner.fieldOfView.GetTargetTransform() != null)
             {
                 owner.myState = PlayerState.Chase;
                 return; 
             }
+            else if(owner.fieldOfView.MeeleAttackRangeView(owner.MyAgent))
+            {
+                owner.myState = PlayerState.Attack;
+                return; 
+            }
         }
 
-        // ���� �ð��� ������ �����̰� �Ѵ�. 
+        // 대기 중일 때 시간 감소시키기
         if (idleTime > 0 && owner.myState == PlayerState.Idle)
         {
             idleTime -= Time.deltaTime;

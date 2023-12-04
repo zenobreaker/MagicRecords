@@ -60,13 +60,13 @@ public class PlayerDatabase : MonoBehaviour
     private CharacterDataJsonAllData characterDataAllData;
     private CharacterStatJsonAllData characterAllData;  // ĳ���� �ɷ�ġ ���� 
 
-    [Header("ĳ���� ���� JSON ������")]
+    [Header("캐릭터 JSON ")]
     public TextAsset characterData;
 
-    [Header("ĳ���� �⺻ �ɷ�ġ JSON ������")]
+    [Header("캐릭터 스탯 JSON")]
     public TextAsset characterStatJson;
 
-    [Header("ĳ����")]
+    [Header("캐릭터 리스트")]
     public List<CharacterData> characterdataList = new List<CharacterData>();
 
     public Dictionary<int, CharStat> charStatDic = new Dictionary<int, CharStat>();
@@ -92,7 +92,7 @@ public class PlayerDatabase : MonoBehaviour
     }
 
 
-    // ĳ���� ���� ���� �ʱ�ȭ 
+    // 캐릭터 스탯 데이터 초기화
     void InitializeCharacterStatData()
     {
         characterAllData = JsonUtility.FromJson<CharacterStatJsonAllData>(characterStatJson.text);
@@ -120,7 +120,7 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
-    // ĳ���� json �����͸� �Ϲ� Ŭ������ ��ȯ
+    // json를 필두로 캐릭터 데이터 클래스 초기화 
     public void InitializeCharacterData()
     {
         if (characterData == null) return;
@@ -152,7 +152,7 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
-    // ��޿� �´� ���͸� ����Ʈ�� �����ؼ� ��ȯ
+    // 등급값을 받으면 해당 등급에 해당하는 캐릭터리스트를 만들어 반환
     public List<CharacterData> GetCharacterList(MonsterGrade grade)
     {
         List<CharacterData> list = new List<CharacterData>();
@@ -179,7 +179,7 @@ public class PlayerDatabase : MonoBehaviour
         return list;
     }
 
-    // id ���� ������ CharStat Ŭ������ ��ȯ�Ѵ�. exp�� ����������
+    // id 값을 받으면  CharStat의 ID값으로 대조되는 스탯을 반환
     public CharStat GetCharStat(int id)
     {
         if (charStatDic.TryGetValue(id, out CharStat charStat))
@@ -189,7 +189,7 @@ public class PlayerDatabase : MonoBehaviour
         return null;
     }
 
-    // id stat ���� ��ųʸ��� ��ȯ
+    // id stat 와 스탯으로 이루어진 딕셔너리 스탯 반환
     public Dictionary<int, CharStat> GetCharactersStatDict()
     {
         Dictionary<int, CharStat> list = new Dictionary<int, CharStat>();

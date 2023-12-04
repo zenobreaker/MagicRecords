@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FieldOfViewAngle : MonoBehaviour
 {
@@ -10,9 +11,17 @@ public class FieldOfViewAngle : MonoBehaviour
     public Transform target;
     [SerializeField] private LayerMask targetMask = 0; // 타겟 마스크 (플레이어)
 
-    //private Pig thePig;
     [SerializeField]
     private PlayerControl thePlayer;
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, viewDistance);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, meeleAttackDistance);
+    }
+
 
     private void Start()
     {
@@ -108,33 +117,41 @@ public class FieldOfViewAngle : MonoBehaviour
         return false;
     }
 
-    public bool MeeleAttackRangeView()
+    public bool MeeleAttackRangeView(NavMeshAgent agent)
     {
+        if (agent == null) return false; 
+
         Vector3 _leftBoundary = BoundaryAngle(-viewAngle * 0.5f);
         Vector3 _rightBoundary = BoundaryAngle(viewAngle * 0.5f);
 
-        Collider[] _target = Physics.OverlapSphere(transform.position, meeleAttackDistance, targetMask);
+        float finalDistance = meeleAttackDistance;
+        if (agent.stoppingDistance > meeleAttackDistance)
+            finalDistance = agent.stoppingDistance;
+        else
+            finalDistance = meeleAttackDistance;
+
+        Collider[] _target = Physics.OverlapSphere(transform.position, finalDistance, targetMask);
 
         for (int i = 0; i < _target.Length; i++)
         {
             Transform _targetTf = _target[i].transform;
-            if (_targetTf.tag == "Player")
-            {
+            //if (_targetTf.tag == "Player")
+            //{
                 Vector3 _direction = (_targetTf.position - transform.position).normalized;
                 float _angle = Vector3.Angle(_direction, transform.forward); // 캐릭터 전방 레이와 대상과 캐릭터의 선분의 각
 
                 if (_angle < viewAngle * 0.5f)
                 {
                     RaycastHit _hit;
-                    if (Physics.Raycast(transform.position, _direction, out _hit, meeleAttackDistance))
+                    if (Physics.Raycast(transform.position, _direction, out _hit, finalDistance))
                     {
-                        if (_hit.transform.tag == "Player")
-                        {
+                        //if (_hit.transform.tag == "Player")
+                        //{
                             Debug.DrawRay(transform.position + transform.up, _direction, Color.blue);
                             return true;
-                        }
+                        //}
                     }
-                }
+               //}
             }
         }
         return false;

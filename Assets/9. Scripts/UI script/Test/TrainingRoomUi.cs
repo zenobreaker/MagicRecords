@@ -161,14 +161,14 @@ public class TrainingRoomUi : UiBase
     }
 
 
-    // 4. �ش� ī�װ����� ������ ���� UI ���� 
+    // 4. 몬스터 그룹을 그려준다.
     public void DrawMonsterGroupUi(List<MonsterData> list)
     {
         if (list == null || scrollBase == null ||
             contentObject == null || imageSlot == null )
             return;
 
-        // ������ ���� ������Ʈ�� �ִٸ� ���� ��Ȱ��ȭ ó�� 
+        // 스크롤뷰 오브젝트의 자식이 이미 있다면 그 자식 오브젝트를 사용하도록
         if(contentObject.gameObject.transform.childCount > 0)
         {
             for(int i = 0; i < contentObject.gameObject.transform.childCount; i++)
@@ -178,13 +178,13 @@ public class TrainingRoomUi : UiBase
             }
         }
 
-        // ���� ����Ʈ �� ��ŭ ui ��ư �����
+        // 데이터를 순회하면서 데이터 정보를 조회하며 그 내용을 그린다.
         int count = 0; 
         foreach(var data in list)
         {
             if (data == null) continue; 
 
-            // �̹� �θ� ������Ʈ�� ������ ������Ʈ���� �ִٸ� �װͺ��� ��� 
+            // 제작하는 개수보다 자식 개수가 많다면 자식 오브젝트로 그린다.
             if(contentObject.gameObject.transform.childCount >= count+1)
             {
                 var subObjectTransform = contentObject.gameObject.transform.GetChild(count);
@@ -196,7 +196,7 @@ public class TrainingRoomUi : UiBase
 
                 SetImageSlot(subObjectTransform.gameObject, data);
             }
-            // ���ٸ� ���� ���� 
+            // 자식 오브젝트 수가 요구한 데이터 수보다 적다면 새로 생성하면서 그린다.
             else
             {
                 var subObject = Instantiate(imageSlot, contentObject.gameObject.transform);
@@ -206,15 +206,14 @@ public class TrainingRoomUi : UiBase
             count++; 
         }
 
-        // ���̽� ���ֱ� 
+        // 다 만들었다면 스크롤뷰를 켜준다.
         if (scrollBase != null)
             scrollBase.SetActive(true);
     }
 
-    // �� ���� ��ư ���̰� �ϴ� ��� 
+    // 적 제거 버튼 보이기 설정
     private void VisibleEnemyClearButton()
     {
-        // ���� ���ٸ� ������ �ʴ´�.
         if (enemyClearButton == null) return;
 
         if (GameManager.MyInstance?.enemyTeam != null)

@@ -4,11 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-// ü�ν�ų���� UI Ŭ����
-// ü�ν�ų�� �ִ� 3���� �߰��� ����� �� �ִ�.
-// ü�ν�ų�� cp�� �ִ�� ������ Ȱ��ȭ�Ǹ� ���̽� ��ų��
-// ����ϸ� ü�ν�ų�� ����� ������� �ٲ㰡�� ��밡���ϴ�.
-// ���� ����� ��� ü��3�� ȿ���� ���� �� �մ�. 
 public class ChainSkillSetting : MonoBehaviour
 {
     [SerializeField] SkillQuickSlot[] chainSkillSlots = null;   // ü�ν�ų����

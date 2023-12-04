@@ -35,20 +35,12 @@ public class MonsterBase : WheelerController
     [SerializeField] protected BoxCollider boxCol = null;
 
     protected AudioSource theAudio;
-    protected NavMeshAgent nav;
 
     [SerializeField] protected AudioClip[] sound_Normal = null;
     [SerializeField] protected AudioClip sound_Hurt = null;
     [SerializeField] protected AudioClip sound_Dead = null;
 
  
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, rangeOfEnemy);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, baseAttackRange);
-    }
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -69,7 +61,6 @@ public class MonsterBase : WheelerController
         myState = PlayerState.Idle;
         //stateMachine
         isAction = true;
-        nav = GetComponent<NavMeshAgent>();
         
     }
 
@@ -106,8 +97,8 @@ public class MonsterBase : WheelerController
             //}
 
             // 상태 변경
-            stateMachine.ChangeState(stateMachine.States[myState]);
-
+            ChangeState(myState);
+            //stateMachine.ChangeState(stateMachine.States[myState]);
             // 상태에 따른 실행 
             stateMachine.OperateState();
         }
@@ -140,8 +131,8 @@ public class MonsterBase : WheelerController
     }
 
     public override void Move()
-    {   
-        nav.speed = player.MyStat.speed;
+    {
+        MyAgent.speed = player.MyStat.speed;
     }
 
   
@@ -169,12 +160,12 @@ public class MonsterBase : WheelerController
     public override void Wait()
     {
         MyRigid.velocity = Vector3.zero;
-        nav.velocity = Vector3.zero;
-        nav.isStopped = true;
-        nav.ResetPath();
+        MyAgent.velocity = Vector3.zero;
+        MyAgent.isStopped = true;
+        MyAgent.ResetPath();
       
         Vector3 randDest = new Vector3(Random.Range(-5, 5), 0f, Random.Range(-5, 5));
-        randDest = transform.localPosition + randDest * nav.stoppingDistance;
+        randDest = transform.localPosition + randDest * MyAgent.stoppingDistance;
 
         destination.Set(randDest.x, randDest.y, randDest.z); // 시간이 다되면 목적지를 설정한다.
         //currentState = state.WALK;
@@ -279,7 +270,7 @@ public class MonsterBase : WheelerController
         isAttacking = false;
         isDead = true;
         isAction = false;
-        nav.ResetPath();
+        MyAgent.ResetPath();
         Debug.Log(MonsterName + "가 죽었음!");
         anim.SetTrigger("Dead");
 
@@ -313,13 +304,13 @@ public class MonsterBase : WheelerController
 
     protected void DropItem()
     {
-        item_Coin.GetComponent<ItemPickUp>().item.itemValue = Random.Range(1, 10); 
-        Instantiate(item_Coin, transform.position, Quaternion.identity);
+       // item_Coin.GetComponent<ItemPickUp>().item.itemValue = Random.Range(1, 10); 
+       // Instantiate(item_Coin, transform.position, Quaternion.identity);
 
-        for (int i = 0; i < item_prefabs.Length; i++)
-        {
-       //     Instantiate(item_prefabs[i].itemPrefab, transform.position, Quaternion.identity);
-        }
+       // for (int i = 0; i < item_prefabs.Length; i++)
+       // {
+       ////     Instantiate(item_prefabs[i].itemPrefab, transform.position, Quaternion.identity);
+       // }
     }
     public override void Think()
     {

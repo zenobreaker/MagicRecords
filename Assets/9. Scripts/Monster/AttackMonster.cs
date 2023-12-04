@@ -136,8 +136,8 @@ public class AttackMonster : MonsterBase
 
         if (!isAttacking)
         {
-            nav.isStopped = false;
-            nav.velocity = Vector3.zero;
+            MyAgent.isStopped = false;
+            MyAgent.velocity = Vector3.zero;
 
             // 공격할 수단이 있는지 검사
             bool isExistPattern = false; 
@@ -174,8 +174,8 @@ public class AttackMonster : MonsterBase
     {
         // todo 여기가 중첩되서 실행되니 여기를 수정해야한다. 
         Debug.Log("공격");
-       
-        nav.ResetPath();
+
+        MyAgent.ResetPath();
 
         transform.LookAt(fieldOfView.target); // 플레이어를 바라보게 함
 

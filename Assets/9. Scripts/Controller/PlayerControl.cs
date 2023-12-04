@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
+using UnityEngine.UI;
 
 public enum ComboState
 {
@@ -13,7 +15,6 @@ public enum ComboState
 
 public class PlayerControl : WheelerController
 {
-  
     [Header("속도 관련 변수")]
     public float speed;
 
@@ -28,6 +29,7 @@ public class PlayerControl : WheelerController
     public Animator myAnimator;
     public float TargetRotation;    // 캐릭터 회전값
 
+    private Vector3 targetPos;  // 자동시 움직일 정보
 
     // 필요한 컴포넌트 
     [SerializeField]
@@ -36,36 +38,36 @@ public class PlayerControl : WheelerController
    
     [SerializeField] GameObject go_DashEffect = null;
 
+    // 제어 관련 변수
     public bool IsMove = false;
     private bool canDash;
     public bool isDash = false;
     public bool isTouch = false;
 
+    // 대쉬에 나타나는 이펙트 
     GameObject dashEffect;
 
-
-    public enum State
-    {
-        Idle = 0,
-        Walk,
-        Attack
-    }
-
-    public State currentState = State.Idle;
+    // 자동 공격 상태일 때, 자신이 사용했던 스킬 슬롯 값
+    public SkillSlotNumber usedSkillSlotNumber;
 
     void Start()
     {
         m_rigid = GetComponent<Rigidbody>();
+        if (fieldOfView != null)
+        {
+            m_agent.stoppingDistance = fieldOfView.meeleAttackDistance;
+        }
+        // 상태머신 생성 및 초기화 
         stateMachine = new StateMachine();
         stateMachine.States.Add(PlayerState.Idle, new IdleState(this));
         stateMachine.States.Add(PlayerState.Move, new MoveState(this));
         stateMachine.States.Add(PlayerState.Attack, new AttackState(this));
+        stateMachine.States.Add(PlayerState.Chase, new MoveState(this));
 
-        //    myAnimator = GetComponent<Animator>();
+        // 콤보값 관련 변수들 초기화 
         current_Combo_State = ComboState.NONE;
         current_Combo_Timer = default_Combo_Timer;
 
-        //myAnimator.SetFloat("AttackSpeed", 1);
         if (player != null)
         {
             speed = player.MyStat.speed;
@@ -76,11 +78,13 @@ public class PlayerControl : WheelerController
             }
         }
 
+        // 스킬 동작 관련 클래스에 주인 변수 할당 시키기 
         if(skillAction != null)
         {
             skillAction.skillOwn = player;
         }
 
+        // 대쉬 관련 변수 초기화 
         dashTime = startDashTime;
         dashEffect = Instantiate(go_DashEffect, this.transform.position, Quaternion.identity);
         dashEffect.transform.SetParent(this.transform);
@@ -88,6 +92,10 @@ public class PlayerControl : WheelerController
 
         // 재생 관련 스탯 동작 
         InitRecoveryStat();
+        
+        idleTime = 3.0f; 
+        // 초기 스테이트 변경
+        ChangeState(PlayerState.Idle);
     }
 
     void FixedRotation()
@@ -109,6 +117,8 @@ public class PlayerControl : WheelerController
         StateAnimaiton();
         DashMove();
         ResetComboState();
+
+        ChangeState(myState);
         stateMachine.OperateState();
         
     }
@@ -127,10 +137,16 @@ public class PlayerControl : WheelerController
         if (isAttacking == true)
             return;
 
+        // 자동 상태일 경우 다른 로직을 쓰도록 한다. 
+        if(isAutoFlag == true)
+        {
+            AutoMove();
+            return; 
+        }
+
         direction = direction.normalized * speed * Time.deltaTime;
         m_rigid.MovePosition(this.transform.position + direction);
         //myRigid.position += direction.normalized * speed * Time.deltaTime;
-        wheelController.RollingWheel(IsMove, 10);
     }
 
     public override void Wait()
@@ -157,18 +173,27 @@ public class PlayerControl : WheelerController
 
     public override void StateAnimaiton()
     {
+        bool isWheel = false; 
         switch (myState)
         {
             case PlayerState.Idle:
                 {
-                    myAnimator.SetBool("Moving", false);
+                    myAnimator.SetBool("Walking", false);
+                    isWheel = false; 
                     break;
                 }
             case PlayerState.Move:
+            case PlayerState.Chase:
                 {
-                    myAnimator.SetBool("Moving", true);
+                    myAnimator.SetBool("Walking", true);
+                    isWheel = true; 
                     break;
                 }
+        }
+
+        if (wheelController != null)
+        {
+            wheelController.RollingWheel(isWheel, 10);
         }
     }
 
@@ -186,8 +211,21 @@ public class PlayerControl : WheelerController
         if (theWeaponController.currentFireRate <= 0)
         {
             SearchtoAttack();
+
+            // 오토 동작시 동작할 위치
+            if(isAutoFlag == true)
+            {
+                bool isSkillAction = AutoAttack();
+                if (isSkillAction == true)
+                {
+                    activateTimerToReset = true;
+                    return; 
+                }
+            }
+
             // 공격 스테이트로 변경
-            ChangeState(PlayerState.Attack);
+            //ChangeState(PlayerState.Attack);
+            myState = PlayerState.Attack;
 
             if (current_Combo_State == ComboState.ATTACK_4 || current_Combo_State == ComboState.Skill1
                 || current_Combo_State == ComboState.Skill2 || skillAction.isAction == true)
@@ -214,7 +252,7 @@ public class PlayerControl : WheelerController
                     break;
             }
 
-            if (player != null)
+            if (player != null && theWeaponController != null)
             {
                 theWeaponController.SetDamageAndCrit(damageRate, 
                     player.MyTotalAttack, player.MyStat.totalCritRate, player.MyStat.totalCritDmg);
@@ -226,7 +264,8 @@ public class PlayerControl : WheelerController
 
     private void GetInput()
     {
-        if (isTouch)
+        // 키보드 입력 관련 함수이므로 터치하거나 자동 모드일 경우엔 키지 않음
+        if (isTouch || isAutoFlag)
             return;
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -250,19 +289,15 @@ public class PlayerControl : WheelerController
             if (isAttacking == true) return; 
 
             m_rigid.rotation = Quaternion.Slerp(m_rigid.rotation, newRotation, 50*Time.deltaTime);
-            //myRigid.MoveRotation(newRotation);
         }
         else
         {
             IsMove = false;
-            //currentState = State.Idle;
             inputState = PlayerState.Idle;
             direction = Vector3.zero;
         }
 
-
         isDash = Input.GetKeyDown(KeyCode.C);   // 대쉬키 누름
-
 
         // 공격키를 눌렀을 때 처리 
         if (Input.GetKeyDown(KeyCode.X))
@@ -287,7 +322,8 @@ public class PlayerControl : WheelerController
         }
 
         // 상태 머신 변경
-        ChangeState(inputState);
+        // ChangeState(inputState);
+        myState = inputState;
     }
 
     public void InputJoyStick(Vector2 p_joy)
@@ -312,7 +348,8 @@ public class PlayerControl : WheelerController
             direction = Vector3.zero;
         }
 
-        ChangeState(inputState);
+        //ChangeState(inputState);
+        myState = inputState;
     }
 
     // 가장 가까운 적을 향해 방향 전환 
@@ -330,7 +367,6 @@ public class PlayerControl : WheelerController
             temp = Vector3.Distance(collis[i].transform.position, transform.position);
             if (temp < shortTemp)
             {
-
                 t_Target = collis[i].gameObject;
                 shortTemp = temp;
             }
@@ -351,11 +387,13 @@ public class PlayerControl : WheelerController
         {
             // 대쉬 (급속 이동) 
             canDash = true;
-            currentState = State.Walk;
             dashDir = direction;
             dashEffect.SetActive(true);
             speed = speed * 2;
-            wheelController.RollingWheel(isDash, 140);
+            if(wheelController!= null)
+            {
+                wheelController.RollingWheel(isDash, 140);
+            }
 
             Invoke("DashOut", 0.4f);
         } 
@@ -400,7 +438,7 @@ public class PlayerControl : WheelerController
                 current_Combo_Timer = default_Combo_Timer;
 
                 // 일정 시간이 지나도 원래대로 초기화 되도록
-                isAttacking = false; 
+                EndOfAttack();
             }
         }
     }
@@ -415,6 +453,94 @@ public class PlayerControl : WheelerController
 
     public override void Think()
     {
-        
+        // 오토 모드인지 검사
+        if (isAutoFlag == false)
+            return; 
+
+        // 자동 조작 상태라면 AI처럼 행동
+        // 1. 타겟 감지(1. 보스 -> 엘리트 -> 일반 순으로 가장 가까운 적)
+        if(GameManager.MyInstance != null)
+        {
+            var wc = GameManager.MyInstance.GetNearEnemyForEnemyTeam(transform.position);
+            if( wc != null)
+            {
+                targetPos = wc.transform.position;
+                fieldOfView.target = wc.transform;
+            }
+        }
+
+        // 2. 타겟 감지하면 거리 계산
+        //todo 사용할 스킬별 범위 값만큼 타겟 까지 이동하기 
+
+        // 3. 거리 계산 후 거리에 따른 행동 지시 
+    }
+
+
+    // 수동 상태일 때 이동로직 
+    public void AutoMove()
+    {
+        if (fieldOfView == null)
+            return; 
+
+        MyAgent.speed = player.MyStat.speed;
+        // 목적지 값에 도달했다면 초기화
+        if (Vector3.Distance(transform.position, targetPos) <= 1.0f)
+        {
+            myState = PlayerState.Idle;
+            targetPos = Vector3.zero;
+        }
+
+        // 타겟이 설정되어 있다면? 
+        if (fieldOfView.target != null && fieldOfView.MeeleAttackRangeView(MyAgent) == false)
+        {
+            // 타겟 위치를 목표로 설정하고 움직인다. 
+            MyAgent.SetDestination(fieldOfView.target.position);
+        }
+        // 타겟이 사거리 내에 있다면 공격 스테이트로 
+        else if(fieldOfView.target != null && fieldOfView.MeeleAttackRangeView(MyAgent) == true)
+        {
+            isAttacking = false;
+            myState = PlayerState.Attack;// ChangeState(PlayerState.Move);
+        }
+        // 타겟이 없다면 주위에 랜덤한 곳으로 이동시켜본다.
+        else if(targetPos == Vector3.zero)
+        {
+            var destination = new Vector3(Random.Range(-5, 6), 0, Random.Range(-5, 6));
+            targetPos = transform.localPosition + destination;
+            MyAgent.SetDestination(targetPos);
+        }
+    }
+
+    // 자동 상태일 때 공격 기능 
+    public bool AutoAttack()
+    {
+        if (MyPlayer == null || skillAction == null) return false;
+
+        // 자신의 스킬들을 검사해서 사용가능한 스킬 부터 사용 
+        var skillSlotNumber = MyPlayer.GetSkillSlotNumber();
+        // 스킬을 사용한게 있나?
+        if(skillSlotNumber == SkillSlotNumber.NONE)
+        {
+            // 일반 공격을 사용하거나 다른 스테이트로 넘긴다.
+            return false;
+        }
+        else if (skillSlotNumber != SkillSlotNumber.NONE)
+        {
+            // 다음 스킬은 사용하지 않은 스킬 슬롯의 스킬
+            // 쿨타임이 적고 마나를 소비 하지 않은 스킬만 쓸 수 있음.
+            if(usedSkillSlotNumber == SkillSlotNumber.NONE)
+            {
+                usedSkillSlotNumber = skillSlotNumber;
+            }
+           
+            // 찾아낸 스킬 값을 이용하여 스킬 사용
+            UseSkill(MyPlayer.GetEquipedSkill(usedSkillSlotNumber));
+            
+            // 사용 후 다음 스킬 슬롯으로 설정
+            usedSkillSlotNumber = MyPlayer.GetAnotherSkillSlotNumber(usedSkillSlotNumber);
+            return true;
+        }
+
+        return false;
     }
 }

@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum WeaponType
+{
+    NONE = 0,
+    MELEE = 1,  // 근거리
+    RANGE = 2,  // 원거리(사격계)
+}
+
 public class WeaponController : MonoBehaviour
 {
     public Character weaponOwn;     // 무기 소유주
@@ -12,6 +20,9 @@ public class WeaponController : MonoBehaviour
     public float critRate = 0.0f;
     public float critDamage = 0.0f;
 
+
+    [Header("무기 타입 관련")]
+    public WeaponType weaponType;
 
     [Header("총")]
     [SerializeField]
@@ -32,19 +43,15 @@ public class WeaponController : MonoBehaviour
         get { return currentGun; }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        MyAnim = GetComponent<Animator>();
-        //MyAnim.SetFloat("AttackSpeed", 1);
-        // myAnimator.SetFloat("test_float", 8.0f);
+        if(myAnim == null)
+            MyAnim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         FireRateCalc();
-        //TryFire();
     }
 
     public void SetWeaponOwn(Character own)
@@ -102,6 +109,10 @@ public class WeaponController : MonoBehaviour
 
     private void CreateBullet()
     {
+        // 무기가 원거리형이 아니라면 발사하지않는다.
+        if (weaponType != WeaponType.RANGE)
+            return; 
+
         var clone = ObjectPooler.SpawnFromPool<MyBullet>("Bullet", currentGun.go_Muzzle.transform);
         clone.SetAttackInfo(weaponOwn, transform);
     }

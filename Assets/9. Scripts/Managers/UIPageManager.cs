@@ -183,11 +183,8 @@ public class UIPageManager : MonoBehaviour
     {
         if (choiceAlert == null) return;
 
-        // ���� UI�� ���� - ���⼭ true�� �ָ� ���ʿ��� ������ �� �� �˾Ƽ� ���� 
+        // 캐릭터 선택 UI 활성화
         choiceAlert.ActiveAlert(true);
-        //OpenClose(choiceAlert.gameObject);
-        // Ȯ�� ��ư ���� 
-        // Ȯ���� ������ �� ������ ĳ���Ͱ� ������ ������ �����Ѵ�. 
         choiceAlert.ConfirmSelect(player => _callback(player));
 
     }

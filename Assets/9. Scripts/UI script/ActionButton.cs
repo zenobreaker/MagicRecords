@@ -104,6 +104,12 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
             Debug.Log("스킬 없음!");
             return;
         }
+        // 쿨타임 그리기 
+        DrawSkillCoolTime();
+    }
+
+    public void DrawSkillCoolTime()
+    {
         // 쿨타임이 완료된 상태라면 
         if (selectedSkill.MyCoolDown)
         {
@@ -125,7 +131,7 @@ public class ActionButton : MonoBehaviour//, IPointerClickHandler
                 skillFillter.fillAmount = 0;
                 StartCoroutine(CoolTime());
             }
-        
+
         }
     }
 

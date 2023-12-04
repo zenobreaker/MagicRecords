@@ -5,9 +5,6 @@ using UnityEngine;
 public class MoveState : BaseState
 {
 
-    // ���⼱ �������� �����Ѵ�.
-    // ���� ���� ������ destination�� �����ϴ� ������Ʈ�̱⵵ �� 
-
     public MoveState(WheelerController context)
     {
         this.owner = context;
@@ -21,11 +18,10 @@ public class MoveState : BaseState
 
         if (Physics.Raycast(destination, destination + Vector3.down, out hit, 100f))
         {
-            //Debug.Log(hit.collider.name + "�浹ü");
             if (!hit.collider.CompareTag("land"))
             {
-             //   Debug.Log("������ ���� ���� �������� �缳�� ");
-              //  SetDestination(sm);
+                // 지형이 다른 지형이므로 다시 랜덤하게 돌린다.
+                SetRandomDestination(sm);
             }
         }
     }
@@ -39,24 +35,23 @@ public class MoveState : BaseState
     {
         if (owner == null) return; 
 
-        if (owner.myPlayType == PlayType.Playerable)
+        if (owner.myPlayType == PlayType.Playerable && owner.isAutoFlag == false)
             return;
 
         if (owner.myState == PlayerState.Move)
         {
-            // ��ġ�� �ڱ� �߽ɿ��� ������ ����� ����.
+            // 도착 지점을 랜덤으로 설정한다. 
             SetRandomDestination(owner);
         }
         else if (owner.myState == PlayerState.Chase)
         {
-            // �������� ������� �����Ѵ�.
+            // 추격 중이라면 지정한 위치로 이동한다. 
             SetDestination(owner.fieldOfView.GetTargetPos());
         }
     }
 
     public override void ExitState()
     {
-    //    Debug.Log("���� ������Ʈ Ż��");
         destination = Vector3.zero;
     }
 
@@ -68,34 +63,27 @@ public class MoveState : BaseState
         {
             case PlayType.None:
                 {
-                   // Debug.Log("���� ������Ʈ ���� ��");
                     if (owner.MyAgent != null)
                     {
-                        // ���������� �����޴��� �˻� 
+                        // 도착 했는지 검사한다. 
                         if (CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance))
                         {
 
-                            // ���� ���δٸ� �߰� 
                             if (owner.fieldOfView.View() && owner.myState != PlayerState.Chase)
                                 owner.myState = PlayerState.Chase;
-                            // ���� ���� ���� ���� �����Ѵٸ� ����
-                            else if (owner.fieldOfView.MeeleAttackRangeView())
+                            else if (owner.fieldOfView.MeeleAttackRangeView(owner.MyAgent))
                                 owner.myState = PlayerState.Attack;
-                            // �׿ܿ� �ϴ� ������
                             else
                                 owner.myState = PlayerState.Idle;
                         }
-                        // ���������ʾҴٸ� ��� ��ġ�� ã�Ƴ��� �����δ�.
                         else
                         {
-                            //  Debug.Log("���� ������Ʈ ������Ʈ �˻� ");
                             owner.MyAgent.SetDestination(owner.fieldOfView.GetTargetPos());
                         }
                     }
                 }
                 break;
             case PlayType.Playerable:
-                // ���� ��ü�� Move �޼ҵ带 ȣ���Ѵ�. 
                 owner.Move();
                 break;
         }
@@ -106,16 +94,12 @@ public class MoveState : BaseState
     {
         if (owner == null) return; 
 
-        // �÷��̾�� Ÿ���̸� �������� �ʵ���
         if (owner.myPlayType == PlayType.Playerable)
             return;
 
-        // 23. 02. 15Ÿ���� �̹� �����Ǿ� �ִٸ� ���� ������Ʈ�� �����ϵ��� �߰� 
-        // Ÿ���� �þ߿� ���Դٸ� ���� ������Ʈ�� 
         if (owner.fieldOfView.View() == true || owner.fieldOfView.GetTargetPos() != Vector3.zero)
             owner.myState = PlayerState.Chase;
-        // Ÿ���� ���� �������� �Դٸ� ���� ������Ʈ�� ��ȯ 
-        if (owner.fieldOfView.MeeleAttackRangeView())
+        if (owner.fieldOfView.MeeleAttackRangeView(owner.MyAgent))
         {
             owner.MyAgent.ResetPath();
             owner.myState = PlayerState.Attack;

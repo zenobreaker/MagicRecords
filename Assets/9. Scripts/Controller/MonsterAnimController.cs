@@ -37,7 +37,7 @@ public class MonsterAnimController : MonoBehaviour
     {
         if (target != null)
         {
-            target.isAttacking = false;
+            target.EndOfAttack();
         }
     }
 

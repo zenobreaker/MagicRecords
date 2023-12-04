@@ -522,4 +522,29 @@ public class GameManager : MonoBehaviour
             InfoManager.instance.SetSelectMyPlayerApplyData(id, own.MyPlayer);
         }
     }
+
+    // 적팀에서 가장 가까운 적 정보를 반환
+    public WheelerController GetNearEnemyForEnemyTeam(Vector3 myPos)
+    {
+        float dis = 9999f;// 임시값
+
+        WheelerController target = null;  
+
+        foreach (var enemy in enemyTeam)
+        {
+            
+        }
+
+        foreach (var enemy in enemyTeam)
+        {
+            Vector3 enemyPos = enemy.transform.position;
+
+            if(Vector3.Distance(enemyPos, myPos) <= dis)
+            {
+                target = enemy; 
+            }
+        }
+
+        return target; 
+    }
 }

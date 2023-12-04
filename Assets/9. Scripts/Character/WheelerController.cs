@@ -61,7 +61,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public bool isTest = false;
     // 콤보 관련 변수들 
     public ComboState current_Combo_State; // 콤보 스테이트 
-    public float default_Combo_Timer = 0.5f; // 기본 콤보 초기화 시간
+    public float default_Combo_Timer = 1.0f; // 기본 콤보 초기화 시간
     public float current_Combo_Timer;   // 현재 콤보 시간을 책정
     public bool activateTimerToReset;  // 콤보 시간이 리셋 확인
 
@@ -74,6 +74,9 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     Coroutine recoveryHealth;
     Coroutine recoveryMana;
     WaitForSeconds waitForSecondsRecovery = new  WaitForSeconds(1.0f);
+
+    [Header("캐릭터 수동 및 자동 조작")]
+    public bool isAutoFlag = false;
 
     protected Character player;
     public Character MyPlayer
@@ -88,6 +91,14 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     // 패턴을 결정하는 추상 메소드 
     public abstract void Think();
     public abstract void Attack();
+
+    // 공격 종료 - 관련한 변수를 되돌려놓아준다.
+    public virtual void EndOfAttack()
+    {
+        isAttacking = false;
+        myState = PlayerState.Idle;
+    }
+
     public abstract void Move();
     public abstract void Wait();
 
@@ -239,6 +250,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
             {
                 current_Combo_State = ComboState.NONE;
                 isAttacking = false;
+                myState = PlayerState.Idle;
                 //activateTimerToReset = true;    // 콤보 타이머 활성화
                 //current_Combo_Timer = default_Combo_Timer;  
                 // 콤보 타이머가 디폴트 값을 대입해서 계산하도록 함.

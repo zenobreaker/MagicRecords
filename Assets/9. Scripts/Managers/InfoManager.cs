@@ -84,24 +84,37 @@ public class InfoManager : MonoBehaviour
         CharStat stat = PlayerDatabase.instance.GetCharStat(1);
         tempPlayer.MyStat = stat;
         tempPlayer.MyID = 1;
-        //AddPlayerInfo(tempPlayer.MyID, tempPlayer);
         AddMyPlayerInfo(tempPlayer.MyID, tempPlayer);
 
-        //Character tempPlayer2 = new Character();
-        //tempPlayer2.MyStat = new CharStat(1, 0, 0, 0, 0, 0, 10);
-        //tempPlayer2.MyID = 1002;
-        //tempPlayer.objectID = 2;
-        //AddPlayerInfo(tempPlayer2.MyID, tempPlayer2);
-        //AddMyPlayerInfo(tempPlayer2.MyID);
+        // 슬라임
+        Character testSlime = new Character();
+        CharStat stat2 = PlayerDatabase.instance.GetCharStat(1001);
+        if (stat2 != null)
+        {
+            testSlime.MyID = 101;
+            testSlime.MyStat = stat2;
+            AddMyPlayerInfo(testSlime.MyID, testSlime);
+        }
+
+        // 나무귀신
+        Character testTree = new Character();
+        CharStat stat3 = PlayerDatabase.instance.GetCharStat(1002);
+        if(stat3 != null)
+        {
+            testTree.MyID = 102;
+            testTree.MyStat = stat3;
+            AddMyPlayerInfo(testTree.MyID, testTree); 
+        }
+        
     }
 
-    // ĳ����  �����
+    // 캐릭터 생성
     public void CreateCharacter()
     {
         Character tempPlayer = new Character();
         tempPlayer.MyID = 1001;
         tempPlayer.objectID = 1;
-        // todo db�� ������ ����������� �����ͼ� ����
+        // todo db를 통해만들수있도록 해보기 
         tempPlayer.MyStat = new CharStat(1, 10, 10, 20, 150, 100, 10);
         //tempPlayer.SetEquipment(EquipType.WEAPON);
     }

@@ -15,6 +15,7 @@ using UnityEngine;
 //}
 public enum SkillSlotNumber
 { 
+    NONE = -1,
     SLOT1 = 0,
     SLOT2,
     SLOT3,
@@ -251,25 +252,25 @@ public class Character
     }
 
 
-    // ��� ���� 
+    // 장비 장착
     public void EquipItem(EquipItem equipItem)
     {
         if (equipItem == null) return;
 
-        // ������ �ش� ������ ��� �����ߴ��� �˻�
+        // 사전에 자악되어 있는지 검사 
         if (equipItems.ContainsKey(equipItem.equipType) == true)
         {
-            // ������ ������ ��� ���� ����
+            // 장착된 아이템을 해제한다. 
             RemoveEquipment(equipItem.equipType);
         }
         
-        // ��� ����
+        // 해당 슬롯에 해당 아이템 장비
         equipItems[equipItem.equipType] = equipItem;
 
-        // ������ �ɷ�ġ ���� 
-        // ����
+        // 장비 능력치반영 작업 
+        // 장비 메인 능력치를 적용한다. 
         MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility);
-        // ����
+        // 장비의 서브 능력치를 적용시킨다. 
         foreach (var ability in equipItem.itemAbilities)
         {
             MyStat.extraStat.ApplyOptionExtraStat(ability);
@@ -278,16 +279,15 @@ public class Character
         MyStat.ApplyOption();
     }
 
-    // ��� ���� 
+    // 장착한 아이템 제거 
     public void RemoveEquipment(EquipType _typeSlot)
     {
         var equipItem = equipItems[_typeSlot];
-        // ������ �ɷ�ġ ���� 
+        // 사전에 장착한 아이템이 있다면
         if (equipItem != null)
         {
-            // ����
+            // 아이템 능력치를 처리한다. 
             MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility, true);
-            // ����
             foreach (var ability in equipItem.itemAbilities)
             {
                 MyStat.extraStat.ApplyOptionExtraStat(ability, true);
@@ -298,7 +298,7 @@ public class Character
         equipItems[_typeSlot] = null;
     }
  
-    // ��ų ���� 
+    // 스킬 장착 
     public void SetSkill(Skill p_Target, int p_idx, bool isChain )
     {
         if (p_idx < 0 || skills.Count < p_idx)
@@ -310,7 +310,7 @@ public class Character
             chainsSkills[(SkillSlotNumber)p_idx] = p_Target;
     }
 
-    // ��ų ���� ���� 
+    // 스킬 장착 해제 
     public void UnequipSkill(Skill skill)
     {
 
@@ -321,7 +321,7 @@ public class Character
         {
             if (skillPair.Value == null) continue; 
 
-            // ã�� ��ų�� �´ٸ� �ش� ���Կ��� ����
+            // 기존에 장착할려는 스킬을 찾아 그 슬롯 값을 찾는다. 
             if(skillPair.Value.Equals(skill))
             {
                 slot = skillPair.Key;
@@ -332,8 +332,7 @@ public class Character
         foreach(var skillPair in chainsSkills)
         {
             if (skillPair.Value == null) continue;
-
-            // ã�� ��ų�� �´ٸ� �ش� ���Կ��� ����
+            // 체인 스킬 슬롯에서도 찾아낸다. 
             if (skillPair.Value.Equals(skill))
             {
                 slot = skillPair.Key;
@@ -341,16 +340,16 @@ public class Character
             }
         }
 
-        // �ش� ������ ��ų�� ü���� �ɷ� �ִ��� �˻�
+        //  체인 스킬로 되어 있는 상태라면 
         if (skills[slot] != null && skills[slot].IsChain == true)
         {
-            // ü���̶�� ��� ü�� ��ų ���� 
+            // 체인 스킬들을 전부 해제한다. 
             chainsSkills[SkillSlotNumber.CHAIN1] = null;
             chainsSkills[SkillSlotNumber.CHAIN2] = null;
-            //chainsSkills[SkillSlotNumber.CHAIN3] = null;
+            chainsSkills[SkillSlotNumber.CHAIN3] = null;
         }
 
-        // �ش� ������ ��ų ���� 
+        // 해당 슬롯에 스킬 정보를 제거 처리한다.
         if (slot >= SkillSlotNumber.SLOT1 && slot <= SkillSlotNumber.MAXSLOT)
         {
             skills[slot] = null;
@@ -428,7 +427,7 @@ public class Character
     }
 
 
-    // �Ϲ� ��ų���� ü������ �Ǿ� �ִ��� ��� ��ȯ
+    // 스킬 슬롯 값을 받으면 체인 스킬로 되어 있는지 반환
     public bool GetSlotisChain(SkillSlotNumber slot)
     {
         if (skills[slot] == null) return false;
@@ -437,7 +436,7 @@ public class Character
     }
 
 
-    // �Ϲ� ��ų ���Կ��� ü���� �� ��찡 �ִ��� ��ȯ
+    // 자신의 전체 스킬 중 체인 스킬을 한 상태인지 반환
     public bool GetWasChianSkill()
     {
         foreach (var skillPair in skills)
@@ -452,7 +451,7 @@ public class Character
     }
 
     
-    // ��ų keycode�� ������ �ش� ��ų�� �����ߴ��� ���� ��ȯ
+    //스킬 keycode 값을 받으면 장착한 스킬인지 반환한다. 
     public bool CheckEquppiedSkillBySkillKeycode(string keycode)
     {
         foreach(var skillPair in skills)
@@ -467,7 +466,7 @@ public class Character
 
         return false; 
     }
-    // keycode값을 가져오면 장착된 스킬인지 검사
+    // keycode값을 가져오면 장착된 체인 스킬인지 검사
     public bool CheckEquippedChainSkillBySkillKeycode(string keycode)
     {
         foreach (var skillPair in chainsSkills)
@@ -541,6 +540,98 @@ public class Character
         }
     }
 
+    // 장착한 스킬 중 사용할 수 있는 상태의 스킬 슬롯 번호 반환.
+    public ActiveSkill GetUsableSkill()
+    {
+        if (MyStat == null) return null;
+
+        foreach (var skillPair in skills)
+        {
+            if (skillPair.Value == null ||
+                skillPair.Value is ActiveSkill == false)
+                continue;
+
+            ActiveSkill skill = skillPair.Value as ActiveSkill;
+
+            // 쿨다운 검사
+            bool isCoolDown = skill.MyCoolDown;
+
+            // 마나 검사 
+            int cost = skill.SkillCost;
+            bool isUsed = false;
+            if (cost <= MyCurrentMP)
+                isUsed = true;
+
+            if (isCoolDown == true && isUsed == true)
+                return skill;
+        }
+
+        return null;
+    }
+
+    // 사용할 수 있는 스킬 슬롯 번호 넘긴다 
+    public SkillSlotNumber GetSkillSlotNumber()
+    {
+        if (MyStat == null) return SkillSlotNumber.NONE;
+
+        foreach (var skillPair in skills)
+        {
+            if (skillPair.Value == null ||
+                skillPair.Value is ActiveSkill == false)
+                continue;
+
+            ActiveSkill skill = skillPair.Value as ActiveSkill;
+
+            // 쿨다운 검사
+            bool isCoolDown = skill.MyCoolDown;
+
+            // 마나 검사 
+            int cost = skill.SkillCost;
+            bool isUsed = false;
+            if (cost <= MyCurrentMP)
+                isUsed = true;
+
+            if (isCoolDown == true && isUsed == true)
+                return skillPair.Key;
+        }
+
+        return SkillSlotNumber.NONE;
+    }
+
+    // 스킬 슬롯 값을 받으면 받은 값이 아닌 스킬이 장착된 슬롯 반환
+    public SkillSlotNumber GetAnotherSkillSlotNumber(SkillSlotNumber currentSlotNumber)
+    {
+        SkillSlotNumber target = SkillSlotNumber.NONE;
+
+        foreach (var skillPair in skills)
+        {
+            if (skillPair.Value == null ||
+                skillPair.Value is ActiveSkill == false ||
+                currentSlotNumber == skillPair.Key)
+                continue;
+
+            target = skillPair.Key;
+            break;
+        }
+
+        return target;
+    }
+
+
+    // 장착한 스킬 중 지정한 슬롯의 스킬을 반환한다.
+    public ActiveSkill GetEquipedSkill(SkillSlotNumber slotNumber)
+    {
+        if (MyStat == null) return null;
+
+        if (skills.TryGetValue(slotNumber, out var skill))
+        {
+            ActiveSkill activeSkill = skill as ActiveSkill;
+            return activeSkill;
+        }
+
+        return null; 
+    }
+    
     // 패시브 스킬 관련
 
     public  virtual void ApplyPassiveSkillEffects(Character target)
