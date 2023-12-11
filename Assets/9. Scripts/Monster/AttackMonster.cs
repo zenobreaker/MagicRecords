@@ -29,7 +29,10 @@ public class AttackMonster : MonsterBase
     protected MonsterAttackStat[] monsterAttackStat;
     protected int currentPattern = 0;
     public int MaxPattern;
-    public float delayTime; 
+    public float delayTime;
+
+    Coroutine attackCoro;
+
     protected override void Start()
     {
         base.Start();
@@ -134,7 +137,7 @@ public class AttackMonster : MonsterBase
     {
         base.Attack();
 
-        if (!isAttacking)
+        if (isAttacking == false)
         {
             MyAgent.isStopped = false;
             MyAgent.velocity = Vector3.zero;
@@ -157,10 +160,16 @@ public class AttackMonster : MonsterBase
                 return;
             }
 
+            // 이전에 코루틴이 실행이 끝났다면 종료 처리한다.
+            if(isAttacking == false && attackCoro != null)
+            {
+                StopCoroutine(attackCoro);
+            }
+
             // 공격 코루틴 실행
             if (monsterAttackStat[currentPattern].attackPattern == false)
-            {              
-                StartCoroutine(AttackCoroutine());
+            {
+                attackCoro = StartCoroutine(AttackCoroutine());
             }
         }
     }
@@ -188,6 +197,8 @@ public class AttackMonster : MonsterBase
         StartCoroutine(CoolDownAttackDelay(currentPattern));
         // todo 이 아래가 문제였다.. 공속??? 그런거 몰루일텐데 ㅠ
         yield return new WaitForSeconds(delayTime);
+
+        // yield return 다음으로 코루틴이 실행 되므로 null 값이 반환되지않음
         isAttacking = false;
         isComplete = false;
 

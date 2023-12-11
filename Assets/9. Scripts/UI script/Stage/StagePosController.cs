@@ -44,6 +44,8 @@ public class StagePosController : MonoBehaviour
     public int selectEventSlotNumber;       // 선택한 이벤트 ID
     int curSelectStageNum;             // 현재 선택한 스테이지
 
+    public static int STAGE_MAX_PLAYER_COUNT = 3; // 스테이지에 배치할 수 있는 캐릭터 수 
+
     private void Start()
     {
         // 저장한게 없다면 챕터는 1로 초기화시켜놓는다
@@ -165,7 +167,7 @@ public class StagePosController : MonoBehaviour
         if (seletedStageEventInfo.stageType == StageType.BATTLE)
         {
             // 캐릭터 선텍 UI를 연다.
-            choiceAlert.ActiveAlert(true);
+            choiceAlert.ActiveAlert(true, STAGE_MAX_PLAYER_COUNT);
             choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
             // 확인버튼 기능에 기능 할당 
             choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
@@ -191,16 +193,19 @@ public class StagePosController : MonoBehaviour
     }
 
     // 캐릭터 세팅
-    void SetStageCharacters(Character selectPlayer)
+    void SetStageCharacters(List<Character> selectPlayers)
     {
         // 이녀석이 없으면 실행하지 못한다. 
-        if (StageInfoManager.instance == null || InfoManager.instance == null) return; 
+        if (StageInfoManager.instance == null || InfoManager.instance == null) return;
 
         // 선택한 캐릭터 정보 저장 
-        List<int> idList = new List<int>
-                    {
-                        selectPlayer.MyID
-                    };
+        List<int> idList = new List<int>();
+
+        for(int i = 0; i < selectPlayers.Count; i++)
+        {
+            idList.Add(selectPlayers[i].MyID);
+        }
+                    
         InfoManager.instance.SetSelectPlayers(idList.ToArray());
 
         // 지정한 스테이지가 있는지 검사 후 씬을 옮긴다. 
@@ -242,22 +247,25 @@ public class StagePosController : MonoBehaviour
 
         //InfoManager.instance.SetSelectPlayers(idList.ToArray());
 
-        choiceAlert.ActiveAlert(true);
+        choiceAlert.ActiveAlert(true, STAGE_MAX_PLAYER_COUNT);
         choiceAlert.uiSELECT = ChoiceAlert.UISELECT.ENTER_GAME;
         //LobbyManager.MyInstance.JoinTestStage();
         choiceAlert.ConfirmSelect(selectPlayer=> SetTestStageCharacters(selectPlayer));
     }
 
-    private void SetTestStageCharacters(Character selectPlayer)
+    private void SetTestStageCharacters(List<Character> selectPlayers)
     {
         // 이녀석이 없으면 실행하지 못한다. 
         if (StageInfoManager.instance == null || InfoManager.instance == null) return;
 
         // 선택한 캐릭터 정보 저장 
-        List<int> idList = new List<int>
-                    {
-                        selectPlayer.MyID
-                    };
+        List<int> idList = new List<int>();
+
+        for(int i = 0; i < selectPlayers.Count;i++)
+        {
+            idList.Add(selectPlayers[i].MyID);
+        }
+               
         InfoManager.instance.SetSelectPlayers(idList.ToArray());
 
         StageInfoManager.instance.ChoiceTestStage();

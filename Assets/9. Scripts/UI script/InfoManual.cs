@@ -169,14 +169,16 @@ public class InfoManual : UiBase
 
     public void OpenSkillSetter()
     {
+        List<Character> list = new List<Character>();
+        list.Add(selectedPlayer);
         if (SkillManual.MyInstacne != null)
         {
-            SkillManual.MyInstacne.OpenBaseUI(selectedPlayer);
+            SkillManual.MyInstacne.OpenBaseUI(list);
         }
 
         else if(UIPageManager.instance != null)
         {
-            UIPageManager.instance.OpenSkillManual(selectedPlayer);
+            UIPageManager.instance.OpenSkillManual(list);
         }
         
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class MoveState : BaseState
 {
@@ -21,7 +22,8 @@ public class MoveState : BaseState
             if (!hit.collider.CompareTag("land"))
             {
                 // 지형이 다른 지형이므로 다시 랜덤하게 돌린다.
-                SetRandomDestination(sm);
+                //SetRandomDestination(sm);
+                owner.myState = PlayerState.Idle;
             }
         }
     }
@@ -35,8 +37,10 @@ public class MoveState : BaseState
     {
         if (owner == null) return; 
 
-        if (owner.myPlayType == PlayType.Playerable && owner.isAutoFlag == false)
+        if (/*owner.myPlayType == PlayType.Playerable &&*/ owner.isAutoFlag == false)
             return;
+
+        owner.fieldOfView.target = null;
 
         if (owner.myState == PlayerState.Move)
         {
@@ -46,47 +50,60 @@ public class MoveState : BaseState
         else if (owner.myState == PlayerState.Chase)
         {
             // 추격 중이라면 지정한 위치로 이동한다. 
+            owner.MyAgent.stoppingDistance = owner.fieldOfView.meeleAttackDistance;
             SetDestination(owner.fieldOfView.GetTargetPos());
+        }
+        else if(owner.myState == PlayerState.Follow)
+        {
+            // 리더를 따라다닌다.
+            owner.MyAgent.stoppingDistance = PlayerControl.LEADER_DISTANCE;
         }
     }
 
     public override void ExitState()
     {
+        owner.MyAgent.ResetPath();
         destination = Vector3.zero;
+
+      
     }
 
     public override void FixedUpdateState()
     {
-        if (owner == null) return; 
+        if (owner == null) return;
 
-        switch (owner.MyPlayType)
-        {
-            case PlayType.None:
-                {
-                    if (owner.MyAgent != null)
-                    {
-                        // 도착 했는지 검사한다. 
-                        if (CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance))
-                        {
 
-                            if (owner.fieldOfView.View() && owner.myState != PlayerState.Chase)
-                                owner.myState = PlayerState.Chase;
-                            else if (owner.fieldOfView.MeeleAttackRangeView(owner.MyAgent))
-                                owner.myState = PlayerState.Attack;
-                            else
-                                owner.myState = PlayerState.Idle;
-                        }
-                        else
-                        {
-                            owner.MyAgent.SetDestination(owner.fieldOfView.GetTargetPos());
-                        }
-                    }
-                }
-                break;
-            case PlayType.Playerable:
-                owner.Move();
-                break;
-        }
+        owner.Move();
+        //switch (owner.MyPlayType)
+        //{
+        //    case PlayType.None:
+        //        {
+        //            if (owner.MyAgent != null)
+        //            {
+        //                // 도착 했는지 검사한다. 
+        //                bool isAlive = CheckAlived(owner.transform.position, destination, owner.MyAgent.stoppingDistance);
+        //                // 사거리 내에 있는지 검사 
+        //                bool isMeleeRange = owner.fieldOfView.MeeleAttackRangeView(owner.MyAgent);
+
+        //                if (owner.fieldOfView.View() && isAlive == false && isMeleeRange == false)
+        //                {
+        //                    owner.Move();
+        //                }
+        //                else if (isMeleeRange == true)
+        //                {
+        //                    owner.myState = PlayerState.Attack;
+        //                }
+        //                else if(owner.fieldOfView.View() == false)
+        //                {
+        //                    owner.myState = PlayerState.Idle;
+        //                }
+        //            }
+        //        }
+        //        break;
+        //    case PlayType.Playerable:
+        //        owner.Move();
+        //        break;
+        //}
 
     }
 
@@ -97,13 +114,13 @@ public class MoveState : BaseState
         if (owner.myPlayType == PlayType.Playerable)
             return;
 
-        if (owner.fieldOfView.View() == true || owner.fieldOfView.GetTargetPos() != Vector3.zero)
-            owner.myState = PlayerState.Chase;
-        if (owner.fieldOfView.MeeleAttackRangeView(owner.MyAgent))
-        {
-            owner.MyAgent.ResetPath();
-            owner.myState = PlayerState.Attack;
-        }
+        owner.Search();
+        //if (owner.fieldOfView.View() == true || owner.fieldOfView.GetTargetPos() != Vector3.zero)
+        //    owner.myState = PlayerState.Chase;
+        //if (owner.fieldOfView.MeeleAttackRangeView(owner.MyAgent))
+        //{
+        //    owner.myState = PlayerState.Attack;
+        //}
     }
 
 }

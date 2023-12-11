@@ -62,35 +62,31 @@ public class CharSlot : MonoBehaviour, IPointerClickHandler
 
     public void SetCallback(Callback call)
     {
-        callback += call;
+        callback = call;
     }
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (callback != null)
-        {
-            callback();
-        }
+        callback?.Invoke();
 
-        // �������� ���ο� ���� ���ϵ��� ������ ���ϵ��� �Ѵ�.
-        // todo �̰� �̻��ϴ� ������ ��� ������Ʈ�� �����ִ� �������� �����ؾ��Ѵ�.. 
-        if(choiceAlert != null)
-        {
-            choiceAlert.SelectPlayerSlot(targetPlayer);
-            choiceAlert.DrawSlotList();
-        }
-     
 
-        DrawSlotState();
+        //if(choiceAlert != null)
+        //{
+        //    choiceAlert.SelectPlayerSlot(targetPlayer);
+        //    choiceAlert.DrawSlotList();
+        //}
 
-            //if (this.CompareTag("Info"))
-            //  InfoManual.MyInstance.SelectPlayer(targetPlayer);
-            //else if (CompareTag("SelectAlert"))
-            //    InfoManual.MyInstance.CallSelectPlayerFromCA(targetPlayer);
-            //else
-            //{
-            //    SetSelectedSlot(false);
-            //    InfoManual.MyInstance.SelectPlayer(null);
-            //}
+
+        //DrawSlotState();
+
+        //if (this.CompareTag("Info"))
+        //  InfoManual.MyInstance.SelectPlayer(targetPlayer);
+        //else if (CompareTag("SelectAlert"))
+        //    InfoManual.MyInstance.CallSelectPlayerFromCA(targetPlayer);
+        //else
+        //{
+        //    SetSelectedSlot(false);
+        //    InfoManual.MyInstance.SelectPlayer(null);
+        //}
     }
 }

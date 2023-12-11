@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.Build.Pipeline;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
@@ -50,12 +53,17 @@ public class PlayerControl : WheelerController
     // 자동 공격 상태일 때, 자신이 사용했던 스킬 슬롯 값
     public SkillSlotNumber usedSkillSlotNumber;
 
+    // 리더와의 거리값
+    public static float LEADER_DISTANCE = 5.0f;
+
+    Coroutine comoboCountCoro;
+
     void Start()
     {
         m_rigid = GetComponent<Rigidbody>();
-        if (fieldOfView != null)
+        if (fieldOfView != null && MyAgent != null)
         {
-            m_agent.stoppingDistance = fieldOfView.meeleAttackDistance;
+            MyAgent.stoppingDistance = fieldOfView.meeleAttackDistance;
         }
         // 상태머신 생성 및 초기화 
         stateMachine = new StateMachine();
@@ -63,6 +71,7 @@ public class PlayerControl : WheelerController
         stateMachine.States.Add(PlayerState.Move, new MoveState(this));
         stateMachine.States.Add(PlayerState.Attack, new AttackState(this));
         stateMachine.States.Add(PlayerState.Chase, new MoveState(this));
+        stateMachine.States.Add(PlayerState.Follow, new MoveState(this));
 
         // 콤보값 관련 변수들 초기화 
         current_Combo_State = ComboState.NONE;
@@ -86,9 +95,12 @@ public class PlayerControl : WheelerController
 
         // 대쉬 관련 변수 초기화 
         dashTime = startDashTime;
-        dashEffect = Instantiate(go_DashEffect, this.transform.position, Quaternion.identity);
-        dashEffect.transform.SetParent(this.transform);
-        dashEffect.SetActive(false);
+        if (go_DashEffect != null)
+        {
+            dashEffect = Instantiate(go_DashEffect, this.transform.position, Quaternion.identity);
+            dashEffect.transform.SetParent(this.transform);
+            dashEffect.SetActive(false);
+        }
 
         // 재생 관련 스탯 동작 
         InitRecoveryStat();
@@ -114,17 +126,82 @@ public class PlayerControl : WheelerController
     {
         GetInput();
        
-        StateAnimaiton();
         DashMove();
-        ResetComboState();
+        //ResetComboState();
 
         ChangeState(myState);
         stateMachine.OperateState();
-        
+        StateAnimaiton();
     }
 
+    public override void Search()
+    {
+        if (fieldOfView == null || isAutoFlag == false)
+            return;
 
-    public  override void Move()
+        if (GameManager.MyInstance != null)
+        {
+            var wc = GameManager.MyInstance.GetNearEnemyForEnemyTeam(transform.position);
+            if (wc != null)
+            {
+                targetPos = wc.transform.position;
+                fieldOfView.target = wc.transform;
+            }
+        }
+
+        // 적을 발견하였는가?
+        bool isSearch = fieldOfView.View();
+
+        if (isSearch == true)
+        {
+            bool isMelee = fieldOfView.MeeleAttackRangeView(MyAgent);
+            if (isMelee == false)
+            {
+                // 발견 했다면 적을 쫓는다. 
+                myState = PlayerState.Chase;
+            }
+            else
+            {
+                myState = PlayerState.Attack;
+            }
+        }
+        else if(isSearch == false)
+        {
+            // 타겟 설정
+            targetPos = GameManager.MyInstance.GetLeaderPosition();
+            // 타겟과 거리 측정
+            float dist = Vector3.Distance(transform.position, targetPos);
+            Debug.Log("리더와의 거리 : " + dist);
+            if (dist > LEADER_DISTANCE)
+            {
+                // 적이 없다면 리더를 따라다니도록 
+                myState = PlayerState.Follow;
+            }
+            else
+            {
+                targetPos = Vector3.zero;
+                myState = PlayerState.Idle;
+            }
+        }
+    }
+
+    public override void Think()
+    {
+        // 오토 모드인지 검사
+        if (isAutoFlag == false)
+            return;
+
+        // 자동 조작 상태라면 AI처럼 행동
+        // 1. 타겟 감지(1. 보스 -> 엘리트 -> 일반 순으로 가장 가까운 적)
+       
+
+        // 2. 타겟 감지하면 거리 계산
+        //todo 사용할 스킬별 범위 값만큼 타겟 까지 이동하기 
+
+        // 3. 거리 계산 후 거리에 따른 행동 지시 
+    }
+
+    public override void Move()
     {
         if (isDead == true) return;
 
@@ -140,7 +217,9 @@ public class PlayerControl : WheelerController
         // 자동 상태일 경우 다른 로직을 쓰도록 한다. 
         if(isAutoFlag == true)
         {
-            AutoMove();
+            FollowToLeader();
+
+            ChaseToTarget();
             return; 
         }
 
@@ -184,6 +263,7 @@ public class PlayerControl : WheelerController
                 }
             case PlayerState.Move:
             case PlayerState.Chase:
+            case PlayerState.Follow:
                 {
                     myAnimator.SetBool("Walking", true);
                     isWheel = true; 
@@ -197,10 +277,39 @@ public class PlayerControl : WheelerController
         }
     }
 
+
+    // 가장 가까운 적을 향해 방향 전환 
+    public void SearchtoAttack()
+    {
+        Collider[] collis = Physics.OverlapSphere(transform.position, 20, 1 << LayerMask.NameToLayer("Enemy"));
+        float shortTemp = 1000f;
+        float temp = 0;
+        GameObject t_Target = null;
+
+        Debug.Log("검사:)" + collis.Length);
+
+        for (int i = 0; i < collis.Length; i++)
+        {
+            temp = Vector3.Distance(collis[i].transform.position, transform.position);
+            if (temp < shortTemp)
+            {
+                t_Target = collis[i].gameObject;
+                shortTemp = temp;
+            }
+        }
+
+        if (t_Target != null)
+        {
+            Vector3 finalTarget = t_Target.transform.position;
+            finalTarget.y = transform.position.y;
+            transform.LookAt(finalTarget);
+        }
+    }
+
     // 공격하기 
     public override void Attack()
     {
-        if (theWeaponController == null)
+        if (theWeaponController == null || isAttacking == true)
         {
             return;
         }
@@ -211,9 +320,9 @@ public class PlayerControl : WheelerController
         if (theWeaponController.currentFireRate <= 0)
         {
             SearchtoAttack();
-
+           
             // 오토 동작시 동작할 위치
-            if(isAutoFlag == true)
+            if (isAutoFlag == true)
             {
                 bool isSkillAction = AutoAttack();
                 if (isSkillAction == true)
@@ -223,17 +332,23 @@ public class PlayerControl : WheelerController
                 }
             }
 
-            // 공격 스테이트로 변경
-            //ChangeState(PlayerState.Attack);
-            myState = PlayerState.Attack;
-
             if (current_Combo_State == ComboState.ATTACK_4 || current_Combo_State == ComboState.Skill1
                 || current_Combo_State == ComboState.Skill2 || skillAction.isAction == true)
+            {
+                myState = PlayerState.Idle;
                 return;
+            }
+
+            // 제어 변수가 어느 시점에서 끊기냐에 따라 코딩에 혼란이 쉽다..
+            isAttacking = true; // 공격 중 
 
             current_Combo_State++;  // 콤보 스테이트 증가 
-            activateTimerToReset = true;    // 콤보 타이머 활성화
+
+            activateTimerToReset = true;
             current_Combo_Timer = default_Combo_Timer;  // 콤보 타이머가 디폴트 값을 대입해서 계산하도록 함.
+            if(comoboCountCoro != null)
+                StopCoroutine(comoboCountCoro);
+            comoboCountCoro = StartCoroutine(TimerComboState());    // 콤보 타이머 활성화
 
             switch (current_Combo_State)
             {
@@ -252,6 +367,7 @@ public class PlayerControl : WheelerController
                     break;
             }
 
+           
             if (player != null && theWeaponController != null)
             {
                 theWeaponController.SetDamageAndCrit(damageRate, 
@@ -259,6 +375,13 @@ public class PlayerControl : WheelerController
             }
 
             theWeaponController.TryFire(current_Combo_State);
+
+            // 콤보 스테이트 초기화 시켜놓기
+            if (current_Combo_State >= max_Combo_State)
+            {
+                current_Combo_State = ComboState.NONE;
+            }
+
         }
     }
 
@@ -304,7 +427,7 @@ public class PlayerControl : WheelerController
         {
             // 공격에 대한 플래그값 변경 
             // 공격 시, 값을 초기화 이 플래그 값이 켜져 있으면 추가로 공격 못하게 할려고 해놓은 것.
-            isAttacking = false;
+            //isAttacking = false;
             // 공격 스테이트로 변경
             inputState = PlayerState.Attack;
         }
@@ -352,34 +475,7 @@ public class PlayerControl : WheelerController
         myState = inputState;
     }
 
-    // 가장 가까운 적을 향해 방향 전환 
-    public void SearchtoAttack()
-    {
-        Collider[] collis = Physics.OverlapSphere(transform.position, 20, 1 << LayerMask.NameToLayer("Enemy"));
-        float shortTemp = 1000f;
-        float temp = 0;
-        GameObject t_Target = null;
-
-        Debug.Log("검사:)" + collis.Length);
-
-        for (int i = 0; i < collis.Length; i++)
-        {
-            temp = Vector3.Distance(collis[i].transform.position, transform.position);
-            if (temp < shortTemp)
-            {
-                t_Target = collis[i].gameObject;
-                shortTemp = temp;
-            }
-        }
-
-        if (t_Target != null)
-        {
-            Vector3 finalTarget = t_Target.transform.position;
-            finalTarget.y = transform.position.y;
-            transform.LookAt(finalTarget);
-        }
-    }
-
+ 
     // 대쉬
     public void DashMove()
     {
@@ -388,7 +484,11 @@ public class PlayerControl : WheelerController
             // 대쉬 (급속 이동) 
             canDash = true;
             dashDir = direction;
-            dashEffect.SetActive(true);
+            if(dashEffect != null )
+            {
+                dashEffect.SetActive(true);
+            }
+
             speed = speed * 2;
             if(wheelController!= null)
             {
@@ -420,26 +520,39 @@ public class PlayerControl : WheelerController
         direction = Vector3.zero;
         canDash = false;
         isDash = false;
-        dashEffect.SetActive(false);
+        if (dashEffect != null)
+        {
+            dashEffect.SetActive(false);
+        }
     }
 
 
-    void ResetComboState()
+    IEnumerator TimerComboState()
     {
-        if (activateTimerToReset)
+        if (activateTimerToReset == false)
+            yield return null;
+        Debug.Log("타이머 리셋 시작");
+        while(true)
         {
-            current_Combo_Timer -= Time.deltaTime;
-
-            if (current_Combo_Timer <= 0f)
+            if (activateTimerToReset)
             {
-                current_Combo_State = ComboState.NONE;
+                current_Combo_Timer -= Time.deltaTime;
 
-                activateTimerToReset = false;
-                current_Combo_Timer = default_Combo_Timer;
+                if (current_Combo_Timer <= 0f)
+                {
 
-                // 일정 시간이 지나도 원래대로 초기화 되도록
-                EndOfAttack();
+                    Debug.Log("타이머 리셋 종료 현재 콤보 : " + current_Combo_State );
+                    current_Combo_State = ComboState.NONE;
+
+                    activateTimerToReset = false;
+                    current_Combo_Timer = default_Combo_Timer;
+                    break; 
+                    // 일정 시간이 지나도 원래대로 초기화 되도록
+                    //EndOfAttack();
+                }
             }
+
+            yield return null; 
         }
     }
 
@@ -451,64 +564,26 @@ public class PlayerControl : WheelerController
 
 
 
-    public override void Think()
+    // 자기팀의 리더를 따라다닌다.
+    public void FollowToLeader()
     {
-        // 오토 모드인지 검사
-        if (isAutoFlag == false)
-            return; 
-
-        // 자동 조작 상태라면 AI처럼 행동
-        // 1. 타겟 감지(1. 보스 -> 엘리트 -> 일반 순으로 가장 가까운 적)
-        if(GameManager.MyInstance != null)
-        {
-            var wc = GameManager.MyInstance.GetNearEnemyForEnemyTeam(transform.position);
-            if( wc != null)
-            {
-                targetPos = wc.transform.position;
-                fieldOfView.target = wc.transform;
-            }
-        }
-
-        // 2. 타겟 감지하면 거리 계산
-        //todo 사용할 스킬별 범위 값만큼 타겟 까지 이동하기 
-
-        // 3. 거리 계산 후 거리에 따른 행동 지시 
-    }
-
-
-    // 수동 상태일 때 이동로직 
-    public void AutoMove()
-    {
-        if (fieldOfView == null)
-            return; 
-
+        if (isLeader == true || myState != PlayerState.Follow) return;
+       
         MyAgent.speed = player.MyStat.speed;
-        // 목적지 값에 도달했다면 초기화
-        if (Vector3.Distance(transform.position, targetPos) <= 1.0f)
-        {
-            myState = PlayerState.Idle;
-            targetPos = Vector3.zero;
-        }
 
-        // 타겟이 설정되어 있다면? 
-        if (fieldOfView.target != null && fieldOfView.MeeleAttackRangeView(MyAgent) == false)
-        {
-            // 타겟 위치를 목표로 설정하고 움직인다. 
-            MyAgent.SetDestination(fieldOfView.target.position);
-        }
-        // 타겟이 사거리 내에 있다면 공격 스테이트로 
-        else if(fieldOfView.target != null && fieldOfView.MeeleAttackRangeView(MyAgent) == true)
-        {
-            isAttacking = false;
-            myState = PlayerState.Attack;// ChangeState(PlayerState.Move);
-        }
-        // 타겟이 없다면 주위에 랜덤한 곳으로 이동시켜본다.
-        else if(targetPos == Vector3.zero)
-        {
-            var destination = new Vector3(Random.Range(-5, 6), 0, Random.Range(-5, 6));
-            targetPos = transform.localPosition + destination;
-            MyAgent.SetDestination(targetPos);
-        }
+        // 리더를 쫓아간다. 
+        MyAgent.stoppingDistance = LEADER_DISTANCE;
+        MyAgent.SetDestination(targetPos);
+
+    }
+    
+    // 대상을 향해 나아간다. 
+    public void ChaseToTarget()
+    {
+        if (fieldOfView == null || myState != PlayerState.Chase) return;
+
+        var enemyPos = fieldOfView.GetTargetPos();
+        MyAgent.SetDestination(enemyPos);
     }
 
     // 자동 상태일 때 공격 기능 

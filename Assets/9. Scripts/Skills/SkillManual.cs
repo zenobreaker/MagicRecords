@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Android;
@@ -142,14 +144,17 @@ public class SkillManual : MonoBehaviour
         //choiceAlert.ActiveAlert(true);
         //choiceAlert.uiSELECT = ChoiceAlert.UISELECT.SKILLMANUAL;
         //choiceAlert.ConfirmSelect(player => OpenBaseUI(player));
-    } 
+    }
 
-    public void OpenBaseUI(Character _selectPlayer)
+
+    public void OpenBaseUI(List<Character> _selectPlayer)
     {
         // 스킬창이 열릴 때 선택한 캐릭터 정보가 없다면 열리지 않도록
         if (_selectPlayer == null) return; 
         // 데이터 초기화 
-        selectedPlayer = _selectPlayer;
+        // 리스트로 온 것중 가장 첫 번째 데이터를 가져온다. 
+        // 스킬을 배우는 대상은 한 명이기 때문
+        selectedPlayer = _selectPlayer.First();
         
         // 선택창은 끈다.
         //choiceAlert.ActiveAlert(false);

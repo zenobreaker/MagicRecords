@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+using System.Buffers;
 
 
 // 게임 진행 스테이트 
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     public int maxWave;
 
     public bool isTest = false;
+    public bool isAutoMode = false; // 오토 모드 관련 플래그값 
     // 게임 획득 점수 
     private int gameScore;
 
@@ -58,9 +61,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StageManager theSM = null;
     [SerializeField] private PlayerManager thePM = null;
     [SerializeField] ComboManager theCombo = null;
-
+    [SerializeField] Button autoButon;
+    [SerializeField] ChangeCharUI theChangeCharUI = null;
     // 이번 게임에 등장하는 모든 아군 플레이어 
-    public List<WheelerController> team = new List<WheelerController>();
+    //public List<WheelerController> team = new List<WheelerController>();
 
     // 이번 게임에 등장하는 모든 적군 플레이어
     public List<WheelerController> enemyTeam = new List<WheelerController>();
@@ -116,8 +120,9 @@ public class GameManager : MonoBehaviour
             }
 
             // 레코드매니저에게 유저가 선택한 레코드를 적용시키라고 명령한다. 
-            if(RecordManager.instance != null)
+            if(RecordManager.instance != null && thePM != null)
             {
+                var team = thePM.GetMyTeam();
                 RecordManager.instance.ApplyRecordToPlayers(team);
             }
 
@@ -164,7 +169,11 @@ public class GameManager : MonoBehaviour
         
         gameState = GameState.NONE;
 
-        team.Clear(); 
+        if (thePM != null)
+        {
+            thePM.InitMyTeam();
+        }
+
         enemyTeam.Clear();
 
         isStageIn = true;
@@ -249,12 +258,9 @@ public class GameManager : MonoBehaviour
             else
             {
                 // 훈련장에서 0이 되었다면 캐릭터 체력을 다시 복구시켜준다. 
-                foreach(var wheeler in team)
+               if(thePM != null)
                 {
-                    if (wheeler == null || wheeler.MyPlayer == null)
-                        continue;
-
-                    wheeler.MyPlayer.InitCurrentHP();
+                    thePM.RecoveryHPForMyTeam();
                 }
             }
            
@@ -278,7 +284,12 @@ public class GameManager : MonoBehaviour
         // 콤보 초기화
         theCombo.ResetCombo();
         player = thePM.GetPlayer();
-        team.Add(player);
+        //team.Add(player);
+        // changeUi 셋팅
+        if(theChangeCharUI  !=null)
+        {
+            theChangeCharUI.InitChangeUI();
+        }
 
         if (player != null)
             playerCount = 1;
@@ -353,7 +364,7 @@ public class GameManager : MonoBehaviour
         GrowUpMyCharacters(MyGameScore);
 
         // 캐릭터 정보 갱신
-        RefreshCharStatus();
+        thePM.RefreshCharStatus();
     }
 
     IEnumerator StageFailureCoroutine()
@@ -485,9 +496,12 @@ public class GameManager : MonoBehaviour
     {
         if (data == null) return;
 
-        theSM?.RespwanEnemyByCharacterData(data, true);
-        // 얕은 결속 
-        enemyTeam = theSM?.GetStageEnemyList();
+        if (theSM != null)
+        {
+            theSM.RespwanEnemyByCharacterData(data, true);
+            // 얕은 결속 
+            enemyTeam = theSM.GetStageEnemyList();
+        }
     }
 
     // 모든 적 제거 
@@ -509,19 +523,58 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 선택한 캐릭터들 결과 반영
-    public void RefreshCharStatus()
+
+    // 선택한 캐릭터로 조작 변경
+    public void ChangeControlWheeler(Character target)
     {
-        foreach(var own in team)
-        {
-            int id = own.MyPlayer.MyID;
+        if (target == null || thePM == null) return; 
 
-            int hp = own.MyPlayer.MyCurrentHP;
-            Debug.Log("캐릭터 ID : " + id + " Hp : " + hp);
-
-            InfoManager.instance.SetSelectMyPlayerApplyData(id, own.MyPlayer);
-        }
+        thePM.SetControlTheCurrentPlayer(target, isAutoMode);
     }
+    
+    // 팀 캐릭터 리스트 반환
+    public List<Character> GetMyTeamCharList()
+    {
+        if (thePM == null) return null;
+
+        var myTeam = thePM.GetMyTeam();
+        List<Character> list = new List<Character>();
+
+        foreach (var own in myTeam)
+        {
+            if (own == null || own.MyPlayer == null)
+                continue; 
+
+            list.Add(own.MyPlayer);
+        }
+
+        return list; 
+    }
+
+    // 팀 중리더의 위치 값 반환
+    public Vector3 GetLeaderPosition()
+    {
+        if (thePM == null) return Vector3.zero;
+
+        var myTeam = thePM.GetMyTeam();
+
+        Vector3 pos = Vector3.zero;
+
+        foreach(var own in myTeam)
+        {
+            if (own.MyPlayer == null)
+                continue; 
+
+            if(own.isLeader == true)
+            {
+                pos = own.transform.position;
+                break; 
+            }
+        }
+
+        return pos;
+    }
+
 
     // 적팀에서 가장 가까운 적 정보를 반환
     public WheelerController GetNearEnemyForEnemyTeam(Vector3 myPos)
@@ -530,10 +583,10 @@ public class GameManager : MonoBehaviour
 
         WheelerController target = null;  
 
-        foreach (var enemy in enemyTeam)
-        {
+        //foreach (var enemy in enemyTeam)
+        //{
             
-        }
+        //}
 
         foreach (var enemy in enemyTeam)
         {
@@ -546,5 +599,27 @@ public class GameManager : MonoBehaviour
         }
 
         return target; 
+    }
+
+    // 버튼용 함수 - 함수를 호출 아군 팀의 오토 플래그를 전부 변경한다.
+    public void GameAutoChangeButton()
+    {
+        isAutoMode = !isAutoMode;
+        
+        if(thePM!= null)
+            thePM.ChangeAutoModeForMyTeam(isAutoMode);
+
+        // 버튼의 텍스트를 변경한다.
+        if (autoButon != null)
+        {
+            var text = autoButon.GetComponentInChildren<TextMeshProUGUI>();
+            if(text != null)
+            {
+                if (isAutoMode == false)
+                    text.text = "Auto OFF";
+                else
+                    text.text = "Auto ON";
+            }
+        }
     }
 }

@@ -75,8 +75,8 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     {
         if (thePlayer == null) return;
 
-        thePlayer.isAttacking = false; 
-        thePlayer.Attack();
+        //thePlayer.isAttacking = false; 
+        thePlayer.myState = PlayerState.Attack;
     }
 
     public void PushDashButton()

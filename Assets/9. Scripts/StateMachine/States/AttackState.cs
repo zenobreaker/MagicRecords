@@ -11,24 +11,15 @@ public class AttackState : BaseState
 
     public override void EnterState()
     {
-        //Debug.Log("���� ������Ʈ ����");
         if (owner == null) return;
-
-        Debug.Log("���� ������Ʈ ���� ��" + owner.isAttacking);
-        if (!owner.isAttacking)
-        {
-            owner.Attack();
-        }
-
+        
+        //owner.Attack();
     }
 
     public override void ExitState()
     {
         if (owner == null) return;
-        // Debug.Log("���� ������Ʈ Ż��");
-        owner.isAttacking = false;
-        // ������ ���¸� idle�� �ٲ۴�
-        owner.myState = PlayerState.Idle;
+
     }
 
     public override void FixedUpdateState()
@@ -37,7 +28,9 @@ public class AttackState : BaseState
 
     public override void UpdateState()
     {
-       
+        if (owner == null) return;
+
+        owner.Attack();
     }
 
    

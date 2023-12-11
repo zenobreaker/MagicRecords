@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5700140937689928477}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L2_root2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1656089834954568518}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone.027_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 1001934513686383421}
   - component: {fileID: 4349362302747307704}
   - component: {fileID: 4955227350068759216}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: AttackArea
   m_TagString: Attack
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1898732284536821641}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R3_root1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1410965819600274504}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_sholder_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7488528047566904867}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone.027
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1860013468627875422}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_head1_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7295491307542693620}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7899764073801303094}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L3_root2.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6379657934393913977}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R2_root2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6262188810511628799}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L3_root2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8042620256501191576}
   - component: {fileID: 3138889784386588877}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,7 +452,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1244647400596327492}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R1_root2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8185376863455664171}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R1_root1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 225300963522817418}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +548,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5791417507440803210}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Arm_R1.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +579,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8846806462947548907}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -614,7 +614,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5042072170687069016}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L2_root2_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -645,7 +645,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1713610168317849811}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R1_root2_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5313711168601446766}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_sholder_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +708,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6146535849499006041}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Arm_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,16 +740,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4123433398264677183}
-  - component: {fileID: 4438525794821121839}
+  - component: {fileID: 3813353723264410707}
   - component: {fileID: 4999055226221871404}
   - component: {fileID: 7272818212670496066}
-  - component: {fileID: 5217542009992933858}
   - component: {fileID: 7054368208174049310}
-  - component: {fileID: 3813353723264410707}
-  - component: {fileID: 8251879730956171026}
-  m_Layer: 10
+  - component: {fileID: 5217542009992933858}
+  - component: {fileID: -3542938652964587125}
+  - component: {fileID: 2403954437937910749}
+  m_Layer: 8
   m_Name: Treemon
-  m_TagString: Monster
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -771,93 +771,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4438525794821121839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569200012176572667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6651f6b8544d4bf459c6ea82547632bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myGrade: 0
-  maxHP: 0
-  maxMP: 0
-  attack: 10
-  attackDelay: 3
-  walkSpeed: 6
-  defence: 0
-  exp: 1
-  pattern: 0
---- !u!114 &4999055226221871404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569200012176572667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3b9eaa7ea57cf442956be23e8a3d1ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myBody: {fileID: 8251879730956171026}
-  myAnim: {fileID: 9140126834733272458}
-  myCondition: 0
---- !u!195 &7272818212670496066
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569200012176572667}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 3
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!54 &5217542009992933858
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569200012176572667}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!65 &7054368208174049310
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569200012176572667}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 3.4, z: 1.2}
-  m_Center: {x: -0.036485136, y: 1.698913, z: 0.022082329}
 --- !u!114 &3813353723264410707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,9 +789,9 @@ MonoBehaviour:
   target: {fileID: 0}
   targetMask:
     serializedVersion: 2
-    m_Bits: 256
-  thePlayer: {fileID: 0}
---- !u!114 &8251879730956171026
+    m_Bits: 1024
+  thePlayer: {fileID: -3542938652964587125}
+--- !u!114 &4999055226221871404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -887,17 +800,84 @@ MonoBehaviour:
   m_GameObject: {fileID: 4569200012176572667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f10788b5bebc9274c93655422deacc21, type: 3}
+  m_Script: {fileID: 11500000, guid: b3b9eaa7ea57cf442956be23e8a3d1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPlayType: 0
-  teamTag: 0
+  myBody: {fileID: -3542938652964587125}
+  myAnim: {fileID: 9140126834733272458}
+  myCondition: 0
+--- !u!195 &7272818212670496066
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569200012176572667}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.1
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 3
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!65 &7054368208174049310
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569200012176572667}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 3.4, z: 1.2}
+  m_Center: {x: -0.036485136, y: 1.698913, z: 0.022082329}
+--- !u!54 &5217542009992933858
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569200012176572667}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 2
+  m_Constraints: 112
+  m_CollisionDetection: 2
+--- !u!114 &-3542938652964587125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569200012176572667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 989e1a24bf4f7144ea0d416a8c1b88dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayType: 1
+  teamTag: 1
+  isLeader: 0
   m_rigid: {fileID: 5217542009992933858}
   m_agent: {fileID: 7272818212670496066}
   m_charName: 
   fieldOfView: {fileID: 3813353723264410707}
   myState: 0
-  idleTime: 5
+  idleTime: 0
   isWalking: 0
   isRunning: 0
   isChasing: 0
@@ -906,58 +886,94 @@ MonoBehaviour:
   recoveryTime: 0
   isTest: 0
   current_Combo_State: 0
+  max_Combo_State: 1
   default_Combo_Timer: 0.5
   current_Combo_Timer: 0
   activateTimerToReset: 0
-  skillAction: {fileID: 0}
-  MonsterName: "\uB098\uBB34\uADC0\uC2E0"
-  item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
-    type: 3}
-  item_prefabs: []
-  itemNumber: 0
-  ChaseTime: 3
-  chaseDelayTime: 2
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 256
-  destination: {x: 0, y: 0, z: 0}
-  isBoss: 0
-  dangerLine:
-  - {fileID: 1493473438567746127, guid: ff3eaf96302e8864ca4df8cbab69115c, type: 3}
-  rangeOfEnemy: 10
-  baseAttackRange: 5
-  anim: {fileID: 9140126834733272458}
-  boxCol: {fileID: 7054368208174049310}
-  sound_Normal: []
-  sound_Hurt: {fileID: 0}
-  sound_Dead: {fileID: 0}
-  attackRanges:
-  - {fileID: 4349362302747307704}
-  attackEffect:
-  - {fileID: 1928950542853243801, guid: 1e13901788d21ea43b1412e5254d925d, type: 3}
-  addRange: 0
-  pattren_parameter_attackspeed_array:
-  - 1
-  - 1.1
-  - 1.3
-  - 1.3
-  - 1.3
-  chaseTime: 3
-  monsterAttackStat:
-  - attackPattern: 0
-    attackCoolTime: 3
-  - attackPattern: 0
-    attackCoolTime: 5
-  - attackPattern: 0
-    attackCoolTime: 10
-  - attackPattern: 0
-    attackCoolTime: 12
-  - attackPattern: 0
-    attackCoolTime: 10
-  MaxPattern: 0
-  delayTime: 0
-  go_TreeAttack: {fileID: 2653462365812280479, guid: f6e6e7221e0b42643b81417b7cf8ed7f,
-    type: 3}
+  skillAction: {fileID: 2403954437937910749}
+  isAutoFlag: 0
+  speed: 10
+  startDashTime: 0
+  myAnimator: {fileID: 9140126834733272458}
+  TargetRotation: 0
+  theWeaponController: {fileID: 767081183719350450}
+  wheelController: {fileID: 0}
+  go_DashEffect: {fileID: 0}
+  IsMove: 0
+  isDash: 0
+  isTouch: 0
+  usedSkillSlotNumber: 0
+--- !u!114 &2403954437937910749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569200012176572667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e4fc7090d066ee4a8b2040ad4e725bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillOwn:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 1.5
+      myGrade: 0
+      level: 1
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      totalCP: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraAttackSpeed: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+        increaseAttackRate: 1
+        increaseDefenseRate: 1
+        increaseSpeedRate: 1
+        increaseHPRate: 1
+        increaseHPRegenRate: 1
+        increaseMPRate: 1
+        increaseMPRegenRate: 1
+      passiveAdditionalDamageRate: 0
+      passiveAdditionalLostHealthRate: 0
+      passiveAdditionalMaxHealthRate: 0
+    selectRecordInfos: []
+    isAction: 1
+    isDead: 0
+  isAction: 0
+  skillChain: {fileID: 0}
+  weaponController: {fileID: 767081183719350450}
+  myAnimator: {fileID: 9140126834733272458}
 --- !u!1 &5056532667211443140
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,7 +983,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2922772122753006593}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Arm_L2_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,7 +1014,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5388045418514893151}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L3_root1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1030,7 +1046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8739317283070858846}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1067,7 +1083,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2781713449371040540}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L3_root2_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1099,7 +1115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6563072527181455029}
   - component: {fileID: 45139984744638906}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1212,7 +1228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7641956123400181779}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Arm_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1244,7 +1260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8227943855968627885}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1276,7 +1292,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1876669300754465693}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R2_root2_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1307,7 +1323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4204129630355652250}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_head1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1339,7 +1355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4815056382851936445}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R2_root1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1371,7 +1387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3120655230931805292}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_head2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1405,7 +1421,8 @@ GameObject:
   - component: {fileID: 5995181865512556566}
   - component: {fileID: 9140126834733272458}
   - component: {fileID: 4737552922042601675}
-  m_Layer: 10
+  - component: {fileID: 767081183719350450}
+  m_Layer: 8
   m_Name: Treemon_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1462,7 +1479,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2016e81541842a41a971ae01ac6c10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: -3542938652964587125}
+--- !u!114 &767081183719350450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307217923694373381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43b9a17d4fa4d6e408929b64606cd724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponOwn:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 1.5
+      myGrade: 0
+      level: 1
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      totalCP: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraAttackSpeed: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+        increaseAttackRate: 1
+        increaseDefenseRate: 1
+        increaseSpeedRate: 1
+        increaseHPRate: 1
+        increaseHPRegenRate: 1
+        increaseMPRate: 1
+        increaseMPRegenRate: 1
+      passiveAdditionalDamageRate: 0
+      passiveAdditionalLostHealthRate: 0
+      passiveAdditionalMaxHealthRate: 0
+    selectRecordInfos: []
+    isAction: 1
+    isDead: 0
+  dmageRate: 1
+  damage: 0
+  critRate: 0
+  critDamage: 0
+  weaponType: 0
+  currentGun: {fileID: 0}
+  currentFireRate: 0
+  normalFireRate: 0.2
+  finalFireRate: 0.7
+  attackCoolTime: 0
 --- !u!1 &7410506364063166383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,7 +1566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7099051058296751433}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L1_root1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1504,7 +1598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5153584031575765027}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L3_root2.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1536,7 +1630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 332339642565281298}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_R3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1568,7 +1662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8417299647669000370}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Arm_R1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1600,7 +1694,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6778224967519521928}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L1_root2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1632,7 +1726,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4654653176045861555}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Arm_R1.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1664,7 +1758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5845494686475567185}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone_Leg_L2_root1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1696,7 +1790,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1779486245050497178}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone._Leg_R1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1728,7 +1822,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8288844287218593841}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1759,7 +1853,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 897599383859668642}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Bone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}

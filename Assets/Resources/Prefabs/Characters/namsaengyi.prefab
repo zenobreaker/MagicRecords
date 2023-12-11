@@ -382,13 +382,13 @@ GameObject:
   - component: {fileID: 6031059280256674509}
   - component: {fileID: 6031059280256674510}
   - component: {fileID: 6031059280256674507}
-  - component: {fileID: 6031059280256674508}
   - component: {fileID: 2747220122454277669}
   - component: {fileID: 2783343195024195136}
   - component: {fileID: 2347304906794922971}
   - component: {fileID: 2347304906794922968}
   - component: {fileID: 5820080113372504148}
   - component: {fileID: 1515018205449979349}
+  - component: {fileID: 1963299643575849814}
   m_Layer: 8
   m_Name: namsaengyi
   m_TagString: Player
@@ -457,6 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPlayType: 1
   teamTag: 0
+  isLeader: 0
   m_rigid: {fileID: 6031059280256674509}
   m_agent: {fileID: 1515018205449979349}
   m_charName: 
@@ -471,10 +472,11 @@ MonoBehaviour:
   recoveryTime: 0
   isTest: 0
   current_Combo_State: 0
+  max_Combo_State: 4
   default_Combo_Timer: 1.2
   current_Combo_Timer: 0
   activateTimerToReset: 0
-  skillAction: {fileID: 6031059280256674508}
+  skillAction: {fileID: 1963299643575849814}
   isAutoFlag: 0
   speed: 10
   startDashTime: 0.2
@@ -487,77 +489,7 @@ MonoBehaviour:
   IsMove: 0
   isDash: 0
   isTouch: 0
---- !u!114 &6031059280256674508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2347304906794922970}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e4fc7090d066ee4a8b2040ad4e725bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillOwn:
-    objectID: 0
-    playerID: 0
-    charStat:
-      baseCritDamage: 1.5
-      myGrade: 0
-      level: 0
-      totalATK: 0
-      totalDEF: 0
-      totalASPD: 0
-      totalHP: 0
-      totalMP: 0
-      totalHPR: 0
-      totalMPR: 0
-      totalSPD: 0
-      totalCritRate: 0
-      totalCritDmg: 0
-      totalCP: 0
-      attack: 0
-      defense: 0
-      attackSpeed: 0
-      hp: 0
-      mp: 0
-      hpRegen: 0
-      mpRegen: 0
-      speed: 0
-      critRate: 0
-      critDmg: 0
-      exp: 0
-      maxExp: 0
-      giveChanceExp: 0
-      extraStat:
-        extraAttack: 0
-        extraDefense: 0
-        extraSpeed: 0
-        extraHP: 0
-        extraMP: 0
-        extraHPR: 0
-        extraMPR: 0
-        extraAttackSpeed: 0
-        extraCritRate: 0
-        extraCritDmg: 0
-        increaseAttackRate: 1
-        increaseDefenseRate: 1
-        increaseSpeedRate: 1
-        increaseHPRate: 1
-        increaseHPRegenRate: 1
-        increaseMPRate: 1
-        increaseMPRegenRate: 1
-      passiveAdditionalDamageRate: 0
-      passiveAdditionalLostHealthRate: 0
-      passiveAdditionalMaxHealthRate: 0
-    selectRecordInfos: []
-    isAction: 1
-    isDead: 0
-  isAction: 0
-  skillChain: {fileID: 2783343195024195136}
-  weaponController: {fileID: 3524796231473870766}
-  myAnimator: {fileID: 3085422400865784962}
+  usedSkillSlotNumber: 0
 --- !u!114 &2747220122454277669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,7 +581,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2347304906794922970}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -662,6 +594,77 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1963299643575849814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347304906794922970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd5620da7ff9764597a6c11b49c4350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillOwn:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 1.5
+      myGrade: 0
+      level: 1
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      totalCP: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraAttackSpeed: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+        increaseAttackRate: 1
+        increaseDefenseRate: 1
+        increaseSpeedRate: 1
+        increaseHPRate: 1
+        increaseHPRegenRate: 1
+        increaseMPRate: 1
+        increaseMPRegenRate: 1
+      passiveAdditionalDamageRate: 0
+      passiveAdditionalLostHealthRate: 0
+      passiveAdditionalMaxHealthRate: 0
+    selectRecordInfos: []
+    isAction: 1
+    isDead: 0
+  isAction: 0
+  skillChain: {fileID: 2783343195024195136}
+  weaponController: {fileID: 3524796231473870766}
+  myAnimator: {fileID: 3085422400865784962}
 --- !u!1 &2404355815063979087
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class MonsterBase : WheelerController
 {
@@ -42,7 +43,6 @@ public class MonsterBase : WheelerController
 
  
 
-    // Start is called before the first frame update
     protected virtual void Start()
     {
      
@@ -118,7 +118,7 @@ public class MonsterBase : WheelerController
 
     protected void ResetBehaviour()
     {
-       // currentTime = waitTime;
+        // currentTime = waitTime;
         isAttacking = false;
         isChasing = false;
         isWalking = false;
@@ -130,13 +130,35 @@ public class MonsterBase : WheelerController
 
     }
 
+    public override void Search()
+    {
+        if (fieldOfView != null)
+        {
+            // 타겟을 발견 했지만 공격 사정 거리 내에 있지 않는다면 
+            if (fieldOfView.View()  &&
+                fieldOfView.MeeleAttackRangeView(MyAgent) == false)
+            {
+                myState = PlayerState.Chase;
+            }
+            // 사정 거리 내에 왔다면 공격 
+            else if (fieldOfView.MeeleAttackRangeView(MyAgent))
+            {
+                myState = PlayerState.Attack;
+            }
+        }
+    }
+
     public override void Move()
     {
         MyAgent.speed = player.MyStat.speed;
+        isWalking = true;
+        if (fieldOfView != null)
+        {
+            MyAgent.SetDestination(fieldOfView.GetTargetPos());
+        }
     }
 
   
-    // 위 함수 내용과 같지만 WheelerController 클래스에 비슷한 역할을 할려고 만든 함수를 호출한다. 
     public override void StateAnimaiton()
     {
         isAction = true;
@@ -144,11 +166,9 @@ public class MonsterBase : WheelerController
         switch (myState)
         {
             case PlayerState.Idle:
-                isWalking = false;
                 anim.SetBool("Walking", isWalking);
                 break;
             case PlayerState.Move:
-                isWalking = true;
                 anim.SetBool("Walking", isWalking);
                 break;
         }
@@ -163,31 +183,9 @@ public class MonsterBase : WheelerController
         MyAgent.velocity = Vector3.zero;
         MyAgent.isStopped = true;
         MyAgent.ResetPath();
-      
-        Vector3 randDest = new Vector3(Random.Range(-5, 5), 0f, Random.Range(-5, 5));
-        randDest = transform.localPosition + randDest * MyAgent.stoppingDistance;
 
-        destination.Set(randDest.x, randDest.y, randDest.z); // 시간이 다되면 목적지를 설정한다.
-        //currentState = state.WALK;
+        isWalking = false;
 
-        //anim.SetTrigger("Idle");
-        /*
-        if (currentTime > 0 && !isWalking && !isChasing && !isAttacking)
-        {
-            currentTime -= Time.deltaTime;
-            if (currentTime <= 0)
-            {
-                currentTime = Random.Range(currentTime, waitTime);
-
-                Vector3 randDest = new Vector3(Random.Range(-5, 5), 0f, Random.Range(-5, 5));
-
-                destination.Set(randDest.x, randDest.y, randDest.z); // 시간이 다되면 목적지를 설정한다.d
-                currentState = state.WALK;
-            }
-        }
-        else
-            currentTime = waitTime;
-        */
     }
 
     public override void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)

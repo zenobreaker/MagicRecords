@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
@@ -187,7 +188,7 @@ public class EventShopUI : UiBase
         });
     }
 
-    // �����ۿ� ���� �ݹ� ȣ��
+    // 아이템 관련 작업 시 콜백 
     void CallbackToItemPopup(Item item)
     {
         if (item == null) return; 
@@ -219,37 +220,40 @@ public class EventShopUI : UiBase
         }
     }
 
-    // ȸ�� ������ ���Ž� 
+    // 개별 회복 포션 구매 
     public void BuyUseEachHealthPotion()
     {
-        // �ڽ�Ʈ ����
 
-        // ĳ���� ���� ui ���ֱ� 
-        UIPageManager.instance.OpenSelectCharacter((character) =>
+        // 선택한 캐릭터를 회복 시킨다.
+        UIPageManager.instance.OpenSelectCharacter((characters) =>
         {
-            //todo 
-            int currentHP = character.MyCurrentHP; 
+            var target = characters.First();
+            if (target == null)
+                return; 
 
-            var maxHP = character.MyMaxHP;
-            character.MyCurrentHP += (int)(maxHP * 0.3f);
+            int currentHP = target.MyCurrentHP; 
 
-            int afterHP = character.MyCurrentHP;
-            Debug.Log("�ش� ĳ���� ü�� ȸ�� : " + currentHP + " " + afterHP);
+            var maxHP = target.MyMaxHP;
+            target.MyCurrentHP += (int)(maxHP * 0.3f);
+
+            int afterHP = target.MyCurrentHP;
+            Debug.Log("캐릭터 회복 : " + currentHP + " " + afterHP);
         });
         
     }
+    // 전체 대상을 회복 시키는 포션 구매
     public void BuyUseMultiHealthPotion()
     {
-        // Ž�� ���� ĳ���͵� ȸ�� 
+        // 선택한 플레이어들을 가져온다. 
         var playerList = InfoManager.instance.GetSelectPlayers();
 
         if (playerList == null) return; 
 
-        // ĳ���͵� ���� ȸ��
+        // 각 캐릭터별로 회복 시킨다. 
         foreach (var player in playerList)
         {
             if (player.Value == null) continue;
-            // ������ ĳ���ʹ� ȸ�� �Ұ�
+            // 대상이 죽어있다면 넘긴다.
             if (player.Value.isDead == true)
                 continue; 
 
@@ -259,33 +263,33 @@ public class EventShopUI : UiBase
 
     }
 
-    // ���ڵ� ������ ���� ��
+    // 레코드 구매 
     public void BuyRecordItem(Item item)
     {
         if(item== null) return;
 
-        //todo . ���� �� ���� 
+        //todo . 
 
-        // ���ڵ� �Ŵ����� ������ ���ڵ� �߰��ϱ� 
+        //
         RecordManager.instance.SelectRecord(item.itemUID);
     }
 
 
-    // ���� ������ ���Ž� 
+    // 유물 구매
     public void BuyRelric()
     {
 
     }
 
-    // ��Ȱ�� ���Ž� 
+    // 부활 포션 구매
     public void BuyResurrectionPotion(Character character)
     {
         if (character == null || character.isDead == false) return;
 
-        // ���� ĳ���� ��Ȱ 
-        character.isDead = true;
+        // 캐릭터의 사망 표시 해제 
+        character.isDead = false;
 
-        // ü���� 30�۷� ä�����´�.
+        // 최대 HP의 30퍼를 회복시켜놓는다.
         int maxHp = character.MyMaxHP;
         character.MyCurrentHP = (int)(maxHp * 0.3f);
 

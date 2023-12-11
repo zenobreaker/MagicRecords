@@ -95,11 +95,11 @@ public class WeaponController : MonoBehaviour
                 MyAnim.SetTrigger("Attack");
                 break;
             case ComboState.ATTACK_3:
-                currentFireRate = finalFireRate;
+                currentFireRate = normalFireRate;
                 MyAnim.SetTrigger("Attack");
                 break;
             case ComboState.ATTACK_4:
-                currentFireRate = normalFireRate;
+                currentFireRate = finalFireRate;
                 MyAnim.SetTrigger("FinalAttack");
                 break;
         }

@@ -221,7 +221,7 @@ public class PlayerDatabase : MonoBehaviour
     // id ���� ������ �ش� ĳ���� data�� ��ȯ
     public CharacterData GetCharacterData(int id)
     {
-        return characterdataList.Where(x => x.id == id).FirstOrDefault();
+        return characterdataList.Where(x => x.characterID == id).FirstOrDefault();
     }
 
     // ĳ���� data list �� ��ȯ

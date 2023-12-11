@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1661029430158842450}
   - component: {fileID: 1661029430158842451}
   - component: {fileID: 4026217738647017148}
+  - component: {fileID: 5889666744673318703}
   m_Layer: 8
   m_Name: SlimeBody
   m_TagString: Monster
@@ -70,7 +71,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2016e81541842a41a971ae01ac6c10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 2730450039709305521}
+  target: {fileID: 8056346442870188472}
+--- !u!114 &5889666744673318703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661029430158842463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43b9a17d4fa4d6e408929b64606cd724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponOwn:
+    objectID: 0
+    playerID: 0
+    charStat:
+      baseCritDamage: 1.5
+      myGrade: 0
+      level: 1
+      totalATK: 0
+      totalDEF: 0
+      totalASPD: 0
+      totalHP: 0
+      totalMP: 0
+      totalHPR: 0
+      totalMPR: 0
+      totalSPD: 0
+      totalCritRate: 0
+      totalCritDmg: 0
+      totalCP: 0
+      attack: 0
+      defense: 0
+      attackSpeed: 0
+      hp: 0
+      mp: 0
+      hpRegen: 0
+      mpRegen: 0
+      speed: 0
+      critRate: 0
+      critDmg: 0
+      exp: 0
+      maxExp: 0
+      giveChanceExp: 0
+      extraStat:
+        extraAttack: 0
+        extraDefense: 0
+        extraSpeed: 0
+        extraHP: 0
+        extraMP: 0
+        extraHPR: 0
+        extraMPR: 0
+        extraAttackSpeed: 0
+        extraCritRate: 0
+        extraCritDmg: 0
+        increaseAttackRate: 1
+        increaseDefenseRate: 1
+        increaseSpeedRate: 1
+        increaseHPRate: 1
+        increaseHPRegenRate: 1
+        increaseMPRate: 1
+        increaseMPRegenRate: 1
+      passiveAdditionalDamageRate: 0
+      passiveAdditionalLostHealthRate: 0
+      passiveAdditionalMaxHealthRate: 0
+    selectRecordInfos: []
+    isAction: 1
+    isDead: 0
+  dmageRate: 1
+  damage: 0
+  critRate: 0
+  critDamage: 0
+  weaponType: 1
+  currentGun: {fileID: 0}
+  currentFireRate: 0
+  normalFireRate: 0.2
+  finalFireRate: 0.7
+  attackCoolTime: 0
 --- !u!1 &1661029430172429420
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,9 +425,9 @@ GameObject:
   - component: {fileID: 5038329180906567045}
   - component: {fileID: 4706341031898307540}
   - component: {fileID: 5370353294607772870}
-  - component: {fileID: 2730450039709305521}
   - component: {fileID: 8056346442870188472}
   - component: {fileID: 4029375333075108721}
+  - component: {fileID: 6766389161348102930}
   m_Layer: 8
   m_Name: Slime
   m_TagString: Player
@@ -391,8 +469,8 @@ MonoBehaviour:
   target: {fileID: 0}
   targetMask:
     serializedVersion: 2
-    m_Bits: 256
-  thePlayer: {fileID: 0}
+    m_Bits: 1024
+  thePlayer: {fileID: 8056346442870188472}
 --- !u!114 &5038329180906567046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b9eaa7ea57cf442956be23e8a3d1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myBody: {fileID: 2730450039709305521}
+  myBody: {fileID: 8056346442870188472}
   myAnim: {fileID: 1661029430158842451}
   myCondition: 0
 --- !u!195 &5038329180906567045
@@ -417,12 +495,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 5038329180906567040}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -456,10 +534,10 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 112
-  m_CollisionDetection: 1
---- !u!114 &2730450039709305521
+  m_CollisionDetection: 2
+--- !u!114 &8056346442870188472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -468,84 +546,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5038329180906567040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be839f21ff8a1ab47a9cf735330ccebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayType: 0
-  teamTag: 0
-  m_rigid: {fileID: 5370353294607772870}
-  m_agent: {fileID: 5038329180906567045}
-  m_charName: "\uBB3C\uB369\uC774"
-  fieldOfView: {fileID: 5038329180906567044}
-  myState: 0
-  idleTime: 3
-  isWalking: 0
-  isRunning: 0
-  isChasing: 0
-  isAttacking: 0
-  isDead: 0
-  recoveryTime: 0
-  isTest: 0
-  current_Combo_State: 0
-  default_Combo_Timer: 0.5
-  current_Combo_Timer: 0
-  activateTimerToReset: 0
-  skillAction: {fileID: 0}
-  MonsterName: Slime
-  item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
-    type: 3}
-  item_prefabs: []
-  itemNumber: 0
-  ChaseTime: 3
-  chaseDelayTime: 2
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 256
-  destination: {x: 0, y: 0, z: 0}
-  isBoss: 0
-  dangerLine:
-  - {fileID: 1493473438567746127, guid: ff3eaf96302e8864ca4df8cbab69115c, type: 3}
-  rangeOfEnemy: 10
-  baseAttackRange: 3
-  anim: {fileID: 1661029430158842451}
-  boxCol: {fileID: 4706341031898307540}
-  sound_Normal: []
-  sound_Hurt: {fileID: 0}
-  sound_Dead: {fileID: 0}
-  attackRanges:
-  - {fileID: 4802314784699118251}
-  - {fileID: 2259916097849163183}
-  attackEffect:
-  - {fileID: 1928950542853243801, guid: 2cf2f3a505e8c944ba8ab776d6d0d127, type: 3}
-  addRange: 0
-  pattren_parameter_attackspeed_array:
-  - 1.1
-  - 2
-  - 0
-  - 0
-  - 0
-  chaseTime: 3
-  monsterAttackStat:
-  - attackPattern: 0
-    attackCoolTime: 3
-  - attackPattern: 0
-    attackCoolTime: 5
-  MaxPattern: 0
-  delayTime: 0
---- !u!114 &8056346442870188472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5038329180906567040}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 989e1a24bf4f7144ea0d416a8c1b88dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPlayType: 0
-  teamTag: 0
+  myPlayType: 1
+  teamTag: 1
+  isLeader: 0
   m_rigid: {fileID: 5370353294607772870}
   m_agent: {fileID: 5038329180906567045}
   m_charName: 
@@ -560,21 +566,23 @@ MonoBehaviour:
   recoveryTime: 0
   isTest: 0
   current_Combo_State: 0
+  max_Combo_State: 1
   default_Combo_Timer: 0.5
   current_Combo_Timer: 0
   activateTimerToReset: 0
   skillAction: {fileID: 4029375333075108721}
+  isAutoFlag: 0
   speed: 0
   startDashTime: 0
   myAnimator: {fileID: 1661029430158842451}
   TargetRotation: 0
-  theWeaponController: {fileID: 0}
+  theWeaponController: {fileID: 5889666744673318703}
   wheelController: {fileID: 0}
   go_DashEffect: {fileID: 0}
   IsMove: 0
   isDash: 0
   isTouch: 0
-  currentState: 0
+  usedSkillSlotNumber: 0
 --- !u!114 &4029375333075108721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,8 +652,20 @@ MonoBehaviour:
     isDead: 0
   isAction: 0
   skillChain: {fileID: 0}
-  weaponController: {fileID: 0}
-  myAnimator: {fileID: 0}
+  weaponController: {fileID: 5889666744673318703}
+  myAnimator: {fileID: 1661029430158842451}
+--- !u!114 &6766389161348102930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5038329180906567040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3eef383514ee4468029251d42e090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6865005315957008656
 GameObject:
   m_ObjectHideFlags: 0

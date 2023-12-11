@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -205,8 +206,11 @@ public class SlotTooltip : UiBase
         // 캐릭터 선택 UI 호출
         if (selectedCharacter == null || selectedCharacter.MyID == 0)
         {
-            UIPageManager.instance.OpenSelectCharacter((selectPlayer) =>
+            UIPageManager.instance.OpenSelectCharacter((selectPlayers) =>
             {
+                var selectPlayer = selectPlayers.First();
+                if (selectPlayer == null) 
+                    return; 
                 if (selectPlayer != null && selectedItem != null)
                 {
                     if (selectedItem is EquipItem == true)

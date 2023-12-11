@@ -130,7 +130,7 @@ public class UIPageManager : MonoBehaviour
     {
         if (popupList.Count > 0)
         {
-            Debug.Log("���� ������ : " + popupList.Peek().name + popupList.Count);
+            Debug.Log("하하하.. : " + popupList.Peek().name + popupList.Count);
             GameObject temp = popupList.Peek();
             popupList.Pop();
             temp.SetActive(false);
@@ -162,24 +162,23 @@ public class UIPageManager : MonoBehaviour
         }
     }
 
-    // ����â ���� 
+    // 툴팁을 열어준다.
     public void OpenToolTip(Slot _invenSlot)
     {
         if (toolTip == null || _invenSlot == null) return;
 
-        // ������ �����ش�
         OpenClose(toolTip.gameObject);
         toolTip.ShowToolTip(_invenSlot);
     }
 
-    // ĳ���� ���� Ŭ���� ��ȯ 
+    // 캐릭터 선택 UI 클래스 반환
     public ChoiceAlert GetChoiceAlert()
     {
         return choiceAlert;
     }
 
-    // ĳ���� ����â ����
-    public void OpenSelectCharacter(Callback<Character> _callback = null)
+    // 캐릭터 선택 UI를 열어준다.
+    public void OpenSelectCharacter(Callback<List<Character>> _callback = null,int selectCount = 1)
     {
         if (choiceAlert == null) return;
 
@@ -189,18 +188,18 @@ public class UIPageManager : MonoBehaviour
 
     }
 
-    // ��ųâ ���� - �� �Լ��� ���������� ��ų�Ŵ����� �� �� ȣ���Ѵ�.
-    public void OpenSkillManual(Character _character)
+    // 스킬 매뉴얼 UI를 열어주는 함수 
+    public void OpenSkillManual(List<Character> characters)
     {
-        if (_character == null || skillManual == null) return; 
+        if (characters == null || skillManual == null) return; 
         
         if (SkillManual.instance != null)
         {
-            SkillManual.instance.OpenBaseUI(_character);
+            SkillManual.instance.OpenBaseUI(characters);
         }
         else
         {
-            skillManual.OpenBaseUI(_character);
+            skillManual.OpenBaseUI(characters);
         }
     }
 }

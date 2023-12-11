@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.Networking.UnityWebRequest;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public enum PlayType
 {
@@ -25,7 +26,8 @@ public enum PlayerState
     Idle = 0,
     Move,
     Attack,
-    Chase
+    Chase,
+    Follow,
 }
 
 
@@ -35,6 +37,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     protected StateMachine stateMachine;    // 상태 변환기 
     public PlayType myPlayType;
     public TeamTag teamTag;
+    public bool isLeader = false;   // 어떠한 조직에서 대장인지 값
 
     public static readonly int DEFAULT_CHAIN_POINT_VALUE = 1; // 체인 포인트 획득시 포인트값
 
@@ -43,7 +46,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     //[SerializeField] protected ConditionController theCondition = null; // 상태 체크용
 
     public string m_charName;
-    public PlayType MyPlayType { get => myPlayType; }
+    public PlayType MyPlayType { get => myPlayType; set => myPlayType = value; }
     public Rigidbody MyRigid { get { return m_rigid; } }
     public NavMeshAgent MyAgent { get { return m_agent; } }
     public FieldOfViewAngle fieldOfView;
@@ -53,7 +56,8 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public bool isWalking = false; // 걷는지 안 걷는지 판별
     [HideInInspector] public bool isRunning = false; // 뛰는지 판별
     [HideInInspector] public bool isChasing = false; // 추젹 중인지 판별
-    [HideInInspector] public bool isAttacking = false; // 공격중인지 판별
+    public bool isAttacking = false; // 공격중인지 판별
+    
     [HideInInspector] public bool isDead = false; // 죽었는 판별
     public float recoveryTime;
 
@@ -61,6 +65,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public bool isTest = false;
     // 콤보 관련 변수들 
     public ComboState current_Combo_State; // 콤보 스테이트 
+    public ComboState max_Combo_State;  // 최대 콤보값
     public float default_Combo_Timer = 1.0f; // 기본 콤보 초기화 시간
     public float current_Combo_Timer;   // 현재 콤보 시간을 책정
     public bool activateTimerToReset;  // 콤보 시간이 리셋 확인
@@ -93,12 +98,13 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public abstract void Attack();
 
     // 공격 종료 - 관련한 변수를 되돌려놓아준다.
-    public virtual void EndOfAttack()
+    public void EndOfAttack()
     {
         isAttacking = false;
         myState = PlayerState.Idle;
     }
 
+    public abstract void Search();
     public abstract void Move();
     public abstract void Wait();
 

@@ -343,7 +343,8 @@ public class RecordManager : MonoBehaviour
 
             foreach (var player in players)
             {
-                if (player.MyPlayer == null) continue;
+                if (player == null)
+                    continue;
                 
                 // �Ʒ� �ڷ�ƾ ���� 
                 StartCoroutine(ManageRecordTimer(player.MyPlayer, record));
