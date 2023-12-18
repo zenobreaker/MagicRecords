@@ -179,14 +179,30 @@ public class PlayerDatabase : MonoBehaviour
         return list;
     }
 
-    // id 값을 받으면  CharStat의 ID값으로 대조되는 스탯을 반환
-    public CharStat GetCharStat(int id)
+
+    // stat id 값을 받으면  CharStat의 ID값으로 대조되는 스탯을 반환
+    public CharStat GetCharStat(int statID)
     {
-        if (charStatDic.TryGetValue(id, out CharStat charStat))
+        if (charStatDic.TryGetValue(statID, out CharStat charStat))
         {
             return charStat;
         }
         return null;
+    }
+    // wheeler id 값을 받으면 CharStat의 ID값으로 대조되는 스탯을 반환
+    public CharStat GetCharStatByWheelerID(int wheelerID)
+    {
+        foreach(var wheeler in characterdataList)
+        {
+            if (wheeler == null) continue;
+
+            if (wheelerID == wheeler.characterID)
+            {
+                return GetCharStat(wheeler.statID);
+            }
+        }
+
+        return null; 
     }
 
     // id stat 와 스탯으로 이루어진 딕셔너리 스탯 반환

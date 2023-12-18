@@ -336,4 +336,35 @@ public class SkillDataBase : MonoBehaviour
         return result; 
     }
     
+
+    // 스킬 키코드를 받으면 액티브 스킬을 반환하는 함수
+    public Skill GetActiveSkillBySkillKeycode(string keycode)
+    {
+        if (activeSkills == null) return null; 
+
+        foreach(var skill in activeSkills)
+        {
+            if(skill.keycode == keycode)
+            {
+                return skill; 
+            }
+        }
+
+        return null; 
+    }
+
+    public Skill GetPassiveSkillBySkillKeycode(string keycode)
+    {
+        if (passiveSkills == null) return null;
+
+        foreach (var skill in passiveSkills)
+        {
+            if (skill.keycode == keycode)
+            {
+                return skill;
+            }
+        }
+
+        return null;
+    }
 }

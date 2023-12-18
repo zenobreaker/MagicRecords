@@ -248,16 +248,17 @@ public class StageManager : MonoBehaviour
             return;
 
         if (selectedStage.appearMonsterIDList == null)
-            return; 
+            return;
 
-        foreach(var id in selectedStage.appearMonsterIDList)
+        wheelers.Clear(); 
+        foreach (var id in selectedStage.appearMonsterIDList)
         {
             theRM.RespwanMonsterFormID(selectedStage.enemyRespawns, id, TeamTag.ENEMY);
         }
 
-        if(wheelers != null)
+        foreach(var enemy in theRM.curMonsters)
         {
-            wheelers = theRM.curMonsters;
+            wheelers.Add(enemy);
         }
     }
 

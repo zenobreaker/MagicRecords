@@ -78,6 +78,8 @@ public class RewardCardSlot : MonoBehaviour
         if (icon == null || text == null) return;
 
         icon.sprite = sprite;
+        //todo 아이콘이 없기때문에 꺼둔다
+        icon.gameObject.SetActive(false);
 
         // 받는건 키코드기 때문에 랭귀지매니저에게 변역요청을 해본다 .
         if(LanguageManager.Instance == null)

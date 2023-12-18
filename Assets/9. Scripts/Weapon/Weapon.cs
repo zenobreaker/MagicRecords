@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [Header("타겟 레이어")]
+    public LayerMask targetLayer;
+    
+    [Header("공격 범위")]
+    public AttackArea attackArea;
+
     [Header("총구")]
     public GameObject go_Muzzle;
 
@@ -24,5 +30,13 @@ public class Weapon : MonoBehaviour
 
     [Header("총알 발사 사운드2")]
     public string sound_Fire2;
+
+
+    public void SetTargetLayer(LayerMask layer)
+    {
+        targetLayer = layer;
+        if(attackArea != null)
+            attackArea.SetLayer(targetLayer);
+    }
 
 }

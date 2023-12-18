@@ -5,20 +5,21 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 
-// ĳ���� �ر� ���� 
+// 캐릭터 해금 관련  
 public class OpenCharInfo
 {
     int id;
     bool isOpen; 
 }
 
-// ĳ���� ��������Ʈ�� �����ϴ� �Ŵ���
+// 캐릭터 정보를 관리해주는 매니저 
 public class InfoManager : MonoBehaviour
 {
-    // 
     public static InfoManager instance;
 
     public static int coin;   // ������ ����ϴ� ������ȭ 
+
+    public bool isTest; 
 
     // 모든 캐릭터 정보 리스트
     private Dictionary<int, Character> allPlayerList = new Dictionary<int, Character>();
@@ -76,7 +77,7 @@ public class InfoManager : MonoBehaviour
 
     public void TestSetPlayers()
     {
-        if(myCharacterPlayerList.Count > 0)
+        if(myCharacterPlayerList.Count > 0 || isTest == false)
         {
             return; 
         }
@@ -88,7 +89,7 @@ public class InfoManager : MonoBehaviour
 
         // 슬라임
         Character testSlime = new Character();
-        CharStat stat2 = PlayerDatabase.instance.GetCharStat(1001);
+        CharStat stat2 = PlayerDatabase.instance.GetCharStatByWheelerID(101);
         if (stat2 != null)
         {
             testSlime.MyID = 101;
@@ -98,7 +99,7 @@ public class InfoManager : MonoBehaviour
 
         // 나무귀신
         Character testTree = new Character();
-        CharStat stat3 = PlayerDatabase.instance.GetCharStat(1002);
+        CharStat stat3 = PlayerDatabase.instance.GetCharStatByWheelerID(102);
         if(stat3 != null)
         {
             testTree.MyID = 102;

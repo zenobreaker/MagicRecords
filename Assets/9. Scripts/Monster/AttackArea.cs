@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 공격 판정을 정의하는 클래스
 public class AttackArea : AttackObject
 {
-    // todo skillattackarea와 개념이 비슷한거같으니 공용으로 쓸 수 있도록 합치는 작업이 필요할거같다. 
-    // 적들이 쓰는 공격 판정 클래스.. 
+
     public int power;
     public float disableTime;
 
@@ -13,7 +13,6 @@ public class AttackArea : AttackObject
     private new Collider collider = null;
 
     [SerializeField] Animation ani = null;
-
 
     public void SetPower(int _power)
     {
@@ -46,12 +45,21 @@ public class AttackArea : AttackObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Player"))
+        //if (other.transform.CompareTag("Player"))
+        //{
+        //    Debug.Log("캐릭터 히트됨!");
+        //    other.GetComponent<PlayerControl>().DealDamage(AttackOwn);
+        //    collider.enabled = false;
+        //}
+        
+        if(((1<< other.gameObject.layer ) & targetLayer) != 0)
         {
-            Debug.Log("캐릭터 히트됨!");
-            other.GetComponent<PlayerControl>().DealDamage(AttackOwn);
-            collider.enabled = false;
+            if(other.TryGetComponent<WheelerController>(out WheelerController wheelerController))
+            {
+                wheelerController.DealDamage(AttackOwn);
+            }
         }
+
     }
 
 

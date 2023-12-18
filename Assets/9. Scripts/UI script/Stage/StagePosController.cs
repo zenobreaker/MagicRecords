@@ -235,7 +235,7 @@ public class StagePosController : MonoBehaviour
         else
         {
             // todo 
-            Debug.Log("Please Choose the character for play");
+            //ToastMessageContorller.CreateToastMessage("플레이할 캐릭터들을 선택해주세요.");
         }
     }
 
@@ -280,8 +280,9 @@ public class StagePosController : MonoBehaviour
         // 없으면 캐릭터를 고르라고 알림 메세지 출력하기 
         else
         {
-            // todo 
-            Debug.Log("Please Choose the character for play");
+
+            //Debug.Log("Please Choose the character for play");
+            ToastMessageContorller.CreateToastMessage("플레이할 캐릭터들을 선택해주세요.");
         }
     }
 

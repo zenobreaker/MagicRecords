@@ -29,7 +29,6 @@ public class AttackMonster : MonsterBase
     protected MonsterAttackStat[] monsterAttackStat;
     protected int currentPattern = 0;
     public int MaxPattern;
-    public float delayTime;
 
     Coroutine attackCoro;
 
@@ -40,10 +39,12 @@ public class AttackMonster : MonsterBase
         // 공격범위 초기화 
         for (int i = 0; i < attackRanges.Length; i++)
         {
-            //attackRanges[i].SetDisableCollider();
+            attackRanges[i].SetLayer(targetMask);
         }
 
-        if(player.MyStat == null)
+        SetCreateWeaponsLayer(targetMask);
+
+        if (player.MyStat == null)
         {
             Debug.Log("스탯 데이터 없음");
             return; 
@@ -69,7 +70,10 @@ public class AttackMonster : MonsterBase
         
     }
 
-   
+    protected virtual void SetCreateWeaponsLayer(LayerMask layerMask)
+    {
+
+    }
 
     protected virtual void RandomPattern()
     {
@@ -116,7 +120,10 @@ public class AttackMonster : MonsterBase
     public override void Think()
     {
         if(isComplete == false)
+        {
             RandomPattern();
+          
+        }
     }
 
     protected void Chase()
@@ -170,6 +177,7 @@ public class AttackMonster : MonsterBase
             if (monsterAttackStat[currentPattern].attackPattern == false)
             {
                 attackCoro = StartCoroutine(AttackCoroutine());
+                currentDelayTime = delayTime;
             }
         }
     }
@@ -195,7 +203,7 @@ public class AttackMonster : MonsterBase
         SetAction(currentPattern);
         isAttacking = true;
         StartCoroutine(CoolDownAttackDelay(currentPattern));
-        // todo 이 아래가 문제였다.. 공속??? 그런거 몰루일텐데 ㅠ
+
         yield return new WaitForSeconds(delayTime);
 
         // yield return 다음으로 코루틴이 실행 되므로 null 값이 반환되지않음
@@ -275,29 +283,6 @@ public class AttackMonster : MonsterBase
         }
     }
     
-
-
-    public override void Damaged(int _dmg, Vector3 _targetPos)
-    {
-        base.Damaged(_dmg, _targetPos);
-
-        Debug.Log("DAMGED 함수 호출?");
-
-        if (!isDead)
-        {
-            MyRigid.velocity = Vector3.zero;
-            ResetBehaviour();
-            myState = PlayerState.Chase;
-            stateMachine.ChangeState(stateMachine.States[myState]);
-            //theViewAngle.target.position = _targetPos;
-            //destination = _targetPos;
-            transform.localPosition -= (_targetPos - transform.position).normalized;
-            transform.LookAt(_targetPos - transform.position.normalized);
-            // PlaySE(sound_Hurt);
-            anim.SetTrigger("Hurt");
-        }
-    }
-
 
     protected void DangerMarkerShoot(int p_MakerNum, Vector3 startPos, Quaternion rotate, float distance)
     {

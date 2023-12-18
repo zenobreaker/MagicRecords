@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 // 게임 상에서 플레이 중인 캐릭터를 변경하는 기능을 해주는 UI 
@@ -16,7 +17,20 @@ public class ChangeCharUI : MonoBehaviour
     public CharSlot[] charSlots;
     public List<Character> charList = new List<Character>();
 
+    public Image portraitImage; 
 
+    private void Update()
+    {
+        if(Input.GetKeyDown("1") && charList.Count >= 2)
+        {
+            ChangeTargetWheeler(charList[1]);
+        }
+        else if(Input.GetKeyDown("2") && charList.Count >= 3)
+        {
+            
+            ChangeTargetWheeler(charList[2]);
+        }
+    }
     public void InitChangeUI()
     {
         if (GameManager.MyInstance == null)
@@ -101,7 +115,15 @@ public class ChangeCharUI : MonoBehaviour
     // 메인 UI들 변경 (HP, 스킬슬롯)
     public void DrawMainUI()
     {
+        if (portraitImage == null || 
+            PlayerDatabase.instance == null || 
+            charList.Count <= 0)
+            return;
+        
+        var data = PlayerDatabase.instance.GetCharacterData(charList[0].MyID);
+        if (data == null) return;
 
+        portraitImage.sprite = data.portrait;
     }
 
 

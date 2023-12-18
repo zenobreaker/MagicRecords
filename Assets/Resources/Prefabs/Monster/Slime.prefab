@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2730450039709305521}
+  weaponController: {fileID: 0}
 --- !u!1 &1661029430172429420
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,9 +97,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661029430172429420}
-  m_LocalRotation: {x: -0.06537146, y: 2.0486904e-10, z: -0.000000015585778, w: 0.997861}
-  m_LocalPosition: {x: 0, y: 1.0723541, z: 0.8299999}
-  m_LocalScale: {x: 1, y: 1.0129638, z: 0.9926413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8, z: 1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1661029430158842450}
@@ -130,6 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackOwnTransform: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
   damageRate: 1
   damage: 0
   critRate: 0
@@ -140,48 +144,6 @@ MonoBehaviour:
   notPool: 1
   power: 0
   disableTime: 0
-  attackOwn:
-    objectID: 0
-    playerID: 0
-    charStat:
-      baseCritDamage: 0
-      myGrade: 0
-      level: 0
-      totalATK: 0
-      totalDEF: 0
-      totalASPD: 0
-      totalHP: 0
-      totalMP: 0
-      totalHPR: 0
-      totalMPR: 0
-      totalSPD: 0
-      totalCritRate: 0
-      totalCritDmg: 0
-      attack: 0
-      defense: 0
-      attackSpeed: 0
-      hp: 0
-      mp: 0
-      hpRegen: 0
-      mpRegen: 0
-      speed: 0
-      critRate: 0
-      critDmg: 0
-      exp: 0
-      maxExp: 0
-      giveChanceExp: 0
-      extraStat:
-        extraAttack: 0
-        extraAttackSpeed: 0
-        extraDefense: 0
-        extraSpeed: 0
-        extraHP: 0
-        extraMP: 0
-        extraHPR: 0
-        extraMPR: 0
-        extraCritRate: 0
-        extraCritDmg: 0
-    selectRecordInfos: []
   collider: {fileID: 1661029430172429421}
   ani: {fileID: 0}
 --- !u!1 &2166243959236582757
@@ -262,6 +224,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackOwnTransform: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
   damageRate: 1
   damage: 0
   critRate: 0
@@ -272,48 +237,6 @@ MonoBehaviour:
   notPool: 1
   power: 0
   disableTime: 0
-  attackOwn:
-    objectID: 0
-    playerID: 0
-    charStat:
-      baseCritDamage: 0
-      myGrade: 0
-      level: 0
-      totalATK: 0
-      totalDEF: 0
-      totalASPD: 0
-      totalHP: 0
-      totalMP: 0
-      totalHPR: 0
-      totalMPR: 0
-      totalSPD: 0
-      totalCritRate: 0
-      totalCritDmg: 0
-      attack: 0
-      defense: 0
-      attackSpeed: 0
-      hp: 0
-      mp: 0
-      hpRegen: 0
-      mpRegen: 0
-      speed: 0
-      critRate: 0
-      critDmg: 0
-      exp: 0
-      maxExp: 0
-      giveChanceExp: 0
-      extraStat:
-        extraAttack: 0
-        extraAttackSpeed: 0
-        extraDefense: 0
-        extraSpeed: 0
-        extraHP: 0
-        extraMP: 0
-        extraHPR: 0
-        extraMPR: 0
-        extraCritRate: 0
-        extraCritDmg: 0
-    selectRecordInfos: []
   collider: {fileID: 5593078786926289141}
   ani: {fileID: 0}
 --- !u!136 &5593078786926289141
@@ -468,9 +391,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b4271ebe4db2a44b513445b1329ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngle: 120
+  viewAngle: 360
   viewDistance: 9
-  meeleAttackDistance: 4
+  meeleAttackDistance: 2.7
   target: {fileID: 0}
   targetMask:
     serializedVersion: 2
@@ -540,7 +463,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 1
 --- !u!114 &2730450039709305521
 MonoBehaviour:
@@ -555,18 +478,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPlayType: 0
+  teamTag: 0
+  isLeader: 0
   m_rigid: {fileID: 5370353294607772870}
   m_agent: {fileID: 5038329180906567045}
-  theCondition: {fileID: 5038329180906567046}
   m_charName: "\uBB3C\uB369\uC774"
   fieldOfView: {fileID: 5038329180906567044}
   myState: 0
-  idleTime: 3
+  delayTime: 0.7
+  currentDelayTime: 0
   isWalking: 0
   isRunning: 0
   isChasing: 0
   isAttacking: 0
   isDead: 0
+  recoveryTime: 0
+  isTest: 0
+  current_Combo_State: 0
+  max_Combo_State: 0
+  default_Combo_Timer: 1
+  current_Combo_Timer: 0
+  activateTimerToReset: 0
+  skillAction: {fileID: 0}
+  isAutoFlag: 0
   MonsterName: Slime
   item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
     type: 3}
@@ -578,7 +512,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   destination: {x: 0, y: 0, z: 0}
-  isTest: 0
   isBoss: 0
   dangerLine:
   - {fileID: 1493473438567746127, guid: ff3eaf96302e8864ca4df8cbab69115c, type: 3}
@@ -608,7 +541,6 @@ MonoBehaviour:
   - attackPattern: 0
     attackCoolTime: 5
   MaxPattern: 0
-  delayTime: 0
 --- !u!114 &6663679890298918587
 MonoBehaviour:
   m_ObjectHideFlags: 0

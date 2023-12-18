@@ -18,58 +18,55 @@ public class SaveData
     public float sfxSoundValue = 0.0f;
 
     public string userID = "";
-    public int money = 0;   // ������ ���� �ִ� �Ӵ�
-    // �κ��丮
+    public int money = 0;   // 유저가 가지고 있는 재화 
+    // 아이템 인벤토리 
     public Dictionary<int, ItemData> inventory = new Dictionary<int, ItemData>();
     
-    // ������ ������ �ִ� ĳ���͵� 
+    // 소유한 휠러(캐릭터) 데이터들 
     public Dictionary<int, WheelerData> wheelerDatas = new Dictionary<int, WheelerData>();
 
-    public bool gameInitAccess = false;   // ���� ���� �� ù �����ΰ�
-    public int gameLevel = 0;   // ���� ���̵�
-    public bool isAdventure = false; // Ž�� ����Ȯ��
-    public bool initJoingFlag = false; // ���� ���������� �����ؾ��ϴ����� ���� �÷���
-    public int currentChapter = 0;      // Ž�� �����ؾ��ϴ� é�� �� 
-    public int currentStage = 0;     // Ž�� �����ؾ��ϴ� �������� ��
+    public bool gameInitAccess = false;   // 게임 (탐사) 진입 여부 플래그값 
+    public int gameLevel = 0;   // 진행한 난이도 
+    public bool isAdventure = false; // 탐사 상태인지 
+    public bool initJoinFlag = false; // 탐사를 시작한 상태인지 
+    public int currentChapter = 0;      // 현재 진행 중인 챕터 
+    public int currentStage = 0;     // 현재 진행 중인 스테이지 
 
     public Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>();
 
     public bool choiceRecord = false; 
-    // ������ Ž�縦 �����ϸ鼭 ���� ���ڵ��
+    // 진행하면서 얻은 레코드 리스트 
     public List<int> recordList = new List<int>();
 
+    // 저장 버전
     public int version; 
 }
 
 
-// �÷��̾�� ĳ���� ���� 
+// 휠러(캐릭터) 데이터 정보 클래스
 [System.Serializable]
 public class WheelerData
 {
-    public int saveDataID = 0;  // �� �����͸� ���� data ������ ID
-    public int wheelerID = 0;   // ��� ĳ���� ID
-    //ĳ������ ���ȵ� 
+    public int saveDataID = 0;  // data ID
+    public int wheelerID = 0;   // ID
+
+    // 휠러의 레벨 
     public int level = 1;
-    // ��Ÿ ������ ĳ���͸� ������ �� ������ �������� ����ؼ� ó���Ѵ�. 
-    // ������� ĳ���� ID�� ã�Ƽ� ĳ���͸��� ���� ó���Ѵ�. 
-    // todo ĳ���͸��� ���� ������ �ٸ��ٸ� �� ���� ������ �����ϴ� ������ ó���ؾ��Ѵ�. 
 
     public int exp = 0;
     public int maxExp = 100;
 
-    // ����Ʈ�� ������ ������ ��� ��ų � ���� �ܺ� �������� ó���ǹǷ� �������
-    // ������ ��� id�� �����ϰ� �κ��丮���� �ش� id�� �������� �����ͼ� ������Ų��
+    // 휠러가 장착한 아이템의 정보
     public List<EquipItemData> equipItems = new List<EquipItemData>();
 
-    // ������ ��ų 
+    // 휠러가 배운 스킬 저보 
     public List<SkillData> skills = new List<SkillData>();
     public List<SkillData> chainSkills = new List<SkillData>();
     public List<SkillData> passvieSkills = new List<SkillData>();
     // todo ����? 
-
 }
 
-// ��ų ���� 
+// 스킬 정보 클래스
 [System.Serializable]
 public class SkillData
 {
@@ -78,7 +75,7 @@ public class SkillData
     public bool chainSkill;
 }
 
-// ������ ����
+// 아이템 정보 클래스
 [System.Serializable]
 public class ItemData
 {
@@ -88,10 +85,10 @@ public class ItemData
     public int count;
 
     public int uniqueID; 
-    public int userID;      // ������ 
+    public int userID;      // 아이템을 사용하는 대상 ID 
     public EquipType equipType;
-    public int enhanceCount;    // ��ȭ��ġ 
-    public ItemAbility itemMainAbility; // ������ �ɷ� ��ġ 
+    public int enhanceCount;    // 강화 수치
+    public ItemAbility itemMainAbility; // 아이템 주 수치 값 
     public ItemAbility[] itemAbilities;
 
     public ItemData()
@@ -170,19 +167,19 @@ public class SaveManager : MonoBehaviour
     public void SaveData()
     {
 
-        // ���� ���� 
+        // 사운드 관련 
         saveData.sfxSoundValue = Mathf.Floor(SoundManager.instance.sfxVolume * 10) / 10;
         saveData.bgmSoundValue = Mathf.Floor(SoundManager.instance.bgmVolume* 10) / 10;
 
-        // Ž�� ���൵ ����
+        // 탐사 관련 값 
         saveData.isAdventure = StageInfoManager.FLAG_ADVENTURE_MODE;
-        saveData.initJoingFlag = StageInfoManager.initJoinPlayGameModeFlag;
+        saveData.initJoinFlag = StageInfoManager.initJoinPlayGameModeFlag;
 
         saveData.currentChapter = StageInfoManager.instance.currentChapter;
         saveData.stageDictList = StageInfoManager.instance.GetStageList();
 
 
-        // ���ڵ� 
+        // 레코드 관련 저장 
         saveData.choiceRecord = RecordManager.CHOICED_COMPLETE_RECORD;
         saveData.recordList.Clear();
         foreach (var record in RecordManager.instance.selectRecordInfos)
@@ -191,15 +188,14 @@ public class SaveManager : MonoBehaviour
             saveData.recordList.Add(record.id);
         }
 
-        // ���� ���� ���� 
+        // 유저 정보 저장 
         SaveUserInfo();
 
-       // dictionary ���� json���� �����ϱ� ����
+       // dictionary 값을 json으로 컨버팅
         string json = JsonConvert.SerializeObject(saveData);
 
         File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
 
-        Debug.Log("���� �Ϸ�");
         Debug.Log(json);
     }
 
@@ -217,15 +213,15 @@ public class SaveManager : MonoBehaviour
         return randomString;
     }
 
-    // �÷��̾� ���� ���� ����
+    // 사용자 정보를 저장한다
     public void SaveUserInfo()
     {
-        // �÷����� ���� ������ ���� 
+        // 사용 금액 저장 
         saveData.money = InfoManager.coin;
 
-        if (isExistFile == true)
+        if (isExistFile == false)
         {
-            // ���� ���̵� �������ֱ� 
+            // 유저 ID 저장  
             saveData.userID = GenerateRandomString(8);
         }
 
@@ -234,13 +230,10 @@ public class SaveManager : MonoBehaviour
         SaveInventory(); 
     }
 
-    // �÷��̾� ���� ���� ����
+    // 저장한 정보를 인게임에 적용한다.
 
     public void ApplyUserInfo()
     {
-        // ������ �����Ͱ� ������ �����ϱ� 
-        Debug.Log("����� ���� Ȯ�� �Ϸ�");
-        // ���ӸӴ� 
         InfoManager.coin = saveData.money;
         
         ApplyInvetory();
@@ -248,11 +241,11 @@ public class SaveManager : MonoBehaviour
         ApplyWheelers();
     }
 
-
+    // 휠러 정보 저장
     public void SaveWheelers()
     {
 
-        // ������ �ִ� ĳ���͵� ����
+        // 자신이 소유하고 있는 캐릭터들 저장 
         List<Character> characters = InfoManager.instance.GetMyPlayerInfoList();
         if (characters.Count > 0)
         {
@@ -263,7 +256,7 @@ public class SaveManager : MonoBehaviour
                 wheeler.exp = characters[i].MyStat.exp;
                 wheeler.maxExp = characters[i].MyStat.maxExp;
           
-                // ������ ��� ����
+                // 장비 타입 값이 1~7까지 잇으므로 순회
                 for (int x = 1; x <= 7; x++)
                 {
                     EquipItemData equipItemData = new EquipItemData();
@@ -276,7 +269,7 @@ public class SaveManager : MonoBehaviour
                     wheeler.equipItems.Add(equipItemData);
                 }
 
-                // ��ų ���� 
+                // 장착한 스킬 정보 
                 for (SkillSlotNumber j = SkillSlotNumber.SLOT1 ; j <= SkillSlotNumber.MAXSLOT; j++)
                 {
                     SkillData skillData = new SkillData();
@@ -290,7 +283,7 @@ public class SaveManager : MonoBehaviour
 
                     wheeler.skills.Add(skillData);
                 }
-
+                // 장착한 체인 스킬 정보
                 for (SkillSlotNumber k = SkillSlotNumber.CHAIN1 ; k <= SkillSlotNumber.MAXCHAINSLOT ; k++)
                 {
                     SkillData skillData = new SkillData();
@@ -305,7 +298,7 @@ public class SaveManager : MonoBehaviour
                     wheeler.chainSkills.Add(skillData);
                 }
 
-                // �нú� ��ų 
+                // 패시브 스킬 정보 
                 for (int idx = 0; idx < characters[i].equippedPassiveSkills.Count; idx++)
                 {
                     if( characters[i].equippedPassiveSkills[idx] == null )
@@ -334,35 +327,54 @@ public class SaveManager : MonoBehaviour
     }
     
 
-    // ���ӿ� ������ ���� ���� �ٷ� 
+    // 저장한 값을 게임에 적용한다.
     public void  ApplyWheelers()
     {
         foreach(var wheelerPair in saveData.wheelerDatas)
         {
             if (wheelerPair.Value == null) continue;
-            // �ڽ��� ������ ĳ���ͷ� �߰� 
             var wheeler = wheelerPair.Value;
-            CharStat charStat = PlayerDatabase.instance.GetCharStat(wheeler.wheelerID);
+            CharStat charStat = PlayerDatabase.instance.GetCharStatByWheelerID(wheeler.wheelerID);
             charStat.level = wheeler.level;
             Character tempPlayer = new Character();
             tempPlayer.MyID = wheeler.wheelerID;
             tempPlayer.objectID = wheeler.wheelerID;
-            // ���� 
+            // 스탯 적용
             tempPlayer.MyStat = charStat;
-            // ���� ���
+            // 장비 장착
             foreach(var equipItemData in wheeler.equipItems)
             {
                 var equipItem =  Inventory.instance.GetItemByUniqueID(equipItemData.uniqueID);
                 tempPlayer.EquipItem(equipItem as EquipItem);
             }
 
-            // todo ���� ��ų  - id�� �����ؾ��ҵ�..
-            //tempPlayer.equippedPassiveSkills.Add()
-            
-            
-            // ? ������?
+            // 스킬 장착 
+            if (SkillDataBase.instance != null)
+            {
 
-            // ĳ���� ���� ���� 
+                int count = 1;
+                foreach (var skill in wheeler.skills)
+                {
+                    var activeSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
+                    tempPlayer.EquipSkill((SkillSlotNumber)count, activeSkill, skill.chainSkill);
+                    count++;
+                }
+
+                foreach (var skill in wheeler.passvieSkills)
+                {
+                    var passiveSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
+                    tempPlayer.equippedPassiveSkills.Add(passiveSkill as PassiveSkill);
+                }
+
+                count = 1; 
+                foreach(var skill in wheeler.chainSkills)
+                {
+                    var activeSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
+                    tempPlayer.chainsSkills[(SkillSlotNumber)count] = activeSkill;
+                    count++;
+                }
+            }
+            
             InfoManager.instance.AddMyPlayerInfo(wheeler.wheelerID, tempPlayer);
         }
     }
@@ -416,7 +428,7 @@ public class SaveManager : MonoBehaviour
 
     }
 
-    // ���ӿ� ������ ���� ���� �κ��丮
+    // 저장한 인벤토리를 게임에 적용
     public void ApplyInvetory()
     {
         InventoryManager.instance.ApplySaveItemData(saveData.inventory);
@@ -433,44 +445,43 @@ public class SaveManager : MonoBehaviour
 
     public void LoadData()
     {
-        // ������ saveCount ���� �����ϴ� ������ ���ٸ� ���Ӱ� �����ϴ� �� 
-        // ���� �ִ� ��� 
         if (File.Exists(SAVE_DATA_DIRECTROTY + SAVE_FILENAME))
         {
             isExistFile = true;
             string data = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
-            // ���Ͽ��� ���̺� ������ ������ �����Ѵ�. 
+            
             saveData = JsonConvert.DeserializeObject<SaveData>(data);
             
             LoadSoundData();
 
-            // Ž�� ���൵ ����
             StageInfoManager.FLAG_ADVENTURE_MODE = saveData.isAdventure;
-            StageInfoManager.initJoinPlayGameModeFlag = saveData.initJoingFlag;
+            StageInfoManager.initJoinPlayGameModeFlag = saveData.initJoinFlag;
             StageInfoManager.instance.currentChapter = saveData.currentChapter;
             StageInfoManager.instance.SetStageList(saveData.stageDictList);
 
-            // ���ڵ� 
+            // 선택한 레코드 위치 값 
             RecordManager.CHOICED_COMPLETE_RECORD = saveData.choiceRecord;
-            // ���ڵ� 
+            // 저장한 레코드를 불러온다
             foreach (var id in saveData.recordList)
             {
               RecordManager.instance.SelectRecord(id);
             }
 
-            // ���� ���� ����
+            // 유저 정보 적용
             ApplyUserInfo();
 
         }
-        // ���� ���� ��� 
+        // 저장한 데이터가 없다면 
         else
         {
             isExistFile = false;
-            // ������ ���� ���� 
+            
             Debug.Log("Don't have a save file");
 
-            // todo ���߿� �رݰ����ؼ� ĳ���͸� ������ Ǯ�������� �����غ��� ������ �����̸� �ִ´�.
+            // todo 
             InfoManager.instance.AddMyPlayerInfo(1);
+            InfoManager.instance.AddMyPlayerInfo(101);
+            InfoManager.instance.AddMyPlayerInfo(102);
         }
     }
 

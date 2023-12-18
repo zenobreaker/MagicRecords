@@ -18,7 +18,7 @@ public class IdleState : BaseState
         if (owner == null) return;
 
         //  Debug.Log("���̵� ������Ʈ ����");
-        idleTime = owner.idleTime;
+        idleTime = owner.currentDelayTime;
         // owner�� wait �Լ��� ȣ���Ѵ�. 
         owner.Wait();
 

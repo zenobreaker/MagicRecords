@@ -40,8 +40,9 @@ public class ChoiceAlert : MonoBehaviour
     private void OnEnable()
     {
         isConfirm = false;
-
         endDelegate = null; 
+        selectPlayers.Clear();
+        DrawSlotList();
     }
 
     private void OnDisable()

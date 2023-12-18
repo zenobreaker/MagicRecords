@@ -6930,7 +6930,7 @@ Transform:
   m_GameObject: {fileID: 532639637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 256, y: 1, z: 256}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7847722}
@@ -10742,6 +10742,7 @@ MonoBehaviour:
   - {fileID: 1502141374}
   - {fileID: 165546704}
   charList: []
+  portraitImage: {fileID: 1054017206}
 --- !u!1 &887288212
 GameObject:
   m_ObjectHideFlags: 0
@@ -12774,8 +12775,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 243.04, y: 200}
+  m_AnchoredPosition: {x: 23.4, y: 0}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1054017206
 MonoBehaviour:
@@ -14240,8 +14241,8 @@ Camera:
   m_GameObject: {fileID: 1130819690}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -15808,7 +15809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -112, y: 363}
+  m_AnchoredPosition: {x: -303, y: 383}
   m_SizeDelta: {x: 349.51636, y: 121.2486}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1308683402
@@ -15887,7 +15888,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -22308,6 +22309,10 @@ MonoBehaviour:
     prefab: {fileID: 7410312215862287177, guid: 49cc63e915e21cb4b961cc4a24c40816,
       type: 3}
     size: 10
+  - tag: TreeAttack
+    prefab: {fileID: 2653462365812280479, guid: f6e6e7221e0b42643b81417b7cf8ed7f,
+      type: 3}
+    size: 50
 --- !u!4 &1891645134
 Transform:
   m_ObjectHideFlags: 0

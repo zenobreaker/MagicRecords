@@ -242,6 +242,7 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
+                playerControl.Value.isLeader = false;
                 SetControlledPlayer(playerControl.Value, false, true);
                 playerUnion[count] = playerControl.Value;
                 count++; 
@@ -262,7 +263,7 @@ public class PlayerManager : MonoBehaviour
         // 속도 및 상태 설정
         playerControl.MyAgent.velocity = Vector3.zero;
         playerControl.MyAgent.speed = isControlled ? 0 : playerControl.speed; // 수동 제어 시 속도 감소
-        playerControl.isLeader = isControlled;
+        //playerControl.isLeader = isControlled;
         playerControl.isAutoFlag = isAutoFlag;
         playerControl.MyPlayType = isControlled ? PlayType.Playerable : PlayType.None;
     }
@@ -292,8 +293,10 @@ public class PlayerManager : MonoBehaviour
         {
             if (wheeler.Value == null) continue;
 
-            wheeler.Value.isAutoFlag = isAutoMode;
-            wheeler.Value.MyAgent.ResetPath();
+            if(wheeler.Value.isLeader == true)
+            {
+                SetControlledPlayer(wheeler.Value, !isAutoMode, isAutoMode);
+            }
         }
 
     }

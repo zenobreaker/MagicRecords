@@ -6,18 +6,19 @@ using UnityEngine;
 public class MonsterAnimController : MonoBehaviour
 {
     public WheelerController target;
-    
+    public WeaponController weaponController;
+
     void ActivatedAttackArea()
     {
-        //monster.attackRange.enabled = true;
-        //if(monster.attackEffect.Length > 0)
-        //    monster.attackEffect[0].Play();
-
-            // 이 대상이 공격할 수 있는 대상일까?
-        if(target != null && 
+        // 이 대상이 공격할 수 있는 대상일까?
+        if (target != null &&
             target is AttackMonster == true)
         {
             (target as AttackMonster).AttackEableObject(true);
+        }
+        else if(weaponController != null)
+        {
+            weaponController.TryNormalMeeleAttack();
         }
 
         SoundManager.instance.PlaySE("Swing");
@@ -30,7 +31,10 @@ public class MonsterAnimController : MonoBehaviour
         {
             (target as AttackMonster).AttackEableObject(false);
         }
-
+        else if (weaponController != null)
+        {
+            weaponController.EndNormalMeeleAttack();
+        }
     }
 
     void CommonAttackEnd()

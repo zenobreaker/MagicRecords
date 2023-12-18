@@ -109,6 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackOwnTransform: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
   damageRate: 1
   damage: 0
   critRate: 0
@@ -843,7 +846,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &7054368208174049310
 BoxCollider:
@@ -870,9 +873,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b4271ebe4db2a44b513445b1329ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngle: 120
+  viewAngle: 360
   viewDistance: 9
-  meeleAttackDistance: 4
+  meeleAttackDistance: 2.7
   target: {fileID: 0}
   targetMask:
     serializedVersion: 2
@@ -892,12 +895,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPlayType: 0
   teamTag: 0
+  isLeader: 0
   m_rigid: {fileID: 5217542009992933858}
   m_agent: {fileID: 7272818212670496066}
   m_charName: 
   fieldOfView: {fileID: 3813353723264410707}
   myState: 0
-  idleTime: 5
+  delayTime: 0.7
+  currentDelayTime: 0
   isWalking: 0
   isRunning: 0
   isChasing: 0
@@ -906,10 +911,12 @@ MonoBehaviour:
   recoveryTime: 0
   isTest: 0
   current_Combo_State: 0
+  max_Combo_State: 0
   default_Combo_Timer: 0.5
   current_Combo_Timer: 0
   activateTimerToReset: 0
   skillAction: {fileID: 0}
+  isAutoFlag: 0
   MonsterName: "\uB098\uBB34\uADC0\uC2E0"
   item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
     type: 3}
@@ -955,7 +962,6 @@ MonoBehaviour:
   - attackPattern: 0
     attackCoolTime: 10
   MaxPattern: 0
-  delayTime: 0
   go_TreeAttack: {fileID: 2653462365812280479, guid: f6e6e7221e0b42643b81417b7cf8ed7f,
     type: 3}
 --- !u!1 &5056532667211443140
@@ -1463,6 +1469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  weaponController: {fileID: 0}
 --- !u!1 &7410506364063166383
 GameObject:
   m_ObjectHideFlags: 0

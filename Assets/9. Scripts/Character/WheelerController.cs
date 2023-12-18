@@ -51,7 +51,8 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public NavMeshAgent MyAgent { get { return m_agent; } }
     public FieldOfViewAngle fieldOfView;
     public PlayerState myState; // 자신의 상태 
-    public float idleTime;
+    public float delayTime;
+    public float currentDelayTime;
 
     public bool isWalking = false; // 걷는지 안 걷는지 판별
     [HideInInspector] public bool isRunning = false; // 뛰는지 판별
@@ -113,7 +114,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
     }
 
-    protected virtual void ChangeState(PlayerState playerState)
+    public virtual void ChangeState(PlayerState playerState)
     {
         myState = playerState;
         stateMachine.ChangeState(stateMachine.States[myState]);
@@ -183,6 +184,26 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
 
     }
+    public void CheckDead()
+    {
+        if (player.isDead == true)
+        {
+            isDead = true;
+            Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
+            if (GameManager.MyInstance != null)
+            {
+                // 게임매니저에게 점수 하락을 전달 하자 
+                if (teamTag == TeamTag.TEAM)
+                {
+                    GameManager.MyInstance.ChanagePlayerTeamCount(1);
+                }
+                else if (teamTag == TeamTag.ENEMY)
+                {
+
+                }
+            }
+        }
+    }
 
     public virtual void Damage(int damage, bool isCrit = false)
     {
@@ -221,26 +242,6 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         CheckDead();
     }
 
-    public void CheckDead()
-    {
-        if (player.isDead == true)
-        {
-            isDead = true;
-            Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
-            if (GameManager.MyInstance != null)
-            {
-                // 게임매니저에게 점수 하락을 전달 하자 
-                if (teamTag == TeamTag.TEAM)
-                {
-                    GameManager.MyInstance.ChanagePlayerTeamCount(1);
-                }
-                else if (teamTag == TeamTag.ENEMY)
-                {
-
-                }
-            }
-        }
-    }
 
     public abstract void StateAnimaiton();
 
@@ -398,5 +399,22 @@ public abstract class WheelerController : MonoBehaviour, IDamage
         }
     }
 
-  
+    // 이동 제어 관련
+
+    // 타겟과의 거리가 일정 거리라면 그 자리에서 바로 멈춘다. 
+    public void AutoStopPos()
+    {
+        float dist = Vector3.Distance(transform.position, MyAgent.destination);
+
+        // 대상과 일정 거리라면 멈추도록. 
+        if (dist <= 0.5f)
+        {
+            MyAgent.velocity = Vector3.zero;
+            MyAgent.isStopped = true;
+        }
+        else
+        {
+            MyAgent.isStopped = false;
+        }
+    }
 }

@@ -20,7 +20,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
     public Button confirmButton;
 
-    private List<StageEventInfo> testlist = new List<StageEventInfo>();
+    private List<StageEventInfo> eventList = new List<StageEventInfo>();
 
     private void OnEnable()
     {
@@ -47,7 +47,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
     private void OnDisable()
     {
-        testlist.Clear();
+        eventList.Clear();
     }
 
 
@@ -93,11 +93,11 @@ public class StageMenuSelectUI : MonoBehaviour
             }
         }
 
-        if (testlist.Count > 0 && selectIconNumber>-1)
+        if (eventList.Count > 0 && selectIconNumber>-1)
         {
-            var testInfo = testlist[selectIconNumber];
+            var testInfo = eventList[selectIconNumber];
 
-            if (testInfo != null)
+            if (testInfo != null && testInfo.appearInfo != null)
             {
                 StageType type = testInfo.stageType;
                 if(type == StageType.BATTLE)
@@ -136,7 +136,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
         if (contentObject == null) return;
 
-        // UI�� ���� ������ �̺�Ʈ�� �̺�Ʈ ������ ���Ͽ� ������ ����ų� ����
+        // UI가 있는지 검사
         int childCount = contentObject.transform.childCount;
         int infoCount = stageTable.eventInfoList.Count;
         if (childCount < infoCount)
@@ -147,7 +147,7 @@ public class StageMenuSelectUI : MonoBehaviour
             }
         }
 
-        // �׷��� ������ �� ���д�.
+        // 사전에 꺼둔다
         for (int i = 0; i < childCount; i++)
         {
             var slot = contentObject.transform.GetChild(i);
@@ -175,7 +175,7 @@ public class StageMenuSelectUI : MonoBehaviour
             // �̹��� ��ü 
             var slotImage = slot.GetComponent<Image>();
             var eventInfo = stageTable.eventInfoList[i];
-            testlist.Add(eventInfo);
+            eventList.Add(eventInfo);
             DrawStageIcon(slotImage, eventInfo);
         }
     }

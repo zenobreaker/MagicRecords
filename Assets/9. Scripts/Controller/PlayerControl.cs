@@ -46,6 +46,7 @@ public class PlayerControl : WheelerController
     private bool canDash;
     public bool isDash = false;
     public bool isTouch = false;
+    public bool isAttackTouch = false;
 
     // 대쉬에 나타나는 이펙트 
     GameObject dashEffect;
@@ -64,6 +65,7 @@ public class PlayerControl : WheelerController
         if (fieldOfView != null && MyAgent != null)
         {
             MyAgent.stoppingDistance = fieldOfView.meeleAttackDistance;
+            MyAgent.speed = player.MyStat.speed;
         }
         // 상태머신 생성 및 초기화 
         stateMachine = new StateMachine();
@@ -83,7 +85,7 @@ public class PlayerControl : WheelerController
 
             if(theWeaponController != null)
             {
-                theWeaponController.SetWeaponOwn(player);
+                theWeaponController.SetWeaponOwn(player, gameObject.layer);
             }
         }
 
@@ -105,9 +107,10 @@ public class PlayerControl : WheelerController
         // 재생 관련 스탯 동작 
         InitRecoveryStat();
         
-        idleTime = 3.0f; 
         // 초기 스테이트 변경
         ChangeState(PlayerState.Idle);
+
+        isAttackTouch = false;
     }
 
     void FixedRotation()
@@ -189,7 +192,10 @@ public class PlayerControl : WheelerController
     {
         // 오토 모드인지 검사
         if (isAutoFlag == false)
+        {
+            currentDelayTime = 0;
             return;
+        }
 
         // 자동 조작 상태라면 AI처럼 행동
         // 1. 타겟 감지(1. 보스 -> 엘리트 -> 일반 순으로 가장 가까운 적)
@@ -218,8 +224,8 @@ public class PlayerControl : WheelerController
         if(isAutoFlag == true)
         {
             FollowToLeader();
-
             ChaseToTarget();
+            AutoStopPos();
             return; 
         }
 
@@ -256,6 +262,7 @@ public class PlayerControl : WheelerController
         switch (myState)
         {
             case PlayerState.Idle:
+            case PlayerState.Attack:
                 {
                     myAnimator.SetBool("Walking", false);
                     isWheel = false; 
@@ -309,7 +316,7 @@ public class PlayerControl : WheelerController
     // 공격하기 
     public override void Attack()
     {
-        if (theWeaponController == null || isAttacking == true)
+        if (theWeaponController == null || isAttacking == true || skillAction == null)
         {
             return;
         }
@@ -332,10 +339,9 @@ public class PlayerControl : WheelerController
                 }
             }
 
-            if (current_Combo_State == ComboState.ATTACK_4 || current_Combo_State == ComboState.Skill1
+            if (current_Combo_State == max_Combo_State || current_Combo_State == ComboState.Skill1
                 || current_Combo_State == ComboState.Skill2 || skillAction.isAction == true)
             {
-                myState = PlayerState.Idle;
                 return;
             }
 
@@ -343,12 +349,13 @@ public class PlayerControl : WheelerController
             isAttacking = true; // 공격 중 
 
             current_Combo_State++;  // 콤보 스테이트 증가 
-
+            currentDelayTime = 0;
             activateTimerToReset = true;
             current_Combo_Timer = default_Combo_Timer;  // 콤보 타이머가 디폴트 값을 대입해서 계산하도록 함.
             if(comoboCountCoro != null)
                 StopCoroutine(comoboCountCoro);
             comoboCountCoro = StartCoroutine(TimerComboState());    // 콤보 타이머 활성화
+            
 
             switch (current_Combo_State)
             {
@@ -366,8 +373,8 @@ public class PlayerControl : WheelerController
                     myAnimator.SetTrigger("FinalAttack");
                     break;
             }
+            
 
-           
             if (player != null && theWeaponController != null)
             {
                 theWeaponController.SetDamageAndCrit(damageRate, 
@@ -380,6 +387,11 @@ public class PlayerControl : WheelerController
             if (current_Combo_State >= max_Combo_State)
             {
                 current_Combo_State = ComboState.NONE;
+                if(isAutoFlag == true)
+                {
+                    currentDelayTime = delayTime; // 기본 공격이 최대값을 넘겻다면 딜레이를 준다.
+                    myState = PlayerState.Idle;
+                }
             }
 
         }
@@ -390,16 +402,14 @@ public class PlayerControl : WheelerController
         // 키보드 입력 관련 함수이므로 터치하거나 자동 모드일 경우엔 키지 않음
         if (isTouch || isAutoFlag)
             return;
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        PlayerState inputState = PlayerState.Idle;
 
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
+
             IsMove = true;
-            //currentState = State.Walk;
-            inputState = PlayerState.Move;
+            myState = PlayerState.Move;
             direction = new Vector3(h, 0, v);
             Quaternion newRotation = Quaternion.LookRotation(direction);
 
@@ -416,20 +426,21 @@ public class PlayerControl : WheelerController
         else
         {
             IsMove = false;
-            inputState = PlayerState.Idle;
+            myState = PlayerState.Idle;
             direction = Vector3.zero;
         }
 
         isDash = Input.GetKeyDown(KeyCode.C);   // 대쉬키 누름
 
         // 공격키를 눌렀을 때 처리 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X) || isAttackTouch == true)
         {
             // 공격에 대한 플래그값 변경 
             // 공격 시, 값을 초기화 이 플래그 값이 켜져 있으면 추가로 공격 못하게 할려고 해놓은 것.
             //isAttacking = false;
             // 공격 스테이트로 변경
-            inputState = PlayerState.Attack;
+            myState = PlayerState.Attack;
+            isAttackTouch = false;
         }
 
         // keybindManager.에 설정된 버튼으로 스킬 사용
@@ -443,10 +454,6 @@ public class PlayerControl : WheelerController
                 }
             }
         }
-
-        // 상태 머신 변경
-        // ChangeState(inputState);
-        myState = inputState;
     }
 
     public void InputJoyStick(Vector2 p_joy)
@@ -540,10 +547,10 @@ public class PlayerControl : WheelerController
 
                 if (current_Combo_Timer <= 0f)
                 {
-
                     Debug.Log("타이머 리셋 종료 현재 콤보 : " + current_Combo_State );
                     current_Combo_State = ComboState.NONE;
-
+                    
+                    myState = PlayerState.Idle;
                     activateTimerToReset = false;
                     current_Combo_Timer = default_Combo_Timer;
                     break; 
@@ -569,12 +576,10 @@ public class PlayerControl : WheelerController
     {
         if (isLeader == true || myState != PlayerState.Follow) return;
        
-        MyAgent.speed = player.MyStat.speed;
-
         // 리더를 쫓아간다. 
         MyAgent.stoppingDistance = LEADER_DISTANCE;
         MyAgent.SetDestination(targetPos);
-
+      
     }
     
     // 대상을 향해 나아간다. 
@@ -585,6 +590,7 @@ public class PlayerControl : WheelerController
         var enemyPos = fieldOfView.GetTargetPos();
         MyAgent.SetDestination(enemyPos);
     }
+
 
     // 자동 상태일 때 공격 기능 
     public bool AutoAttack()

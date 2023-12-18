@@ -135,7 +135,7 @@ public class UIPageManager : MonoBehaviour
             popupList.Pop();
             temp.SetActive(false);
 
-            if (popupList.Count == 0)
+            if (popupList.Count == 0 && btn_Back != null)
             {
                 btn_Back.SetActive(false);
             }

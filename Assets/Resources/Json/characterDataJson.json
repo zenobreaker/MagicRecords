@@ -24,7 +24,7 @@
       "namekeycode": "name_slime",
       "portrait": "slime",
       "prefabName": "Slime",
-      "statID": "1001",
+      "statID": "101",
       "monsterGrade": "1"
     },
     {
@@ -33,7 +33,7 @@
       "namekeycode": "name_treemon",
       "portrait": "treemon",
       "prefabName": "Treemon",
-      "statID": "1002",
+      "statID": "102",
       "monsterGrade": "1"
     }
   ]

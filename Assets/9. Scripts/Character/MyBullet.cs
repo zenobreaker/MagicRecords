@@ -53,7 +53,8 @@ public class MyBullet : Bullet
 
                 case Type.NORMAL:
                 case Type.ICE:
-                    if (other.transform.CompareTag("Monster")) //닿은 대상에 태그가 "Monster"라면
+                    //if (other.transform.CompareTag("Monster")) //닿은 대상에 태그가 "Monster"라면
+                    if (((1 << other.gameObject.layer ) &  targetLayer) != 0)
                     {
                         if (other.transform.TryGetComponent<WheelerController>(out WheelerController component))
                         {

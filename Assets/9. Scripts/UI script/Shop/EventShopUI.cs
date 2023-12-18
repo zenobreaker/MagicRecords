@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
-
-
-   
+using UnityEngine.UI;
 
 [System.Serializable]
 public class EventShopItemData
@@ -36,6 +34,7 @@ public class EventShopUI : UiBase
 
     public ChoiceAlert choiceAlert;
 
+    public Button exitButton;
 
     // ��ް� �⺻���� ������ �������� �Ǹŵ� ���� ��ȯ 
     private int CalcRecordItemValue(int grade, int baseValue)
@@ -51,6 +50,13 @@ public class EventShopUI : UiBase
         InitEventShopItem();
 
         //DrawEventShopGroup();
+        if(exitButton != null)
+        {
+            exitButton.onClick.AddListener(() =>
+            // todo 닫기 전에 경고문 같은걸 보여주자
+            UIPageManager.instance.OpenClose(this.gameObject)
+            );
+        }
     }
 
     private void Start()

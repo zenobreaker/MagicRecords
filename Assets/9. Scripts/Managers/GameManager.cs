@@ -292,7 +292,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (player != null)
-            playerCount = 1;
+            playerCount = thePM.GetMyTeam().Count;
         isTest = StageInfoManager.instance.isTest;
         stageText.gameObject.SetActive(false);
         
@@ -590,6 +590,9 @@ public class GameManager : MonoBehaviour
 
         foreach (var enemy in enemyTeam)
         {
+            if (enemy == null)
+                continue;
+
             Vector3 enemyPos = enemy.transform.position;
 
             if(Vector3.Distance(enemyPos, myPos) <= dis)

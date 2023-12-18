@@ -463,7 +463,8 @@ MonoBehaviour:
   m_charName: 
   fieldOfView: {fileID: 5820080113372504148}
   myState: 0
-  idleTime: 0
+  delayTime: 0.7
+  currentDelayTime: 0
   isWalking: 0
   isRunning: 0
   isChasing: 0
@@ -482,7 +483,7 @@ MonoBehaviour:
   startDashTime: 0.2
   myAnimator: {fileID: 3085422400865784962}
   TargetRotation: 0
-  theWeaponController: {fileID: 3524796231473870766}
+  theWeaponController: {fileID: 2061102306075867794}
   wheelController: {fileID: 2347304906794922971}
   go_DashEffect: {fileID: 447850101219573157, guid: 4e9b9c0b55b520141ac84f1ddbedea0c,
     type: 3}
@@ -564,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b4271ebe4db2a44b513445b1329ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngle: 120
+  viewAngle: 360
   viewDistance: 15
   meeleAttackDistance: 11
   target: {fileID: 0}
@@ -663,7 +664,7 @@ MonoBehaviour:
     isDead: 0
   isAction: 0
   skillChain: {fileID: 2783343195024195136}
-  weaponController: {fileID: 3524796231473870766}
+  weaponController: {fileID: 2061102306075867794}
   myAnimator: {fileID: 3085422400865784962}
 --- !u!1 &2404355815063979087
 GameObject:
@@ -929,7 +930,7 @@ GameObject:
   - component: {fileID: 3268247935841194432}
   - component: {fileID: 3085422402699475197}
   - component: {fileID: 2742963211795401595}
-  - component: {fileID: 3524796231473870766}
+  - component: {fileID: 2061102306075867794}
   m_Layer: 8
   m_Name: WeaponFrame
   m_TagString: Untagged
@@ -988,6 +989,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa7fb88dbdd9b143bbba214a58cc342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackArea: {fileID: 0}
   go_Muzzle: {fileID: 3085422402763321431}
   fireRate: 0
   ps_MuzzleFlash: {fileID: 7415000111984697362}
@@ -996,7 +1001,7 @@ MonoBehaviour:
   speed: 0
   sound_Fire: NormalGun_Fire
   sound_Fire2: Last_Fire
---- !u!114 &3524796231473870766
+--- !u!114 &2061102306075867794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1005,7 +1010,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2742963211795401594}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43b9a17d4fa4d6e408929b64606cd724, type: 3}
+  m_Script: {fileID: 11500000, guid: a0ee4ad46114edb49ba8140a752ef31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponOwn:
@@ -1014,7 +1019,7 @@ MonoBehaviour:
     charStat:
       baseCritDamage: 1.5
       myGrade: 0
-      level: 0
+      level: 1
       totalATK: 0
       totalDEF: 0
       totalASPD: 0
@@ -1068,8 +1073,11 @@ MonoBehaviour:
   critRate: 0
   critDamage: 0
   weaponType: 2
-  currentGun: {fileID: 2742963211795401595}
-  currentFireRate: 0.3
+  currentWeapon: {fileID: 2742963211795401595}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentFireRate: 0
   normalFireRate: 0.3
   finalFireRate: 0.7
   attackCoolTime: 0
@@ -1144,6 +1152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 6031059280256674507}
+  weaponController: {fileID: 2061102306075867794}
 --- !u!1 &3029304159836418946
 GameObject:
   m_ObjectHideFlags: 0

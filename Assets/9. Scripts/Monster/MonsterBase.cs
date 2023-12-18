@@ -188,22 +188,6 @@ public class MonsterBase : WheelerController
 
     }
 
-    public override void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
-    {
-
-        if (!isDead)
-        {
-            base.Damage(_damage, _targetPos, isCrit);
-
-         
-            //   PlaySE(sound_Hurt);
-            if (anim != null)
-            {
-                anim.SetTrigger("Hurt");
-            }
-        }
-    }
-
     public override void Damage(int damage, bool isCrit = false)
     {
         base.Damage(damage, isCrit);
@@ -226,35 +210,34 @@ public class MonsterBase : WheelerController
 
     }
 
+    public override void Damage(int _damage, Vector3 _targetPos, bool isCrit = false)
+    {
+        if (!isDead)
+        {
+            base.Damage(_damage, _targetPos, isCrit);
+            Hit(_targetPos);
+        }
+    }
 
-    public virtual void Damaged(int _dmg, Vector3 _targetPos)
+
+    public virtual void Hit(Vector3 targetPos)
     {
         if (!isDead && player != null)
         {
-            if (UIManager.instance != null)
+            if (anim != null && player.MyStat.myGrade != MonsterGrade.BOSS)
             {
-                UIManager.instance.CreateFloatingText(this.gameObject.transform.position, _dmg.ToString());
-                UIManager.instance.ShowHealthBar(this);
-
-                // 그냥 일반적인 공격에 해당 루틴이 돌면서 컨디션을 NONE으로 변경해버린다
-                // 일반 공격은 타이머값을 던져주지않기때문에 0초로 들어와서 바로 NONE화되버린다.
-                //if(theCondition != null)
-                //    theCondition.AbnormalCondition();
-                GameManager.MyInstance.IncreaseCombo();
-            }
-         //   transform.localPosition -= (_targetPos - transform.position).normalized;
-         //   transform.LookAt(_targetPos - transform.position.normalized);
-         //     currentState = state.CHASE;
-
-            if (player.MyCurrentHP <= 0 && !isTest)
-            {
-                Dead();
-                return;
-            }
-
-            //   PlaySE(sound_Hurt);
-            if(anim != null)
+                //MyRigid.velocity = Vector3.zero;
+                //ResetBehaviour();
+                //theViewAngle.target.position = _targetPos;
+                //destination = _targetPos;
+                // 넉백기능 
+                /*
+                transform.localPosition -= (targetPos - transform.position).normalized;
+                transform.LookAt(targetPos - transform.position.normalized);
+                */
+                // PlaySE(sound_Hurt);
                 anim.SetTrigger("Hurt");
+            }
         }
     }
 

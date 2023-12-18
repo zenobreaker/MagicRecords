@@ -9,6 +9,8 @@ public class AttackObject : MonoBehaviour
 {
     private Character attackOwn;  // 이 공격 시전자
     public Transform attackOwnTransform;   // 공격 시전자의 transform
+    
+    public LayerMask targetLayer;   // 맞춰지는 대상의 레이어
 
     public float damageRate = 1.0f;  
     public int damage;
@@ -56,6 +58,21 @@ public class AttackObject : MonoBehaviour
         }
     }
 
+    public void SetLayer(string[] layerNames)
+    {
+        foreach (var name in layerNames)
+        {
+            targetLayer |= LayerMask.NameToLayer(name);
+        }
+
+        //targetLayer = targetLayerMask;
+    }
+
+    public void SetLayer(LayerMask layer)
+    {
+        targetLayer = layer;
+    }
+
     public void SetFinishCallback(Callback _callback)
     {
         callback = _callback;
@@ -67,6 +84,17 @@ public class AttackObject : MonoBehaviour
         attackOwn = attacker;
         attackOwnTransform = paraTrasnform; 
         this.damageRate = damageRate;
+    }
+
+    public void SetDisableTimer(float delay)
+    {
+        StartCoroutine(DisableObjectAfterDelay(delay));
+    }
+
+    IEnumerator DisableObjectAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false);
     }
 
 }

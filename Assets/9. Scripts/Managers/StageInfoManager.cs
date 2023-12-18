@@ -492,34 +492,34 @@ public class StageInfoManager : MonoBehaviour
                         currentChapter, (int)1,
                         eventInfo);
                 }
-                // �̺�Ʈ �߻� Ÿ���� ��� 
+                // 이벤트 타입일 경우  
                 else if (eventInfo.stageType == StageType.EVENT)
                 {
-                    // ���� �̺�Ʈ �� ���� 
+                    // 
                     int randomCategory = Random.Range(0, (int)EventCategory.MAX);
-                    // todo �ϴ� ���� �׽�Ʈ������ ������ ���ڵ� ������ 
+                    // todo 
                     randomCategory = (int)EventCategory.FIND_RECORD;
                     eventInfo.mainEventCategory = (EventCategory)randomCategory;
                     
-                    // 1. ���ڵ尡 �����ϴ� �̺�Ʈ 
+                    // 1. 
                     if (eventInfo.mainEventCategory == EventCategory.FIND_RECORD)
                     {
-                        // ���⼭ ���� ��ų ���ڵ� ����
+                        //
                         if (RecordManager.instance != null)
                         {
                             RecordManager.instance.GetStageEventRewardRecord(eventInfo);
                         }
                     }
-                    // 2. ����(= ��Ƽ��Ʈ)�� ��Ÿ���� �̺�Ʈ
+                    // 2. 
                     else
                     {
 
                     }
                 }
-                // ������ ��Ÿ���� �̺�Ʈ 
+                // 
                 else if(eventInfo.stageType == StageType.SHOP)
                 {
-                    // todo. ������ ���� ������ �����ϰ� �������� ���� �ʿ�
+                    // todo. 
                 }
 
             }

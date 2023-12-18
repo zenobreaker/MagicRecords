@@ -126,11 +126,11 @@ public class RecordManager : MonoBehaviour
     {
         List<int> resultList = new List<int>();
         
-        // 1. ������ �޸� id�� ��ųʸ����� �ߺ� ���� �����´�. 
+        // 1. 키값으로 리스트를 만든다
         List<int> keys = new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
-            Debug.Log("Ű���� �����ϴ� ���� ���� �Ұ�");
+            Debug.Log("등록된 레코드 정보가 없습니다.");
             return null;
         }
         int min = keys.Min();
@@ -148,7 +148,7 @@ public class RecordManager : MonoBehaviour
             }
             if (recordInfoDictionary.ContainsKey(idx) == true)
             {
-                // 2. ���� ����Ʈ�� ���� �޸𸮸� ������ �����Ѵ�.
+                // 2. 결과 리스트에 추가
                 resultList.Add(recordInfoDictionary[idx].id);
             }
 
@@ -160,23 +160,20 @@ public class RecordManager : MonoBehaviour
         return resultList;
     }
 
-    // �޸𸮸� �������� �޴� �Ű�������ŭ ��ȯ���ִ� �Լ� 
+    // 일정 개수 값을 받으면 랜덤으로 메모리를 반환한다.
     public List<RecordInfo> GetRandomRewardMemory(int count)
     {
         List<RecordInfo> rewardList = new List<RecordInfo>();
 
-        // 1. ������ �޸� id�� ��ųʸ����� �ߺ� ���� �����´�. 
         List<int> keys = new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
-            Debug.Log("Ű���� �����ϴ� ���� ���� �Ұ�");
             return null;
         }
         int min = keys.Min();
         int maxCount = keys.Count;
       
 
-        // �ߺ����� ������ŭ ����Ʈ�� �߰��ϱ� 
         int prevIndx = 0; 
         while (true)
         {
@@ -190,7 +187,6 @@ public class RecordManager : MonoBehaviour
 
             if(recordInfoDictionary.ContainsKey(idx) == true)
             {
-                // 2. ���� ����Ʈ�� ���� �޸𸮸� ������ �����Ѵ�.
                 rewardList.Add(recordInfoDictionary[idx]);
             }
 
@@ -199,15 +195,12 @@ public class RecordManager : MonoBehaviour
         }
 
 
-        // �޸𸮸� �˻��ؼ� �ɼ� �����Ͱ� �ִ��� �˻� ������ ���� ����
         for (int i = 0; i < count; i++)
         {
             if (rewardList[i].specialOption != null) continue;
 
-            // id ������ �������̴� �װ��� ���� optionmanager���Լ� �����´�. 
             if(OptionManager.instance == null)
             {
-                Debug.Log("�ɼǸŴ����� �����ϴ�.");
                 break; 
             }
 
@@ -219,7 +212,6 @@ public class RecordManager : MonoBehaviour
         return rewardList;
     }
 
-    // �ּ� ������ �ִ� ������ ������ �� �ȿ��� �������� ���ڵ�id ��ȯ
     public List<int> GetRandomRecordByRandRange(int start, int end)
     {
         List<int> idList = new List<int>();
@@ -232,11 +224,9 @@ public class RecordManager : MonoBehaviour
 
         int count = Random.Range(start, end + 1);
 
-        // 1. ������ �޸� id�� ��ųʸ����� �ߺ� ���� �����´�. 
         List<int> keys = new List<int>(recordInfoDictionary.Keys);
         if (keys.Count <= 0)
         {
-            Debug.Log("Ű���� �����ϴ� ���� ���� �Ұ�");
             return null;
         }
 
@@ -245,7 +235,6 @@ public class RecordManager : MonoBehaviour
 
         List<RecordInfo> records = new List<RecordInfo>(recordInfoDictionary.Values);
 
-        // �ߺ����� ������ŭ ����Ʈ�� �߰��ϱ� 
         int prevIndex = 0;
         while (true)
         {
@@ -258,7 +247,7 @@ public class RecordManager : MonoBehaviour
             }
 
             idList.Add(id);
-            records.Remove(record); // ���� ���ڵ�� ���� 
+            records.Remove(record); 
             if (idList.Count >= count || records.Count <= 0)
             {
                 break; 
@@ -279,15 +268,12 @@ public class RecordManager : MonoBehaviour
         return record.specialOption;
     }
 
-
-    // ���������� �̺�Ʈ ������� ��Ÿ�� ���ڵ� ��ȯ
     public void GetStageEventRewardRecord(StageEventInfo eventInfo)
     {
         if (eventInfo == null || eventInfo.appearInfo == null) return;
 
         eventInfo.appearInfo.appearIDList.Clear();
 
-        // �÷��̾ ȹ���� ���ڵ� ���� 
         List<int> recordIDList = GetRanddomRecordID(3);
         if (recordIDList == null || recordIDList.Count <= 0)
         {
@@ -332,7 +318,6 @@ public class RecordManager : MonoBehaviour
         selectRecordInfos.Add(selectedRecord);
     }
 
-    // �÷��̾�鿡�� ���ڵ� �����ϱ�
     public void ApplyRecordToPlayers(List<WheelerController> players)
     {
         for (int i = selectRecordInfos.Count - 1; i >= 0; i--)

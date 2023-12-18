@@ -157,8 +157,7 @@ public class RewardController : MonoBehaviour
     // 해당 오브젝트를 선택하면 오브젝트의 선택자 UI가 나타나도록 설정 및 선택한 정보 저장
     private void SelectRewardCardUI(int index)
     {   
-        // 하하 셀렉트 값에 값을 넣엇어
-        //selectIndex = index;
+ 
 
         if (cardParent == null) return;
 

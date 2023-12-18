@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,17 @@ using UnityEngine;
 public class TreeMon : AttackMonster
 {
     public GameObject go_TreeAttack;
+
+
+    protected override void SetCreateWeaponsLayer(LayerMask layerMask)
+    {
+        base.SetCreateWeaponsLayer(layerMask);
+        
+        //if(go_TreeAttack != null)
+        //{
+        //    go_TreeAttack.GetComponent<AttackArea>().SetLayer(targetMask);
+        //}
+    }
 
     // 패턴을 초기화한다.
     public override void InitPattren()
@@ -130,11 +142,19 @@ public class TreeMon : AttackMonster
         //DangerMarkerShoot(1, 1f, 1f);
         yield return new WaitForSeconds(1f);
 
-        var tree = Instantiate(go_TreeAttack, t_Pos + transform.forward*3f, Quaternion.identity);
+        //var tree = Instantiate(go_TreeAttack, t_Pos + transform.forward*3f, Quaternion.identity);
+        var tree = ObjectPooler.SpawnFromPool<DisableObjectEvent>("TreeAttack", t_Pos + transform.forward * 3f);
+        tree.SetDisableTimer(2.0f);
         //tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack* 1.5f);
-        tree.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.5f);
+        var attackArea = tree.GetComponentInChildren<AttackArea>();
+        if(attackArea != null)
+        {
+            attackArea.SetLayer(targetMask);
+            attackArea.SetAttackInfo(player, transform, 1.5f);
+        }
+
         //tree.GetComponent<AttackArea>().PlayAnim();
-        Destroy(tree, 1f);
+        //Destroy(tree, 1f);
         
     }
 
@@ -150,13 +170,21 @@ public class TreeMon : AttackMonster
 
         while (count < 5)
         {
-            var tree = Instantiate(go_TreeAttack, treePos + trForward, Quaternion.identity);
+            var tree = ObjectPooler.SpawnFromPool<DisableObjectEvent>("TreeAttack", treePos + trForward);
+            tree.SetDisableTimer(2.0f);
+            //var tree = Instantiate(go_TreeAttack, treePos + trForward, Quaternion.identity);
             //tree.GetComponentInChildren<AttackArea>().power = Mathf.RoundToInt(player.MyTotalAttack * 1.7f);
-            tree.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
+            var attackArea = tree.GetComponentInChildren<AttackArea>();
+            if (attackArea != null)
+            {
+                attackArea.SetLayer(targetMask);
+                attackArea.SetAttackInfo(player, transform, 1.5f);
+            }
+            
             //tree.GetComponent<AttackArea>().PlayAnim();
             treePos = tree.transform.localPosition;
             count++;
-            Destroy(tree, 4.5f);
+            //Destroy(tree, 4.5f);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -194,17 +222,31 @@ public class TreeMon : AttackMonster
       
         while (count < 5)
         {
-            
-           // Vector3 t_pos2 = new Vector3(treePos2.x + Mathf.Cos(Mathf.PI * 15), 0, treePos2.z + Mathf.Cos(Mathf.PI * 15));
-            var tree1 = Instantiate(go_TreeAttack, treePos1, Quaternion.identity);
-            //tree1.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
-            tree1.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
-            var tree2 = Instantiate(go_TreeAttack, treePos2, Quaternion.identity);
-            //tree2.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
-            tree2.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
-            var tree3 = Instantiate(go_TreeAttack, treePos3, Quaternion.identity);
-            //tree3.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
-            tree3.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
+
+            var tree1 = ObjectPooler.SpawnFromPool<DisableObjectEvent>("TreeAttack", treePos1);
+            tree1.SetDisableTimer(2.0f);
+            var aa1 = tree1.GetComponentInChildren<AttackArea>();
+            if(aa1 != null)
+            {
+                aa1.SetLayer(targetMask);
+                aa1.SetAttackInfo(player, transform, 1.7f);
+            }
+            var tree2 = ObjectPooler.SpawnFromPool<DisableObjectEvent>("TreeAttack", treePos2);
+            tree2.SetDisableTimer(2.0f);
+            var aa2 = tree2.GetComponentInChildren<AttackArea>();
+            if(aa2 != null)
+            {
+                aa2.SetLayer(targetMask);
+                aa2.SetAttackInfo(player, transform, 1.7f);
+            }
+            var tree3 = ObjectPooler.SpawnFromPool<DisableObjectEvent>("TreeAttack", treePos3);
+            tree3.SetDisableTimer(2.0f);
+            var aa3 = tree3.GetComponentInChildren<AttackArea>();
+            if(aa3 != null)
+            {
+                aa3.SetLayer(targetMask);
+                aa3.SetAttackInfo(player, transform, 1.7f);
+            }
 
             // 이전에 소환한 나무 위치 + 차이 만큼 다음 위치 값 세팅 
             treePos1 = tree1.transform.localPosition + trForward;
@@ -216,13 +258,8 @@ public class TreeMon : AttackMonster
             treePos3 += myPos;
 
             count++;
-            Destroy(tree1, 4.5f);
-            Destroy(tree2, 4.5f);
-            Destroy(tree3, 4.5f);
             yield return new WaitForSeconds(0.5f);
         }
-
-       // yield return new WaitForSeconds(2f);
 
     }
 
@@ -264,10 +301,16 @@ public class TreeMon : AttackMonster
                 t_Pos.x = distance * x + transform.localPosition.x;
                 t_Pos.z = distance * z + transform.localPosition.z;
 
-                var tree = Instantiate(go_TreeAttack, t_Pos, Quaternion.identity);
-                //tree.GetComponentInChildren<AttackArea>().power = player.MyTotalAttack + Mathf.RoundToInt(player.MyTotalAttack * 0.7f);
-                tree.GetComponentInChildren<AttackArea>().SetAttackInfo(player, transform, 1.7f);
-                Destroy(tree, 3.5f);
+                //var tree = Instantiate(go_TreeAttack, t_Pos, Quaternion.identity);
+                var tree = ObjectPooler.SpawnFromPool<DisableObjectEvent>("TreeAttack", t_Pos);
+                tree.SetDisableTimer(2.0f);
+                var aa = tree.GetComponentInChildren<AttackArea>();
+                if(aa != null)
+                {
+                    aa.SetLayer(targetMask);
+                    aa.SetAttackInfo(player, transform, 1.7f);
+                }
+              //  Destroy(tree, 3.5f);
             }
             distance += 3;
             roopCount -= 1;

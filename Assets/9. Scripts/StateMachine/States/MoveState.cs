@@ -63,6 +63,7 @@ public class MoveState : BaseState
     public override void ExitState()
     {
         owner.MyAgent.ResetPath();
+        owner.MyAgent.velocity = Vector3.zero;
         destination = Vector3.zero;
 
       

@@ -24,23 +24,24 @@ public class WeaponController : MonoBehaviour
     [Header("무기 타입 관련")]
     public WeaponType weaponType;
 
-    [Header("총")]
+    [Header("착용 무기")]
     [SerializeField]
-    Weapon currentGun = null;
+    protected Weapon currentWeapon = null;
 
+    public LayerMask targetLayer = 0;
 
-    private Animation myAnim;
+    protected Animation myAnim;
     public float currentFireRate;
     public float normalFireRate = 0.2f; 
     public float finalFireRate = 0.7f; 
 
     public float attackCoolTime = 0f;
 
-    private ComboState currentCombo;
+    protected ComboState currentCombo;
 
     public Weapon MyWeapon
     {
-        get { return currentGun; }
+        get { return currentWeapon; }
     }
 
     void Start()
@@ -54,9 +55,16 @@ public class WeaponController : MonoBehaviour
         FireRateCalc();
     }
 
-    public void SetWeaponOwn(Character own)
+    public void SetWeaponOwn(Character own, LayerMask layerMask)
     {
         weaponOwn = own; 
+        if(currentWeapon != null)
+        {
+            int extraLayer = 1 << layerMask;
+            extraLayer = ~extraLayer;
+            targetLayer = extraLayer;
+            currentWeapon.SetTargetLayer(extraLayer);
+        }
     }
 
     public void SetDamageAndCrit(float dmageRate, int damage, float chance, float critDmamge)
@@ -77,11 +85,6 @@ public class WeaponController : MonoBehaviour
 
     public void TryFire(ComboState _currentCombo)
     {
-        //if (Input.GetKeyDown(KeyCode.X) && currentFireRate <= 0)
-
-        //if (_currentCombo == ComboState.ATTACK_4)
-        //    return;
-
         currentCombo = _currentCombo; 
 
         switch (_currentCombo)
@@ -107,47 +110,14 @@ public class WeaponController : MonoBehaviour
     }
 
 
-    private void CreateBullet()
+    public virtual void TryNormalMeeleAttack()
     {
-        // 무기가 원거리형이 아니라면 발사하지않는다.
-        if (weaponType != WeaponType.RANGE)
-            return; 
-
-        var clone = ObjectPooler.SpawnFromPool<MyBullet>("Bullet", currentGun.go_Muzzle.transform);
-        clone.SetAttackInfo(weaponOwn, transform);
+        
     }
 
-    void ShotSoundPlay()
+    public virtual void EndNormalMeeleAttack()
     {
-        if (currentCombo != ComboState.ATTACK_4)
-        {
-            SoundManager.instance.PlaySE(currentGun.sound_Fire);
-        }
-        //else if (currentCombo == ComboState.ATTACK_4)
-        //{
-        //    SoundManager.instance.PlaySE(currentGun.sound_Fire2);
-        //}
-
+       
     }
 
-    void LaserSound()
-    {
-        SoundManager.instance.PlaySE("LaserEffect");
-        currentGun.ps_MuzzleFlash.Play();
-    }
-
-    void ShootBullet()
-    {
-        ShotSoundPlay();
-        currentGun.ps_MuzzleFlash.Play();
-        CreateBullet();
-    }
-
-
-    void ShootFinalBullet()
-    {
-        SoundManager.instance.PlaySE(currentGun.sound_Fire2);
-        currentGun.ps_MuzzleFlash.Play();
-        CreateBullet();
-    }
 }
