@@ -75,6 +75,19 @@ public class SkillData
     public bool chainSkill;
 }
 
+// 스킬 전체를 저장을 담당하는 클래스 
+[System.Serializable]
+public class SkillSaveData
+{
+    public string userID = ""; // 스킬 정보의 주인 ID
+    
+    public List<SkillData> acitveSkillList = new List<SkillData>();
+    public List<SkillData> passiveSkillList = new List<SkillData>();
+
+    public int version; // 저장 버전 
+}
+
+
 // 아이템 정보 클래스
 [System.Serializable]
 public class ItemData
@@ -129,6 +142,7 @@ public class SaveManager : MonoBehaviour
     [SerializeField] GameObject go_BackGround = null;
 
     private SaveData saveData = new SaveData();
+    private SkillSaveData skillSaveData = new SkillSaveData();
 
     private string SAVE_DATA_DIRECTROTY;
     private string SAVE_FILENAME = "/SaveFile";
@@ -164,81 +178,95 @@ public class SaveManager : MonoBehaviour
         LoadData();
     }
 
-    public void SaveData()
+
+    // 스킬 저장하는 함수 유저 정보를 매개변수로 받는다 
+    public void SaveSkillData(string userID)
     {
+        if (SkillDataBase.instance == null || saveData == null)
+            return;
 
-        // 사운드 관련 
-        saveData.sfxSoundValue = Mathf.Floor(SoundManager.instance.sfxVolume * 10) / 10;
-        saveData.bgmSoundValue = Mathf.Floor(SoundManager.instance.bgmVolume* 10) / 10;
+        // 저장할 주인 ID
+        skillSaveData.userID = userID; 
 
-        // 탐사 관련 값 
-        saveData.isAdventure = StageInfoManager.FLAG_ADVENTURE_MODE;
-        saveData.initJoinFlag = StageInfoManager.initJoinPlayGameModeFlag;
+        // 액티브 스킬 저장 
+        var activeSkills = SkillDataBase.instance.activeSkillList;
 
-        saveData.currentChapter = StageInfoManager.instance.currentChapter;
-        saveData.stageDictList = StageInfoManager.instance.GetStageList();
-
-
-        // 레코드 관련 저장 
-        saveData.choiceRecord = RecordManager.CHOICED_COMPLETE_RECORD;
-        saveData.recordList.Clear();
-        foreach (var record in RecordManager.instance.selectRecordInfos)
+        foreach (var active in activeSkills)
         {
-            if (record == null) continue; 
-            saveData.recordList.Add(record.id);
+            SkillData skillData = new SkillData();
+            skillData.keycode = active.keycode;
+            skillData.level = active.MySkillLevel;
+            skillData.chainSkill = active.IsChain;
+
+            var  targetSkill = skillSaveData.acitveSkillList.Find(x => x.keycode == skillData.keycode);
+            if (targetSkill != null)
+            {
+                targetSkill.level = skillData.level;
+                targetSkill.chainSkill = skillData.chainSkill;
+            }
+            else
+            {
+                skillSaveData.acitveSkillList.Add(skillData);
+            }
         }
 
-        // 유저 정보 저장 
-        SaveUserInfo();
+        // 패시브 스킬 저장
+        var passiveSkills = SkillDataBase.instance.passiveSkillList;
+        foreach (var passive in passiveSkills)
+        {
+            SkillData skillData = new SkillData();
+            skillData.keycode = passive.keycode;
+            skillData.level = passive.MySkillLevel;
+            skillData.chainSkill = passive.IsChain;
 
-       // dictionary 값을 json으로 컨버팅
-        string json = JsonConvert.SerializeObject(saveData);
+            var targetSkill = skillSaveData.passiveSkillList.Find(x => x.keycode == skillData.keycode);
+            if (targetSkill != null)
+            {
+                targetSkill.level = skillData.level;
+                targetSkill.chainSkill = skillData.chainSkill;
+            }
+            else
+            {
+                skillSaveData.passiveSkillList.Add(skillData);
+            }
+        }
 
-        File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
+        // dictionary 값을 json으로 컨버팅
+        string json = JsonConvert.SerializeObject(skillSaveData);
+
+        File.WriteAllText(SAVE_DATA_DIRECTROTY + INFO_HAVE_SKILL_SAVE_FILENAME, json);
 
         Debug.Log(json);
+
     }
 
-    string GenerateRandomString(int length)
+    // 저장한 스킬 정보를 게임에 적용한다.
+    public void ApplySkillData(string userID)
     {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        string randomString = "";
-
-        for (int i = 0; i < length; i++)
+        if (SkillDataBase.instance == null || skillSaveData == null)
         {
-            int randomIndex = Random.Range(0, chars.Length);
-            randomString += chars[randomIndex];
+            Debug.Log("해당 클래스가 존재하지 않습니다.");
+            return;
         }
 
-        return randomString;
-    }
-
-    // 사용자 정보를 저장한다
-    public void SaveUserInfo()
-    {
-        // 사용 금액 저장 
-        saveData.money = InfoManager.coin;
-
-        if (isExistFile == false)
+        // 액티브 스킬 
+        foreach(var active in skillSaveData.acitveSkillList)
         {
-            // 유저 ID 저장  
-            saveData.userID = GenerateRandomString(8);
+            if (active == null)
+                continue;
+
+            SkillDataBase.instance.SetActiveSkill(active.keycode, active.level, active.chainSkill);
         }
 
-        SaveWheelers();
+        // 패시브 스킬
+        foreach(var passive in skillSaveData.passiveSkillList)
+        {
+            if (passive == null)
+                continue;
 
-        SaveInventory(); 
-    }
-
-    // 저장한 정보를 인게임에 적용한다.
-
-    public void ApplyUserInfo()
-    {
-        InfoManager.coin = saveData.money;
+            SkillDataBase.instance.SetPassiveSkill(passive.keycode, passive.level);
+        }
         
-        ApplyInvetory();
-        
-        ApplyWheelers();
     }
 
     // 휠러 정보 저장
@@ -255,7 +283,7 @@ public class SaveManager : MonoBehaviour
                 wheeler.wheelerID = characters[i].MyID;
                 wheeler.exp = characters[i].MyStat.exp;
                 wheeler.maxExp = characters[i].MyStat.maxExp;
-          
+
                 // 장비 타입 값이 1~7까지 잇으므로 순회
                 for (int x = 1; x <= 7; x++)
                 {
@@ -270,11 +298,11 @@ public class SaveManager : MonoBehaviour
                 }
 
                 // 장착한 스킬 정보 
-                for (SkillSlotNumber j = SkillSlotNumber.SLOT1 ; j <= SkillSlotNumber.MAXSLOT; j++)
+                for (SkillSlotNumber j = SkillSlotNumber.SLOT1; j <= SkillSlotNumber.MAXSLOT; j++)
                 {
                     SkillData skillData = new SkillData();
-                    
-                    if(characters[i].skills[j] != null)
+
+                    if (characters[i].skills[j] != null)
                     {
                         skillData.keycode = characters[i].skills[j].keycode;
                         skillData.level = characters[i].skills[j].MySkillLevel;
@@ -284,11 +312,11 @@ public class SaveManager : MonoBehaviour
                     wheeler.skills.Add(skillData);
                 }
                 // 장착한 체인 스킬 정보
-                for (SkillSlotNumber k = SkillSlotNumber.CHAIN1 ; k <= SkillSlotNumber.MAXCHAINSLOT ; k++)
+                for (SkillSlotNumber k = SkillSlotNumber.CHAIN1; k <= SkillSlotNumber.MAXCHAINSLOT; k++)
                 {
                     SkillData skillData = new SkillData();
 
-                    if(characters[i].chainsSkills[k] != null )
+                    if (characters[i].chainsSkills[k] != null)
                     {
                         skillData.keycode = characters[i].chainsSkills[k].keycode;
                         skillData.level = characters[i].chainsSkills[k].MySkillLevel;
@@ -301,7 +329,7 @@ public class SaveManager : MonoBehaviour
                 // 패시브 스킬 정보 
                 for (int idx = 0; idx < characters[i].equippedPassiveSkills.Count; idx++)
                 {
-                    if( characters[i].equippedPassiveSkills[idx] == null )
+                    if (characters[i].equippedPassiveSkills[idx] == null)
                     {
                         continue;
                     }
@@ -313,8 +341,8 @@ public class SaveManager : MonoBehaviour
                     wheeler.passvieSkills.Add(skillData);
                 }
 
-                
-                if(saveData.wheelerDatas.ContainsKey(wheeler.wheelerID) == true)
+
+                if (saveData.wheelerDatas.ContainsKey(wheeler.wheelerID) == true)
                 {
                     saveData.wheelerDatas[wheeler.wheelerID] = wheeler;
                 }
@@ -325,12 +353,12 @@ public class SaveManager : MonoBehaviour
             }
         }
     }
-    
+
 
     // 저장한 값을 게임에 적용한다.
-    public void  ApplyWheelers()
+    public void ApplyWheelers()
     {
-        foreach(var wheelerPair in saveData.wheelerDatas)
+        foreach (var wheelerPair in saveData.wheelerDatas)
         {
             if (wheelerPair.Value == null) continue;
             var wheeler = wheelerPair.Value;
@@ -342,9 +370,9 @@ public class SaveManager : MonoBehaviour
             // 스탯 적용
             tempPlayer.MyStat = charStat;
             // 장비 장착
-            foreach(var equipItemData in wheeler.equipItems)
+            foreach (var equipItemData in wheeler.equipItems)
             {
-                var equipItem =  Inventory.instance.GetItemByUniqueID(equipItemData.uniqueID);
+                var equipItem = Inventory.instance.GetItemByUniqueID(equipItemData.uniqueID);
                 tempPlayer.EquipItem(equipItem as EquipItem);
             }
 
@@ -352,48 +380,56 @@ public class SaveManager : MonoBehaviour
             if (SkillDataBase.instance != null)
             {
 
-                int count = 1;
+                int count = 0;
                 foreach (var skill in wheeler.skills)
                 {
-                    var activeSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
-                    tempPlayer.EquipSkill((SkillSlotNumber)count, activeSkill, skill.chainSkill);
+                    if(skill != null)
+                    {
+                        var activeSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
+                        tempPlayer.EquipSkill((SkillSlotNumber)count, activeSkill, skill.chainSkill);
+                    }
                     count++;
                 }
 
                 foreach (var skill in wheeler.passvieSkills)
                 {
+                    if (skill == null)
+                        continue; 
                     var passiveSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
                     tempPlayer.equippedPassiveSkills.Add(passiveSkill as PassiveSkill);
                 }
 
-                count = 1; 
-                foreach(var skill in wheeler.chainSkills)
+                count = 0;
+                foreach (var skill in wheeler.chainSkills)
                 {
-                    var activeSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
-                    tempPlayer.chainsSkills[(SkillSlotNumber)count] = activeSkill;
+                    if(skill != null)
+                    {
+                        var activeSkill = SkillDataBase.instance.GetActiveSkillBySkillKeycode(skill.keycode);
+                        tempPlayer.chainsSkills[(SkillSlotNumber)count] = activeSkill;
+                    }
                     count++;
                 }
             }
-            
+
             InfoManager.instance.AddMyPlayerInfo(wheeler.wheelerID, tempPlayer);
         }
     }
 
-  
+
 
     public void SaveInventory()
     {
 
-        for(int i = 0; i < (int)InventoryCategory.MAX; i++)
+        for (int i = 0; i < (int)InventoryCategory.MAX; i++)
         {
             if (Inventory.instance.itemList[(InventoryCategory)i] == null)
             {
-                continue; 
+                continue;
             }
 
             var itemList = Inventory.instance.itemList[(InventoryCategory)i];
-            if (itemList == null || itemList.Count <= 0) 
-                continue; 
+            if (itemList == null || itemList.Count <= 0)
+                continue;
 
             for (int j = 0; j < itemList.Count; j++)
             {
@@ -434,13 +470,113 @@ public class SaveManager : MonoBehaviour
         InventoryManager.instance.ApplySaveItemData(saveData.inventory);
     }
 
- 
+
+
+    // 사용자 정보를 저장한다
+    public void SaveUserInfo()
+    {
+        // 사용 금액 저장 
+        saveData.money = InfoManager.coin;
+
+        if (isExistFile == false)
+        {
+            // 유저 ID 저장  
+            saveData.userID = GenerateRandomString(8);
+        }
+
+        SaveWheelers();
+
+        SaveInventory();
+    }
+
+
+    public void SaveData()
+    {
+
+        // 사운드 관련 
+        saveData.sfxSoundValue = Mathf.Floor(SoundManager.instance.sfxVolume * 10) / 10;
+        saveData.bgmSoundValue = Mathf.Floor(SoundManager.instance.bgmVolume* 10) / 10;
+
+        // 탐사 관련 값 
+        saveData.isAdventure = StageInfoManager.FLAG_ADVENTURE_MODE;
+        saveData.initJoinFlag = StageInfoManager.initJoinPlayGameModeFlag;
+
+        saveData.currentChapter = StageInfoManager.instance.currentChapter;
+        saveData.stageDictList = StageInfoManager.instance.GetStageList();
+
+
+        // 레코드 관련 저장 
+        saveData.choiceRecord = RecordManager.CHOICED_COMPLETE_RECORD;
+        saveData.recordList.Clear();
+        foreach (var record in RecordManager.instance.selectRecordInfos)
+        {
+            if (record == null) continue; 
+            saveData.recordList.Add(record.id);
+        }
+
+        // 유저 정보 저장 
+        SaveUserInfo();
+
+        // 유저 스킬 정보 저장
+        SaveSkillData(saveData.userID);
+
+       // dictionary 값을 json으로 컨버팅
+        string json = JsonConvert.SerializeObject(saveData);
+
+        File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
+
+        Debug.Log(json);
+    }
+
+    string GenerateRandomString(int length)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        string randomString = "";
+
+        for (int i = 0; i < length; i++)
+        {
+            int randomIndex = Random.Range(0, chars.Length);
+            randomString += chars[randomIndex];
+        }
+
+        return randomString;
+    }
+
+    
+    // 저장한 정보를 인게임에 적용한다.
+
+    public void ApplyUserInfo()
+    {
+        InfoManager.coin = saveData.money;
+        
+        ApplyInvetory();
+        
+        ApplyWheelers();
+    }
+
+    
     
 
     public void SaveSoundData()
     {
         saveData.sfxSoundValue = Mathf.Floor(SoundManager.instance.sfxVolume * 10) / 10;
         saveData.bgmSoundValue = Mathf.Floor(SoundManager.instance.bgmVolume * 10) / 10;
+    }
+
+    public void LoadSkillData(string userID)
+    {
+        if(File.Exists(SAVE_DATA_DIRECTROTY + INFO_HAVE_SKILL_SAVE_FILENAME))
+        {
+            string data = File.ReadAllText(SAVE_DATA_DIRECTROTY + INFO_HAVE_SKILL_SAVE_FILENAME);
+
+            skillSaveData = JsonConvert.DeserializeObject<SkillSaveData>(data);
+
+            ApplySkillData(userID);
+        }
+        else
+        {
+            Debug.Log("데이터가 없습니다.");
+        }
     }
 
     public void LoadData()
@@ -467,9 +603,10 @@ public class SaveManager : MonoBehaviour
               RecordManager.instance.SelectRecord(id);
             }
 
+            LoadSkillData(saveData.userID);
+
             // 유저 정보 적용
             ApplyUserInfo();
-
         }
         // 저장한 데이터가 없다면 
         else

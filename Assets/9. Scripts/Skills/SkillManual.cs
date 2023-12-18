@@ -364,7 +364,7 @@ public class SkillManual : MonoBehaviour
         {
             Debug.Log("코인이 부족해요!");
         }
-        else if (selectedSkill.MySkillLevel == 5)
+        else if (selectedSkill.MySkillLevel == selectedSkill.MySkillMaxLevel)
             Debug.Log("스킬이 최대 레벨입니다!");
     }
 

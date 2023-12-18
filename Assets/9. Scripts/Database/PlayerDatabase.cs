@@ -233,14 +233,12 @@ public class PlayerDatabase : MonoBehaviour
     }
 
 
-    // ĳ���� ������ ���� 
-    // id ���� ������ �ش� ĳ���� data�� ��ȯ
+    // id
     public CharacterData GetCharacterData(int id)
     {
         return characterdataList.Where(x => x.characterID == id).FirstOrDefault();
     }
 
-    // ĳ���� data list �� ��ȯ
     public List<CharacterData> GetCharacterDataList()
     {
         return characterdataList;

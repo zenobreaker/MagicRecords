@@ -71,13 +71,8 @@ public class SkillDataBase : MonoBehaviour
 {
     public static SkillDataBase instance; 
 
-    [SerializeField] private Skill[] activeSkills = null;
-    [SerializeField] private Skill[] passiveSkills = null;
-
     public List<Skill> activeSkillList = new List<Skill>();
     public List<Skill> passiveSkillList = new List<Skill>();
-
-    [SerializeField] private SkillToolTip skillToolTip = null;
 
     [SerializeField] ActionButton skilbtn = null;
 
@@ -219,10 +214,6 @@ public class SkillDataBase : MonoBehaviour
     }
 
 
-    public Skill[] GetActiveSkills()
-    {
-        return activeSkills;
-    }
 
     // id랑 맞는 스킬 리스트를 가져온다. 
     public List<Skill> GetActiveSkillListFromID(int id)
@@ -260,23 +251,18 @@ public class SkillDataBase : MonoBehaviour
     }
 
 
-    public Skill[] GetPassiveSkills()
-    {
-        return passiveSkills;
-    }
+    //public void SetSkill(PlayerControl target)
+    //{
+    //    CharStat tempStat = new CharStat(1, 10, 10, 10, 100, 100, 10);
+    //    Character tempPlayer = new Character();
+    //    tempPlayer.MyStat = tempStat;
+    //    target.MyPlayer = tempPlayer;
 
-    public void SetSkill(PlayerControl target)
-    {
-        CharStat tempStat = new CharStat(1, 10, 10, 10, 100, 100, 10);
-        Character tempPlayer = new Character();
-        tempPlayer.MyStat = tempStat;
-        target.MyPlayer = tempPlayer;
-
-        tempPlayer.SetSkill(activeSkills[2], 0, false);
+    //    tempPlayer.SetSkill(activeSkills[2], 0, false);
         
-        skilbtn.controller = target;
-        skilbtn.SetSkill(0);
-    }
+    //    skilbtn.controller = target;
+    //    skilbtn.SetSkill(0);
+    //}
 
 
     // 스킬 정보를 받으면 스킬의 설명문을 반환해주는 함수
@@ -340,9 +326,9 @@ public class SkillDataBase : MonoBehaviour
     // 스킬 키코드를 받으면 액티브 스킬을 반환하는 함수
     public Skill GetActiveSkillBySkillKeycode(string keycode)
     {
-        if (activeSkills == null) return null; 
+        if (activeSkillList == null || keycode == null) return null; 
 
-        foreach(var skill in activeSkills)
+        foreach(var skill in activeSkillList)
         {
             if(skill.keycode == keycode)
             {
@@ -355,9 +341,9 @@ public class SkillDataBase : MonoBehaviour
 
     public Skill GetPassiveSkillBySkillKeycode(string keycode)
     {
-        if (passiveSkills == null) return null;
+        if (passiveSkillList == null) return null;
 
-        foreach (var skill in passiveSkills)
+        foreach (var skill in passiveSkillList)
         {
             if (skill.keycode == keycode)
             {
@@ -366,5 +352,31 @@ public class SkillDataBase : MonoBehaviour
         }
 
         return null;
+    }
+
+
+    public void SetActiveSkill(string keycode, int level, bool isChain)
+    {
+        if (activeSkillList == null) return;
+
+        var activeSkill = activeSkillList.Find(skill => skill.keycode == keycode);
+        if (activeSkill == null)
+            return;
+
+        activeSkill.MySkillLevel = level;
+        activeSkill.IsChain = isChain;
+        activeSkill.CalcUpgradeCost(); 
+    }
+
+    public void SetPassiveSkill(string keycode, int level)
+    {
+        if (passiveSkillList == null) return; 
+
+        var passiveSkill = passiveSkillList.Find(skill => skill.keycode == keycode);
+        if (passiveSkill == null)
+            return;
+
+        passiveSkill.MySkillLevel = level;
+        passiveSkill.CalcUpgradeCost();
     }
 }
