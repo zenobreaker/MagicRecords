@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum AbilityType
 {
@@ -110,8 +111,10 @@ public class EquipItem : Item
         this.itemEnchantRank = itemEnchantRank;
         this.isEquip = isEquiped;
         this.itemMainAbility = itemMainAbility.Copy();
-        SetSubAbility(itemAbilities);
         this.itemImage = _item.itemImage;
+        
+        SetSubAbility(itemAbilities);
+        SetRandomSubAbility();
     }
 
     public EquipItem(Item _item, EquipItem _equipItem) : base(_item)
@@ -151,6 +154,59 @@ public class EquipItem : Item
             }
         }
         
+    }
+
+
+    // 아이템에 등급에 따라 랜덤한 옵션이 부여된다.
+    public void SetRandomSubAbility()
+    {
+        if (itemAbilities.Length <= 0)
+            return;
+
+        int optionCount = 0;
+        int minPower = 0;
+        int maxPower = 0;
+        // 커먼 : 0 매직 : 1 레어 : 1 유니크 : 2 전설 : 3
+        switch(itemRank)
+        {
+            case ItemRank.Common:
+                optionCount = 0;
+                minPower = 1;
+                maxPower = 7;
+                break;
+            case ItemRank.Magic:
+            case ItemRank.Rare:
+                optionCount = 1;
+                minPower = 1;
+                maxPower = 11;
+                break;
+            case ItemRank.Unique:
+                optionCount = 2;
+                minPower = 5;
+                maxPower = 16;
+                break;
+            case ItemRank.Legendary:
+                optionCount = 3;
+                minPower = 7;
+                maxPower = 21;
+                break;
+        }
+
+        // 옵션 개수 만큼 서브 옵션 추가 
+        for (int i = 0; i < optionCount; i++)
+        {
+            if(itemAbilities[i].abilityType == AbilityType.NONE)
+            {
+                int idx = Random.Range(1, (int)AbilityType.MAX_ABILITY + 1);
+                int power = Random.Range(minPower, maxPower); 
+
+                itemAbilities[i].abilityType = (AbilityType)idx;
+                itemAbilities[i].power = power;
+                itemAbilities[i].isPercent = true;
+
+            }
+        }
+
     }
 
     public void SetItemPower(ItemAbility _itemAbility, int _num)

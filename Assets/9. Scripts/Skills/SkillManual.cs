@@ -151,6 +151,14 @@ public class SkillManual : MonoBehaviour
     {
         // 스킬창이 열릴 때 선택한 캐릭터 정보가 없다면 열리지 않도록
         if (_selectPlayer == null) return; 
+
+        if(_selectPlayer.Count <= 0)
+        {
+            // todo
+            ToastMessageContorller.CreateToastMessage("휠러를 선택해주세요.");
+            return;
+        }
+
         // 데이터 초기화 
         // 리스트로 온 것중 가장 첫 번째 데이터를 가져온다. 
         // 스킬을 배우는 대상은 한 명이기 때문

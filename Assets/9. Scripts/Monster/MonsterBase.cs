@@ -31,8 +31,7 @@ public class MonsterBase : WheelerController
     public float rangeOfEnemy;
     public float baseAttackRange;
 
-    // 필요한 컴포넌트
-    [SerializeField] protected Animator anim = null;
+
     [SerializeField] protected BoxCollider boxCol = null;
 
     protected AudioSource theAudio;

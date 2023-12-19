@@ -178,6 +178,10 @@ public class SlotTooltip : UiBase
                 return "마나";
             case AbilityType.MPR:
                 return "마나 재생";
+            case AbilityType.CRITRATE:
+                return "치명 확률";
+            case AbilityType.CRITDMG:
+                return "치명 피해";
         }
 
         return "";

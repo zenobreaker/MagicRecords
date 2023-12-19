@@ -28,8 +28,6 @@ public class PlayerControl : WheelerController
     private Vector3 dashDir;
     private Vector3 direction;
 
-    //private Rigidbody myRigid;
-    public Animator myAnimator;
     public float TargetRotation;    // 캐릭터 회전값
 
     private Vector3 targetPos;  // 자동시 움직일 정보
@@ -65,7 +63,7 @@ public class PlayerControl : WheelerController
         if (fieldOfView != null && MyAgent != null)
         {
             MyAgent.stoppingDistance = fieldOfView.meeleAttackDistance;
-            MyAgent.speed = player.MyStat.speed;
+            MyAgent.speed = player.MyStat.totalSPD;
         }
         // 상태머신 생성 및 초기화 
         stateMachine = new StateMachine();
@@ -264,7 +262,7 @@ public class PlayerControl : WheelerController
             case PlayerState.Idle:
             case PlayerState.Attack:
                 {
-                    myAnimator.SetBool("Walking", false);
+                    anim.SetBool("Walking", false);
                     isWheel = false; 
                     break;
                 }
@@ -272,7 +270,7 @@ public class PlayerControl : WheelerController
             case PlayerState.Chase:
             case PlayerState.Follow:
                 {
-                    myAnimator.SetBool("Walking", true);
+                    anim.SetBool("Walking", true);
                     isWheel = true; 
                     break;
                 }
@@ -284,6 +282,15 @@ public class PlayerControl : WheelerController
         }
     }
 
+    public override void SetAttackSpeedToAnim()
+    {
+        base.SetAttackSpeedToAnim();
+
+        if (theWeaponController == null || player == null)
+            return;
+
+        theWeaponController.SetAttackSpeed(player.MyStat.totalASPD);
+    }
 
     // 가장 가까운 적을 향해 방향 전환 
     public void SearchtoAttack()
@@ -313,6 +320,7 @@ public class PlayerControl : WheelerController
         }
     }
 
+  
     // 공격하기 
     public override void Attack()
     {
@@ -327,7 +335,9 @@ public class PlayerControl : WheelerController
         if (theWeaponController.currentFireRate <= 0)
         {
             SearchtoAttack();
-           
+            
+            SetAttackSpeedToAnim();
+            
             // 오토 동작시 동작할 위치
             if (isAutoFlag == true)
             {
@@ -360,17 +370,17 @@ public class PlayerControl : WheelerController
             switch (current_Combo_State)
             {
                 case ComboState.ATTACK_1:
-                    myAnimator.SetTrigger("Attack");
+                    anim.SetTrigger("Attack");
                     break;
                 case ComboState.ATTACK_2:
-                    myAnimator.SetTrigger("Attack");
+                    anim.SetTrigger("Attack");
                     break;
                 case ComboState.ATTACK_3:
-                    myAnimator.SetTrigger("Attack");
+                    anim.SetTrigger("Attack");
                     break;
                 case ComboState.ATTACK_4:
                     damageRate = 1.2f;
-                    myAnimator.SetTrigger("FinalAttack");
+                    anim.SetTrigger("FinalAttack");
                     break;
             }
             
@@ -544,6 +554,7 @@ public class PlayerControl : WheelerController
             if (activateTimerToReset)
             {
                 current_Combo_Timer -= Time.deltaTime;
+                yield return new WaitForSeconds(0.1f);
 
                 if (current_Combo_Timer <= 0f)
                 {

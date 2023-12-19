@@ -12,7 +12,6 @@ public class ShopPage : TabManual
     [SerializeField] GameObject parentSlotPage = null;    // 슬롯의 부모 오브젝트
     [SerializeField] ShopDialog saleAlertUI = null;   // 구매 의사 UI
 
-    public ItemDatabase itemDatabase; 
     private List<ShopSlot> shopSlots = new List<ShopSlot>();
 
     [Header("일반 아이템 상점 목록")]
@@ -78,12 +77,12 @@ public class ShopPage : TabManual
 
     void SetList()
     {
-        if (itemDatabase != null)
+        if (ItemDatabase.instance != null)
         {
             //itemDatabase.InitializeItemList();
-            weaponItems = itemDatabase.weaponList;
-            armorItems = itemDatabase.armorList;
-            accesroyItems = itemDatabase.accessroyList;
+            weaponItems = ItemDatabase.instance.weaponList;
+            armorItems = ItemDatabase.instance.armorList;
+            accesroyItems = ItemDatabase.instance.accessroyList;
         }
     }
 

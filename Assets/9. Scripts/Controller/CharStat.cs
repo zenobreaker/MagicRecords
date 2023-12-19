@@ -115,19 +115,18 @@ public class CharStat
         ApplyOption();
     }
 
-    // ĳ���� ����ġ ���ó��
+    // 최대 경험치 계산
     public void CalcMaxExp(int level = 1)
     {
         this.maxExp = Mathf.FloorToInt(100 * Mathf.Pow(level, 1.5f));
     }
 
-    //  ĳ���� ���� 
+    //  
     public void GrowUp(int _exp)
     {
         this.exp += _exp; 
         while(this.exp >= this.maxExp)
         {
-            // �� ���Ⱥ� �ɷ�ġ ���� todo ������ �޾Ƽ� ó���غ����� ����
             this.level += level + 1;
 
             exp -= maxExp;
@@ -135,6 +134,14 @@ public class CharStat
 
             ApplyOption(); 
         }
+    }
+    
+    public void ApplyEquipOption(ItemAbility itemAbility, bool isEquip)
+    {
+        if (extraStat == null)
+            return;
+   
+        extraStat.ApplyOptionEquipStat(itemAbility, isEquip);
     }
 
     public void ApplyOption()
@@ -162,26 +169,42 @@ public class CharStat
         }
         
         totalATK = (int)Mathf.Round(resultAtk * 1.0f * extraStat.increaseAttackRate) 
-            + extraStat.extraAttack;
+            + (int)extraStat.extraAttack;
         totalDEF = (int)Mathf.Round(resultDef * 1.0f * extraStat.increaseDefenseRate) 
-            + extraStat.extraDefense;
+            + (int)extraStat.extraDefense;
         totalHP = (int)Mathf.Round(resultHP * 1.0f * extraStat.increaseHPRate)
-           + extraStat.extraHP;
+           + (int)extraStat.extraHP;
         totalHPR = (int)Mathf.Round(resultHPR * 1.0f * extraStat.increaseHPRegenRate)
-           + extraStat.extraMPR;
+           + (int)extraStat.extraMPR;
         totalMP = (int)Mathf.Round(resultMP * 1.0f * extraStat.increaseMPRate)
-           + extraStat.extraMP;
+           + (int)extraStat.extraMP;
         totalMPR = (int)Mathf.Round(resultMPR * 1.0f * extraStat.increaseMPRegenRate)
-           + extraStat.extraMPR;
+           + (int)extraStat.extraMPR;
         totalSPD = (int)Mathf.Round(resultSPD * 1.0f * extraStat.increaseSpeedRate)
-           + extraStat.extraSpeed;
+           + (int)extraStat.extraSpeed;
 
         totalCP = MAX_CHAIN_POINT;
 
-        // ������ �ٸ� ���� 
-        totalASPD = extraStat.extraAttackSpeed + resultAspd;
-        totalCritRate = extraStat.extraCritRate + critRate;
-        totalCritDmg =  baseCritDamage + extraStat.extraCritDmg + critDmg;
+        // 특수한 스탯은 계산식이 다르다
+        totalASPD = (1.0f + resultAspd + extraStat.extraAttackSpeed) * 
+                extraStat.increaseAttackSpeedRate ;
+        totalCritRate = (extraStat.extraCritRate + critRate ) * 
+            extraStat.increaseCritRate;
+        totalCritDmg =  (baseCritDamage + extraStat.extraCritDmg + critDmg) *
+            extraStat.increaseCritDmg ;
+
+        // 버프 수치 
+        totalATK = (int)(totalATK + (totalATK * extraStat.buffAttackRate));
+        totalDEF = (int)(totalDEF + (totalDEF * extraStat.buffDefenseRate));
+        totalHP = (int)(totalHP + (totalHP * extraStat.buffHPRate));
+        totalHPR = (int)(totalHPR + (totalHPR * extraStat.buffHPRegenRate));
+        totalMP = (int)(totalMP + (totalMP * extraStat.buffMPRate));
+        totalMPR = (int)(totalMPR + (totalMPR * extraStat.buffMPRegenRate));
+        totalSPD = (int)(totalSPD + (totalSPD * extraStat.buffSpeedRate));
+        totalASPD += (totalASPD * extraStat.buffAttackSpeedRate);
+        totalCritRate += totalCritRate * extraStat.buffCritRate;
+        totalCritDmg += totalCritDmg * extraStat.buffCritDmg;
+
     }
 
     public CharStat  Clone()
@@ -189,3 +212,4 @@ public class CharStat
         return new CharStat(this);
     }
 }
+

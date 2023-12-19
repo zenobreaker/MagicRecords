@@ -46,7 +46,7 @@ public class WeaponController : MonoBehaviour
 
     void Start()
     {
-        if(myAnim == null)
+        if(MyAnim == null)
             MyAnim = GetComponent<Animator>();
     }
 
@@ -54,6 +54,7 @@ public class WeaponController : MonoBehaviour
     {
         FireRateCalc();
     }
+
 
     public void SetWeaponOwn(Character own, LayerMask layerMask)
     {
@@ -75,6 +76,13 @@ public class WeaponController : MonoBehaviour
         this.critDamage = critDmamge;
     }
 
+    public void SetAttackSpeed(float attackSpeed)
+    {
+        if (MyAnim == null)
+            return;
+
+        MyAnim.SetFloat("AttackSpeed", 1.0f * attackSpeed);
+    }
     void FireRateCalc()
     {
         if (currentFireRate > 0)

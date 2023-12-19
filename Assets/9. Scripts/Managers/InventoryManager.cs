@@ -91,9 +91,9 @@ public class InventoryManager:MonoBehaviour
     }
 
     // 아이템 정보 갱신 
-    public void RefreshItemInfo(ref Item _item)
+    public void RefreshItemInfo(ref Item targetItem)
     {
-        if (_item == null) return;
+        if (targetItem == null) return;
 
         // 인벤토리에서 해당 아이템을 찾아 정보를 갱신한다. 
         // 연결한 데이터 베이스가 없으므로 해당 아이템 매개변수를 받아서 받아온 정보를 토대로 인벤토리를 수정
@@ -102,14 +102,14 @@ public class InventoryManager:MonoBehaviour
 
         if (inventory == null) return;
 
-        var list = inventory.GetItemByInventory(_item); 
+        var list = inventory.GetItemByInventory(targetItem); 
         foreach (var item in list)
         {
-            if(item.itemUID == _item.itemUID)
+            if(item.uniqueID == targetItem.uniqueID)
             {
-                item.userID = _item.userID;
+                item.userID = targetItem.userID;
                 var equipItem = item as EquipItem;
-                var refEquipItem = _item as EquipItem;
+                var refEquipItem = targetItem as EquipItem;
                 //  장비면 ? 
                 if (equipItem != null && refEquipItem != null)
                 {

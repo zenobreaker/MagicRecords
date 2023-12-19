@@ -185,7 +185,7 @@ public class InfoManager : MonoBehaviour
         }
         else
             return null;
-        // �����͸� �����ߴٸ� ���� �����ʹ� �����. 
+
         //_playerList.Clear();
     }
 
@@ -240,7 +240,7 @@ public class InfoManager : MonoBehaviour
         }
     }
 
-    // 선택한 캐리터들을 설정한다
+    // 선택한 캐릭터들을 설정한다
     public void SetSelectPlayers(int[] keys)
     {
         selectPlayerList.Clear();
@@ -283,7 +283,7 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // ������ ĳ���͵��� �ɷ�ġ ����
+    // 
     public void SetSelectMyPlayerApplyData(int id, Character player)
     {
         if (player == null) return;
@@ -299,34 +299,20 @@ public class InfoManager : MonoBehaviour
 
 
     /////////////////////////////////////
-    // ���� ���� 
+    // 스테이터스 성장
     /////////////////////////////////////
     
-    // Ư�� ĳ���Ͱ� �����ϸ� ���� ��� ������ ���� �� ���Ⱥ� ���尪�� ��ȯ�Ѵ�.
-    // ĳ���� ���� ���� ���� �ٸ� �� �ִ�. 
-    // todo. ĳ������ Ÿ�Ժ��� ���� ���� �ִٰ� ������ �� �̤� �Ŀ� 
-    // todo. �����ϰ� ���� ĳ���� �⺻ ������ �ʿ��ѰŰ���. ���� �ɷ�ġ�� ���� �ؼ� ���̰�
-    // ���߿� �����ؼ� �ҷ��� �� ��������� �ϱ� ����ϱ�.. 
-    // ĳ���� ����  ���� - ������(�ź���)
-    public void GetGrowUpTurtle(CharStat _targetStat)
-    {
 
-        
-    }
-
-
-    // ���� ���� ������ �����ŭ ����ؼ� ��ȯ 
-    // �⺻ ���� : �⺻ ���� + (���� ��� * (level - 1)) 
-    // ���ݷ� 
+    // 공격 성장
+    // 공격력 : 공격력+ (비율 * (level - 1)) 
     public int GetGrowUpAttack(int _level,  int _attack = 5, float _rate = 1.0f)
     {
-        // ���� todo ���İ��� �����Ǹ� �����ؾ��Ѵ�. 
         int result = 0;
         result = _attack + Mathf.RoundToInt(_rate * (_level-1));
 
         return result; 
     }
-    // ���� 
+
     public int GetGrowUpDefense(int _level, int _defense = 5, float _rate =  1.0f)
     {
         int result = 0;
@@ -345,11 +331,11 @@ public class InfoManager : MonoBehaviour
         return result; 
     }
 
-    // ü�� ���
+    // 체력 재생
 
     public int GetGrowUpHPRecovery(int _level, int _hpr = 2, float _rate = 1.0f)
     {
-        // ���� level * rate + HPR(2)
+        //  level * rate + HPR(2)
         int result = 0;
         result = _hpr + Mathf.RoundToInt(_rate * (_level - 1));
 
@@ -364,7 +350,7 @@ public class InfoManager : MonoBehaviour
 
         return result;
     }
-    // ���� ��� 
+    // 마나 재생
     public int GetGrowUpMPRecovery(int _level, int _mpr = 1, float _rate = 1.0f)
     {
         int result = 0;
@@ -373,10 +359,9 @@ public class InfoManager : MonoBehaviour
         return result;
     }
 
-    // ���� �ӵ� (todo 2023 04 24�ϱ��� ���� �߰��Ǹ� ���⵵ ����) 
+    // 공격속도 
     public float GetGrowUpAttackSpeed(int _level, float _aspd = 1.0f, float _rate = 1.0f)
     {
-        // Ư�� ������ ���� ���� 
         float result = _aspd;
         if (_level % 3 == 0)
         {
@@ -388,11 +373,9 @@ public class InfoManager : MonoBehaviour
     }
 
 
-    // �̵� �ӵ� 
     public int GetGrowUpSpeed(int _level, int _spd = 1, float _rate = 1.0f)
     {
-        // Ư�� ������ ���� ���� 
-        // ���� SPD(1) + Mathf.RoundToInt(_rate * (_level - 1))
+        //  SPD(1) + Mathf.RoundToInt(_rate * (_level - 1))
         int result = _spd;
         if (_level % 3 == 0)
         {

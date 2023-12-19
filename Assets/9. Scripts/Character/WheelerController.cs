@@ -43,6 +43,8 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
     [SerializeField] protected Rigidbody m_rigid;
     [SerializeField] protected NavMeshAgent m_agent;
+    // 필요한 컴포넌트
+    [SerializeField] protected Animator anim = null;
     //[SerializeField] protected ConditionController theCondition = null; // 상태 체크용
 
     public string m_charName;
@@ -245,8 +247,19 @@ public abstract class WheelerController : MonoBehaviour, IDamage
 
     public abstract void StateAnimaiton();
 
+    // 공격 속도 관련 변수 애니메이터에 세팅
+    public virtual void SetAttackSpeedToAnim()
+    {
+        if (player == null || anim == null)
+            return;
+
+        anim.SetFloat("AttackSpeed", 1.0f * player.MyStat.totalASPD);
+    }
+
     public void UseSkill(ActiveSkill _targetSkill, int power = 0)
     {
+        SetAttackSpeedToAnim();
+
         if (skillAction.ActionSkill(_targetSkill, player, power) == true)
         {
             Debug.Log("스킬 사용 " + _targetSkill.CallSkillName + " = " + player.MyCurrentMP);

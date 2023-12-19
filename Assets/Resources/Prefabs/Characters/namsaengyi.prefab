@@ -460,6 +460,7 @@ MonoBehaviour:
   isLeader: 0
   m_rigid: {fileID: 6031059280256674509}
   m_agent: {fileID: 1515018205449979349}
+  anim: {fileID: 3085422400865784962}
   m_charName: 
   fieldOfView: {fileID: 5820080113372504148}
   myState: 0
@@ -481,7 +482,6 @@ MonoBehaviour:
   isAutoFlag: 0
   speed: 10
   startDashTime: 0.2
-  myAnimator: {fileID: 3085422400865784962}
   TargetRotation: 0
   theWeaponController: {fileID: 2061102306075867794}
   wheelController: {fileID: 2347304906794922971}
@@ -490,6 +490,7 @@ MonoBehaviour:
   IsMove: 0
   isDash: 0
   isTouch: 0
+  isAttackTouch: 0
   usedSkillSlotNumber: 0
 --- !u!114 &2747220122454277669
 MonoBehaviour:

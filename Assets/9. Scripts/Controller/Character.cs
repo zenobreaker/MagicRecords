@@ -55,7 +55,7 @@ public class Character
     public Dictionary<SkillSlotNumber, Skill> chainsSkills = new Dictionary<SkillSlotNumber, Skill>();
     public List<PassiveSkill> equippedPassiveSkills = new List<PassiveSkill>();
     
-    //public PassiveClass myPassiveClass;// �ڽ��� ĳ����(����)
+    //public PassiveClass myPassiveClass;// 
     // 드론 
     public MagicalDrone drone;
 
@@ -63,8 +63,8 @@ public class Character
     public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
 
-    public bool isAction = true;    // �ൿ �������� üũ flag
-    public bool isDead = false; // �׾����� �Ǻ�
+    public bool isAction = true;    //  flag
+    public bool isDead = false;     //
 
     public Character()
     {
@@ -233,7 +233,7 @@ public class Character
 
 
   
-    // �����Ϸ��� �������� �ִ��� �˻� 
+    // 해당 장비를 장착하고 있는지 체크
     public bool CheckHadItem(EquipItem p_EquipItem)
     {
         foreach(var equipment in equipItems)
@@ -269,11 +269,11 @@ public class Character
 
         // 장비 능력치반영 작업 
         // 장비 메인 능력치를 적용한다. 
-        MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility);
+        MyStat.ApplyEquipOption(equipItem.itemMainAbility, true);
         // 장비의 서브 능력치를 적용시킨다. 
         foreach (var ability in equipItem.itemAbilities)
         {
-            MyStat.extraStat.ApplyOptionExtraStat(ability);
+            MyStat.ApplyEquipOption(ability, true);
         }
 
         MyStat.ApplyOption();
@@ -287,10 +287,10 @@ public class Character
         if (equipItem != null)
         {
             // 아이템 능력치를 처리한다. 
-            MyStat.extraStat.ApplyOptionExtraStat(equipItem.itemMainAbility, true);
+            MyStat.ApplyEquipOption(equipItem.itemMainAbility, false);
             foreach (var ability in equipItem.itemAbilities)
             {
-                MyStat.extraStat.ApplyOptionExtraStat(ability, true);
+                MyStat.ApplyEquipOption(ability, false);
             }
 
             MyStat.ApplyOption();
@@ -703,8 +703,8 @@ public class Character
         }
 
 
-        this.MyStat.extraStat.ApplyOptionExtraStat(
-        record.specialOption.abilityType, record.specialOption.value, record.specialOption.isPercentage);
+        this.MyStat.extraStat.ApplyBuffOptionStat(
+        record.specialOption.abilityType, record.specialOption.value);
 
         MyStat.ApplyOption();
     }
@@ -714,8 +714,8 @@ public class Character
     {
         if (record == null) return;
 
-        this.MyStat.extraStat.ApplyOptionExtraStat(
-            record.specialOption.abilityType, -record.specialOption.value, record.specialOption.isPercentage);
+        this.MyStat.extraStat.ApplyBuffOptionStat(
+            record.specialOption.abilityType, -record.specialOption.value);
 
         //selectRecordInfos.Remove(record);
 
