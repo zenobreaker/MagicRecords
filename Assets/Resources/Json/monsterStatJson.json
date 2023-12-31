@@ -2,6 +2,7 @@
   "monsterStatJson": [
     {
       "number": "1",
+      "statID": "101",
       "monsterID": "101",
       "NOEX_memo": "물덩이-일반",
       "hp": "110",
@@ -12,6 +13,7 @@
     },
     {
       "number": "2",
+      "statID": "102",
       "monsterID": "102",
       "NOEX_memo": "나무귀신-일반",
       "hp": "320",
@@ -22,6 +24,7 @@
     },
     {
       "number": "3",
+      "statID": "103",
       "monsterID": "201",
       "NOEX_memo": "물덩이 - 엘리트",
       "hp": "300",
@@ -32,6 +35,7 @@
     },
     {
       "number": "4",
+      "statID": "104",
       "monsterID": "202",
       "NOEX_memo": "나무귀신 - 엘리트",
       "hp": "450",
@@ -42,6 +46,7 @@
     },
     {
       "number": "5",
+      "statID": "105",
       "monsterID": "301",
       "NOEX_memo": "물덩이 - 보스",
       "hp": "500",
@@ -52,8 +57,20 @@
     },
     {
       "number": "6",
+      "statID": "106",
       "monsterID": "302",
       "NOEX_memo": "나무귀신 - 보스",
+      "hp": "640",
+      "attack": "73",
+      "defense": "28",
+      "speed": "18",
+      "monsterGrade": "3"
+    },
+    {
+      "number": "7",
+      "statID": "106",
+      "monsterID": "401",
+      "NOEX_memo": null,
       "hp": "640",
       "attack": "73",
       "defense": "28",

@@ -36,7 +36,7 @@ public class EventShopUI : UiBase
 
     public Button exitButton;
 
-    // ��ް� �⺻���� ������ �������� �Ǹŵ� ���� ��ȯ 
+    // 레코드 아이템 값 계산 
     private int CalcRecordItemValue(int grade, int baseValue)
     {
         int maxGrade = 3;
@@ -69,21 +69,18 @@ public class EventShopUI : UiBase
         DrawEventShopGroup();
     }
 
+    // 이벤트 상점 초기화
     private void InitEventShopItem()
     {
         eventShopItemAllData = JsonUtility.FromJson<EventShopItemAllData>(eventShopItemTextAsset.text);
 
-        // �����̸� ������ ����� 
-        // ���ڵ�� �����̸� �ּ� 0~3���� ��ġ�ϵ��� �Ѵ�. 
 
         foreach(var shopItem in eventShopItemAllData.eventShopItems)
         {
             if (shopItem == null) continue;
 
-            // ���ڵ峪 �����ΰ���? 
             if ((ItemType)shopItem.itemType == ItemType.RECORD_VIEW)
             {
-                // �׷��� �������� 0~3�� ���� �������մϴ�.
                 int randCount = Random.Range(0, 4);
                 if(RecordManager.instance != null)
                 {
@@ -102,7 +99,7 @@ public class EventShopUI : UiBase
             }
             else if((ItemType)shopItem.itemType == ItemType.RELRIC_VIEW)
             {
-                // todo : ������ �����Ƿ� ������ ���� �ѱ��. 
+                // todo : 기능이 생기면 추가
                 continue; 
             }
             else
@@ -137,7 +134,7 @@ public class EventShopUI : UiBase
         return item; 
     }
 
-    // ���ڵ� ������ ������ �ش� ������ �������� �����. 
+    // 이벤트 상점에 레코드를 생성한다.
     public Item CreateEventShopItemByRecord(RecordInfo record, int value)
     {
         if (record == null) return null;  
@@ -152,13 +149,13 @@ public class EventShopUI : UiBase
     }
 
 
-    // �̺�Ʈ ������ �����۵� ����ϱ� 
+    // 이벤트상점에 아이템 그룹 그리기 
     public void DrawEventShopGroup()
     {
         if (content == null || shopItems == null) return;
         int count = shopItems.Count;
        
-        // ��ũ�� ������Ʈ ����
+        // 스크롤뷰 초기화 
         InitScrollviewObject(count);
 
         for(int i = 0; i < count; i++)
@@ -175,7 +172,7 @@ public class EventShopUI : UiBase
             }
         }
 
-        // ��ü ��ũ�� ������Ʈ�� �ݹ� �߰� 
+        // 콜백 세팅
         SetScrollviewChildObjectsCallack<ShopSlot>((component) =>
         {
             component.SetActionCallback(() =>

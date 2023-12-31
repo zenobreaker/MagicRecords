@@ -118,7 +118,8 @@ public class PlayerControl : WheelerController
 
     private void FixedUpdate()
     {
-        stateMachine.FixedOperateState(); 
+        if(stateMachine != null)
+            stateMachine.FixedOperateState(); 
         FixedRotation();
        // Move(); 스테이트머신에서 호출하므로 주석 
     }
@@ -131,7 +132,8 @@ public class PlayerControl : WheelerController
         //ResetComboState();
 
         ChangeState(myState);
-        stateMachine.OperateState();
+        if(stateMachine != null)
+            stateMachine.OperateState();
         StateAnimaiton();
     }
 

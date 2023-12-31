@@ -318,6 +318,33 @@ public class MonsterBase : WheelerController
             }
         }
     }
+
+    protected void DangerMarkerShoot(int p_MakerNum, Vector3 startPos, Quaternion rotate, float distance)
+    {
+
+        //dangerLine[p_MakerNum].GetComponent<DangerLine>().EndPosition = endPosition;// 경고선 컴포넌트 
+        if (dangerLine.Length <= 0 &&
+            p_MakerNum < dangerLine.Length &&
+            dangerLine[p_MakerNum] == null)
+        {
+            return;
+        }
+        var dl = Instantiate(dangerLine[p_MakerNum], startPos, rotate);
+        dl.gameObject.SetActive(true);
+        dl.CreateGuideSinlgeLine(startPos, rotate, distance);
+    }
+
+    protected void DangerMarkerShoot(int p_MakerNum, Vector3 startPos, Vector3 endPos)
+    {
+        Vector3 dir = endPos - startPos;
+
+        Quaternion rot = Quaternion.LookRotation(dir);
+
+        float distance = Vector3.Distance(endPos, startPos);
+
+        DangerMarkerShoot(p_MakerNum, startPos, rot, distance);
+    }
+
 }
 
 

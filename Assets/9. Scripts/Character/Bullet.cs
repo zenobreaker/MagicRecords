@@ -66,4 +66,6 @@ public class Bullet : AttackObject
     {
         return 0;
     }
+
+
 }

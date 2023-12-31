@@ -119,7 +119,8 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     public virtual void ChangeState(PlayerState playerState)
     {
         myState = playerState;
-        stateMachine.ChangeState(stateMachine.States[myState]);
+        if (stateMachine != null)
+            stateMachine.ChangeState(stateMachine.States[myState]);
     }
 
     // 공격한 대상의 정보를 저장하는 함수

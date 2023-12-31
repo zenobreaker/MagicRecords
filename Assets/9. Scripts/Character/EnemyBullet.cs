@@ -7,8 +7,14 @@ public class EnemyBullet : Bullet
     protected override void Awake()
     {
         base.Awake();
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("EnemyAttack"));
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyAttack"), LayerMask.NameToLayer("Enemy"));
+    }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyAttack"), LayerMask.NameToLayer("Enemy"), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyAttack"), LayerMask.NameToLayer("EnemyAttack"), true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,9 +28,10 @@ public class EnemyBullet : Bullet
         //point 대상의 좌표 LootRotation = 특정 방향을 바라보게 하는 메소드 normal 부딪힌 객체의 접촉면 방향 
 
         Debug.Log(other.transform.name);
-        if (other.transform.CompareTag("Player")) //닿은 대상에 태그가 "Monster"라면
+        if (((1 << other.gameObject.layer) & targetLayer) != 0) //닿은 대상에 태그가 "Monster"라면
         {
-            other.GetComponent<PlayerControl>().DealDamage(AttackOwn, attackOwnTransform, 1.0f); // 해당 transform에 들어있는 Object컴포넌트에 Damgaed메소드를 호출하여 damge값 전달
+            if(other.TryGetComponent(out PlayerControl playerControl))
+                playerControl.DealDamage(AttackOwn, attackOwnTransform, 1.0f); // 해당 transform에 들어있는 Object컴포넌트에 Damgaed메소드를 호출하여 damge값 전달
             Destroy(clone, 0.5f);
             //Destroy(gameObject);
             this.gameObject.SetActive(false);

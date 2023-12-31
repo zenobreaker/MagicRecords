@@ -73,6 +73,12 @@ public class AttackObject : MonoBehaviour
         targetLayer = layer;
     }
 
+    public void SetIgnoreLayer(string layerName)
+    {
+        int myLayer = this.transform.gameObject.layer;
+        Physics.IgnoreLayerCollision(myLayer, LayerMask.NameToLayer(layerName), true);
+    }
+
     public void SetFinishCallback(Callback _callback)
     {
         callback = _callback;

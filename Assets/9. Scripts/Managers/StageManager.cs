@@ -14,6 +14,7 @@ public class Stage
     public GameObject mapObject;
     public GameObject[] enemyRespawns;
     public GameObject playerRespawn;
+    public List<GameObject> trapObjectList = new List<GameObject>();
     public int enemyCount;
     public int wave;
 
@@ -107,6 +108,7 @@ public class StageManager : MonoBehaviour
                     if (stageList[i].stageID == selectMapID)
                     {
                         selectedStage = stageList[i];
+                        selectedStage.mapObject?.SetActive(true);
                         selectedStage.enemyCount = monsterCount;
                         selectedStage.wave = wave;
 
@@ -290,5 +292,19 @@ public class StageManager : MonoBehaviour
         if (theRM == null) return;
 
         theRM.DeleteAllMonster();
+    }
+
+    public GameObject GetCurrentMapObject()
+    {
+        if (selectedStage == null) return null;
+
+        return selectedStage.mapObject;
+    }
+
+    public List<GameObject> GetCurrentMapTraPOpbjectList()
+    {
+        if(selectedStage == null) return null;
+
+        return selectedStage.trapObjectList;
     }
 }

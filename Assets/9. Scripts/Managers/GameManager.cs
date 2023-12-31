@@ -625,4 +625,33 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+
+    // 맵 관련 
+    // 현재의 맵의 중앙 좌표를 반환
+    public Vector3 GetMapCenterPos()
+    {
+
+        var map = theSM.GetCurrentMapObject();
+        if (map == null)
+            return Vector3.zero;
+
+        Vector3 sumOfPositions = Vector3.zero;
+        for (int i = 0; i < map.transform.childCount; i++)
+        {
+            sumOfPositions += map.transform.GetChild(i).transform.position;
+        }
+
+        // 모든 오브젝트 위치의 평균을 구함
+        Vector3 estimatedCenter = sumOfPositions / map.transform.childCount;
+        return estimatedCenter;
+
+    }
+
+    public List<GameObject> GetCurrentMapTrapList()
+    {
+        if (theSM == null) return null;
+
+        return theSM.GetCurrentMapTraPOpbjectList();
+    }
 }

@@ -427,9 +427,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 2
+  m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 2
+  m_CollisionDetection: 0
 --- !u!65 &6031059280256674510
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -438,7 +438,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2347304906794922970}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.5, y: 1.4308894, z: 3.3}
@@ -652,11 +652,24 @@ MonoBehaviour:
         extraCritDmg: 0
         increaseAttackRate: 1
         increaseDefenseRate: 1
+        increaseAttackSpeedRate: 1
         increaseSpeedRate: 1
         increaseHPRate: 1
         increaseHPRegenRate: 1
         increaseMPRate: 1
         increaseMPRegenRate: 1
+        increaseCritRate: 1
+        increaseCritDmg: 1
+        buffAttackRate: 0
+        buffDefenseRate: 0
+        buffAttackSpeedRate: 0
+        buffSpeedRate: 0
+        buffHPRate: 0
+        buffHPRegenRate: 0
+        buffMPRate: 0
+        buffMPRegenRate: 0
+        buffCritRate: 0
+        buffCritDmg: 0
       passiveAdditionalDamageRate: 0
       passiveAdditionalLostHealthRate: 0
       passiveAdditionalMaxHealthRate: 0
@@ -765,7 +778,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1370423125123849894}
   - component: {fileID: 4355016233005189582}
-  - component: {fileID: 2450086192359158005}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -875,19 +887,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00000016018748, y: -0.0014805105, z: -0.008048823}
     m_Extent: {x: 0.02035502, y: 0.03330767, z: 0.011621738}
   m_DirtyAABB: 0
---- !u!65 &2450086192359158005
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2450086192359158004}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.028343448, y: 0.035119496, z: 0.01854829}
-  m_Center: {x: 0.00015429496, y: 0.0011832846, z: -0.0007138842}
 --- !u!1 &2591751320791588098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,11 +1057,24 @@ MonoBehaviour:
         extraCritDmg: 0
         increaseAttackRate: 1
         increaseDefenseRate: 1
+        increaseAttackSpeedRate: 1
         increaseSpeedRate: 1
         increaseHPRate: 1
         increaseHPRegenRate: 1
         increaseMPRate: 1
         increaseMPRegenRate: 1
+        increaseCritRate: 1
+        increaseCritDmg: 1
+        buffAttackRate: 0
+        buffDefenseRate: 0
+        buffAttackSpeedRate: 0
+        buffSpeedRate: 0
+        buffHPRate: 0
+        buffHPRegenRate: 0
+        buffMPRate: 0
+        buffMPRegenRate: 0
+        buffCritRate: 0
+        buffCritDmg: 0
       passiveAdditionalDamageRate: 0
       passiveAdditionalLostHealthRate: 0
       passiveAdditionalMaxHealthRate: 0

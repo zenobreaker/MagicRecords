@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// �κ��丮 UI�� ���������� ������ Ŭ���� 
-// Inventory Ŭ������ �������� ���¿� ���� �� UI Ŭ������ ���¸� �����ش� 
+// Inventory 인게임에서 보여주는 UI를 담는 클래스 
 public class InventoryUI : TabManual
 {
-    public static bool inventoryActivated = false; // �κ��丮�� ���������� �ٸ� ��ɵ��� ������ų �� ����
+    public static bool INVETORY_ACTVATIED = false; // 인벤토리가 활성화 되어 있는지 에 대한 값
 
     public bool isOpenInventory = false;
 
     private int selectedPage;
 
-    public int maxSlotCount;        // �ִ� �κ� ���� ���� 
+    public int maxSlotCount;        // 최대 공간 
 
-    // �ʿ��� ������Ʈ
+    // 필요한 컴포넌트 및 클래스 
     [SerializeField] InvenSlot invenSlot = null;
     [SerializeField] GameObject contentPage = null;
-    [SerializeField] List<InvenSlot> invenSlots = new List<InvenSlot>();   // �κ��丮 ����
+    [SerializeField] List<InvenSlot> invenSlots = new List<InvenSlot>();   // 인벤토리 슬롯 
 
     [SerializeField] List<Item> totalItems = new List<Item>();
 
@@ -26,7 +25,7 @@ public class InventoryUI : TabManual
     void Start()
     {
         totalItems.Clear();
-        // �κ��丮�� ������ ����Ʈ ��������
+        // 인벤토리에서 현재 가지고 있는 아이템 데이터를 가져온다.
         totalItems = Inventory.instance.GetItems();
 
         selectedPage = 1;
@@ -145,7 +144,7 @@ public class InventoryUI : TabManual
 
         if (p_Items.Count != invenSlots.Count)
         {
-            Debug.Log("���� ���� ���� " + p_Items.Count + " " + invenSlots.Count);
+            Debug.Log("현재 아이템 개수 " + p_Items.Count + " " + invenSlots.Count);
             if (p_Items.Count > invenSlots.Count)
             {
                 int t_start = invenSlots.Count > 0 ? invenSlots.Count - 1 : 0;
