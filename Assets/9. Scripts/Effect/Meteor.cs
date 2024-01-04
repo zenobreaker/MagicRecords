@@ -13,9 +13,13 @@ public class Meteor : MonoBehaviour
 
     public Vector3 dropPoint;
 
+    public float effectTimerValue = 0.5f;
+    public float effectTimer = 0;
+
     float timer;
     Character playeOwn;
     Transform ownTrasnform;
+    public LayerMask targetLayer;
 
     bool isExcute = false;
 
@@ -80,17 +84,21 @@ public class Meteor : MonoBehaviour
         // 3. 낙하 지점에 다달앗다면 이펙트를 발생
         else if(transform.position.y <= dropPoint.y && gameObject.activeInHierarchy == true)
         {
-            var aa = bombEffect.GetComponent<AttackArea>();
             var be = Instantiate(bombEffect);
+            if( be != null )
+            {
+                var aa = be.GetComponent<AttackArea>();
+                // 데미지 세팅 
+                aa.SetAttackInfo(playeOwn, ownTrasnform, 2.0f);
+                aa.SetLayer(targetLayer);
+                aa.SetOnEnableCollider();
+                aa.disableTime = 1.2f;
+
+            }
             var beSize = maximumlScaleSize * 0.5f; 
             be.transform.localScale = new Vector3(beSize, beSize, beSize);
             be.transform.position = dropPoint;
 
-            if( aa != null)
-            {
-                // 데미지 세팅 
-                aa.SetAttackInfo(playeOwn, ownTrasnform);
-            }
 
             this.gameObject.SetActive(false);
         }

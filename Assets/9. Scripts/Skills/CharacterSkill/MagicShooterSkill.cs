@@ -22,6 +22,7 @@ public class MagicShooterSkill : SkillAction
         var clone1 = ObjectPooler.SpawnFromPool<Bullet>("Reinforced",
             weaponController.MyWeapon.go_Muzzle.transform);
         float resultPower = power * (float)selectedSkill.MyDamage;
+        clone1.SetLayer(LayerMask.NameToLayer("Enemy"));
         clone1.SetAttackInfo(skillOwn, transform);
         clone1.MyDamage = Mathf.RoundToInt(resultPower);
         yield return null;
@@ -39,6 +40,7 @@ public class MagicShooterSkill : SkillAction
         var clone1 = ObjectPooler.SpawnFromPool<SkillAttackArea>("PlasmaRay",
             weaponController.MyWeapon.go_Muzzle.transform);
         clone1.hitCount = selectedSkill.hitCount;
+        clone1.SetLayer(LayerMask.NameToLayer("Enemy"));
         clone1.damage = power;
         clone1.SetAttackInfo(skillOwn, transform, (float)selectedSkill.MyDamage);
 
@@ -75,6 +77,7 @@ public class MagicShooterSkill : SkillAction
         if (clone1.TryGetComponent<MyBullet>(out var bullet))
         {
             bullet.MyDamage = Mathf.RoundToInt(power);
+            bullet.SetLayer(LayerMask.NameToLayer("Enemy"));
             bullet.SetAttackInfo(skillOwn, transform, selectedSkill.MyDamage);
             // 디버프 생성 
             // 빙결 디버프 기준  - 어차피 삭제할 스킬 
@@ -127,6 +130,7 @@ public class MagicShooterSkill : SkillAction
                 "SpreadBullet", weaponController.MyWeapon.go_Muzzle.transform.position,
             qAngles[i] * weaponController.MyWeapon.go_Muzzle.transform.rotation);
             clone.SetAttackInfo(skillOwn, transform, selectedSkill.MyDamage);
+            clone.SetLayer(LayerMask.NameToLayer("Enemy"));
             clone.MyDamage = power;
         }
 
@@ -148,6 +152,7 @@ public class MagicShooterSkill : SkillAction
                 weaponController.MyWeapon.go_Muzzle.transform.rotation);
 
             clone.SetAttackInfo(skillOwn, transform, selectedSkill.MyDamage);
+            clone.SetLayer(LayerMask.NameToLayer("Enemy"));
             clone.MyDamage = power;
 
             yield return new WaitForSeconds(0.5f);
@@ -188,6 +193,7 @@ public class MagicShooterSkill : SkillAction
         // clone.GetComponent<BulletRainTrigger>().SetDamage(Mathf.RoundToInt((float)CharStat.instance.c_attack * ((float)selectedSkill.MyDamage / 100)));
         clone.GetComponent<BulletRainTrigger>().ExecutexBulletRain(10,
             skillOwn, transform);
+        //clone.SetLayer(LayerMask.NameToLayer("Enemy"));
 
         yield return null;
         RunSkillFinsihCallback();
@@ -203,6 +209,7 @@ public class MagicShooterSkill : SkillAction
         var clone = ObjectPooler.SpawnFromPool<SkillAttackArea>("Extream", pos);
 
         clone.damage = power;
+        clone.SetLayer(LayerMask.NameToLayer("Enemy"));
         clone.SetAttackInfo(skillOwn, transform, selectedSkill.MyDamage);
 
         yield return null;

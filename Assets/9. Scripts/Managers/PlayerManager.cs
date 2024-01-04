@@ -254,11 +254,15 @@ public class PlayerManager : MonoBehaviour
     // 플레이어 초기화를 담당하는 별도의 함수를 추가하여 중복 코드를 방지한다.
     private void SetControlledPlayer(PlayerControl playerControl, bool isControlled, bool isAutoFlag)
     {
+        if (playerControl.isDead == true)
+        {
+            return;
+        }
         // NavMeshAgent 초기화 및 상태 설정
         playerControl.MyAgent.ResetPath();
         playerControl.MyAgent.isStopped = isControlled; // 수동 제어 시 멈춤 여부
-        //playerControl.MyAgent.updateRotation = isControlled;
-        //playerControl.MyAgent.updatePosition = isControlled;
+        /*playerControl.MyAgent.updateRotation = isControlled;
+        playerControl.MyAgent.updatePosition = isControlled;*/
 
         // 속도 및 상태 설정
         playerControl.MyAgent.velocity = Vector3.zero;
@@ -266,6 +270,7 @@ public class PlayerManager : MonoBehaviour
         //playerControl.isLeader = isControlled;
         playerControl.isAutoFlag = isAutoFlag;
         playerControl.MyPlayType = isControlled ? PlayType.Playerable : PlayType.None;
+
     }
 
 

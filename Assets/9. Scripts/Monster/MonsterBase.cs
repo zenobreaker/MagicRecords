@@ -265,7 +265,7 @@ public class MonsterBase : WheelerController
 
         // ㅅtodo 경험치 기능 및 레벨업 기능 수정 
         Debug.Log(player.GetExp + "경험치 획득!");
-        DropItem();
+        //DropItem();
         Destroy(gameObject, 0.5f);
 
     }

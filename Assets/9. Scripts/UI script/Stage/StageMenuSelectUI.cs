@@ -20,7 +20,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
     public Button confirmButton;
 
-    private List<StageEventInfo> eventList = new List<StageEventInfo>();
+    private List<StageAppearInfo> infoList = new List<StageAppearInfo>();
 
     private void OnEnable()
     {
@@ -47,7 +47,7 @@ public class StageMenuSelectUI : MonoBehaviour
 
     private void OnDisable()
     {
-        eventList.Clear();
+        infoList.Clear();
     }
 
 
@@ -56,7 +56,7 @@ public class StageMenuSelectUI : MonoBehaviour
         return selectIconNumber;
     }
 
-    // ������ ���� ��� - ��ư�� �Ҵ�Ǵ� �̺�Ʈ 
+    // 
     public void SelectEventIcon(int _select)
     {
         if (contentObject == null) return;
@@ -93,21 +93,21 @@ public class StageMenuSelectUI : MonoBehaviour
             }
         }
 
-        if (eventList.Count > 0 && selectIconNumber>-1)
+        if (infoList.Count > 0 && selectIconNumber>-1)
         {
-            var testInfo = eventList[selectIconNumber];
+            var testInfo = infoList[selectIconNumber];
 
-            if (testInfo != null && testInfo.appearInfo != null)
+            if (testInfo != null )
             {
                 StageType type = testInfo.stageType;
                 if(type == StageType.BATTLE)
                 {
                     StringBuilder idList = new StringBuilder();
-                    foreach(var id  in testInfo.appearInfo.appearIDList )
+                    foreach(var id  in testInfo.appearIDList )
                     {
                         idList.Append(id.ToString()+" ");
                     }
-                    var stageID = testInfo.stageId;
+                    var stageID = testInfo.stageID;
                     // todo 
                     Debug.Log( "스테이지 ID" + stageID  + "등장하는 몬스터 ID 리스트" + idList);
                 }
@@ -128,7 +128,7 @@ public class StageMenuSelectUI : MonoBehaviour
     }
 
     // 이벤트 슬롯 배치
-    public void DeploySelectEventSlot(ref StageTableClass stageTable)
+    public void DeploySelectEventSlot(ref StageNodeInfo stageTable)
     {
         if (stageTable == null) return;
 
@@ -138,10 +138,10 @@ public class StageMenuSelectUI : MonoBehaviour
 
         // UI가 있는지 검사
         int childCount = contentObject.transform.childCount;
-        int infoCount = stageTable.eventInfoList.Count;
+        int infoCount = stageTable.stageAppearInfos.Count;
         if (childCount < infoCount)
         {
-            for (int i = 0; i < stageTable.eventInfoList.Count; i++)
+            for (int i = 0; i < stageTable.stageAppearInfos.Count; i++)
             {
                 Instantiate(eventSlot, contentObject.transform);
             }
@@ -174,31 +174,31 @@ public class StageMenuSelectUI : MonoBehaviour
 
             // �̹��� ��ü 
             var slotImage = slot.GetComponent<Image>();
-            var eventInfo = stageTable.eventInfoList[i];
-            eventList.Add(eventInfo);
-            DrawStageIcon(slotImage, eventInfo);
+            var appearInfo = stageTable.stageAppearInfos[i];
+            infoList.Add(appearInfo);
+            DrawStageIcon(slotImage, appearInfo);
         }
     }
 
 
     // UI에 정보를 토대로 아이콘을 그린다.
-    void DrawStageIcon(Image image, StageEventInfo stageEventInfo)
+    void DrawStageIcon(Image image, StageAppearInfo stageAppearInfo)
     {
-        if (image == null || stageEventInfo == null)
+        if (image == null || stageAppearInfo == null)
             return;
 
 
         Sprite sprite = null;
-        switch (stageEventInfo.stageType)
+        switch (stageAppearInfo.stageType)
         {
             case StageType.BATTLE:
-                if (stageEventInfo.appearInfo != null)
+                if (stageAppearInfo != null)
                 {
-                    if (stageEventInfo.appearInfo.monsterGrade == MonsterGrade.NORMAL)
+                    if (stageAppearInfo.monsterGrade == MonsterGrade.NORMAL)
                         sprite = Resources.Load<Sprite>("Image/Icon_Monster1");
-                    if (stageEventInfo.appearInfo.monsterGrade == MonsterGrade.ELITE)
+                    if (stageAppearInfo.monsterGrade == MonsterGrade.ELITE)
                         sprite = Resources.Load<Sprite>("Image/Icon_Monster2");
-                    if (stageEventInfo.appearInfo.monsterGrade == MonsterGrade.BOSS)
+                    if (stageAppearInfo.monsterGrade == MonsterGrade.BOSS)
                         sprite = Resources.Load<Sprite>("Image/Icon_Monster3");
                 }
                 break;

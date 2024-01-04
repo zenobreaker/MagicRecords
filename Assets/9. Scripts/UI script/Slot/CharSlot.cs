@@ -22,13 +22,35 @@ public class CharSlot : MonoBehaviour, IPointerClickHandler
         targetPlayer = p_Player;
         if (targetPlayer == null) return;
 
-        // �̹��� ����
         if (PlayerDatabase.instance == null)
             return;
         var data = PlayerDatabase.instance.GetCharacterData(targetPlayer.MyID);
         if (data == null) return;
         
         img_CharIcon.sprite = data.portrait; 
+    }
+    
+    public void SetPlayerWithEnableState(Character player, bool isEnable)
+    {
+        if (player == null) return;
+
+        SetPlayer(player);
+
+        if(img_CharIcon != null)
+        {
+            Color t_color = img_CharIcon.color; 
+            if (isEnable == true)
+            {
+                t_color.a = 1.0f;
+            }
+            else
+            {
+                t_color.a = .5f;
+            }
+
+            img_CharIcon.color = t_color;
+        }
+        
     }
 
     public Character GetPlayer()

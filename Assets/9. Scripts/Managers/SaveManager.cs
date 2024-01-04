@@ -32,7 +32,7 @@ public class SaveData
     public int currentChapter = 0;      // 현재 진행 중인 챕터 
     public int currentStage = 0;     // 현재 진행 중인 스테이지 
 
-    public Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>();
+    public Dictionary<int, List<StageNodeInfo>> stageDictList = new Dictionary<int, List<StageNodeInfo>>();
 
     public bool choiceRecord = false; 
     // 진행하면서 얻은 레코드 리스트 

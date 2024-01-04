@@ -84,24 +84,21 @@ public class StageManager : MonoBehaviour
         Debug.Log("스테이지 생성 ID : " );
         
         // 스테이지 이벤트 정보 가져오기 
-        var stageEventInfo = StageInfoManager.instance.GetStageEventClass();
-        if(stageEventInfo == null || stageList == null)
+        var stageAppearInfo = StageInfoManager.instance.GetStageAppearInfoByCurrentStageNode();
+        if(stageAppearInfo == null || stageList == null)
         {
             return; 
         }
         
         // 선택한 스테이지 이벤트! 클래스에서 원하는 것을 가져온다.
         // 이벤트 클래스의 진행해야할 정보가 들어있다. 
-        switch (stageEventInfo.stageType)
+        switch (stageAppearInfo.stageType)
         {
             case StageType.BATTLE:
-                // 이 스테이지가 전투스테이지라면 맵과 몬스터를 배치.
-                if (stageEventInfo.appearInfo == null)
-                    return; 
-
-                int selectMapID = stageEventInfo.appearInfo.mapID;
-                int monsterCount = stageEventInfo.appearInfo.appearIDList.Count;
-                int wave = stageEventInfo.appearInfo.wave;
+          
+                int selectMapID = stageAppearInfo.mapID;
+                int monsterCount = stageAppearInfo.appearIDList.Count;
+                int wave = stageAppearInfo.wave;
                 // 가져온 정보에서 맵 찾기
                 for (int i = 0; i < stageList.Count; i++)
                 {
@@ -113,7 +110,7 @@ public class StageManager : MonoBehaviour
                         selectedStage.wave = wave;
 
                         selectedStage.appearMonsterIDList.Clear();
-                        selectedStage.appearMonsterIDList = stageEventInfo.appearInfo.appearIDList;
+                        selectedStage.appearMonsterIDList = stageAppearInfo.appearIDList;
                         selectedStage.enemyCount = selectedStage.appearMonsterIDList.Count;
                         break; 
                     }
@@ -283,7 +280,7 @@ public class StageManager : MonoBehaviour
     public void ClearStage()
     {
         // 스테이지인포매니저의 함수를 호출해준다. 
-        StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
+        StageInfoManager.instance.RefreshCurrentStageInfo();
     }
 
     // 스테이지에 있는 대상 전무 제거 명령

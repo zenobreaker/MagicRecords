@@ -6,15 +6,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-// ���� ���̵� 
+// 게임 난이도 
 public enum GamePlayLevel
 { 
-    NORMAL = 1,     // �Ϲ�
-    HARD = 2,       // �ϵ�
-    SPECIAL = 3,    // Ư�� 
+    NORMAL = 1,     
+    HARD = 2,       
+    SPECIAL = 3,    
 };
 
-// 1. ����  ��Ʋ 2. �̺�Ʈ 3. ȥ�� 4. ����
+// 1. 전투 2. 이벤트 3. 상점  4. 다용도
 public enum StageType 
 {
     NONE = 0, 
@@ -26,6 +26,13 @@ public enum StageType
     TEST = 999,
 };
 
+public enum ContentType
+{
+    NONE = 0,
+    ADVENTURE = 1, 
+    BOSS_RAID = 2, 
+}
+
 public enum EventSlot 
 {
     NONE = 0,
@@ -35,42 +42,46 @@ public enum EventSlot
     SPECIAL
 };
 
-// �̺�Ʈ ���� 
+// 이벤트 카테고리 
 public enum EventCategory
 {
     STORY = -1,     
-    FIND_RECORD = 0,        // ���ڵ� 
-    FIND_RELRIC,        // ���� �߰�
-    SPECIAL,        // ȥ���� (���ڵ带 ȹ���ϰ� ���� ����)
-    SHOP,           // ������ ���� 
+    FIND_RECORD = 0,        // 레코드를 발견하는 이벤트
+    FIND_RELRIC,            // 유믈 발견
+    SPECIAL,                // 특수
+    SHOP,                   // 상점
     MAX = SHOP,
 };
 
-// �̺�Ʈ ���� Ÿ��
-public enum EventRewardType
+// 이벤트 보상
+public enum StageRewardType
 {
     NONE = 0, 
-    GAME_MONEY,     // ������ȭ 
-    RELIC,          // ����
-    MEMORY,         // �޸� 
-    PRIVATE_REWRAD, // �ش� �̺�Ʈ ���� 
+    GAME_MONEY,     // 재화 보상
+    RELIC,          // 유물
+    MEMORY,         // 
+    PRIVATE_REWRAD, // 전용 보상
 };
 
 
-// �������� Ÿ�Ժ� ��Ÿ���� ����
+// 스테이지에 등장하는 정보를 담는 클래스
 [System.Serializable]
 public class StageAppearInfo
 {
-    // ���� ���� 
-    //�Ϲ� / ����Ʈ /  ���� ������������? 
+    public StageType stageType;
+    public int stageID; 
+    public EventCategory eventCategory;
     public MonsterGrade monsterGrade; 
     public int wave;
-    public int maxWave; // ���̺� ����̶�� �ִ� ���̺� �� 
+    public int maxWave;  
     public string stageName;
-    public int mapID;   // ��� ���� �׷����ϴ°� 
+    public int mapID;   
 
-    // ������ ���ͳ� ��Ÿ ID ����Ʈ
+    // 등장하는 정보의 ID를 담는다
     public List<int> appearIDList = new List<int>();
+
+    // 이 스테이지의 보상 정보를 담는다. 
+    public List<int> rewardIDList = new List<int>(); 
 
     public StageAppearInfo(MonsterGrade monsterGrade = MonsterGrade.NORMAL, int wave = 1, 
         string stageName = "", int mapID = 0)
@@ -83,88 +94,84 @@ public class StageAppearInfo
     }
 
 
-    // �Ű�������� ����Ʈ�� ���� �����͸� �����Ѵ�. 
+    // 등장하려는 이벤트들의 ID값을 담아둔다.
     public void SetAppearIDList(List<int> list)
     {
         appearIDList.Clear();
-        // ����Ʈ�� ���� ������ �־��ش� 
         appearIDList = list.ToList();
+    }
+
+    
+    public void SetStageReward(List<int> reawrdList)
+    {
+        rewardIDList = reawrdList.ToList();
     }
 
 
     ~StageAppearInfo()
     {
-        appearIDList.Clear(); 
+        appearIDList.Clear();
+        rewardIDList.Clear();
     }
 }
 
+// 이벤트 정보를 담는 클래스
 [System.Serializable]
-// ���������� ���� �̺�Ʈ ������ ��� Ŭ���� 
-public class StageEventInfo
+public class StageEventCutScene
 {
     public uint stageId;
 
-    public StageType stageType;
-    // ���� �̺�Ʈ ����  
+    // 주요 이벤트 카테고리
     public EventCategory mainEventCategory;
-    // ���� �̺�Ʈ 
+    // 서브 이벤트 카테고리
     public EventCategory subEventCategory;
-    // �� ���� 
-    // ���丮 �̺�Ʈ�� ��Ÿ�� ���丮 �ƽ� ���� 
-    
-    // �������� Ÿ�Կ� ���� ��Ÿ�� �׷� ����
-    public StageAppearInfo appearInfo;
 
-    // ��Ÿ�� �������� 
-    public void CreateAppearInfo()
-    {
-        appearInfo = new StageAppearInfo();
-    }
+    // 등장하는 컷씬 ID
+    public int cutSceneID;
 
 };
 
-/// <summary>
-/// �� Ŭ������ ���������� ��ġ�Ǵ� ���鿡 ���� ������ ���� Ŭ�����̴�.
-/// �̺�Ʈ���� �����ϸ� ���� ���� �ܿ� ���� �̺�Ʈ���� ��ġ�Ͽ� �����ش� 
-/// ���� - ���͸� ��ġ ��Ų��.
-/// 
-/// </summary>
+
 [System.Serializable]
-public class StageTableClass
+public class StageNodeInfo
 {
+    // 정렬용 오더
     public int tableOrder; 
-    //�������� �̸�
+    // 스테이지 이름 
     public string stageName;
 
-    public StageType type; 
-    // ���������� ��� �ִ� ���� �̺�Ʈ �������� ����ִ� ����Ʈ 
-    public List<StageEventInfo> eventInfoList;
+    public ContentType contentType; 
+    // 이벤트 컷씬 리스트
+    public List<StageEventCutScene> eventInfoList;
 
-    // �������� Ÿ�Ժ��� ��Ÿ�� id ����Ʈ
-    public List<int> appearTargetIDList = new List<int>(); 
+    // 등장하는 스테이지 정보 리스트
+    public List<StageAppearInfo> stageAppearInfos = new List<StageAppearInfo>();
+
 
     public bool isBossStage;
     public bool isLocked;
     public bool isCleared;
 
-    public StageTableClass()
+    public StageNodeInfo()
     {
         Init(); 
     }
 
-    public StageTableClass(int tableOrder, 
-        List<StageEventInfo> eventInfoList,
+    public StageNodeInfo(int tableOrder, 
+        string stageName,
+        ContentType contentType,
+        List<StageEventCutScene> eventInfoList,
         bool isBossStage, bool isLocked, bool isCleared)
     {
         this.tableOrder = tableOrder;
- 
+        this.stageName = stageName;
+        this.contentType = contentType;
         this.eventInfoList = eventInfoList;
         this.isBossStage = isBossStage;
         this.isLocked = isLocked;
         this.isCleared = isCleared;
     }
 
-    // ���� �ʱ�ȭ 
     public void Init()
     {
         tableOrder = 0;
@@ -179,37 +186,36 @@ public class StageTableClass
 }
 
 
-// �������� ����(���� / ��)�� ��� ���� �Ŵ��� 
 public class StageInfoManager : MonoBehaviour
 {
     public static StageInfoManager instance;
 
-    public static bool FLAG_ADVENTURE_MODE = false;     // Ž�� ��� ���� ������ �÷��� 
-    public static bool initJoinPlayGameModeFlag = false;    // ù �������� �÷��� 
+    public static bool FLAG_ADVENTURE_MODE = false;     // 탐사 모드 상태인지 확인하는 값
+    public static bool initJoinPlayGameModeFlag = false;    // 게임 모드를 막 시작한 참인지 확인 하는 값 
     public static readonly int LEVEL_NORMAL_MAX_STAGE_COUNT = 5;
     public static readonly int LEVEL_HARD_MAX_STAGE_COUNT = 7;
     public const int MAX_STAGE_COUNT = 5;
-    public const int MAX_STAGE_SELECT_COUNT = 3;     // �� ���������� �� �� �ִ� ���� �������� ��
+    public const int MAX_STAGE_SELECT_COUNT = 3;     
 
 
     public string stageName;
-    public int currentChapter;      // ���� ���� é�� �� 
+    public int currentChapter;      // 현재 챕터
     public int maxChapter; 
-    public int enemyCount;              // ���� �� �� �� 
+    public int enemyCount;              // 적 개수 
     public int itemCount;
-    public int selectStageEventNum;   // ������ ���� �������� ��ȣ 
+    public int selectStageEventNum;   // 선택한 스테이지 이벤트 인덱스 번호
 
-    int eliteAppearPoint;   // ����Ʈ�� ������ �� �ִ� �ּڰ� 
+    int eliteAppearPoint;   // 엘리트가 등장하는 위치 값
 
     public bool isTest = false;
-    [SerializeField] private StageTableClass selectStageTable;
+    [SerializeField] private StageNodeInfo selectStageNodeInfo;
 
-    [SerializeField] List<StageTableClass> stageTables = null;
-    [SerializeField] GamePlayLevel gameLevel = 0; // ���� ���̵�
+    [SerializeField] List<StageNodeInfo> stageTables = null;
+    [SerializeField] GamePlayLevel gameLevel = 0; 
     [SerializeField] public Dictionary<GamePlayLevel, float> playLevelPair = new Dictionary<GamePlayLevel, float>();
-    [SerializeField] List<List<int>> stageLocateList;       // �������� ��ġ ������ ���� ����Ʈ 
+    [SerializeField] List<List<int>> stageLocateList;       
     // é��, stagetable �� 
-    private Dictionary<int, List<StageTableClass>> stageDictList = new Dictionary<int, List<StageTableClass>>();
+    private Dictionary<int, List<StageNodeInfo>> stageDictList = new Dictionary<int, List<StageNodeInfo>>();
 
     private bool isStageLockChet = false;
 
@@ -231,32 +237,32 @@ public class StageInfoManager : MonoBehaviour
     {
         if (playLevelPair.Count <= 0)
         {
-            // �븻 20�� 
+            // 노말 20퍼
             playLevelPair.Add(GamePlayLevel.NORMAL, 0.2f);
 
-            // �ϵ� 40��
+            // 하드 40
             playLevelPair.Add(GamePlayLevel.HARD, 0.4f);
 
-            // Ư�� 30��
+            // 특수 30
             playLevelPair.Add(GamePlayLevel.SPECIAL, 0.3f);
         }
 
         currentChapter = 1;
-        // todo �ӽ÷� �ϳ��� �س���.
+        // todo 
         maxChapter = 1; 
     }
 
-    public void SetStageList(int _chapter, List<StageTableClass> _stageTableList)
+    public void SetStageList(int _chapter, List<StageNodeInfo> _stageTableList)
     {
         stageDictList[_chapter] = _stageTableList;
     }
 
-    public void SetStageList(Dictionary<int, List<StageTableClass>> stageTableDic)
+    public void SetStageList(Dictionary<int, List<StageNodeInfo>> stageTableDic)
     {
         stageDictList = stageTableDic;
     }
 
-    public Dictionary<int, List<StageTableClass>> GetStageList()
+    public Dictionary<int, List<StageNodeInfo>> GetStageList()
     {
         return stageDictList;
     }
@@ -280,45 +286,52 @@ public class StageInfoManager : MonoBehaviour
             return;
         }
 
-        selectStageTable = stageInfo[_selectStageNumber-1];    // ������ �������� ����    
-        selectStageEventNum = _selectEventNumber;    // ���� �������� ������ ����
+        selectStageNodeInfo = stageInfo[_selectStageNumber-1];     // 선택한 스테이지    
+        selectStageEventNum = _selectEventNumber;               // 선택한 스테이지 안 이벤트 값
     }
 
     public void ChoiceTestStage()
     {
-        // �׽�Ʈ�� �������� ���̺� Ŭ���� 
-        StageTableClass testStageClass = new StageTableClass();
-        StageEventInfo stageEventInfo = new StageEventInfo();
-        stageEventInfo.stageType = StageType.TEST;
+        StageNodeInfo testStageNode= new StageNodeInfo();
+        StageAppearInfo appearInfo = new StageAppearInfo();
+        appearInfo.stageType = StageType.TEST;
 
-        testStageClass.eventInfoList = new List<StageEventInfo> { stageEventInfo };
+        testStageNode.stageAppearInfos = new List<StageAppearInfo> { appearInfo };
         
         isTest = true;
         selectStageEventNum = 0;
-        selectStageTable = testStageClass;
+        selectStageNodeInfo = testStageNode;
     }
 
-    public void SetStageInfo(StageTableClass _stage)
+    public void SetStageInfo(StageNodeInfo stage)
     {
-        selectStageTable = _stage;
+        selectStageNodeInfo = stage;
     }
 
-    // ������ �������� ���̺� Ŭ���� ��ȯ
-    public StageTableClass GetStageTableClass()
+    // 선택한 스테이지 노드 반환
+    public StageNodeInfo GetStageNodeInfo()
     {
-        return selectStageTable;
+        return selectStageNodeInfo;
     }
 
-    // ������ �������� �̺�Ʈ Ŭ���� ��ȯ 
-    public StageEventInfo GetStageEventClass()
+    // 선택한 스테이지의 이벤트 컷씬 클래스를 반환한다.
+    public StageEventCutScene GetStageEventClass()
     {
-        if (selectStageTable == null || selectStageTable.eventInfoList == null) return null; 
+        if (selectStageNodeInfo == null || selectStageNodeInfo.eventInfoList == null) return null; 
 
-        return selectStageTable.eventInfoList[selectStageEventNum];
+        return selectStageNodeInfo.eventInfoList[selectStageEventNum];
     }
 
-    // ��ġ�� �������� ���� �������� 
-    public StageTableClass GetLocatedStageInfo(int _count)
+    // 선택한 스테이지 노드의 appearInfo 클래스 반환
+    public StageAppearInfo GetStageAppearInfoByCurrentStageNode()
+    {
+        return selectStageNodeInfo.stageAppearInfos[selectStageEventNum];
+    }
+
+
+
+    // 해당 값의 배치된 스테이지 테이블 정보를 반환
+    public StageNodeInfo GetLocatedStageInfo(int _count)
     {
         if (stageDictList.Count <= 0) return null;
 
@@ -332,12 +345,12 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    // ��ġ�� �������� ��������Ʈ�� �����´�. 
-    public void GetLocatedStageInfoList(out List<StageTableClass> list, int chpapter = 1)
+    // 해당 챕터의 배치된 스테이지 테이블 리스트들을 반환 
+    public void GetLocatedStageInfoList(out List<StageNodeInfo> list, int chpapter = 1)
     {
-        list = new List<StageTableClass>();
+        list = new List<StageNodeInfo>();
 
-        if (stageDictList.TryGetValue(chpapter, out List<StageTableClass> stageTable) == false)
+        if (stageDictList.TryGetValue(chpapter, out List<StageNodeInfo> stageTable) == false)
         {
             
         }
@@ -347,51 +360,60 @@ public class StageInfoManager : MonoBehaviour
         }
     }
 
-    public void GetLocatedStageInfoListByCurrenChapter(out List<StageTableClass> list)
+    public void GetLocatedStageInfoListByCurrenChapter(out List<StageNodeInfo> list)
     {
         GetLocatedStageInfoList(out list, currentChapter);
     }
 
 
-   // 진행중인 현재 챕터 갱신
-    public void RefreshCurrentChapterStageTableClass()
+    public void RefreshCurrentStageInfo()
     {
-        if (currentChapter == 0 || isTest == true) return;
+        if (selectStageNodeInfo == null)
+            return;
+
+        if (selectStageNodeInfo.contentType == ContentType.NONE)
+            return;
+        else if (selectStageNodeInfo.contentType == ContentType.ADVENTURE)
+            RefreshCurrentChapterStageNodeInfo();
+        else if(selectStageNodeInfo.contentType == ContentType.BOSS_RAID)
+        {
+            // todo 보스레이드 관련 레벨 증가 및 다음 던전 해금 
+        }
+    }
+
+   // 진행중인 현재 챕터 갱신
+    public void RefreshCurrentChapterStageNodeInfo()
+    {
+        if (currentChapter == 0 || isTest == true  || stageDictList[currentChapter] == null) return;
         
         var stageTables = stageDictList[currentChapter];
-        if (stageTables == null || selectStageTable == null) return;
+        if (stageTables == null || selectStageNodeInfo == null) return;
 
         foreach (var stageTable in stageTables)
         {
-            // ������ ���������� Ŭ���� ó�� 
-            if(selectStageTable.tableOrder == stageTable.tableOrder)
+            if(selectStageNodeInfo.tableOrder == stageTable.tableOrder)
             {
                 stageTable.isCleared = true;
                 stageTable.isLocked = true;
 
-                // ������ ���������� �������̰� Ŭ���� �ߴٸ� ���� é�ͷ� �Ѿ��.
                 if(stageTables.Last().isCleared == true)
                 {
                     currentChapter += 1;
-                    // �Ѿ é�Ͱ� ������ ������ �Ұ����ϹǷ� ���� ��� �÷��׸� ����.
                     if(currentChapter > maxChapter)
                     {
                         StageInfoManager.FLAG_ADVENTURE_MODE = false; 
-                        // ���Ӹ�尡 ������ ���� �׵��� �޾ƿԴ� ���ڵ�� ���� 
                         if(RecordManager.instance != null)
                         {
                             RecordManager.instance.ClearRecords();
                         }
-                        // é�͸� �ٽ� 1�� ����
                         currentChapter = 1;
-                        stageDictList.Clear(); // �����ߴ� ������������ ���� ���� 
+                        stageDictList.Clear(); 
                     }
 
                     break;
                 }
             }
-            // ������ ���������� ����  �������� ��� ����
-            else if(selectStageTable.tableOrder + 1 == stageTable.tableOrder)
+            else if(selectStageNodeInfo.tableOrder + 1 == stageTable.tableOrder)
             {
                 stageTable.isLocked = false;
             }
@@ -469,45 +491,45 @@ public class StageInfoManager : MonoBehaviour
         return;
     }
 
-    // StageTableClass 리스트를 참조하면서 각 타입별로 배치한다.
-    void SetStageTableClassListByStateTypeData(ref List<StageTableClass> list)
+    // StageNodeInfo 리스트를 참조하면서 각 타입별로 배치한다.
+    void SetStageNodeInfoListByStateTypeData(ref List<StageNodeInfo> list)
     {
         if (list == null || list.Count <= 0) return;
 
         // 
-        foreach (StageTableClass tableClass in list)
+        foreach (StageNodeInfo tableClass in list)
         {
-            if (tableClass == null || tableClass.eventInfoList == null) continue;
+            if (tableClass == null || tableClass.stageAppearInfos == null) continue;
 
-            foreach (var eventInfo in tableClass.eventInfoList)
+            foreach (var appearInfo in tableClass.stageAppearInfos)
             {
-                if (eventInfo == null) continue;
+                if (appearInfo == null) continue;
 
                 // 전투 타입일 경우 
-                if (eventInfo.stageType == StageType.BATTLE)
+                if (appearInfo.stageType == StageType.BATTLE)
                 {
                     // 몬스터 값을 가져온다.
                     // todo 챕터 및 난이도 조정하는 법 수정
                     MonsterDatabase.instance.GetMonsterIDListFromTargetStage(
                         currentChapter, (int)1,
-                        eventInfo);
+                        appearInfo);
                 }
                 // 이벤트 타입일 경우  
-                else if (eventInfo.stageType == StageType.EVENT)
+                else if (appearInfo.stageType == StageType.EVENT)
                 {
                     // 
                     int randomCategory = Random.Range(0, (int)EventCategory.MAX);
                     // todo 
                     randomCategory = (int)EventCategory.FIND_RECORD;
-                    eventInfo.mainEventCategory = (EventCategory)randomCategory;
+                    appearInfo.eventCategory = (EventCategory)randomCategory;
                     
                     // 1. 
-                    if (eventInfo.mainEventCategory == EventCategory.FIND_RECORD)
+                    if (appearInfo.eventCategory == EventCategory.FIND_RECORD)
                     {
                         //
                         if (RecordManager.instance != null)
                         {
-                            RecordManager.instance.GetStageEventRewardRecord(eventInfo);
+                            RecordManager.instance.GetStageEventRewardRecord(appearInfo);
                         }
                     }
                     // 2. 
@@ -517,7 +539,7 @@ public class StageInfoManager : MonoBehaviour
                     }
                 }
                 // 
-                else if(eventInfo.stageType == StageType.SHOP)
+                else if(appearInfo.stageType == StageType.SHOP)
                 {
                     // todo. 
                 }
@@ -527,7 +549,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
     // 몬스터 스테이지에게 등급을 설정한다.
-    void SetMonsterStageGrade(ref List<StageTableClass> list)
+    void SetMonsterStageGrade(ref List<StageNodeInfo> list)
     {
         if (list == null) return;
 
@@ -564,8 +586,7 @@ public class StageInfoManager : MonoBehaviour
         }
 
         int currentElitLocateCount = 0;
-        bool possibleElite = false; // ����Ʈ ��ġ�������� üũ 
-        // tableclass ����Ʈ�� ���鼭 ���� �Ҵ��Ѵ�. 
+        bool possibleElite = false; 
         for (int i = 0; i < list.Count; i++)
         {
             var stage = list[i];
@@ -580,55 +601,45 @@ public class StageInfoManager : MonoBehaviour
                 isBossStage = true;
             }
 
-            // ����Ʈ ���ο� �������� monstertype�͸� �ǵ��. 
-            foreach (var eventInfo in stage.eventInfoList)
+            foreach (var appearInfo in stage.stageAppearInfos)
             {
-                if (eventInfo == null )
+                if (appearInfo == null )
                 {
                     continue;
                 }
 
-                if (eventInfo.appearInfo == null)
-                    eventInfo.CreateAppearInfo();
-
-                // ���� Ÿ���� �ƴϸ� �ȵȴ�.
-                if (eventInfo.stageType != StageType.BATTLE)
+                if (appearInfo.stageType != StageType.BATTLE)
                 {
                     continue;
                 }
 
-                // ���� �������� ������ ���� ���� ����
                 if (isBossStage == true)
                 {
-                    eventInfo.appearInfo.monsterGrade = MonsterGrade.BOSS;
+                    appearInfo.monsterGrade = MonsterGrade.BOSS;
                     continue;
                 }
 
-                // ����Ʈ�� ������ �ϳ��� ��ġ 
                 if (possibleElite == true &&
                     currentElitLocateCount < maxEliteMonsterCount &&
                     maxEliteMonsterCount >= 1)
                 {
                     currentElitLocateCount++;
 
-                    eventInfo.appearInfo.monsterGrade = MonsterGrade.ELITE;
+                    appearInfo.monsterGrade = MonsterGrade.ELITE;
                 }
-                // �ϳ� �̻� ��ġ ���� �� 
                 else if (possibleElite == true &&
                     currentElitLocateCount >= 1 &&
                      currentElitLocateCount < maxEliteMonsterCount)
                 {
-                    // ���� ���������� �� ���������� ���� ����� �����Ѵ�. 
                     var eliteCount = Random.Range(0, 1.0f);
-                    // 8%������� �߰��� ��ġ��Ų��. 
                     if (eliteCount <= 0.08f)
                     {
-                        eventInfo.appearInfo.monsterGrade = MonsterGrade.ELITE;
+                        appearInfo.monsterGrade = MonsterGrade.ELITE;
                     }
                 }
                 else
                 {
-                    eventInfo.appearInfo.monsterGrade = MonsterGrade.NORMAL;
+                    appearInfo.monsterGrade = MonsterGrade.NORMAL;
                 }
             }
 
@@ -648,7 +659,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
     // 단계에 맞는 Stage Table 클래스 List를 생성
-    public void CreateStageTableList(int level = 1)
+    public void CreateAdventureStageNodeList(int level = 1)
     {
         initJoinPlayGameModeFlag = true; 
 
@@ -666,7 +677,7 @@ public class StageInfoManager : MonoBehaviour
 
         if (stageTables == null)
         {
-            stageTables = new List<StageTableClass>();
+            stageTables = new List<StageNodeInfo>();
         }
         else
         {
@@ -678,23 +689,26 @@ public class StageInfoManager : MonoBehaviour
         // 1-1 한줄 리스트 만큼 순회하면서 해당하는 기능의 클래스 생성하기
         for (int i = 0; i < stageLocateList.Count; i++)
         {
-            StageTableClass stageTable = new StageTableClass
+            StageNodeInfo stageTable = new StageNodeInfo
             {
                 //  order 
                 tableOrder = i + 1,
                 // 2.1 스테이지 이름 생성
                 stageName = currentChapter + "-" + i + 1,
+                contentType = ContentType.ADVENTURE,
                 //  stageType = (StageType)stageLocateList[i].First(),
-                eventInfoList = new List<StageEventInfo>()
+                eventInfoList = new List<StageEventCutScene>()
             };
             for (int j = 0; j < stageLocateList[i].Count; j++)
             {
-                StageEventInfo info = new StageEventInfo
+                // todo 컷신클래스 정보 추가
+
+                StageAppearInfo info = new StageAppearInfo
                 {
                     stageType = (StageType)stageLocateList[i][j]
                 };
 
-                stageTable.eventInfoList.Add(info);
+                stageTable.stageAppearInfos.Add(info);
             }
 
             if (stageTables != null)
@@ -714,7 +728,7 @@ public class StageInfoManager : MonoBehaviour
         // 몬스터 스테이지라면 등급 설정하기
         SetMonsterStageGrade(ref stageTables);
         // 스테이지 타입별로 스테이지 정보에 세부사항 할당
-        SetStageTableClassListByStateTypeData(ref stageTables);
+        SetStageNodeInfoListByStateTypeData(ref stageTables);
 
         // 4. 첫 번째를 제외한 스테이지는 전부 잠금처리
         LockedAllStage();
@@ -724,5 +738,12 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
+    // 보스레이드 
+    #region Boss Raid 
+    
+    // 보스 
+
+
+    #endregion
 
 }

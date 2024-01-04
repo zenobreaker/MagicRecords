@@ -4892,8 +4892,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7410312215862287182}
   - component: {fileID: 7410312215862287180}
+  - component: {fileID: 6960094282861616021}
   - component: {fileID: 7410312215862287183}
-  - component: {fileID: 789140527964115082}
   - component: {fileID: 5935494708173267110}
   m_Layer: 0
   m_Name: BoomEffect
@@ -9704,6 +9704,34 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &6960094282861616021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410312215862287177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a6a593c719d0349b1a0d9a511cc5a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackOwnTransform: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  damageRate: 2
+  damage: 0
+  critRate: 0
+  critDamage: 0
+  recoveryTime: 0
+  hitCount: 0
+  isContiued: 0
+  notPool: 1
+  power: 0
+  disableTime: 0.8
+  collider: {fileID: 5935494708173267110}
+  ani: {fileID: 0}
 --- !u!199 &7410312215862287183
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -9776,31 +9804,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &789140527964115082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7410312215862287177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa9c657599fa82498790af395ec9439, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackOwnTransform: {fileID: 0}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  damageRate: 1
-  damage: 0
-  critRate: 0
-  critDamage: 0
-  recoveryTime: 0
-  hitCount: 1
-  isContiued: 0
-  notPool: 1
-  ps_SkillMainEffect: {fileID: 7410312215862287180}
 --- !u!135 &5935494708173267110
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9810,7 +9813,7 @@ SphereCollider:
   m_GameObject: {fileID: 7410312215862287177}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}

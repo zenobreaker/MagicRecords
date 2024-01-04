@@ -173,7 +173,7 @@ public class EventShopUI : UiBase
         }
 
         // 콜백 세팅
-        SetScrollviewChildObjectsCallack<ShopSlot>((component) =>
+        SetScrollviewChildObjectsCallback<ShopSlot>((component) =>
         {
             component.SetActionCallback(() =>
             {

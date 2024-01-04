@@ -29,6 +29,7 @@ public class BTBossMonster : MonsterBase
     bool isPattern = false; // 패턴 중일 때 제어하는 변수 
     BehaviourTreeRunner btRunner;
     Coroutine attackCoroutine;
+    Coroutine bombCoolTimeCoroutine; 
 
 
     private void Awake()
@@ -438,7 +439,7 @@ public class BTBossMonster : MonsterBase
             {
                 if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
                 {
-                   
+                    CreateSlashObject(this.transform.rotation * angle);
                     break; 
                 }
 
@@ -484,6 +485,7 @@ public class BTBossMonster : MonsterBase
         if (meteor != null)
         {
             meteor.SetOwn(player, transform);
+            meteor.targetLayer = 1 <<LayerMask.NameToLayer("Player");
             meteor.transform.position = upSpwan;
             meteor.scaleUpDelayTime = 5.0f;
             meteor.dropSpeed = 30.0f;
@@ -498,9 +500,9 @@ public class BTBossMonster : MonsterBase
         yield return new WaitForSeconds(5.0f);
         anim.SetTrigger("CastingDown");
 
+        yield return new WaitForSeconds(3.0f);
         isSpiritBombReady = false; 
         isPattern = false;
-
     }
 
     IEnumerator IESpiritBombCoolTimer()
@@ -523,14 +525,15 @@ public class BTBossMonster : MonsterBase
             return INode.ENodeState.ENS_Running;
         // 보스 조우 후, 30초 마다 발사 
         // todo 원형 위험선 발사 
-        if (isSpiritBombReady == false)
+        if (isSpiritBombReady == false && bombCoolTimeCoroutine == null)
         {
             currentSpiritBomobCoolTime = spiritBombCoolTime;
             // 쿨타임 
-            StartCoroutine(IESpiritBombCoolTimer());
+            bombCoolTimeCoroutine = StartCoroutine(IESpiritBombCoolTimer());
         }
         if(isSpiritBombReady == true)
         {
+            bombCoolTimeCoroutine = null; 
             // 액션 실행
             attackCoroutine = StartCoroutine(IESpiritBomob());
         }
@@ -564,11 +567,10 @@ public class BTBossMonster : MonsterBase
 
 
         // todo 게임 화면에 어떤 문구가 뜨면 좋을 것 같다.
-        StopCoroutine(IECreateUlitmateBomb());
         // 아주 느리게 날아가지만 닿으면 아플거야
         StartCoroutine(IECreateUlitmateBomb()); // 특정 시간 마다 호출
-        TrapContoller.instance.CreateTrapByMoveType(9, enemyTransform.position,
-            player.MyStat.totalATK * 10);
+        TrapContoller.instance.CreateTrapByMoveType(5, enemyTransform.position,
+            10);
 
         return INode.ENodeState.ENS_Failure;
     }
@@ -589,10 +591,10 @@ public class BTBossMonster : MonsterBase
         {
             new ActionNode(SummonUltimateBomb),
             new ActionNode(SpiritBomb),
-            new ActionNode(ArroundSlash),
-            new ActionNode(AttackTripleSlash),
-            new ActionNode(TeleportSlash),
-            new ActionNode(AttackSlash),
+            //new ActionNode(ArroundSlash),
+            //new ActionNode(AttackTripleSlash),
+            //new ActionNode(TeleportSlash),
+            //new ActionNode(AttackSlash),
         };
     }
 

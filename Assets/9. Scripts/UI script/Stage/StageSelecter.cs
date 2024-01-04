@@ -19,10 +19,8 @@ public class StageSelecter : MonoBehaviour
     [SerializeField] private GameObject go_GModeScreen = null;
 
     [SerializeField] private GameObject go_StageScreen = null; // 스테이지 선택 화면
-                                                               //   [SerializeField]
-                                                               //   private Text text_StageTitle = null; // 큰 스테이지 번호
-                                                               //   [SerializeField]
-                                                               //    private Image[] img_StageSlots = null; // 작은 스테이지 버튼들 
+    [SerializeField] private GameObject go_BossRaidScreen = null; 
+                                                        
     [Header("알림창")]
     [SerializeField] private GameObject go_SignBase = null;
     [SerializeField] private Text text_SignText = null;        // 스테이지 진행 안내 텍스트 
@@ -56,7 +54,7 @@ public class StageSelecter : MonoBehaviour
             if (StageInfoManager.instance.currentChapter <=
                 StageInfoManager.instance.maxChapter)
             {
-                StageInfoManager.instance.CreateStageTableList();
+                StageInfoManager.instance.CreateAdventureStageNodeList();
                
                 UIPageManager.instance.OpenClose(go_StageScreen);
             }
@@ -75,6 +73,14 @@ public class StageSelecter : MonoBehaviour
         UIPageManager.instance.OpenClose(go_StageScreen);
         isStageScreenOpen = true;
     }
+
+    // 보스 레이드 화면 열어주기
+    public void OpenBossRaidScreen()
+    {
+        UIPageManager.instance.OpenClose(go_BossRaidScreen);
+        //isStageScreenOpen = true;
+    }
+
 
     public void CloseStageScreen()
     {
@@ -139,6 +145,9 @@ public class StageSelecter : MonoBehaviour
         // 탐사 UI 켜주기
         StartStageSelect();
     }
+
+    
+ 
 
 
     public void OpenTest()

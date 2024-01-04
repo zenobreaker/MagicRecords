@@ -61,9 +61,31 @@ public class UiBase : MonoBehaviour
         }
     }
 
+
+
     
     // 자식 오브젝트들을 설정하고 콜백 기능을 할당한다.
-    public virtual void SetScrollviewChildObjectsCallack<T>(Action<T> callback)
+    public virtual void SetScrollviewChildObjectCallback(Action callback)
+    {
+        if (content == null || childObject == null) return;
+
+        for (int i = 0; i < content.transform.childCount; i++)
+        {
+            var childObject = content.transform.GetChild(i);
+
+            if (childObject.TryGetComponent<Slot>(out Slot slot))
+            {
+                if (callback != null && slot != null)
+                {
+                    slot.SetActionCallback(callback);
+                }
+
+            }
+
+        }
+    }
+
+    public virtual void SetScrollviewChildObjectsCallback<T>(Action<T> callback)
     {
         if (content == null || childObject == null) return;
 

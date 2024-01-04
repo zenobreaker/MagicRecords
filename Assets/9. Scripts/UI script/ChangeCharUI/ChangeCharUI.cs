@@ -19,7 +19,7 @@ public class ChangeCharUI : MonoBehaviour
 
     public Image portraitImage; 
 
-    private void Update()
+    private void LateUpdate()
     {
         if(Input.GetKeyDown("1") && charList.Count >= 2)
         {
@@ -39,16 +39,23 @@ public class ChangeCharUI : MonoBehaviour
         charList = GameManager.MyInstance.GetMyTeamCharList();
 
         // 체인지 UI 버튼에 기능 추가하기 
-        SetCharacterListUI(); 
+        SetCharacterListUI();
 
+        DrawAllUI();
+    }
+
+    public void DrawAllUI()
+    {
         // UI 그려주기 
-        DrawCharacaterListUI(); 
+        DrawCharacaterListUI();
+
+        DrawMainUI();
     }
 
     // 대상 캐릭터로 캐릭터 변경
     public void ChangeTargetWheeler(Character target)
     {
-        if (target == null || GameManager.MyInstance == null)
+        if (target == null ||  GameManager.MyInstance == null)
             return;
 
         // 게임매니저에게 정보 전달
@@ -57,12 +64,7 @@ public class ChangeCharUI : MonoBehaviour
         charList = GameManager.MyInstance.GetMyTeamCharList();
 
         // 리스트 다시 그리기 
-        DrawCharacaterListUI();
-
-        // 슬롯에 기능을 다시 설정한다.
-        SetCharacterListUI();
-
-        DrawMainUI();
+        DrawAllUI();
     }
 
 
@@ -85,7 +87,7 @@ public class ChangeCharUI : MonoBehaviour
                 continue;
 
             CharSlot charSlot = charSlots[count];
-            charSlot.SetPlayer(character);
+            charSlot.SetPlayerWithEnableState(character, character.isDead == false);
             // 두 번째 캐릭터 정보는 첫 번째 캐릭터 슬롯에 그려놓는다.
             charSlots[count].gameObject.SetActive(true);
             count++;
@@ -99,12 +101,14 @@ public class ChangeCharUI : MonoBehaviour
         int count = 0; 
         for (int i = 0; i < charList.Count; i++)
         {
-            var character = charList[i];
             if (i == 0) continue; 
+          
 
             CharSlot charSlot = charSlots[count];
+            int idx = i; 
             charSlot.SetCallback(() =>
             {
+                var character = charList[idx];
                 Debug.Log("초기화 중 :");
                 ChangeTargetWheeler(character);
             });

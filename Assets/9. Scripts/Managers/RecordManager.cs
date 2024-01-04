@@ -268,11 +268,11 @@ public class RecordManager : MonoBehaviour
         return record.specialOption;
     }
 
-    public void GetStageEventRewardRecord(StageEventInfo eventInfo)
+    public void GetStageEventRewardRecord(StageAppearInfo appearInfo)
     {
-        if (eventInfo == null || eventInfo.appearInfo == null) return;
+        if ( appearInfo == null) return;
 
-        eventInfo.appearInfo.appearIDList.Clear();
+        appearInfo.appearIDList.Clear();
 
         List<int> recordIDList = GetRanddomRecordID(3);
         if (recordIDList == null || recordIDList.Count <= 0)
@@ -282,7 +282,7 @@ public class RecordManager : MonoBehaviour
 
         foreach(var record in recordIDList)
         {
-            eventInfo.appearInfo.appearIDList.Add(record);
+            appearInfo.appearIDList.Add(record);
         }
     }
 

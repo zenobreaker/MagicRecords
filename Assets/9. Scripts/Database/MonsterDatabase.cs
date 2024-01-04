@@ -554,19 +554,19 @@ public class MonsterDatabase : MonoBehaviour
     }
 
     // chapter와 등급 난이도를 받으면 리스트에 해당 몬스터 ID를 넣어 반환 
-    public void GetMonsterIDListFromTargetStage(int chapter, int gameLevel, StageEventInfo eventInfo)
+    public void GetMonsterIDListFromTargetStage(int chapter, int gameLevel, StageAppearInfo appearInfo)
     {
-        if (eventInfo == null) return;
+        if (appearInfo == null) return;
 
         // 나타날 정보 생성 
         //eventInfo.CreateAppearInfo();
 
-        if (eventInfo.appearInfo == null) return; 
-        var targetList = eventInfo.appearInfo.appearIDList;
+        if (appearInfo == null) return; 
+        var targetList = appearInfo.appearIDList;
 
         // 스테이지 ID를 가져온다. 
         var stageID = GetRandomStageIDFromChapterAndGrade(chapter, gameLevel, 
-            eventInfo.appearInfo.monsterGrade);
+            appearInfo.monsterGrade);
 
         if (stageID <= 0 || stageAllData == null ||
             stageAllData.stageMonsterJsons == null) return;
@@ -582,15 +582,15 @@ public class MonsterDatabase : MonoBehaviour
                 targetList.Add(monsterID);
             }
             // 등장하는 map id 연결 
-            eventInfo.appearInfo.mapID = data.mapID;
+            appearInfo.mapID = data.mapID;
             // 게임에 진행할 wave 수 설정
             if (data.wave == 0)
             {
-                eventInfo.appearInfo.wave = 1;
+                appearInfo.wave = 1;
             }
             else
             {
-                eventInfo.appearInfo.wave = data.wave;
+                appearInfo.wave = data.wave;
             }
             return;
         }

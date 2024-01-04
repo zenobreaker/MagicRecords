@@ -70,7 +70,7 @@ public class AttackObject : MonoBehaviour
 
     public void SetLayer(LayerMask layer)
     {
-        targetLayer = layer;
+        targetLayer |= layer;
     }
 
     public void SetIgnoreLayer(string layerName)

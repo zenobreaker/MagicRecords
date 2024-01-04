@@ -189,7 +189,7 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     }
     public void CheckDead()
     {
-        if (player.isDead == true)
+        if (player.isDead == true && isTest == false)
         {
             isDead = true;
             Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
@@ -199,6 +199,10 @@ public abstract class WheelerController : MonoBehaviour, IDamage
                 if (teamTag == TeamTag.TEAM)
                 {
                     GameManager.MyInstance.ChanagePlayerTeamCount(1);
+                    gameObject.SetActive(false);
+                    // 조종하는 캐릭터 교체하기
+                    if(isLeader == true)
+                        GameManager.MyInstance.ChangeControlWheelerByFirstWheeler();
                 }
                 else if (teamTag == TeamTag.ENEMY)
                 {

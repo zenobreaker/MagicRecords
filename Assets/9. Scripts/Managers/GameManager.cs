@@ -523,11 +523,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 팀 중에서 가장 먼저 오는 번호의 아군으로 변경
+    public void ChangeControlWheelerByFirstWheeler()
+    {
+        var myTeam = thePM.GetMyTeam();
+        if(myTeam != null)
+        {
+            foreach(var own in myTeam)
+            {
+                if(own.isDead == false)
+                {
+                    //ChangeControlWheeler(own.MyPlayer);
+                    if(theChangeCharUI != null)
+                        theChangeCharUI.ChangeTargetWheeler(own.MyPlayer);
+                    return; 
+                }
+            }
+        }
+    }
 
     // 선택한 캐릭터로 조작 변경
     public void ChangeControlWheeler(Character target)
     {
-        if (target == null || thePM == null) return; 
+        if (target == null || target.isDead == true || thePM == null) return; 
 
         thePM.SetControlTheCurrentPlayer(target, isAutoMode);
     }

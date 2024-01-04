@@ -72,6 +72,7 @@ public class AssistWeapon : MonoBehaviour
             var clone1 = ObjectPooler.SpawnFromPool("Bullet",weaponsMuzzle[0].transform.position,weaponsMuzzle[0].transform.rotation);
             var clone2 = ObjectPooler.SpawnFromPool("Bullet", weaponsMuzzle[1].transform.position, weaponsMuzzle[1].transform.rotation);
 
+
             currentDelay = attackDelay;
         }
     }

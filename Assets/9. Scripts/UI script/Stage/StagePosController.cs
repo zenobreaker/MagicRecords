@@ -30,7 +30,7 @@ public class StagePosController : MonoBehaviour
 
     [SerializeField] ChoiceAlert choiceAlert = null;
 
-    [SerializeField] List<StageTableClass> stageTables = null;
+    [SerializeField] List<StageNodeInfo> stageTables = null;
 
     [Header("레코드 UI")]
     [SerializeField] RewardController rewardController = null;
@@ -160,11 +160,11 @@ public class StagePosController : MonoBehaviour
 
         // 스테이지 선택한 정보로 저장
         StageInfoManager.instance.ChoiceStageInfoForPlaying(curMainChpaterNum, curSelectStageNum, selectEventSlotNumber);
-        var seletedStageEventInfo = StageInfoManager.instance.GetStageEventClass();
-        if (seletedStageEventInfo == null) return;
+        var stageAppearInfo = StageInfoManager.instance.GetStageAppearInfoByCurrentStageNode();
+        if (stageAppearInfo == null) return;
 
         // 스테이지 형태가 전투인가 
-        if (seletedStageEventInfo.stageType == StageType.BATTLE)
+        if (stageAppearInfo.stageType == StageType.BATTLE)
         {
             // 캐릭터 선텍 UI를 연다.
             choiceAlert.ActiveAlert(true, STAGE_MAX_PLAYER_COUNT);
@@ -173,18 +173,18 @@ public class StagePosController : MonoBehaviour
             choiceAlert.ConfirmSelect(selectPlayer => SetStageCharacters(selectPlayer));
         }
         // 스테이지 형태가 이벤트나 상점이면 해당하는 UI를 열어준다. 
-        else if (seletedStageEventInfo.stageType == StageType.EVENT)
+        else if (stageAppearInfo.stageType == StageType.EVENT)
         {
             // 스테이지인포매니저의 함수를 호출해준다. 
-            StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
+            StageInfoManager.instance.RefreshCurrentChapterStageNodeInfo();
             // 레코드 UI 열어주기 
             RecordManager.CHOICED_COMPLETE_RECORD = false;
             DrawStageMainPosUI();
         }
-        else if (seletedStageEventInfo.stageType == StageType.SHOP)
+        else if (stageAppearInfo.stageType == StageType.SHOP)
         {
             // 스테이지인포매니저의 함수를 호출해준다. 
-            StageInfoManager.instance.RefreshCurrentChapterStageTableClass();
+            StageInfoManager.instance.RefreshCurrentChapterStageNodeInfo();
             // 이벤트 상점 열어주기 
             OpenEventShopUi(); 
             DrawStageMainPosUI();
@@ -210,22 +210,22 @@ public class StagePosController : MonoBehaviour
 
         // 지정한 스테이지가 있는지 검사 후 씬을 옮긴다. 
         // 선택한 캐릭터가 있으면 씬 옮기기 
-        var seletedStageEventInfo = StageInfoManager.instance.GetStageEventClass();
+        var stageAppearInfo = StageInfoManager.instance.GetStageAppearInfoByCurrentStageNode();
         if (InfoManager.instance.GetSelectPlayerList().Count > 0 &&
-            seletedStageEventInfo != null)
+            stageAppearInfo != null)
         {
             // 스테이지 형태가 전투인가 
-            if (seletedStageEventInfo.stageType == StageType.BATTLE)
+            if (stageAppearInfo.stageType == StageType.BATTLE)
             {
                 //씬 변경
                 LoadingSceneController.LoadScene("GameScene");
             }
             // 스테이지 형태가 이벤트나 상점이면 해당하는 UI를 열어준다. 
-            else if (seletedStageEventInfo.stageType == StageType.EVENT)
+            else if (stageAppearInfo.stageType == StageType.EVENT)
             {
                 
             }
-            else if (seletedStageEventInfo.stageType == StageType.SHOP)
+            else if (stageAppearInfo.stageType == StageType.SHOP)
             {
 
             }
@@ -271,7 +271,7 @@ public class StagePosController : MonoBehaviour
         StageInfoManager.instance.ChoiceTestStage();
 
         if (InfoManager.instance.GetSelectPlayerList().Count > 0 &&
-          StageInfoManager.instance.GetStageEventClass() != null)
+          StageInfoManager.instance.GetStageAppearInfoByCurrentStageNode() != null)
         {
 
             //씬 변경
