@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,11 +13,13 @@ public class BossInfoUi : UiBase
     StageAppearInfo appearInfo;
 
     [SerializeField] ChoiceAlert choiceAlert = null;
+    [SerializeField] DOTweenAnimation doTweenAnimation = null;
+
 
     // 보스 정보 UI 가 나타나는 메소드 연출이 포함되어 있다. 
     public void OpenBossInfoUI(StageAppearInfo info)
     {
-        if (info == null) return; 
+        if (info == null) return;
 
         // 정보 세팅 
         this.appearInfo = info;

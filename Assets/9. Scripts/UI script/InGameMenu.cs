@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InGameMenu : TabManual
 {
@@ -97,7 +98,11 @@ public class InGameMenu : TabManual
     public void BackToLobby()
     {
         //씬 변경
-        LoadingSceneController.LoadScene("Lobby");
+        LoadingSceneController.LoadSceneWithCallback("Lobby", LoadSceneMode.Single, ()=>
+        {
+            if (Time.timeScale == 0)
+                Time.timeScale = 1;
+        });
     }
 
     // 게임 계속 하기 

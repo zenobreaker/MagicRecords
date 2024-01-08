@@ -52,6 +52,14 @@ public class LoadingSceneController : MonoBehaviour
         SceneManager.LoadScene("LoadingScene", loadSceneMode);
     }
 
+    public static void LoadSceneWithCallback(string sceneName, LoadSceneMode loadSceneMode = LoadSceneMode.Single, Action callback = null)
+    {
+        if (callback != null)
+            callback.Invoke();
+
+        LoadScene(sceneName, loadSceneMode); 
+    }
+
     private void Start()
     {
         StartCoroutine(LoadSceneProcess());
