@@ -10,7 +10,7 @@ public class BossStageController : UiBase
     public TextMeshProUGUI titleText;
 
     // todo 이전에 탐사 스테이지용으로 만든 클래스를 이용한 리스트 보스 스테이지는 별도로 할지 결정해야할 듯
-    public List<StageAppearInfo> stageInfoList = new List<StageAppearInfo>();
+    public List<StageNodeInfo> stageList = new List<StageNodeInfo>();
 
     [SerializeField] BossInfoUi bossInfoUI = null;
     /// <summary>
@@ -19,6 +19,14 @@ public class BossStageController : UiBase
     /// 3. 입장을 누르면 캐릭터 선택 UI가 나온다. 
     /// 4. 캐릭터를 고르면 입장한다.
     /// </summary>
+
+    private void Start()
+    {
+        // todo 로비에 들어오면 이벤트 하나를 실행한다. 
+        // 이벤트는 스테이지 클리어 보상을 받을까 말까 ㄱ결정 
+        // 플래그값을 확인하고 보상들을 받는 UI를 그린다.
+
+    }
 
     private void OnEnable()
     {
@@ -36,26 +44,30 @@ public class BossStageController : UiBase
     // 보스 스테이지를 생성하는 메소드 
     public void SetBossStageList()
     {
-        stageInfoList.Clear();
+        stageList.Clear();
 
         // todo 뭐 테이블 정보를 담는 걸 따로 json화해야할지도..
 
         StageNodeInfo tableClass = new StageNodeInfo();
-        tableClass.Init();
-
-        tableClass.contentType = ContentType.BOSS_RAID;
         
+        tableClass.contentType = ContentType.BOSS_RAID;
+        tableClass.tableOrder = 1;
+
         StageAppearInfo appearInfo = new StageAppearInfo();
         appearInfo.stageType = StageType.BATTLE;
         appearInfo.monsterGrade = MonsterGrade.BOSS;
         appearInfo.mapID = 100;
-        appearInfo.maxWave =1 ;
+        appearInfo.maxWave = 1 ;
         appearInfo.appearIDList = new List<int>();
         appearInfo.appearIDList.Add(401);
-        
+
+        appearInfo.rewardIDList.Add(1);
+
+        tableClass.stageAppearInfos.Add(appearInfo);
+
         // todo 보상 리스트 추가 하기 
 
-        stageInfoList.Add(appearInfo);
+        stageList.Add(tableClass);
 
 
     }
@@ -65,7 +77,7 @@ public class BossStageController : UiBase
     {
         // UI 슬롯 배치 
 
-        InitScrollviewObject(stageInfoList.Count);
+        InitScrollviewObject(stageList.Count);
 
         // 슬롯에 데이터 할당  
         for(int i = 0; i < content.transform.childCount;i++)
@@ -73,7 +85,7 @@ public class BossStageController : UiBase
             var child = content.transform.GetChild(i);
             if(child.TryGetComponent<BossStageSlot>(out var slot))
             {
-                slot.SetBossStageSlot(stageInfoList[i]);
+                slot.SetBossStageSlot(stageList[i]);
                 child.gameObject.SetActive(true);
             }
             

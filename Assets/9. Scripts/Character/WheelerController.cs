@@ -191,22 +191,26 @@ public abstract class WheelerController : MonoBehaviour, IDamage
     {
         if (player.isDead == true && isTest == false)
         {
-            isDead = true;
             Debug.Log("이 플레이어는 죽었음니다 : " + player.MyID);
             if (GameManager.MyInstance != null)
             {
                 // 게임매니저에게 점수 하락을 전달 하자 
                 if (teamTag == TeamTag.TEAM)
                 {
-                    GameManager.MyInstance.ChanagePlayerTeamCount(1);
-                    gameObject.SetActive(false);
-                    // 조종하는 캐릭터 교체하기
-                    if(isLeader == true)
-                        GameManager.MyInstance.ChangeControlWheelerByFirstWheeler();
+                    // 훈련장이 아니면 죽음 처리 
+                    if (GameManager.MyInstance.isTest == false)
+                    {
+                        isDead = true;
+                        GameManager.MyInstance.ChanagePlayerTeamCount(1);
+                        gameObject.SetActive(false);
+                        // 조종하는 캐릭터 교체하기
+                        if (isLeader == true)
+                            GameManager.MyInstance.ChangeControlWheelerByFirstWheeler();
+                    }
                 }
                 else if (teamTag == TeamTag.ENEMY)
                 {
-
+                    isDead = true;
                 }
             }
         }

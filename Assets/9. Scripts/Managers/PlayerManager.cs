@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Localization.Platform.Android;
+using System.Linq;
+//using UnityEditor.Localization.Platform.Android;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-
     public GameObject playerPrefab;
 
     private List<GameObject> playerableObjectList = new List<GameObject>();
 
     [SerializeField]
     private FollowCamera followCamera = null;
+
+    public PositionController positionController;
 
     public JoyStick theJoySitck; 
 
@@ -174,9 +176,30 @@ public class PlayerManager : MonoBehaviour
         foreach(var player in playerUnion)
         {
             if (player.Value == null)
-                continue; 
+                continue;
 
+            if (player.Value.isLeader == false)
+                continue;
             player.Value.transform.position = _pos;
+            break; 
+        }
+
+        // todo 여기에 캐릭터 설정하기.
+        if(positionController != null)
+        {
+            positionController.SetPlayerList(playerUnion.Values.ToList());
+            positionController.SetPartFormation(); 
+
+            foreach(var player in playerUnion)
+            {
+                if (player.Value == null)
+                    continue;
+
+                if (player.Value.isLeader == true)
+                    continue;
+
+                player.Value.transform.position = player.Value.GetDestinationPosition();
+            }
         }
     }
 
@@ -204,6 +227,18 @@ public class PlayerManager : MonoBehaviour
         }
 
         return list;
+    }
+
+    public int GetMyTeamCount()
+    {
+        int count = 0; 
+        foreach (var wheeler in playerUnion)
+        {
+            if (wheeler.Value != null)
+                count++;
+        }
+
+        return count; 
     }
 
     // 대상 플레이어를 조작할 수 있는 플레이어로 변경한다.

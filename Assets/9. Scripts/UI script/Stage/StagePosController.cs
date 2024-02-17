@@ -33,7 +33,7 @@ public class StagePosController : MonoBehaviour
     [SerializeField] List<StageNodeInfo> stageTables = null;
 
     [Header("레코드 UI")]
-    [SerializeField] RewardController rewardController = null;
+    [SerializeField] RecordController recordController = null;
     [Header("이벤트 상점 UI")]
     [SerializeField] EventShopUI eventShopUI = null; 
 
@@ -58,22 +58,22 @@ public class StagePosController : MonoBehaviour
         // 레코드를 받은 적이 없다면 받도록 한다.
         if (RecordManager.CHOICED_COMPLETE_RECORD == false)
         {
-            // RewardController에서 첫 메모리 선택 UI를 보여준다.
-            if (rewardController == null)
+            // recordController  첫 메모리 선택 UI를 보여준다.
+            if (recordController == null)
             {
                 return;
             }
 
             // todo 임시로 3개를 줘본다.
             // 레코드 발견 이벤트라면 
-            rewardController.SetRecordRewardList(3);
+            recordController.SetRecordRewardList(3);
 
-            rewardController.DrawRewardCards();
+            recordController.DrawRewardCards();
 
             // todo 이벤트로 나온 경우 확인 버튼 시 클리어 처리르 해야한다.
             if (checkEvent == true)
             {
-                rewardController.SetEnableCallback(()=>
+                recordController.SetEnableCallback(()=>
                 {
                     RecordManager.CHOICED_COMPLETE_RECORD = true;
                 });
@@ -266,7 +266,7 @@ public class StagePosController : MonoBehaviour
             idList.Add(selectPlayers[i].MyID);
         }
                
-        InfoManager.instance.SetSelectPlayers(idList.ToArray());
+        InfoManager.instance.SetSelectPlayers(idList.ToArray(), false);
 
         StageInfoManager.instance.ChoiceTestStage();
 

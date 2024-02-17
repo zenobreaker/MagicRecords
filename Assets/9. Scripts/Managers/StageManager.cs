@@ -35,10 +35,11 @@ public class StageManager : MonoBehaviour
     int currentStageNum = 0;
 
     Dictionary<uint, MonsterGrade> saveMonsterDic = new Dictionary<uint, MonsterGrade>();
-  
+
 
     // 필요한 컴포넌트
     [Header("UI 컴포넌트")]
+    [SerializeField] private StageClearUI stageClearUI;
     [SerializeField] private Text txt_CurrentScore = null;
     [SerializeField] private GameObject go_UI = null;
     [SerializeField] private Text txt_StageClearText = null;
@@ -191,16 +192,22 @@ public class StageManager : MonoBehaviour
     }
 
     // 결과창 출력
-    public void ShowClearUI(bool _isClear)
+    public void ShowClearUI(bool isClear)
     {
-        go_UI.SetActive(true);
-        if (_isClear)
+        if(stageClearUI != null)
         {
-            txt_StageClearText.text = "Stage Clear!!!";
+            stageClearUI.SetClearFlag(isClear);
+            stageClearUI.ShowStageClearUI();
         }
-        else
-            txt_StageClearText.text = "Stage Fail...";
-        txt_CurrentScore.text = string.Format("{0:000,000}", GameManager.MyInstance.MyGameScore);
+
+        //go_UI.SetActive(true);
+        //if (_isClear)
+        //{
+        //    txt_StageClearText.text = "Stage Clear!!!";
+        //}
+        //else
+        //    txt_StageClearText.text = "Stage Fail...";
+        //txt_CurrentScore.text = string.Format("{0:000,000}", GameManager.MyInstance.MyGameScore);
     }
 
     public void PrevStageBtn()
@@ -280,7 +287,7 @@ public class StageManager : MonoBehaviour
     public void ClearStage()
     {
         // 스테이지인포매니저의 함수를 호출해준다. 
-        StageInfoManager.instance.RefreshCurrentStageInfo();
+        StageInfoManager.instance.RefreshCurrentStageInfo(true);
     }
 
     // 스테이지에 있는 대상 전무 제거 명령

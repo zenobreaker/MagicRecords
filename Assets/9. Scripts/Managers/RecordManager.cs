@@ -2,24 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
+//using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 
 
 
 
-// ���ӳ� ���� �޸� Ŭ����
+// 레코드 정보 
 [System.Serializable]
 public class RecordInfo
 {
-    public int id;          // �ĺ� id
-    public string name;     // ���ڵ� �̸�
-    public string description; // ���ڵ弳�� 
-    public int grade;       // ���ڵ� ���
+    public int id;          //  id
+    public string name;     // 레코드 이름
+    public string description; // 레코드 설명
+    public int grade;       // 레코드 등급
     public int specialOptionID;
-    public string spritePath;   // ���ڵ� ��������Ʈ ���
-    public SpecialOption specialOption; // ���ڵ� ȿ�� 
+    public string spritePath;   // 레코드 이미지 경로
+    public SpecialOption specialOption; // 레코드 옵션
     public RecordInfo(int id, string name, string description, int grade, int specialOptionID)
     {
         this.id = id;
@@ -40,7 +40,7 @@ public class RecordInfo
     }
 }
 
-// Memory ������ ���� Json Ŭ����
+// 레코드 정보 json 클래스 
 [System.Serializable]
 public class RecordInfoJson
 {
@@ -51,20 +51,19 @@ public class RecordInfoJson
     public int specialOptionID;
 }
 
-// RecordInfoJson Ŭ������ ����Ʈ�� ��� �ִ� Ŭ���� 
+// RecordInfoJson 를 여럿 담고 있는 클래스
 [System.Serializable]
 public class RecordInfoJsonAllData
 {
     public RecordInfoJson[] recordInfoJson;
 }
 
-// ���� �� �����ϴ� �޸� �����ϴ� �Ŵ���
-
+// 레코드를 관리하는 매니저 
 public class RecordManager : MonoBehaviour
 {
 
     public static RecordManager instance;
-    public static bool CHOICED_COMPLETE_RECORD = false; // ���ڵ� ���ÿϷῡ ���� ��
+    public static bool CHOICED_COMPLETE_RECORD = false; // 레코드를 선택을 완료했는지에 대한 체크값
     [Header("�޸� ���� JSON ������")]
     public TextAsset memoryInfoJsonData;
 
@@ -72,7 +71,7 @@ public class RecordManager : MonoBehaviour
 
     public Dictionary<int, RecordInfo> recordInfoDictionary = new Dictionary<int, RecordInfo>();
 
-    // ���� �߿� ������ ���ڵ� ����Ʈ
+    // 선택한 레코드들 
     public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
     private void Awake()
@@ -318,12 +317,13 @@ public class RecordManager : MonoBehaviour
         selectRecordInfos.Add(selectedRecord);
     }
 
+    // 플레이어들에게 레코드 효과 적용하기
     public void ApplyRecordToPlayers(List<WheelerController> players)
     {
         for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
         {
             RecordInfo record = selectRecordInfos[i];
-            // ?? specialOption �� null �̶�� �����ʿ� ������ ���϶�� �� 
+            // ?? specialOption null 
             record.specialOption ??= GetSpecialOptionToRecordInfo(record.specialOptionID);
 
             foreach (var player in players)
@@ -331,7 +331,7 @@ public class RecordManager : MonoBehaviour
                 if (player == null)
                     continue;
                 
-                // �Ʒ� �ڷ�ƾ ���� 
+                // 레코드 타이머 코루틴 시작 
                 StartCoroutine(ManageRecordTimer(player.MyPlayer, record));
             }
         }
@@ -352,17 +352,15 @@ public class RecordManager : MonoBehaviour
 
         yield return new WaitForSeconds(record.specialOption.coolTime);
 
-        // todo ��Ÿ���� ���� �� ó�� ���� �߰� �ڸ� 
+        // todo 타이머가 끝나면 일부 레코드 관련 해서 다른 효과 발휘 등에 내용 추가 
     }
 
-    // ������Ʈ ������ �����ϴ� �Լ� 
-    // ������ ���ڵ���� ��ȸ�ϸ� ��Ÿ���� ��� 
     public void UpdateRecordTiemers()
     {
         for (int i = selectRecordInfos.Count - 1; i >= 0; i--)
         {
             RecordInfo record = selectRecordInfos[i];
-            // ?? specialOption �� null �̶�� �����ʿ� ������ ���϶�� �� 
+            // ?? specialOption �� null
             record.specialOption ??= GetSpecialOptionToRecordInfo(record.specialOptionID);
 
             if (record.specialOption.coolTime <= 0)
@@ -372,7 +370,7 @@ public class RecordManager : MonoBehaviour
 
         }
     }
-    // ������ ���ڵ���� �� �ʱ�ȭ�Ѵ�. 
+
     public void ClearRecords()
     {
         selectRecordInfos.Clear();  

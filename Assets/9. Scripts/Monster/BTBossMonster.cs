@@ -26,6 +26,9 @@ public class BTBossMonster : MonsterBase
     public float trapBulletCreateCooltime = 5.0f;
     public float currentCreateTrapBulletTime = 0.0f;
 
+    int checkIndex = 0; 
+    int[] checkHealthPointArr = new int[3];
+
     bool isPattern = false; // 패턴 중일 때 제어하는 변수 
     BehaviourTreeRunner btRunner;
     Coroutine attackCoroutine;
@@ -41,9 +44,17 @@ public class BTBossMonster : MonsterBase
     private void OnEnable()
     {
         if (player != null && player.MyStat != null)
+        {
             speed = player.MyStat.speed;
 
-        if(TrapContoller.instance != null)
+            checkHealthPointArr[0] = (int)(player.MyMaxHP * 0.7f);
+            checkHealthPointArr[1] = (int)(player.MyMaxHP * 0.4f);
+            checkHealthPointArr[2] = (int)(player.MyMaxHP * 0.3f);
+        }
+
+        checkIndex = 0;
+
+        if (TrapContoller.instance != null)
         {
             TrapContoller.instance.SetSpawnObject();
         }
@@ -419,12 +430,15 @@ public class BTBossMonster : MonsterBase
 
         transform.position = centerPos;
 
+        // 애니메이션 실행
+        anim.SetTrigger("CastingDown");
+
         // 시계 방향으로 빨간선을 날린 후 n초 후 검기를 발사
         int count = 0;
         while(count < 12 )
         {
             Vector3 trForward = transform.forward * 10.0f;
-            Quaternion angle = Quaternion.Euler(0, 30, 0); // 중앙 기술로 부터 멀어질 각도 (우)
+            Quaternion angle = Quaternion.Euler(0, 30 * count, 0); // 중앙 기술로 부터 멀어질 각도 (우)
 
             Vector3 myPos = new Vector3(transform.position.x,0, transform.position.z);   // 자기 위치
             var finalPos =  angle  * trForward ;
@@ -433,18 +447,18 @@ public class BTBossMonster : MonsterBase
             yield return new WaitForSeconds(0.5f);
 
             // 검기 발사 
-            RotateToTarget(finalPos);
-            anim.SetTrigger("Slash");
-            while (true)
-            {
-                if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
-                {
-                    CreateSlashObject(this.transform.rotation * angle);
-                    break; 
-                }
+            CreateSlashObject(this.transform.rotation * angle);
+            //RotateToTarget(finalPos);
+            
+            //while (true)
+            //{
+            //    if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
+            //    {
+            //        break; 
+            //    }
 
-                yield return new WaitForSeconds(0.1f);
-            }
+            //    yield return new WaitForSeconds(0.1f);
+            //}
 
             count++; 
         }
@@ -458,13 +472,16 @@ public class BTBossMonster : MonsterBase
     INode.ENodeState ArroundSlash()
     {
         // 피가 70%, 40% 10% 일 때만 사용 
-        if (anim == null || player == null || player.MyCurrentHP > player.MyMaxHP * 0.7 ||
-            player.MyCurrentHP > player.MyMaxHP * 0.4  || 
-            player.MyCurrentHP > player.MyMaxHP * 0.1)
+        if (anim == null || player == null || 
+            checkIndex >= checkHealthPointArr.Length ||
+            player.MyCurrentHP > checkHealthPointArr[checkIndex])
             return INode.ENodeState.ENS_Failure;
         else if (isPattern == true)
             return INode.ENodeState.ENS_Running;
-
+        
+        // 인덱스값을 늘린다.
+        checkIndex++;
+        
         isAttacking = true;
         attackCoroutine = StartCoroutine(IEArroundSlash());
 
@@ -488,11 +505,11 @@ public class BTBossMonster : MonsterBase
             meteor.targetLayer = 1 <<LayerMask.NameToLayer("Player");
             meteor.transform.position = upSpwan;
             meteor.scaleUpDelayTime = 5.0f;
-            meteor.dropSpeed = 30.0f;
+            meteor.dropSpeed = 100.0f;
             meteor.maximumlScaleSize = 10.0f;
             meteor.scaleUpDelayTime = 5.0f;
             meteor.StartMeteor();
-            var dropPoint = transform.forward * 10.0f;
+            var dropPoint = transform.forward * 5.0f;
             meteor.dropPoint = dropPoint;
         }
         anim.SetTrigger("Casting");
@@ -591,10 +608,10 @@ public class BTBossMonster : MonsterBase
         {
             new ActionNode(SummonUltimateBomb),
             new ActionNode(SpiritBomb),
-            //new ActionNode(ArroundSlash),
-            //new ActionNode(AttackTripleSlash),
-            //new ActionNode(TeleportSlash),
-            //new ActionNode(AttackSlash),
+            new ActionNode(ArroundSlash),
+            new ActionNode(AttackTripleSlash),
+            new ActionNode(TeleportSlash),
+            new ActionNode(AttackSlash),
         };
     }
 

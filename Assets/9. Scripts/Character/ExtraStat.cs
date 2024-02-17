@@ -65,7 +65,7 @@ public class ExtraStat
 		increaseHPRegenRate = 1;        // 초당 체력 회복 증가율
 		increaseMPRate = 1;         // 마나 증가율
 		increaseMPRegenRate = 1;         // 초당 마나 회복 증가율
-		increaseCritRate = 1;         // 치명 확률
+		increaseCritRate = 0;         // 치명 확률
 		increaseCritDmg = 1;         // 치명타 피해
 
 		// 버프에 의한 비율 총합 수치를 담는 변수들 

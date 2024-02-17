@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Pipeline;
+//using UnityEditor.Build.Pipeline;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
+//using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public enum ComboState
@@ -219,9 +219,12 @@ public class PlayerControl : WheelerController
 
         if (isAttacking == true)
             return;
+        // 움직이면 공격관련 변수들은 초기화.
+        current_Combo_State = ComboState.NONE;
+        current_Combo_Timer = 0.0f; 
 
         // 자동 상태일 경우 다른 로직을 쓰도록 한다. 
-        if(isAutoFlag == true)
+        if (isAutoFlag == true)
         {
             FollowToLeader();
             ChaseToTarget();
@@ -553,10 +556,10 @@ public class PlayerControl : WheelerController
         Debug.Log("타이머 리셋 시작");
         while(true)
         {
-            if (activateTimerToReset)
+            if (activateTimerToReset && isAttacking == false)
             {
                 current_Combo_Timer -= Time.deltaTime;
-                yield return new WaitForSeconds(0.1f);
+                yield return null;
 
                 if (current_Combo_Timer <= 0f)
                 {
@@ -636,5 +639,16 @@ public class PlayerControl : WheelerController
         }
 
         return false;
+    }
+
+    // 위치값 지정하기.
+    public void SetDestinationPosition(Vector3 dest)
+    {
+        targetPos = dest; 
+    }
+
+    public Vector3 GetDestinationPosition()
+    {
+        return targetPos;
     }
 }

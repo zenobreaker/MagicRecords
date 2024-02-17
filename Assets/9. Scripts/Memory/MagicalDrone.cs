@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
+using UnityEngine.XR;
 
 // 휠러에게 직접적으로 장착되면 여러 부가 효과를 일으키는 드론!
 // 메모리 룬이란 걸 장착하며 드론마다 발동하는 효과가 다르다! 
@@ -141,5 +142,26 @@ public class MagicalDrone : EquipItem
     public virtual void ApplyThirdDroneBonusEffect()
     {
 
+    }
+
+    public new MagicalDrone Clone()
+    {
+        MagicalDrone md = CreateDrone(this.itemUID, this.itemKeycode, this.itemName, this.itemType,
+           this.itemRank, this.maxSlotCount);
+
+        foreach(var rune in dic_RuneSlots)
+        {
+            if (rune.Value == null)
+                continue; 
+
+            md.dic_RuneSlots.Add(rune.Key, rune.Value.Clone());
+        }
+
+        md.extraStat = this.extraStat.Clone();
+        md.droneFirstEffectRuneCount = this.droneFirstEffectRuneCount;
+        md.droneSecondEffectRuneCount = this.droneSecondEffectRuneCount;
+        md.droneThirdEffectRuneCount = this.droneThirdEffectRuneCount;
+
+        return md; 
     }
 }

@@ -1,0 +1,20 @@
+{
+  "stageRewardJsonData": [
+    {
+      "stageID": "1",
+      "rewardIDList": "1"
+    },
+    {
+      "stageID": "2",
+      "rewardIDList": null
+    },
+    {
+      "stageID": "3",
+      "rewardIDList": null
+    },
+    {
+      "stageID": "4",
+      "rewardIDList": "2"
+    }
+  ]
+}

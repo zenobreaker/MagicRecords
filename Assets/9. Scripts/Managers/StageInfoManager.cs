@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using TreeEditor;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+//using TreeEditor;
+//using UnityEditor.Build.Pipeline.Interfaces;
+//using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -366,7 +367,7 @@ public class StageInfoManager : MonoBehaviour
     }
 
 
-    public void RefreshCurrentStageInfo()
+    public void RefreshCurrentStageInfo(bool isClear = false)
     {
         if (selectStageNodeInfo == null)
             return;
@@ -378,8 +379,49 @@ public class StageInfoManager : MonoBehaviour
         else if(selectStageNodeInfo.contentType == ContentType.BOSS_RAID)
         {
             // todo 보스레이드 관련 레벨 증가 및 다음 던전 해금 
+            // 클리어한 스테이지 정보 저장해본다..
+            PlayerPrefs.SetInt("BossClearID", selectStageNodeInfo.tableOrder);
+            PlayerPrefs.SetInt("BossClearFlag", isClear == true ? 1 : 0);
+            PlayerPrefs.SetInt("GetRewardFlag", 1);
+
+            // 보스 보상 이벤트 넣어주기
+            GameEventHandler.instance.AddEventToLobby(
+                ()=>
+                {
+                    Debug.Log("보스 클리어 보상 이벤트 발생!");
+                });
         }
     }
+
+
+    // 보스 클리어 보상을 받는 메소드
+    public void GetBossClearRewads()
+    {
+
+    }
+
+    public void GetRewardClearStage()
+    {
+        if (selectStageNodeInfo == null ||
+            selectStageNodeInfo.stageAppearInfos == null ||
+            selectStageNodeInfo.stageAppearInfos.Count <= 0)
+            return;
+
+
+        // 보상 리스트 중 줄 수 있는 것들 주기 
+        var firstInfo = selectStageNodeInfo.stageAppearInfos.First();
+        if (firstInfo == null)
+            return; 
+        // TODO : 서버에서 해당 내용을 전달 받아야할듯 
+
+        foreach (var reward in firstInfo.rewardIDList)
+        {
+            // 보상 가중치 값을 알아 내기 위해 보상 관련 매니저에게 말걸기
+        }
+
+
+    }
+
 
    // 진행중인 현재 챕터 갱신
     public void RefreshCurrentChapterStageNodeInfo()

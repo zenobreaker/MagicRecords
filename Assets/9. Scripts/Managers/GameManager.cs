@@ -281,6 +281,7 @@ public class GameManager : MonoBehaviour
         thePM.CreateCharacter();
         // 캐릭터 위치 조정
         thePM.PlayerSetPos(theSM.GetPlayerSpawnPosition());
+        playerCount = thePM.GetMyTeamCount();
         // 콤보 초기화
         theCombo.ResetCombo();
         player = thePM.GetPlayer();
@@ -291,8 +292,7 @@ public class GameManager : MonoBehaviour
             theChangeCharUI.InitChangeUI();
         }
 
-        if (player != null)
-            playerCount = thePM.GetMyTeam().Count;
+
         isTest = StageInfoManager.instance.isTest;
         stageText.gameObject.SetActive(false);
         
@@ -468,25 +468,23 @@ public class GameManager : MonoBehaviour
         // 전장에 나가 싸워낸 캐릭터 
         var battleCharacters = InfoManager.instance.GetSelectPlayerList();
 
+        var myCharacters = InfoManager.instance.GetMyPlayerInfoList();
+
         // 경험치 지급 
-        foreach(var character in battleCharacters)
+        foreach(var character in myCharacters)
         {
             if (character == null) continue;
 
-            int resultExp = (int)(_totalExp * _directRate);
-            character.GrowUp(resultExp); 
-        }
-
-
-        // 내가 소지한 캐릭터 
-        var myInfoCharacters = InfoManager.instance.GetUnselectCharacters();
-        // 경험치 지급 
-        foreach(var pair in myInfoCharacters)
-        {
-            if (pair.Value == null) continue;
-
-            int resultExp = (int)(_totalExp * _indirectRate);
-            pair.Value.GrowUp(resultExp);
+            if(battleCharacters.Find(x => x == character) != null)
+            {
+                int resultExp = (int)(_totalExp * _directRate);
+                character.GrowUp(resultExp); 
+            }
+            else
+            {
+                int resultExp = (int)(_totalExp * _indirectRate);
+                character.GrowUp(resultExp);
+            }
         }
     }
 
@@ -531,6 +529,8 @@ public class GameManager : MonoBehaviour
         {
             foreach(var own in myTeam)
             {
+                if (own == null) continue; 
+
                 if(own.isDead == false)
                 {
                     //ChangeControlWheeler(own.MyPlayer);

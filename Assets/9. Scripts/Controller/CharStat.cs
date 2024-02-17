@@ -188,7 +188,7 @@ public class CharStat
         // 특수한 스탯은 계산식이 다르다
         totalASPD = (1.0f + resultAspd + extraStat.extraAttackSpeed) * 
                 extraStat.increaseAttackSpeedRate ;
-        totalCritRate = (extraStat.extraCritRate + critRate ) * 
+        totalCritRate = (extraStat.extraCritRate + critRate ) +
             extraStat.increaseCritRate;
         totalCritDmg =  (baseCritDamage + extraStat.extraCritDmg + critDmg) *
             extraStat.increaseCritDmg ;

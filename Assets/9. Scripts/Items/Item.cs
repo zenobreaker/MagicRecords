@@ -78,7 +78,7 @@ public class Item : ICloneable
         uniqueID = _item.uniqueID;
         this.userID = _item.userID;
 
-        itemImage = Resources.Load("ItemImage/" + _item.itemImgID.ToString(), typeof(Sprite)) as Sprite;
+        //itemImage = Resources.Load("ItemImage/" + _item.itemImgID.ToString(), typeof(Sprite)) as Sprite;
     }
 
     public Item(ItemType itemType, int itemUID, int itemCount)
@@ -86,6 +86,17 @@ public class Item : ICloneable
         this.itemType = itemType;
         this.itemUID = itemUID;
         this.itemCount = itemCount;
+    }
+
+
+    public Item(int id, string name, string desc)
+    {
+        itemType = ItemType.NONE;
+        itemCount = 0;
+        
+        this.itemUID = id;
+        itemName = name;
+        itemDesc = desc; 
     }
 
     public Item(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye, ItemRank _itemRank,
@@ -106,7 +117,7 @@ public class Item : ICloneable
         isSale = _isSale;
         this.userID = userID;
 
-        itemImage = Resources.Load("ItemImage/" + _itemIMG.ToString(), typeof(Sprite)) as Sprite;
+        itemImage = Resources.Load<Sprite>("ItemImage/" + _itemIMG);
     }
 
 
@@ -125,6 +136,11 @@ public class Item : ICloneable
 
         isSale = _isSale;
         this.userID = userID;
+    }
+
+    public void SetItemImageForFullPath(string fullPath)
+    {
+        itemImage = Resources.Load(fullPath, typeof(Sprite)) as Sprite;
     }
 
     public virtual object Clone()

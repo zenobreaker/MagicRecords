@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Debug.Log("타임스케일 " + Time.timeScale);
+            //LobbyManager.MyInstance.TestAddEvent();
         }
     }
 }

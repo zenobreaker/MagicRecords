@@ -202,4 +202,9 @@ public class UIPageManager : MonoBehaviour
             skillManual.OpenBaseUI(characters);
         }
     }
+
+    public void OpenRewardPopup()
+    {
+        
+    }
 }

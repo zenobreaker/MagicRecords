@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 434291}
   - component: {fileID: 434293}
   m_Layer: 5
-  m_Name: StagePosBase
+  m_Name: StagePosController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -353,7 +353,7 @@ MonoBehaviour:
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-  rewardController: {fileID: 1774343745}
+  recordController: {fileID: 1774343745}
   eventShopUI: {fileID: 1627441513}
   finalChapterNum: 1
   curMainChpaterNum: 0
@@ -4546,7 +4546,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &125874179
 PrefabInstance:
@@ -13968,7 +13968,6 @@ MonoBehaviour:
       passiveAdditionalDamageRate: 0
       passiveAdditionalLostHealthRate: 0
       passiveAdditionalMaxHealthRate: 0
-    selectRecordInfos: []
     isAction: 1
     isDead: 0
 --- !u!1 &364384027 stripped
@@ -22953,6 +22952,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88f3cf8fea2e7c41b504d87884af69e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &635402532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 635402534}
+  - component: {fileID: 635402533}
+  m_Layer: 0
+  m_Name: RewardDatabase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &635402533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635402532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e888f5ca278df145b038fa20a260d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardJson: {fileID: 4900000, guid: 52e9b7b27051c244fb790a0ab687eb28, type: 3}
+  stageRewardJson: {fileID: 4900000, guid: e939c1b5170057c47b736d4f5fba30b6, type: 3}
+--- !u!4 &635402534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635402532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &640044374 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1913273301340704334, guid: fc6992726f9bced4287b73b99a852907,
@@ -23820,7 +23865,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &664749742 stripped
 RectTransform:
@@ -32144,6 +32189,57 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1297380399}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &991816747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 991816748}
+  - component: {fileID: 991816749}
+  m_Layer: 5
+  m_Name: RewardController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &991816748
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991816747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1635346055}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &991816749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991816747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7288c94c93460f74295a6f9c2ddb8e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardPopup: {fileID: 4465809989302908619, guid: d1117ba0871669246b4b28e717614593,
+    type: 3}
 --- !u!1 &997165721
 GameObject:
   m_ObjectHideFlags: 0
@@ -33230,7 +33326,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1041644020
 GameObject:
@@ -42787,7 +42883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1348509258
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42985,8 +43081,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 1063155114}
-  childObject: {fileID: 0}
-  titleText: {fileID: 1335714291}
+  childObject: {fileID: 544513111637249474, guid: 5fbe98a154cabe24eae538ba531db40f,
+    type: 3}
+  titleText: {fileID: 1265572091}
   choiceAlert: {fileID: 2147168776}
   doTweenAnimation: {fileID: 1348509261}
 --- !u!224 &1357278051 stripped
@@ -43567,7 +43664,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1371879286
 GameObject:
@@ -43938,7 +44035,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1389821257
 MonoBehaviour:
@@ -44725,17 +44822,15 @@ MonoBehaviour:
   itemBGImage: {fileID: 0}
   rt_parent: {fileID: 0}
   fadeImage: {fileID: 0}
-  appearInfo:
-    stageType: 0
-    stageID: 0
-    eventCategory: 0
-    monsterGrade: 0
-    wave: 0
-    maxWave: 0
+  nodeInfo:
+    tableOrder: 0
     stageName: 
-    mapID: 0
-    appearIDList: 
-    rewardIDList: 
+    contentType: 0
+    eventInfoList: []
+    stageAppearInfos: []
+    isBossStage: 0
+    isLocked: 0
+    isCleared: 0
 --- !u!1 &1413043213
 GameObject:
   m_ObjectHideFlags: 0
@@ -50323,7 +50418,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1585043486
 GameObject:
@@ -50335,6 +50430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1585043488}
   - component: {fileID: 1585043487}
+  - component: {fileID: 1585043489}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -50355,6 +50451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStageScreenOpen: 0
+  isPossibleReceiveReward: 0
   go_StageScreen: {fileID: 0}
   go_SignBase: {fileID: 178725938}
   text_SignText: {fileID: 497277342}
@@ -50371,6 +50468,7 @@ MonoBehaviour:
   btn_IntotheStage: {fileID: 1862151568}
   equipMenu: {fileID: 0}
   btn_Back: {fileID: 616103257}
+  rewardController: {fileID: 991816749}
 --- !u!4 &1585043488
 Transform:
   m_ObjectHideFlags: 0
@@ -50379,13 +50477,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585043486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1048.2843, y: -509.97617, z: 0}
-  m_LocalScale: {x: 0.70830023, y: 0.70830023, z: 0.70830023}
+  m_LocalPosition: {x: -8.144336, y: -3.9621093, z: 10}
+  m_LocalScale: {x: 0.0055029294, y: 0.0055029294, z: 0.0055029294}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1768421495}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1585043489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585043486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36f627bf2a460742950e47e02b92859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 3b3e949e8355827459893452df9fa75e, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1589380291
 GameObject:
   m_ObjectHideFlags: 0
@@ -51245,6 +51359,68 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1746142432}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1629650663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1629650666}
+  - component: {fileID: 1629650665}
+  - component: {fileID: 1629650664}
+  m_Layer: 0
+  m_Name: GameEventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1629650664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629650663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36f627bf2a460742950e47e02b92859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 0}
+  response:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1629650665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629650663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e513f64a6d35fb4fbc3ce4b2cd4c59e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventListener: {fileID: 1629650664}
+--- !u!4 &1629650666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629650663}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.010287, y: 1.4382901, z: 9.982567}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1632970353
 GameObject:
   m_ObjectHideFlags: 0
@@ -51336,6 +51512,7 @@ RectTransform:
   - {fileID: 154607371}
   - {fileID: 2147168775}
   - {fileID: 1589978270}
+  - {fileID: 991816748}
   m_Father: {fileID: 1768421495}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52203,7 +52380,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1668743595
 GameObject:
@@ -55070,7 +55247,6 @@ RectTransform:
   m_Children:
   - {fileID: 1635346055}
   - {fileID: 395622109}
-  - {fileID: 1585043488}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -55370,7 +55546,7 @@ GameObject:
   - component: {fileID: 1774343744}
   - component: {fileID: 1774343745}
   m_Layer: 5
-  m_Name: RecordUI
+  m_Name: RecordContorller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55895,11 +56071,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items: {fileID: 4900000, guid: 4ca032fbbbb355548b550a2b05f018a7, type: 3}
   subOptions: {fileID: 4900000, guid: 44dec3d5cdbf5af4599980929eda952d, type: 3}
+  materialJson: {fileID: 4900000, guid: f2eb435ce89d569409e1dd240e765d53, type: 3}
   weaponList: []
   armorList: []
   wheelList: []
   accessroyList: []
   itemList: []
+  materialJsonAllData:
+    materialJsonData: []
 --- !u!1001 &1785787845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58320,7 +58499,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844371502
 GameObject:
@@ -59149,7 +59328,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1862151567
 GameObject:
@@ -62609,7 +62788,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1949637802
 RectTransform:
   m_ObjectHideFlags: 0
@@ -64724,7 +64903,7 @@ MonoBehaviour:
   content: {fileID: 1879882268}
   childObject: {fileID: 1411481820}
   titleText: {fileID: 2084998520}
-  stageInfoList: []
+  stageList: []
   bossInfoUI: {fileID: 1348509263}
 --- !u!1 &2020072498
 GameObject:
@@ -65283,7 +65462,6 @@ MonoBehaviour:
       passiveAdditionalDamageRate: 0
       passiveAdditionalLostHealthRate: 0
       passiveAdditionalMaxHealthRate: 0
-    selectRecordInfos: []
     isAction: 1
     isDead: 0
 --- !u!1 &2041277728

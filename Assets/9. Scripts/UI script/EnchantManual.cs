@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 using Random = UnityEngine.Random;
 
 public class EnchantManual : MonoBehaviour
@@ -155,7 +155,7 @@ public class EnchantManual : MonoBehaviour
     // 랜덤한 서브 능력치를 추가한다.
     void AddRandomSubAbility(ref ItemAbility p_Ability)
     {
-        // 
+        
         int idx = Random.Range(1, (int)AbilityType.MAX_ABILITY + 1);
         int power;
 

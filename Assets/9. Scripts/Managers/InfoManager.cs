@@ -196,11 +196,12 @@ public class InfoManager : MonoBehaviour
 
         foreach (var pair in myCharacterPlayerList)
         {
-            pair.Value.InitCurrentHP();
-            pair.Value.InitCurrentMP();
-            pair.Value.InitCurrentCP();
-            pair.Value.isDead = false; 
-            partyCharacters.Add(pair.Key, pair.Value);
+            var character = pair.Value.DeepCopy();
+            character.InitCurrentHP();
+            character.InitCurrentMP();
+            character.InitCurrentCP();
+            character.isDead = false; 
+            partyCharacters.Add(pair.Key, character);
         }
     }
 
@@ -224,10 +225,10 @@ public class InfoManager : MonoBehaviour
 
 
     // 선택한 캐릭터 설정 
-    public void SetSelectPlayer(int key)
+    public void SetSelectPlayer(int key, bool isLink)
     {
         //var info = GetMyPlayerInfo(key);
-        if(partyCharacters == null || partyCharacters.Count <= 0)
+        if(partyCharacters == null || partyCharacters.Count <= 0 || isLink == false)
         {
             InitMyPartyPlayList();  
         }
@@ -236,18 +237,31 @@ public class InfoManager : MonoBehaviour
         {
             //info.InitCurrentHP();
             //info.InitCurrentMP();
-            selectPlayerList.Add(key, info);
+            if(isLink == true)
+            {
+                selectPlayerList.Add(key, info);
+            }
+            else
+            {
+                var character = info.DeepCopy();
+                character.InitCurrentHP();
+                character.InitCurrentMP();
+                character.InitCurrentCP();
+                character.isDead = false;
+
+                selectPlayerList.Add(key, character);
+            }
         }
     }
 
     // 선택한 캐릭터들을 설정한다
-    public void SetSelectPlayers(int[] keys)
+    public void SetSelectPlayers(int[] keys, bool isLink = true)
     {
         selectPlayerList.Clear();
 
         for (int i = 0; i < keys.Length; i++)
         {
-            SetSelectPlayer(keys[i]);
+            SetSelectPlayer(keys[i], isLink);
         }
     }
 
@@ -257,7 +271,7 @@ public class InfoManager : MonoBehaviour
         return selectPlayerList;
     }
 
-    // 선택하지 않은 캙티더 리스트 반환
+    // 선택하지 않은 캐릭터 리스트 반환
     public Dictionary<int, Character> GetUnselectCharacters()
     {
         // 선택하지않은 캐릭터 리스트를 담을 변수

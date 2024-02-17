@@ -449,12 +449,12 @@ MonoBehaviour:
   itemCount: 0
   selectStageEventNum: 0
   isTest: 0
-  selectStageTable:
+  selectStageNodeInfo:
     tableOrder: 0
     stageName: 
-    type: 0
+    contentType: 0
     eventInfoList: []
-    appearTargetIDList: 
+    stageAppearInfos: []
     isBossStage: 0
     isLocked: 0
     isCleared: 0
@@ -508,7 +508,7 @@ RectTransform:
   - {fileID: 1506641563}
   - {fileID: 2116785921}
   m_Father: {fileID: 1873408232}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5176471}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5372549}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -997,6 +997,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170258279}
   m_CullTransparentMesh: 0
+--- !u!1 &1215316850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1215316851}
+  - component: {fileID: 1215316853}
+  - component: {fileID: 1215316852}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1215316851
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215316850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1873408232}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1215316852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215316850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b243e01a3603f464b945fdc30f1c9bb9, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 4.76
+--- !u!222 &1215316853
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215316850}
+  m_CullTransparentMesh: 1
 --- !u!1 &1255264426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,15 +1541,27 @@ MonoBehaviour:
         extraCritDmg: 0
         increaseAttackRate: 1
         increaseDefenseRate: 1
+        increaseAttackSpeedRate: 1
         increaseSpeedRate: 1
         increaseHPRate: 1
         increaseHPRegenRate: 1
         increaseMPRate: 1
         increaseMPRegenRate: 1
+        increaseCritRate: 0
+        increaseCritDmg: 1
+        buffAttackRate: 0
+        buffDefenseRate: 0
+        buffAttackSpeedRate: 0
+        buffSpeedRate: 0
+        buffHPRate: 0
+        buffHPRegenRate: 0
+        buffMPRate: 0
+        buffMPRegenRate: 0
+        buffCritRate: 0
+        buffCritDmg: 0
       passiveAdditionalDamageRate: 0
       passiveAdditionalLostHealthRate: 0
       passiveAdditionalMaxHealthRate: 0
-    selectRecordInfos: []
     isAction: 1
     isDead: 0
 --- !u!1 &1506641562
@@ -2611,11 +2699,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items: {fileID: 4900000, guid: 4ca032fbbbb355548b550a2b05f018a7, type: 3}
   subOptions: {fileID: 4900000, guid: 44dec3d5cdbf5af4599980929eda952d, type: 3}
+  materialJson: {fileID: 0}
   weaponList: []
   armorList: []
   wheelList: []
   accessroyList: []
   itemList: []
+  materialJsonAllData:
+    materialJsonData: []
 --- !u!114 &1757245447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2628,315 +2719,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60cebc03d3c0c64286f0939fad30642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSkills:
-  - id: 0
-    userID: 0
-    keycode: 
-    name: ReinforcedMagicBullet
-    skillName: "\uAC15\uD654 \uB9C8\uD0C4"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 10
-    icon: {fileID: -6719181506682585773, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 1
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: IceShot
-    skillName: "\uBE59\uACB0\uD0C4"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 10
-    icon: {fileID: -4979205637766147949, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 1
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: PlasmaRay
-    skillName: "\uD50C\uB77C\uC988\uB9C8\uAD11\uC120"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 10
-    coefficient: 32
-    icon: {fileID: -6871419251673393040, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 3
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: SpreadShot
-    skillName: "\uC0B0\uD0C4 \uC0AC\uACA9"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 15
-    icon: {fileID: 7009396560195139854, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: ConsecutiveShot
-    skillName: "\uC5F0\uC18D \uBC1C\uC0AC"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 30
-    icon: {fileID: -53329198806347244, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: SpiralShot
-    skillName: "\uB370\uC2A4 \uC2A4\uD30C\uC774\uB7F4"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 15
-    icon: {fileID: -6609288933157824648, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: SplitBullet
-    skillName: "\uBD84\uC5F4 \uB9C8\uD0C4"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 15
-    icon: {fileID: 2232602796015459456, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: BulletRain
-    skillName: "\uBD88\uB81B\uB808\uC778"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 30
-    icon: {fileID: 8047199739274405261, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: ExtreamBullet
-    skillName: "\uB9C8\uD0C4 : \uADF9\uC545"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 15
-    icon: {fileID: -6951174414738519055, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 1
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: AssistWeapon
-    skillName: "\uC5B4\uC2DC\uC2A4\uD2B8 \uC6E8\uD3F0"
-    skillType: 0
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 30
-    icon: {fileID: 1851582974730446671, guid: ecf34d80ff3884846be601eb52a289d5, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  passiveSkills:
-  - id: 0
-    userID: 0
-    keycode: 
-    name: Forbbiden
-    skillName: "\uAE08\uC9C0\uB41C \uBE44\uC220"
-    skillType: 1
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 0
-    icon: {fileID: 21300000, guid: 22892743e142afa41aa60f2b3440a0f3, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: injection
-    skillName: "\uC18D\uC131 \uC8FC\uC785"
-    skillType: 1
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 0
-    icon: {fileID: 0}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: UpgradeBullet
-    skillName: "\uD0C4\uD658 \uAC1C\uC870"
-    skillType: 1
-    skillLevel: 1
-    skillMaxLevel: 0
-    coefficient: 0
-    icon: {fileID: 21300000, guid: b72fab4aadfbf03419ff6191dc1a8901, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: ForbbidenGreif
-    skillName: "\uAE08\uAE30-\uBAA8\uBA78\uD558\uB294 \uBE44\uD0C4"
-    skillType: 1
-    skillLevel: 0
-    skillMaxLevel: 0
-    coefficient: 0
-    icon: {fileID: 0}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: ForbbidenHate
-    skillName: "\uAE08\uAE30-\uAC00\uC99D\uC2A4\uB7EC\uC6B4 \uC99D\uC624"
-    skillType: 0
-    skillLevel: 0
-    skillMaxLevel: 0
-    coefficient: 0
-    icon: {fileID: 0}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
-  - id: 0
-    userID: 0
-    keycode: 
-    name: ForbbidenFury
-    skillName: "\uAE08\uAE30 - \uD30C\uBA78\uD558\uB294 \uACA9\uB178"
-    skillType: 1
-    skillLevel: 0
-    skillMaxLevel: 0
-    coefficient: 0
-    icon: {fileID: -2652187147517464086, guid: e0937790df71a384cb0895fcb2785790, type: 3}
-    hitCount: 0
-    bonusOptionList: []
-    bonusSpecialOptionList: []
-    leadingSkillList: []
-    baseCost: 0
-    upgradeCost: 0
-    skillSubDesc: 
-    skillDesc: 
-    isChain: 0
   activeSkillList: []
   passiveSkillList: []
-  skillToolTip: {fileID: 0}
   skilbtn: {fileID: 0}
   baseUpgradeCost: 5000
   skillDataJson: {fileID: 4900000, guid: 089c631d91d49bd449069dbb5ea3de1b, type: 3}
@@ -3347,6 +3131,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1215316851}
   - {fileID: 731865234}
   m_Father: {fileID: 0}
   m_RootOrder: 2

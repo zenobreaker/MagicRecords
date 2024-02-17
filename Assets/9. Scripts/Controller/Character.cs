@@ -60,7 +60,7 @@ public class Character
     public MagicalDrone drone;
 
     // 레코드 정보
-    public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
+    //public List<RecordInfo> selectRecordInfos = new List<RecordInfo>();
 
 
     public bool isAction = true;    //  flag
@@ -691,7 +691,7 @@ public class Character
     // 레코드 효과 발현
     public void ApplyRecordAbility(RecordInfo record)
     {
-        if (record == null || selectRecordInfos.Contains(record) == true) return;
+        if (record == null) return;
 
         // 옵션이 없다면
         if (record.specialOption == null)
@@ -720,5 +720,32 @@ public class Character
         //selectRecordInfos.Remove(record);
 
         MyStat.ApplyOption();
+    }
+
+    // 깊은 복사 코드 
+    public Character DeepCopy()
+    {
+        Character character = new Character();
+
+        character.objectID = this.objectID;
+        character.MyID = this.MyID;
+        character.charStat = this.charStat.Clone(); 
+        foreach(var equipItem in equipItems)
+        {
+            if (equipItem.Value == null)
+                continue;
+
+            character.EquipItem(equipItem.Value.Clone() as EquipItem);
+        }
+
+        character.SetStartChainSkill(this.chainIdx);
+        character.skills = this.skills;
+        character.chainsSkills = this.chainsSkills;
+        character.equippedPassiveSkills = this.equippedPassiveSkills;
+        if(drone != null)
+            character.drone = this.drone.Clone();
+
+        
+        return character;
     }
 }

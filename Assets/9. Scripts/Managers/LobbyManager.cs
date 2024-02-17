@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class LobbyManager : MonoBehaviour
 
     public bool isStageScreenOpen = false;      // 스테이지 선택창
     private bool isSignOpen = false;            // 선택 안내문 
+    public bool isPossibleReceiveReward = false; // 보상을 받을 수 있는게 있다.
 
     // 필요한 컴포넌트 
     [SerializeField]
@@ -42,7 +44,8 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] EquipMenu equipMenu = null;
     //[SerializeField] Infomation theInfo = null;
     [SerializeField] GameObject btn_Back = null; // 뒤로가기 버튼 
-    //[SerializeField] CharStat charStat = null;
+
+    public RewardController rewardController;
 
     public void Awake()
     {
@@ -65,8 +68,20 @@ public class LobbyManager : MonoBehaviour
         equipMenu = FindObjectOfType<EquipMenu>();
         //theInfo = FindObjectOfType<Infomation>();
         //if (charStat == null)
-          //  charStat = FindObjectOfType<CharStat>();
+        //  charStat = FindObjectOfType<CharStat>();
 
+
+        var flag =  PlayerPrefs.GetInt("GetRewardFlag");
+        if(flag == 1 && rewardController != null)
+        {
+            // 보상 창을 열어준다.
+            PlayerPrefs.SetInt("GetRewardFlag", 0);
+
+            var id = PlayerPrefs.GetInt("BossClearID");
+
+            rewardController.GainBossRaidReward(id);
+        }
+     
     }
 
     private void LateUpdate()
@@ -75,7 +90,8 @@ public class LobbyManager : MonoBehaviour
         { 
             text_Coin.text = "코인 : " + InfoManager.coin.ToString();
         }
-       // text_Level.text = "레벨 : " + charStat.level;
+
+ 
     }
 
     public void ChangeBackground(int _idx = 0)

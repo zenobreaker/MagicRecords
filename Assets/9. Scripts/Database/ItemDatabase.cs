@@ -1,7 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Item;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 using Random = UnityEngine.Random;
+
+
+[System.Serializable]
+public class MaterialJsonData
+{
+    public int id;
+    public string name;
+    public string description;
+    public string imagePath;
+}
+
+[System.Serializable]
+public class MaterialJsonAllData
+{
+    public MaterialJsonData[] materialJsonData;
+}
+
 
 public class ItemDatabase : MonoBehaviour
 {
@@ -9,17 +28,22 @@ public class ItemDatabase : MonoBehaviour
 
     public TextAsset items;
     public TextAsset subOptions;
+    public TextAsset materialJson;
+
     public List<Item> weaponList;
     public List<Item> armorList;
     public List<Item> wheelList;
     public List<Item> accessroyList;
     public List<Item> itemList;
 
-    Dictionary<int, Item> itemDataList; 
+
+    public MaterialJsonAllData materialJsonAllData;
+
+    Dictionary<int, Item> itemDataList;
 
     void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -27,22 +51,47 @@ public class ItemDatabase : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        itemDataList = new Dictionary<int, Item>();
+
+
+        InitializeMaterialJson();
+
+        //InitializeItemList();
     }
 
-    void Start()
+
+    // 재화 
+    public void InitializeMaterialJson()
     {
-        itemDataList = new Dictionary<int, Item>();
+        if (materialJson == null) return; 
+
+        materialJsonAllData = JsonUtility.FromJson<MaterialJsonAllData>(materialJson.text);
+        if (materialJsonAllData.materialJsonData == null) return; 
+
+        foreach(var material in materialJsonAllData.materialJsonData)
+        {
+            //Item item = new Item(material.id, material.name, material.name, ItemType.NONE, ItemRank.NONE, material.description,
+            //      0, 0, material.imagePath);
+            Item item = new Item(material.id, material.name, material.description);
+            item.SetItemImageForFullPath("Resources/" + material.imagePath);
+
+            if(item != null)
+            {
+                Debug.Log(item.itemName);
+            }
+
+            itemDataList.Add(item.itemUID, item);
+        }
+
+    }
+
+    public void InitializeItemList()
+    {
         if (items == null)
         {
             return;
         }
-        InitializeItemList();
-    }
-
-
-    public void InitializeItemList()
-    {
-
         string[] line = items.text.Substring(0, items.text.Length - 1).Split('\n');
         for (int i = 0; i < line.Length; i++)
         {

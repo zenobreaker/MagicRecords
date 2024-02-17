@@ -102,6 +102,11 @@ public class InGameMenu : TabManual
         {
             if (Time.timeScale == 0)
                 Time.timeScale = 1;
+
+            if(StageInfoManager.instance != null)
+            {
+                StageInfoManager.instance.isTest = false; 
+            }
         });
     }
 

@@ -22,7 +22,7 @@ public class PlayerableObjectData
 public class CharacterData
 {
     public int id;
-    public int characterID;     // ����� �Ǵ� ĳ������ ID
+    public int characterID;     // 캐릭터 고유 ID
     public int statID;
     public string name;
     public Sprite portrait;
@@ -58,7 +58,7 @@ public class PlayerDatabase : MonoBehaviour
     public static PlayerDatabase instance;
 
     private CharacterDataJsonAllData characterDataAllData;
-    private CharacterStatJsonAllData characterAllData;  // ĳ���� �ɷ�ġ ���� 
+    private CharacterStatJsonAllData characterAllData; 
 
     [Header("캐릭터 JSON ")]
     public TextAsset characterData;

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Localization.Platform.Android;
+//using UnityEditor.Localization.Platform.Android;
 using UnityEngine;
 
 // 지팡이 계열을 다루는 컨트롤러

@@ -15,6 +15,46 @@ MonoBehaviour:
   m_TableCollectionName: MyTable
   m_TableCollectionNameGuidString: a5096bdddee18684689f866c548eab8b
   m_Entries:
+  - m_Id: 360667407036416
+    m_Key: name_pond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360667407036417
+    m_Key: 'name_falco '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 360667411230720
+    m_Key: name_noname
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63454175319404544
+    m_Key: name_coin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63454175336181760
+    m_Key: name_adventure_credit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63454175336181761
+    m_Key: name_mystic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63454175336181762
+    m_Key: name_row_reinstone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63454175336181763
+    m_Key: name_middle_reinstone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63454175336181764
+    m_Key: name_high_reinstone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63454175336181765
+    m_Key: name_unique_reinstone
+    m_Metadata:
+      m_Items: []
   - m_Id: 14198723373281280
     m_Key: reinforcedMagicBullet
     m_Metadata:
@@ -105,18 +145,6 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 4255082790452723737
-  - m_Id: 360667407036416
-    m_Key: name_pond
-    m_Metadata:
-      m_Items: []
-  - m_Id: 360667407036417
-    m_Key: 'name_falco '
-    m_Metadata:
-      m_Items: []
-  - m_Id: 360667411230720
-    m_Key: name_noname
-    m_Metadata:
-      m_Items: []
   - m_Id: 10716149804019712
     m_Key: name_reinforcedMagicBullet
     m_Metadata:
