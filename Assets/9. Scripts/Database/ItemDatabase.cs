@@ -6,10 +6,16 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 using Random = UnityEngine.Random;
 
 
-[System.Serializable]
-public class MaterialJsonData
+[System.Serializable] 
+public class JsonData
 {
     public int id;
+}
+
+
+[System.Serializable]
+public class MaterialJsonData : JsonData
+{
     public string name;
     public string description;
     public string imagePath;
@@ -21,6 +27,31 @@ public class MaterialJsonAllData
     public MaterialJsonData[] materialJsonData;
 }
 
+[System.Serializable]
+public class EquipmentJsonData : JsonData
+{
+    public string keycode;
+    public int equipType;
+    public int rank;
+    public string name;
+    public string description;
+    public string imagePath;
+    public int abilityType;
+    public int abilityValue;
+    public int isPerscent;
+    public int itemValue;
+
+}
+
+
+[System.Serializable]
+public class EquipmentJsonAllData
+{
+    public EquipmentJsonData[] equipmentJsonData;
+}
+
+
+
 
 public class ItemDatabase : MonoBehaviour
 {
@@ -28,7 +59,10 @@ public class ItemDatabase : MonoBehaviour
 
     public TextAsset items;
     public TextAsset subOptions;
+
     public TextAsset materialJson;
+    public TextAsset equipmentJson;
+
 
     public List<Item> weaponList;
     public List<Item> armorList;
@@ -38,7 +72,9 @@ public class ItemDatabase : MonoBehaviour
 
 
     public MaterialJsonAllData materialJsonAllData;
+    public EquipmentJsonAllData equipmentJsonAllData;
 
+    [SerializeField]
     Dictionary<int, Item> itemDataList;
 
     void Awake()
@@ -57,26 +93,24 @@ public class ItemDatabase : MonoBehaviour
 
         InitializeMaterialJson();
 
-        //InitializeItemList();
+        InitializeEquipItemJson();
     }
 
 
     // 재화 
     public void InitializeMaterialJson()
     {
-        if (materialJson == null) return; 
+        if (materialJson == null) return;
 
         materialJsonAllData = JsonUtility.FromJson<MaterialJsonAllData>(materialJson.text);
-        if (materialJsonAllData.materialJsonData == null) return; 
+        if (materialJsonAllData.materialJsonData == null) return;
 
-        foreach(var material in materialJsonAllData.materialJsonData)
+        foreach (var material in materialJsonAllData.materialJsonData)
         {
-            //Item item = new Item(material.id, material.name, material.name, ItemType.NONE, ItemRank.NONE, material.description,
-            //      0, 0, material.imagePath);
-            Item item = new Item(material.id, material.name, material.description);
-            item.SetItemImageForFullPath("Resources/" + material.imagePath);
-
-            if(item != null)
+            Item item = new Item(material.id, material.name, material.description, material.imagePath);
+            //item.SetItemImageForFullPath("Image/" + material.imagePath);
+            item.itemType = ItemType.ETC;
+            if (item != null)
             {
                 Debug.Log(item.itemName);
             }
@@ -86,123 +120,31 @@ public class ItemDatabase : MonoBehaviour
 
     }
 
-    public void InitializeItemList()
+    public void InitializeEquipItemJson()
     {
-        if (items == null)
+        if (equipmentJson == null) return;
+
+        equipmentJsonAllData = JsonUtility.FromJson<EquipmentJsonAllData>(equipmentJson.text);
+        if (equipmentJsonAllData.equipmentJsonData == null) return;
+
+        foreach (var json in equipmentJsonAllData.equipmentJsonData)
         {
-            return;
+            ItemAbility itemAbility = new ItemAbility();
+            itemAbility.abilityType = (AbilityType)json.abilityType;
+            itemAbility.power = json.abilityValue;
+            itemAbility.isPercent = json.isPerscent == 1 ? true : false;
+
+            EquipItem equipItem = new EquipItem(json.id, json.keycode, json.name,
+                ItemType.Equipment, (ItemRank)json.rank, json.description, 1,
+                json.itemValue, json.imagePath, (EquipType)json.equipType, 0,
+                false, itemAbility);
+
+            itemDataList.Add(equipItem.itemUID, equipItem);
         }
-        string[] line = items.text.Substring(0, items.text.Length - 1).Split('\n');
-        for (int i = 0; i < line.Length; i++)
-        {
-            // todo 아이템 값 데이터 변경되었으니 그에 걸맞게 조정해야됨
-            // 앞뒤 공백 제거 
-            //line[i].Replace("\r", "");
-            string[] row = line[i].Split('\t');
-            if (row.Length < 23) continue;
 
-            int itemUID = int.Parse(row[0]);
-            string keycode = row[1];
-            string itemName = row[2];
-            ItemType itemType = DiscernToItemType(row[3]);
-            ItemRank itemRank = DiscernToItemRank(row[4]);
-            int itemEach = int.Parse(row[5]);
-            int itemValue = int.Parse(row[6]);
-            string itemDesc = row[7].Replace("\\n", "\n");
-            string itemImgID = row[8];
-            bool isSale = row[9].Equals("TRUE");     // 상점에 판매할 여부 
-            EquipType equipType = DiscernToEquipType(row[10]);
-            int enhance = int.Parse(row[11]);
-            int itemMainAbilType = int.Parse(row[12]);
-            bool isMainPercent = row[13].Equals("TRUE");
-            int itemMainAbility = int.Parse(row[14]);
-
-            int itemSubAbilType1 = int.Parse(row[15]);
-            bool isPercent1 = row[16].Equals("TRUE");
-            int itemSubAbility1 = int.Parse(row[17]);
-
-            int itemSubAbilType2 = int.Parse(row[18]);
-            bool isPercent2 = row[19].Equals("TRUE");
-            int itemSubAbility2 = int.Parse(row[20]);
-
-            int itemSubAbilType3 = int.Parse(row[21]);
-            bool isPercent3 = row[22].Equals("TRUE");
-            row[23] = row[23].TrimEnd();
-            int number = 0;
-            int itemSubAbility3 = 0;
-            if (int.TryParse(row[23], out number) == true)
-            {
-                itemSubAbility3 = number;
-            }
-
-            // 아이템 형태가 장비형 아이템일 경우 
-            if (itemType == ItemType.Equipment)
-            {
-                //ItemAbility[] itemAbilities = SplitSubItemOption(itemUID);
-                // 주능력 생성 
-                ItemAbility mainAbility = new ItemAbility();
-                mainAbility.abilityType = (AbilityType)itemMainAbilType;
-                mainAbility.isPercent = isMainPercent;
-                mainAbility.power = itemMainAbility;
-
-                EquipItem equipItem = new EquipItem(itemUID, keycode, itemName, itemType,
-                   itemRank, itemDesc, itemEach, itemValue, itemImgID,
-                   equipType, enhance, false, mainAbility, false);
-
-                // 보조 능력 생성 
-                ItemAbility[] subAbilities = new ItemAbility[3];
-
-                subAbilities[0].abilityType = (AbilityType)itemSubAbilType1;
-                subAbilities[0].isPercent = isPercent1;
-                subAbilities[0].power = itemSubAbility1;
-
-                subAbilities[1].abilityType = (AbilityType)itemSubAbilType2;
-                subAbilities[1].isPercent = isPercent2;
-                subAbilities[1].power = itemSubAbility2;
-
-                subAbilities[2].abilityType = (AbilityType)itemSubAbilType3;
-                subAbilities[2].isPercent = isPercent3;
-                subAbilities[2].power = itemSubAbility3;
-
-                equipItem.SetSubAbility(subAbilities);
-
-
-                itemDataList.Add(i, equipItem);
-
-                if (equipType == EquipType.WEAPON)
-                {
-                    weaponList.Add(equipItem);
-                }
-                else if (equipType == EquipType.ARMOR)
-                {
-                    armorList.Add(equipItem);
-                }
-                else if (equipType == EquipType.ACCSESORRY_1 
-                    || equipType == EquipType.ACCSESORRY_2
-                    || equipType == EquipType.ACCSESORRY_3)
-                {
-                    accessroyList.Add(equipItem);
-                }
-                else if (equipType == EquipType.WHEEL)
-                {
-                    wheelList.Add(equipItem);
-                }
-            }
-            else
-            {
-                // 아이템 생성 
-                Item t_Item = new Item(itemUID, keycode, itemName, itemType, itemRank, itemDesc,
-                    itemEach, itemValue, itemImgID, isSale);
-
-                itemDataList.Add(i, t_Item);
-                itemList.Add(t_Item);
-            }
-        }
     }
-
     // 아이템 정보 파일이 설명을 가진 것부터 값을 가진 파일로 나눠져 있다 값을 가진 파일에서 해당 아이템의 
     // 능력치 타입과 밸류 값을 알아낸다
-
 
     // 보조 능력치 배열을 만들어 반환한다
     ItemAbility[] CreateSubAbility()
@@ -275,17 +217,17 @@ public class ItemDatabase : MonoBehaviour
         switch (_itemRank)
         {
             case "Common":
-                return  ItemRank.Common;
+                return ItemRank.Common;
             case "Magic":
-                return  ItemRank.Magic;
+                return ItemRank.Magic;
             case "Rare":
-                return  ItemRank.Rare;
+                return ItemRank.Rare;
             case "Unique":
-                return  ItemRank.Unique;
+                return ItemRank.Unique;
             case "Legendary":
-                return  ItemRank.Legendary;
+                return ItemRank.Legendary;
             default:
-                return  ItemRank.NONE;
+                return ItemRank.NONE;
         }
     }
 
@@ -293,10 +235,10 @@ public class ItemDatabase : MonoBehaviour
     public Item GetItem(string _keycode)
     {
         //string[] line = items.text.Substring(0, items.text.Length - 1).Split('\n');
-        
-        foreach(var pair in itemDataList)
+
+        foreach (var pair in itemDataList)
         {
-            if(pair.Value.itemKeycode.Equals(_keycode))
+            if (pair.Value.itemKeycode.Equals(_keycode))
             {
                 Item item = (Item)pair.Value.Clone();
                 CreateUniqueID(item);
@@ -309,7 +251,7 @@ public class ItemDatabase : MonoBehaviour
 
     public Item GetItemByUID(int uid)
     {
-        foreach(var pair in itemDataList)
+        foreach (var pair in itemDataList)
         {
             if (pair.Value.itemUID == uid)
             {
@@ -331,7 +273,7 @@ public class ItemDatabase : MonoBehaviour
 
         int random = Random.Range(min, max);
         item.uniqueID = random;
-        while(InventoryContains(random))
+        while (InventoryContains(random))
         {
             random = Random.Range(min, max);
             item.uniqueID = random;
@@ -341,21 +283,21 @@ public class ItemDatabase : MonoBehaviour
     public bool InventoryContains(int id)
     {
 
-        foreach(var itemPair in Inventory.instance.itemList)
+        foreach (var itemPair in Inventory.instance.itemList)
         {
             if (itemPair.Value == null) continue;
-            foreach(var item in itemPair.Value)
+            foreach (var item in itemPair.Value)
             {
-                if (item== null) continue;
+                if (item == null) continue;
 
-                if(item.uniqueID == id)
+                if (item.uniqueID == id)
                 {
-                    return true; 
+                    return true;
                 }
             }
         }
 
-        return false; 
+        return false;
     }
 
 
@@ -379,4 +321,5 @@ public class ItemDatabase : MonoBehaviour
     }
 
 }
+
 

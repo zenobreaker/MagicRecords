@@ -29,6 +29,8 @@ public class StageManager : MonoBehaviour
 
     [Header("스테이지 오브젝트")]
     [SerializeField] private List<Stage> stageList = null;
+    [SerializeField] RewardController rewardController;
+
 
     Stage selectedStage; 
 
@@ -75,6 +77,20 @@ public class StageManager : MonoBehaviour
     public void SetMapObjecct()
     {
         
+    }
+
+    public int GetCurrentStageID()
+    {
+        if(StageInfoManager.instance != null)
+        {
+            var stageInfo = StageInfoManager.instance.GetStageAppearInfoByCurrentStageNode();
+            if(stageInfo != null)
+            {
+                return stageInfo.stageID;
+            }
+        }
+
+        return 0; 
     }
 
     public void CreateStage()
@@ -196,6 +212,7 @@ public class StageManager : MonoBehaviour
     {
         if(stageClearUI != null)
         {
+            stageClearUI.gameObject.SetActive(true);
             stageClearUI.SetClearFlag(isClear);
             stageClearUI.ShowStageClearUI();
         }
@@ -284,13 +301,21 @@ public class StageManager : MonoBehaviour
 
 
     // 해당 스테이지 클리어한 경우 
-    public void ClearStage()
+    public void ClearStage(bool isClear)
     {
         // 스테이지인포매니저의 함수를 호출해준다. 
         StageInfoManager.instance.RefreshCurrentStageInfo(true);
+
+        //TODO : 대상에게 해당 관련 보상을 건내준다.
+        if (rewardController != null)
+        {
+            rewardController.GainReward(GetCurrentStageID());
+        }
+
+        ShowClearUI(isClear);
     }
 
-    // 스테이지에 있는 대상 전무 제거 명령
+    // 스테이지에 있는 대상 전부 제거 명령
     public void RequestClearEnemy()
     {
         if (theRM == null) return;

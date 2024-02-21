@@ -1406,8 +1406,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 682882847}
   m_HandleRect: {fileID: 682882845}
   m_Direction: 2
-  m_Value: 0.9999999
-  m_Size: 0.42410618
+  m_Value: 1.0000001
+  m_Size: 0.42410627
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9577,7 +9577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &757459492
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15726,6 +15726,52 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &1243311386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1243311388}
+  - component: {fileID: 1243311387}
+  m_Layer: 0
+  m_Name: RewardController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1243311387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243311386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7288c94c93460f74295a6f9c2ddb8e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardPopup: {fileID: 0}
+  myRewardList: []
+--- !u!4 &1243311388
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243311386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1505.221, y: 784.58856, z: 7.441842}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1253027351
 GameObject:
   m_ObjectHideFlags: 0
@@ -17102,6 +17148,8 @@ MonoBehaviour:
     enemyCount: 0
     wave: 0
     appearMonsterIDList: 
+  rewardController: {fileID: 1243311387}
+  stageClearUI: {fileID: 757459493}
   txt_CurrentScore: {fileID: 1143254522}
   go_UI: {fileID: 490805107}
   txt_StageClearText: {fileID: 2113902647}

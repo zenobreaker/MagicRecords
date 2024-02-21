@@ -13,9 +13,30 @@ public class BossInfoUi : UiBase
 
     StageNodeInfo nodeInfo;
 
-    [SerializeField] ChoiceAlert choiceAlert = null;
-    [SerializeField] DOTweenAnimation doTweenAnimation = null;
+    List<Item> viewItemList = new List<Item>();
 
+    [SerializeField] ChoiceAlert choiceAlert = null;
+
+
+
+    // PRIVATE FUNCTION : 보상관련한 값들을 추출한다.
+    private void SetRewardData(StageNodeInfo nodeInfo)
+    {
+        if (nodeInfo == null || nodeInfo.stageAppearInfos == null ||
+            nodeInfo.stageAppearInfos.Count <= 0)
+            return; 
+
+        var appearInfo = nodeInfo.stageAppearInfos[0];
+        if (appearInfo == null)
+            return;
+
+        // 보여줄 아이템 리스트
+        var stageRewardData = RewardDatabase.instance.GetStageRewardData(appearInfo.stageID);
+        if (stageRewardData == null) return;
+
+
+        viewItemList = stageRewardData.viewItemList;
+    }
 
     // 보스 정보 UI 가 나타나는 메소드 연출이 포함되어 있다. 
     public void OpenBossInfoUI(StageNodeInfo info)
@@ -24,6 +45,11 @@ public class BossInfoUi : UiBase
 
         // 정보 세팅 
         this.nodeInfo = info;
+
+        SetRewardData(nodeInfo);
+
+        // 보상 수 만큼 자식 오브젝트 만들기 
+        InitScrollviewObject(viewItemList.Count);
 
         // UI 그리기 
         DrawInfoUI(); 
@@ -39,14 +65,7 @@ public class BossInfoUi : UiBase
         {
             titleText.text = nodeInfo.stageName;
         }
-
-        var appearInfo = nodeInfo.stageAppearInfos.First();
-        if (appearInfo != null)
-        {
-            // 보상 수 만큼 자식 오브젝트 만들기 
-            InitScrollviewObject(appearInfo.rewardIDList.Count);
-        }
-
+        
         
         // 해당 스테이지 보상 재화 리스트 그리기 
         DrawRewardItemList();
@@ -63,13 +82,14 @@ public class BossInfoUi : UiBase
         if (appearInfo == null) return;
 
         // todo 뭐줄까.. 
-        for (int i = 0; i < content.transform.childCount; i++)
+        for (int i = 0; i < viewItemList.Count; i++)
         {
-            Item item = ItemDatabase.instance.GetItemByUID(appearInfo.rewardIDList[i]);
+            var item = viewItemList[i];
             var child = content.transform.GetChild(i); 
             if(child.TryGetComponent<Slot>(out Slot slot))
             {
-                slot.AddItem(item); 
+                slot.AddItem(item);
+                slot.gameObject.SetActive(true);
             }
         }
     }

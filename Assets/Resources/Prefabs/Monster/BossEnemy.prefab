@@ -10274,7 +10274,7 @@ GameObject:
   - component: {fileID: 7293368899349162812}
   - component: {fileID: 9021921544431877703}
   m_Layer: 10
-  m_Name: BossEnemy
+  m_Name: bossenemy
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] ComboManager theCombo = null;
     [SerializeField] Button autoButon;
     [SerializeField] ChangeCharUI theChangeCharUI = null;
+ 
+
     // 이번 게임에 등장하는 모든 아군 플레이어 
     //public List<WheelerController> team = new List<WheelerController>();
 
@@ -231,6 +233,7 @@ public class GameManager : MonoBehaviour
             isStageEnd = true;
             isStageClear = true;
         }
+        // 플레이어가 전부 쓰러졌는지 검사
         else if(playerCount <= 0)
         {
             isStageEnd = true;
@@ -241,7 +244,7 @@ public class GameManager : MonoBehaviour
         {
             gameState = GameState.STAND_BY_PLAY;
         }
-
+        // 스테이지가 정상적으로 끝났는지 검사
         if (isStageEnd == true && isStageClear == true && isRoutine == false)
         {
             StartCoroutine(StageClearCoroutine());
@@ -353,18 +356,19 @@ public class GameManager : MonoBehaviour
         isRoutine = false;
         isCharacterOn = false;
 
-        gameState = GameState.END;
-        theSM.ClearStage(); // 해당 스테이지 클리어함수 호출
+        theSM.ClearStage(true); // 해당 스테이지 클리어함수 호출
+     
         //yield return new WaitUntil(() => theReward.isConfirm == true);
         StageInfoManager.initJoinPlayGameModeFlag = true;
         RecordManager.CHOICED_COMPLETE_RECORD = false;
-        theSM.ShowClearUI(true);
+  
 
         // 캐릭터 경험치 지급 
         GrowUpMyCharacters(MyGameScore);
 
         // 캐릭터 정보 갱신
         thePM.RefreshCharStatus();
+        gameState = GameState.END;
     }
 
     IEnumerator StageFailureCoroutine()

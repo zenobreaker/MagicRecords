@@ -20,7 +20,7 @@ public class MemoryRune : EquipItem
     public new MemoryRune Clone()
     {
         MemoryRune mr = new MemoryRune(this.itemUID, itemKeycode, itemName, itemType, itemRank,
-            itemDesc, itemCount, itemValue, itemImgID, equipType, itemEnchantRank, isEquip, itemMainAbility);
+            itemDesc, itemCount, itemValue, itemImgPath, equipType, itemEnchantRank, isEquip, itemMainAbility);
 
 
         return mr; 

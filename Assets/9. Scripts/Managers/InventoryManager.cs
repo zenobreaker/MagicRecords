@@ -66,8 +66,8 @@ public class InventoryManager:MonoBehaviour
     // 테스트용 기능 함수 
     public void TestAddDroneButton()
     {
-       var testItem = CreateItem("equipment_drone_1");
-        inventory.AddItem(testItem);
+       //var testItem = CreateItem("equipment_drone_1");
+       // inventory.AddItem(testItem);
     }
 
 

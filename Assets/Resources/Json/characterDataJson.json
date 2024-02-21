@@ -23,8 +23,8 @@
       "characterID": "101",
       "namekeycode": "name_slime",
       "portrait": "slime",
-      "prefabName": "Slime",
-      "statID": "101",
+      "prefabName": "slime",
+      "statID": "100",
       "monsterGrade": "1"
     },
     {
@@ -32,8 +32,8 @@
       "characterID": "102",
       "namekeycode": "name_treemon",
       "portrait": "treemon",
-      "prefabName": "Treemon",
-      "statID": "102",
+      "prefabName": "treemon",
+      "statID": "100",
       "monsterGrade": "1"
     }
   ]

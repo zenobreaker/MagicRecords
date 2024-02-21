@@ -5,7 +5,7 @@
       "monsterGrade": "1",
       "monsterName": "물덩이",
       "monsterImage": "slime",
-      "monsterPrefabName": "Slime",
+      "monsterPrefabName": "slime",
       "statID": "101"
     },
     {
@@ -13,7 +13,7 @@
       "monsterGrade": "1",
       "monsterName": "나무귀신",
       "monsterImage": "treemon",
-      "monsterPrefabName": "Treemon",
+      "monsterPrefabName": "treemon",
       "statID": "102"
     },
     {
@@ -21,7 +21,7 @@
       "monsterGrade": "2",
       "monsterName": "물덩이",
       "monsterImage": "slime",
-      "monsterPrefabName": "Slime",
+      "monsterPrefabName": "slime",
       "statID": "103"
     },
     {
@@ -29,7 +29,7 @@
       "monsterGrade": "2",
       "monsterName": "나무귀신",
       "monsterImage": "treemon",
-      "monsterPrefabName": "Treemon",
+      "monsterPrefabName": "treemon",
       "statID": "104"
     },
     {
@@ -37,7 +37,7 @@
       "monsterGrade": "3",
       "monsterName": "물덩이",
       "monsterImage": "slime",
-      "monsterPrefabName": "Slime",
+      "monsterPrefabName": "slime",
       "statID": "105"
     },
     {
@@ -45,7 +45,7 @@
       "monsterGrade": "3",
       "monsterName": "나무귀신",
       "monsterImage": "treemon",
-      "monsterPrefabName": "Treemon",
+      "monsterPrefabName": "treemon",
       "statID": "106"
     },
     {
@@ -53,7 +53,7 @@
       "monsterGrade": "3",
       "monsterName": "BT",
       "monsterImage": "treemon",
-      "monsterPrefabName": "BossEnemy",
+      "monsterPrefabName": "bossenemy",
       "statID": "106"
     }
   ]

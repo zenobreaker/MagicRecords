@@ -25,7 +25,7 @@ public enum ItemType
 
 public enum ItemRank
 {
-    NONE,
+    NONE = 0,
     Common,
     Magic,
     Rare,
@@ -40,8 +40,8 @@ public class Item : ICloneable
 
     // #. 외부 DB 정보
     public int itemUID;      // 아이템의 정보 ID
-    public string itemKeycode;      // 아이템의 키코드 
-    public string itemName;     // 아이템 이름
+    public string itemKeycode = "";      // 아이템의 키코드 
+    public string itemName = "";     // 아이템 이름
     public ItemType itemType;   // 아이템의 유형
     public ItemRank itemRank;   // 아이템의 등급
     public int itemCount;       // 아이템 개수 
@@ -53,8 +53,8 @@ public class Item : ICloneable
     public int uniqueID = 0;        // 아이템의 고유한 ID값 
     public int userID;        // 소지자 ID
     public bool isSale;         // 아이템 판매 여부 (상점 한)
-    public string itemImgID;    // 아이템 이미지 아이디 
-    public string itemSound;    // 아이템 획득 시, 사운드 
+    public string itemImgPath = "";    // 아이템 이미지 경로
+    public string itemSound = "" ;    // 아이템 획득 시, 사운드 
     public Sprite itemImage;    // 아이템 이미지
 
     public Item()
@@ -73,12 +73,19 @@ public class Item : ICloneable
         itemRank = _item.itemRank;
         itemValue = _item.itemValue;
         itemCount = _item.itemCount;
-        itemImgID = _item.itemImgID;
+        itemImgPath = _item.itemImgPath;
         isSale = _item.isSale;
         uniqueID = _item.uniqueID;
         this.userID = _item.userID;
 
-        //itemImage = Resources.Load("ItemImage/" + _item.itemImgID.ToString(), typeof(Sprite)) as Sprite;
+        if(_item.itemImage != null)
+        {
+            this.itemImage = _item.itemImage;
+        }    
+        else
+        {
+            itemImage = Resources.Load<Sprite>("Image/" + itemImgPath);
+        }
     }
 
     public Item(ItemType itemType, int itemUID, int itemCount)
@@ -89,7 +96,7 @@ public class Item : ICloneable
     }
 
 
-    public Item(int id, string name, string desc)
+    public Item(int id, string name, string desc, string imgPath = "")
     {
         itemType = ItemType.NONE;
         itemCount = 0;
@@ -97,10 +104,13 @@ public class Item : ICloneable
         this.itemUID = id;
         itemName = name;
         itemDesc = desc; 
+        itemImgPath = imgPath;
+
+        itemImage = Resources.Load<Sprite>("Image/" + itemImgPath);
     }
 
     public Item(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye, ItemRank _itemRank,
-        string _itemDesc, int itemCount, int _itemValue, string _itemIMG, 
+        string _itemDesc, int itemCount, int _itemValue, string itemImgPath, 
         bool _isSale = false,int userID = 0)
     {
         itemUID = _itemUID;
@@ -112,31 +122,14 @@ public class Item : ICloneable
         itemRank = _itemRank;
         itemValue = _itemValue;
         this.itemCount = itemCount;
-        itemImgID = _itemIMG;
+        this.itemImgPath = itemImgPath;
  
         isSale = _isSale;
         this.userID = userID;
 
-        itemImage = Resources.Load<Sprite>("ItemImage/" + _itemIMG);
+        itemImage = Resources.Load<Sprite>("Image/" + itemImgPath);
     }
 
-
-
-    public void SetItem(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye, 
-        ItemRank _itemRank, string _itemIMG, string _itemDesc,
-        bool _isSale = false, int userID = 0)
-    {
-        itemUID = _itemUID;
-        itemKeycode= _keycode;
-        itemType = _itemTpye;
-        itemRank = _itemRank;
-        itemName = _itemName;
-        itemDesc = _itemDesc;
-        itemImgID = _itemIMG;
-
-        isSale = _isSale;
-        this.userID = userID;
-    }
 
     public void SetItemImageForFullPath(string fullPath)
     {
@@ -146,7 +139,7 @@ public class Item : ICloneable
     public virtual object Clone()
     {
         Item item = new(itemUID, itemKeycode, itemName, itemType, 
-            itemRank, itemDesc, itemCount, itemValue,itemImgID, false, userID);
+            itemRank, itemDesc, itemCount, itemValue, itemImgPath, false, userID);
 
         return item;
     }

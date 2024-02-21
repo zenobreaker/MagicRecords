@@ -85,21 +85,20 @@ public class EquipItem : Item
 
     public EquipItem(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye,
         ItemRank _itemRank, string _itemDesc, int _itemEach, int _itemValue,
-        string _itemIMG, EquipType equipType,
+        string imgPath, EquipType equipType,
                      int itemEnchantRank,
                      bool isEquiped,
                      ItemAbility itemMainAbility,
                      bool _isSale = false) :
         base(_itemUID, _keycode, _itemName, _itemTpye, _itemRank, _itemDesc, 
-                         _itemEach, _itemValue, _itemIMG, _isSale)
+                         _itemEach, _itemValue, imgPath, _isSale)
     {
         this.equipType = equipType;
         this.itemEnchantRank = itemEnchantRank;
         this.isEquip = isEquiped;
         this.itemMainAbility = itemMainAbility;
-        //this.itemAbilities = itemAbilities;
+        this.itemAbilities = new ItemAbility[3];
 
-        this.itemImage = Resources.Load("ItemImage/" + _itemIMG.ToString(), typeof(Sprite)) as Sprite;
     }
 
     public EquipItem(Item _item, EquipType equipType,

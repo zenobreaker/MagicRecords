@@ -751,7 +751,7 @@ GameObject:
   - component: {fileID: -3542938652964587125}
   - component: {fileID: 2403954437937910749}
   m_Layer: 8
-  m_Name: Treemon
+  m_Name: treemon
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

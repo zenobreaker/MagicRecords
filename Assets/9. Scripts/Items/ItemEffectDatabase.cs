@@ -39,7 +39,7 @@ public class ItemEffectDatabase : MonoBehaviour
 
         for (int x = 0; x < itemEffects.Length; x++)
         {
-            if (itemEffects[x].itemName.Contains(p_item.itemImgID))
+            if (itemEffects[x].itemName.Contains(p_item.itemImgPath))
             {
                 for (int y = 0; y < itemEffects[x].part.Length; y++)
                 {
@@ -79,7 +79,7 @@ public class ItemEffectDatabase : MonoBehaviour
         for (int x = 0; x < itemEffects.Length; x++)
         {
             // todo : 이 조건은 개념이 잘못 되었다 수정이 필요하다 
-            if (itemEffects[x].itemName == p_item.itemImgID)
+            if (itemEffects[x].itemName == p_item.itemImgPath)
             {
                 for (int y = 0; y < itemEffects[x].part.Length; y++)
                 {

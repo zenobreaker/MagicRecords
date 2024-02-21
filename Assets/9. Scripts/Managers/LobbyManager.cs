@@ -68,20 +68,8 @@ public class LobbyManager : MonoBehaviour
         equipMenu = FindObjectOfType<EquipMenu>();
         //theInfo = FindObjectOfType<Infomation>();
         //if (charStat == null)
-        //  charStat = FindObjectOfType<CharStat>();
+        //  charStat = FindObjectOfType<CharStat>();     
 
-
-        var flag =  PlayerPrefs.GetInt("GetRewardFlag");
-        if(flag == 1 && rewardController != null)
-        {
-            // 보상 창을 열어준다.
-            PlayerPrefs.SetInt("GetRewardFlag", 0);
-
-            var id = PlayerPrefs.GetInt("BossClearID");
-
-            rewardController.GainBossRaidReward(id);
-        }
-     
     }
 
     private void LateUpdate()

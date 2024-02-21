@@ -219,9 +219,9 @@ public class MonsterDatabase : MonoBehaviour
                 monsterGrade = (MonsterGrade)data.monsterGrade
             };
 
-            string imagePath = "Image/Monster/" + data.monsterImage;
+            string imagePath = "image/monster/" + data.monsterImage;
             monsterData.monsterSprite = Resources.Load<Sprite>(imagePath);
-            string objectPath = "Prefabs/Monster/" + data.monsterPrefabName;
+            string objectPath = "prefabs/monster/" + data.monsterPrefabName;
             monsterData.monsterPrefab = Resources.Load<GameObject>(objectPath);
 
             // 데이터 넣어주기 

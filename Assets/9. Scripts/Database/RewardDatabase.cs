@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,10 @@ public enum RewardType
 public class RewardJsonData
 {
     public int rewardID;
-    public int type;
-    public int amount;
+    public int type;        // 대상의 타입
+    public int itemID;      // 대상의 ID
+    public int amount;      // 수량   
+    public int weight;      // 가중치 
 }
 
 [System.Serializable]
@@ -35,7 +38,9 @@ public class RewardData
 {
     public int rewardID;
     public RewardType rewardType;
-    public int amount; 
+    public int itemID;
+    public int amount;
+    public int weight;
 }
 
 [System.Serializable]
@@ -57,7 +62,7 @@ public class StageRewardJsonAllData
 public class StageRewardData
 {
     public int stageID;
-    public List<Item> rewardItemList;
+    public List<(Item, int)> rewardItemList;
     public List<Item> viewItemList;
 }
 
@@ -65,8 +70,8 @@ public class RewardDatabase : MonoBehaviour
 {
    public static RewardDatabase instance;
 
-    RewardJsonDataAllData rewardJsonAllData;
-    StageRewardJsonAllData stageRewardJsonAllData;
+    public RewardJsonDataAllData rewardJsonAllData;
+    public StageRewardJsonAllData stageRewardJsonAllData;
 
     [Header("보상 json")]
     public TextAsset rewardJson;
@@ -109,17 +114,29 @@ public class RewardDatabase : MonoBehaviour
         }
     }
 
+    private Item GetItemByItemDataBase(int itemID)
+    {
+        if (ItemDatabase.instance != null)
+        {
+            return ItemDatabase.instance.GetItemByUID(itemID);
+        }
+
+        return null;
+    }
+
     private Item GetItemByItemDataBase(string stringID)
     {
         if (ItemDatabase.instance != null && int.TryParse(stringID, out int parseID))
         {
-            return ItemDatabase.instance.GetItemByUID(parseID);
+            return GetItemByItemDataBase(parseID);
         }
         else
         {
             return null; 
         }
     }
+
+   
 
     public void InitializeStageRewardJsonData()
     {
@@ -128,19 +145,32 @@ public class RewardDatabase : MonoBehaviour
 
         foreach(var json in stageRewardJsonAllData.stageRewardJsonData)
         {
+            if (json == null)
+                continue; 
+
             StageRewardData stageRewardData = new StageRewardData();
             stageRewardData.stageID = json.stageID;
 
+            // 보상 관련 
             var idArr = json.rewardIDList.Split(',');
-            stageRewardData.rewardItemList = new List<Item>(); 
+            stageRewardData.rewardItemList = new List<(Item,int)>();
             for (int i = 0; i < idArr.Length; i++)
             {
                 var id = idArr[i];
-                var item = GetItemByItemDataBase(id);
-                stageRewardData.rewardItemList.Add(item);
-                
+                var weight = 0;
+                if (int.TryParse(id, out int rewardID))
+                {
+                    if (rewardDataDict.TryGetValue(rewardID, out RewardData reward))
+                    {
+                        var item = GetItemByItemDataBase(reward.itemID);
+
+                        weight = reward.weight;
+                        stageRewardData.rewardItemList.Add((item, weight));
+                    }
+                }
             }
 
+            // 정보등에 보여지는 아이템 관련 
             var viewItemIDArr = json.viewItemIDList.Split(',');
             stageRewardData.viewItemList = new List<Item>();
             for (int i = 0; i < viewItemIDArr.Length;i++)

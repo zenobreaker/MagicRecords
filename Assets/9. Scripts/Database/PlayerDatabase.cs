@@ -140,12 +140,12 @@ public class PlayerDatabase : MonoBehaviour
             if (charStatDic.TryGetValue(character.id, out var stat))
                 characterData.charStat = stat;
 
-            string imagePath = "Portrait/" + character.portrait + "_portrait";
+            string imagePath = "portrait/" + character.portrait + "_portrait";
             Sprite sprite= Resources.Load<Sprite>(imagePath);
             if(sprite == null)
-                sprite = Resources.Load<Sprite>("Portrait/DefaultMonster");
+                sprite = Resources.Load<Sprite>("portrait/defaultmonster");
             characterData.portrait = sprite;
-            string objectPath = "Prefabs/Characters/" + character.prefabName;
+            string objectPath = "prefabs/characters/" + character.prefabName;
             characterData.prefab = Resources.Load<GameObject>(objectPath);
             characterData.monsterGrade = (MonsterGrade)character.monsterGrade;
             characterdataList.Add(characterData);

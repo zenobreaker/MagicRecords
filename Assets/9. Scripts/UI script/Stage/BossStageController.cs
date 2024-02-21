@@ -56,12 +56,11 @@ public class BossStageController : UiBase
         StageAppearInfo appearInfo = new StageAppearInfo();
         appearInfo.stageType = StageType.BATTLE;
         appearInfo.monsterGrade = MonsterGrade.BOSS;
+        appearInfo.stageID = 1001;
         appearInfo.mapID = 100;
         appearInfo.maxWave = 1 ;
         appearInfo.appearIDList = new List<int>();
         appearInfo.appearIDList.Add(401);
-
-        appearInfo.rewardIDList.Add(1);
 
         tableClass.stageAppearInfos.Add(appearInfo);
 
