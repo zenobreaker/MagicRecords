@@ -163,7 +163,7 @@ public class RewardDatabase : MonoBehaviour
                     if (rewardDataDict.TryGetValue(rewardID, out RewardData reward))
                     {
                         var item = GetItemByItemDataBase(reward.itemID);
-
+                        item.itemCount = reward.amount;
                         weight = reward.weight;
                         stageRewardData.rewardItemList.Add((item, weight));
                     }
@@ -188,13 +188,15 @@ public class RewardDatabase : MonoBehaviour
 
     public RewardData CreateRewardDataForJsonData(RewardJsonData rewardJsonData)
     {
-        if (rewardJsonData == null) return null; 
+        if (rewardJsonData == null) return null;
 
         RewardData rewardData = new RewardData();
 
         rewardData.rewardID = rewardJsonData.rewardID;
+        rewardData.itemID = rewardJsonData.itemID;
         rewardData.rewardType = (RewardType)rewardJsonData.type;
         rewardData.amount = rewardJsonData.amount;
+        rewardData.weight = rewardJsonData.weight;
 
         return rewardData;
     }

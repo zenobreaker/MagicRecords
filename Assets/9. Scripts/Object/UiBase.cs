@@ -11,7 +11,11 @@ public class UiBase : MonoBehaviour
     [Header("스크롤뷰 자식들을 담을 부모 오브젝트")]
     public GameObject content;
     [Header("스크롤뷰에 보일 자식 오브젝트")]
-    public GameObject childObject;  
+    public GameObject childObject;
+
+
+    public delegate void EndCallback();
+    public EndCallback endCallback;
 
     // 갱신 시 아래 함수가 호출되어 진다.
     public virtual void RefreshUI()
@@ -95,7 +99,7 @@ public class UiBase : MonoBehaviour
 
             if (childObject.TryGetComponent<T>(out T component))
             {
-                if(callback != null)
+                if (callback != null)
                 {
                     callback(component);
                 }
@@ -103,5 +107,10 @@ public class UiBase : MonoBehaviour
             }
 
         }
+    }
+
+    public void SetEndCallback(EndCallback action)
+    {
+        endCallback += action;
     }
 }

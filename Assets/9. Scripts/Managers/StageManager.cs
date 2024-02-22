@@ -46,10 +46,14 @@ public class StageManager : MonoBehaviour
     [SerializeField] private GameObject go_UI = null;
     [SerializeField] private Text txt_StageClearText = null;
 
-    // 스테이 관련 클래스 초기화 
-    public void InitializeStageClass()
-    {
 
+
+    public void Start()
+    {
+        if(rewardController != null && stageClearUI != null)
+        {
+            rewardController.AddObserver(stageClearUI);
+        }
     }
 
     public void SavePlayerTransform(Transform p_PlayerTR)
@@ -210,21 +214,18 @@ public class StageManager : MonoBehaviour
     // 결과창 출력
     public void ShowClearUI(bool isClear)
     {
-        if(stageClearUI != null)
+        if (stageClearUI != null)
         {
             stageClearUI.gameObject.SetActive(true);
             stageClearUI.SetClearFlag(isClear);
             stageClearUI.ShowStageClearUI();
         }
 
-        //go_UI.SetActive(true);
-        //if (_isClear)
-        //{
-        //    txt_StageClearText.text = "Stage Clear!!!";
-        //}
-        //else
-        //    txt_StageClearText.text = "Stage Fail...";
-        //txt_CurrentScore.text = string.Format("{0:000,000}", GameManager.MyInstance.MyGameScore);
+        // 호출 이후 옵저버 제거 
+        if (rewardController != null && stageClearUI != null)
+        {
+            rewardController.RemoveObserver(stageClearUI);
+        }
     }
 
     public void PrevStageBtn()
@@ -299,7 +300,6 @@ public class StageManager : MonoBehaviour
     }
 
 
-
     // 해당 스테이지 클리어한 경우 
     public void ClearStage(bool isClear)
     {
@@ -311,6 +311,7 @@ public class StageManager : MonoBehaviour
         {
             rewardController.GainReward(GetCurrentStageID());
         }
+        
 
         ShowClearUI(isClear);
     }

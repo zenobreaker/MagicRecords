@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StageClearUI : UiBase
+public class StageClearUI : UiBase, IRewardObserver
 {
 
     public List<Item> rewardsItems = new List<Item>();
@@ -19,8 +19,7 @@ public class StageClearUI : UiBase
 
     bool isClear = false;
 
-    delegate void EndCallback(); 
-
+ 
 
     // PRIVATE FUNCTION : 보상 리스트를 그린다. 
     private void DrawRewardList()
@@ -82,5 +81,11 @@ public class StageClearUI : UiBase
         rewardsItems = items;
     }
 
+    void IRewardObserver.NotifyReward(List<Item> rewradList)
+    {
+        rewardsItems = rewradList;
 
+        if(rewardsItems != null)
+            InitScrollviewObject(rewardsItems.Count);
+    }
 }
