@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,9 +13,15 @@ public class JsonData
     public int id;
 }
 
+[System.Serializable]
+public class ItemJsonData : JsonData
+{
+    public int itemType;
+    public string keycode; 
+}
 
 [System.Serializable]
-public class MaterialJsonData : JsonData
+public class MaterialJsonData : ItemJsonData
 {
     public string name;
     public string description;
@@ -28,14 +35,13 @@ public class MaterialJsonAllData
 }
 
 [System.Serializable]
-public class EquipmentJsonData : JsonData
+public class EquipmentJsonData : ItemJsonData
 {
-    public string keycode;
-    public int equipType;
-    public int rank;
     public string name;
     public string description;
     public string imagePath;
+    public int equipType;
+    public int rank;
     public int abilityType;
     public int abilityValue;
     public int isPerscent;
@@ -107,9 +113,10 @@ public class ItemDatabase : MonoBehaviour
 
         foreach (var material in materialJsonAllData.materialJsonData)
         {
-            Item item = new Item(material.id, material.name, material.description, material.imagePath);
+            Item item = new Item(material.id, material.keycode, (ItemType)material.itemType, 
+                material.name, material.description, material.imagePath);
             //item.SetItemImageForFullPath("Image/" + material.imagePath);
-            item.itemType = ItemType.ETC;
+            
             if (item != null)
             {
                 Debug.Log(item.itemName);
@@ -178,57 +185,6 @@ public class ItemDatabase : MonoBehaviour
         }
 
         return null;
-    }
-
-    ItemType DiscernToItemType(string _itemType)
-    {
-        switch (_itemType)
-        {
-            case "Equipment":
-                return ItemType.Equipment;
-            case "Used":
-                return ItemType.Used;
-            case "Ingredient":
-                return ItemType.Ingredient;
-            case "ETC":
-                return ItemType.ETC;
-            default:
-                return ItemType.Coin;
-        }
-    }
-
-    EquipType DiscernToEquipType(string _equipType)
-    {
-        switch (_equipType)
-        {
-            case "Weapon":
-                return EquipType.WEAPON;
-            case "Armor":
-                return EquipType.ARMOR;
-            case "Accessory":
-                return EquipType.ACCSESORRY_1;
-            default:
-                return EquipType.NONE;
-        }
-    }
-
-    ItemRank DiscernToItemRank(string _itemRank)
-    {
-        switch (_itemRank)
-        {
-            case "Common":
-                return ItemRank.Common;
-            case "Magic":
-                return ItemRank.Magic;
-            case "Rare":
-                return ItemRank.Rare;
-            case "Unique":
-                return ItemRank.Unique;
-            case "Legendary":
-                return ItemRank.Legendary;
-            default:
-                return ItemRank.NONE;
-        }
     }
 
     // 아이템 생성 

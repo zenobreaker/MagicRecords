@@ -50,9 +50,12 @@ public class StageManager : MonoBehaviour
 
     public void Start()
     {
-        if(rewardController != null && stageClearUI != null)
+        if(rewardController != null )
         {
-            rewardController.AddObserver(stageClearUI);
+            if(stageClearUI != null)
+                rewardController.AddObserver(stageClearUI);
+            if (InventoryManager.instance != null)
+                rewardController.AddObserver(InventoryManager.instance);
         }
     }
 
@@ -222,9 +225,12 @@ public class StageManager : MonoBehaviour
         }
 
         // 호출 이후 옵저버 제거 
-        if (rewardController != null && stageClearUI != null)
+        if (rewardController != null )
         {
-            rewardController.RemoveObserver(stageClearUI);
+            if(stageClearUI != null)
+                rewardController.RemoveObserver(stageClearUI);
+            if (InventoryManager.instance != null)
+                rewardController.RemoveObserver(InventoryManager.instance);
         }
     }
 

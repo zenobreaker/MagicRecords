@@ -12,9 +12,8 @@ public enum ItemType
     NONE = 0,
     Equipment,
     Used,
-    Ingredient,
+    MATERIAL,
     ETC,
-    Coin,
     Drone,
 
     POTION_VIEW = 11,
@@ -84,7 +83,7 @@ public class Item : ICloneable
         }    
         else
         {
-            itemImage = Resources.Load<Sprite>("Image/" + itemImgPath);
+            itemImage = Resources.Load<Sprite>("image/" + itemImgPath);
         }
     }
 
@@ -96,17 +95,20 @@ public class Item : ICloneable
     }
 
 
-    public Item(int id, string name, string desc, string imgPath = "")
+    public Item(int id, string keycode, ItemType itemType = ItemType.NONE, 
+        string name="", string desc= "" , string imgPath = "")
     {
-        itemType = ItemType.NONE;
+        this.itemUID = id;
+        this.itemKeycode = keycode; 
+
+        this.itemType = itemType;
         itemCount = 0;
         
-        this.itemUID = id;
         itemName = name;
         itemDesc = desc; 
         itemImgPath = imgPath;
 
-        itemImage = Resources.Load<Sprite>("Image/" + itemImgPath);
+        itemImage = Resources.Load<Sprite>("image/" + itemImgPath);
     }
 
     public Item(int _itemUID, string _keycode, string _itemName, ItemType _itemTpye, ItemRank _itemRank,
@@ -127,7 +129,7 @@ public class Item : ICloneable
         isSale = _isSale;
         this.userID = userID;
 
-        itemImage = Resources.Load<Sprite>("Image/" + itemImgPath);
+        itemImage = Resources.Load<Sprite>("image/" + itemImgPath);
     }
 
 

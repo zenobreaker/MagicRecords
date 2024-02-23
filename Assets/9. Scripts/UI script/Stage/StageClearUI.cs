@@ -34,6 +34,7 @@ public class StageClearUI : UiBase, IRewardObserver
 
             if(slotObject.TryGetComponent<Slot>(out Slot slot))
             {
+                Debug.Log("TEST - æ∆¿Ã≈€ »πµÊ - " + rewardsItems[i].itemName);
                 slot.AddItem(rewardsItems[i]);
             }
         }
@@ -81,9 +82,9 @@ public class StageClearUI : UiBase, IRewardObserver
         rewardsItems = items;
     }
 
-    void IRewardObserver.NotifyReward(List<Item> rewradList)
+    void IRewardObserver.NotifyReward(List<Item> rewardList)
     {
-        rewardsItems = rewradList;
+        rewardsItems = rewardList;
 
         if(rewardsItems != null)
             InitScrollviewObject(rewardsItems.Count);

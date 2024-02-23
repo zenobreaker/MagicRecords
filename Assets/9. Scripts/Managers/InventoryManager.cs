@@ -17,13 +17,10 @@ public struct DataItem
     }
 }
 
-public class InventoryManager:MonoBehaviour
+public class InventoryManager:MonoBehaviour, IRewardObserver
 {
     public static InventoryManager instance;
 
-    public List<DataItem> equipItems = new List<DataItem>(); // 장착한 아이템
-
-    //List<InvenSlot> equipedSlots = new List<InvenSlot>(); // 장착한 아이템이 들어 있는 슬롯
     public EquipItem TestItem;
     public EquipItem testDrone; 
 
@@ -126,103 +123,7 @@ public class InventoryManager:MonoBehaviour
     }
 
 
-    // 아이템 착용 
-    public void EquipItem(Character p_targetPlayer, InvenSlot _invenSlot)
-    {
-        if(p_targetPlayer == null || _invenSlot == null)
-        {
-            Debug.Log("대상 캐릭터나 슬롯이 null");
-            return; 
-        }
-
-        EquipItem t_item = (EquipItem)_invenSlot.GetItem();
-        int t_idx = 0; // inventory.GetSlotList().IndexOf(_invenSlot.GetItem() as EquipItem);
-        Debug.Log(_invenSlot.GetItem().itemName + " " + t_idx);
-
-        //Player t_Player = InfoManual.MyInstance.GetSelectedPlayer();
-
-        int count = 0; // p_targetPlayer.MyEquipItems.Length;
-        Debug.Log("장착루틴");
-        for (int i = 0; i < count; i++)
-        {
-            //if (p_targetPlayer.MyEquipItems[i] != null)    // 해당 부위에 장착된게 있다면
-            //{
-            //    EquipItem idxEquipItem = p_targetPlayer.MyEquipItems[i];
-            //    TakeOffEquipment(p_targetPlayer, idxEquipItem);
-
-            //    p_targetPlayer.SetEmptyEquip(idxEquipItem);
-            //   // InfoManual.MyInstance.SetEquipSlot();
-            //    break;
-            //}
-        }
-
-        if (!t_item.isEquip)
-        {
-            Debug.Log("장착!");
-            DataItem t_DataItem = new DataItem(t_idx, t_item);
-            equipItems.Add(t_DataItem);
-
-            //p_targetPlayer.EquipItem(t_item);
-            _invenSlot.EquipingItemSlot();
-            t_item.userID = p_targetPlayer.MyID;
-        }
-
-    }
-
-    public void TakeOffEquipment(EquipItem p_item)
-    {
-        if (p_item == null) return;
-
-        var player = InfoManager.instance.GetMyPlayerInfo((int)p_item.userID);
-        if(player == null) return;
-
-        TakeOffEquipment(player, p_item);
-    }
-
-    // 장비 아이템 해제 
-    public void TakeOffEquipment(Character _target, EquipItem p_item)
-    {
-        if (p_item == null || _target == null)
-            return;
-
-       // var equipItems = _target.MyEquipItems;
-
-        // 장착한 아이템의 인벤토리에 등재된 번호를 가져옴. 
-        foreach (var f_item in equipItems)
-        {
-            //if (f_item.equipTagetUniqueID == p_item.equipTagetUniqueID)
-            //{
-            //    //t_idx = p_item.idx;
-            //    //inventory.TakeOffEquipment(t_idx);
-            //    //equipItems.Remove(f_item);
-            //    //_targetPlayer.sez
-            //    //p_item.equipTarget.SetEmptyEquip(f_item.item);
-            //    //InfoManual.MyInstance.GetSelectedPlayer().SetEmptyEquip(p_item);
-            //    //InfoManual.MyInstance.SetEquipSlot();
-
-            //    EquipManager.instance.ApplyAbilityEquip(_target, p_item, false);
-            //    _target.SetEmptyEquip(p_item);
-            //    p_item.equipTagetUniqueID = 0;
-            //    break;
-            //}
-        }
-    }
-
-    //public void ChangedEquipItem(InvenSlot p_targetSlot)
-    //{
-    //    EquipItem[] t_Items = InfoManual.MyInstance.GetSelectedPlayer().MyEquipItems;
-
-    //    for (int i = 0; i < t_Items.Length; i++)
-    //    {
-    //        if((p_targetSlot.MyItem as EquipItem).equipType == t_Items[i].equipType)
-    //        {
-    //            //TakeOffEquipment(t_Items[i]);
-    //            //EquipItem(p_targetSlot);
-    //            break;
-    //        }
-    //    }
-    //}
-
+  
 
     public void ApplySaveItemData(Dictionary<int, ItemData> saveDatas)
     {
@@ -256,6 +157,14 @@ public class InventoryManager:MonoBehaviour
 
 
             Inventory.instance.AddItem(item);
+        }
+    }
+
+    public void NotifyReward(List<Item> rewardList)
+    {
+        foreach(var reward in rewardList)
+        {
+            AddItemToInven(reward);
         }
     }
 }

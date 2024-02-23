@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 // 옵저버 패턴을 위한 인터페이스 
 public interface IRewardObserver
 {
-    void NotifyReward(List<Item> rewradList);
+    void NotifyReward(List<Item> rewardList);
 }
 
 
@@ -38,7 +38,15 @@ public class RewardController : MonoBehaviour
             // 찬스에서 나온 값이 리워드 가중치보다 작거나 같다면 해당 대상은 보상을 받을 수 있다.
             if (chance <= reward.Item2)
             {
-                itemList.Add(item);
+                if(itemList.Contains(item) == true)
+                {
+                    var target = itemList.Find(x => x.Equals(item));
+                    target.itemCount += reward.Item2;
+                }
+                else
+                {
+                    itemList.Add(item);
+                }
             }
         }
 

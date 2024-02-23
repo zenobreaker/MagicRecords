@@ -13,15 +13,15 @@ public class ItemPickUp : MonoBehaviour
     {
         SoundManager.instance.PlaySE(item.itemSound);
 
-        if (item.itemType == ItemType.Coin)
-        {
-            Debug.Log(item.itemValue);
-            InfoManager.coin += item.itemValue;    // 코인 획득 시, 획득 코인 증가 
-        }
-        else
-        {
-            //InventoryManager.instance.AddItem(item);
-        }
+        //if (item.itemType == ItemType.COIN)
+        //{
+        //    Debug.Log(item.itemValue);
+        //    InfoManager.coin += item.itemValue;    // 코인 획득 시, 획득 코인 증가 
+        //}
+        //else
+        //{
+        //    //InventoryManager.instance.AddItem(item);
+        //}
         
         GameManager.MyInstance.itemCount--;
         Destroy(this.gameObject);

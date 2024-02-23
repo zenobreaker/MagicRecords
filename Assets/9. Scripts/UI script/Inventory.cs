@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 public enum InventoryCategory
@@ -128,68 +129,110 @@ public class Inventory : MonoBehaviour
         return GetItemsByInventoryType(inventoryCategory);
     }
 
-    // 리스트에 아이템을 넣는다. 아이템의 타입을 확인해서 세부 리스트에 추가한다 
-    public void AddItem(Item item)
-    {
-        if (item == null) return; 
 
+    // PRIVATE METHOD : 장비류 아이템을 인벤토리에 넣는다
+    private void AddInventoryWithEquipment(Item item)
+    {
+        if (item == null && item is EquipItem) return;
+
+        EquipItem equipItem = (EquipItem)item;
         InventoryCategory inventoryCategory = InventoryCategory.NONE;
 
-        // 아이템 타입 검사 장비라면 장비 타입별로 검사한다.
-        if (item.itemType == ItemType.Equipment)
+        if (equipItem != null)
         {
-            var equipItem = item as EquipItem;
-            if (equipItem != null)
+            if (equipItem.equipType == EquipType.WEAPON)
             {
-                if (equipItem.equipType == EquipType.WEAPON)
-                {
-                    inventoryCategory = InventoryCategory.WEAPON;
-                }
-                else if (equipItem.equipType == EquipType.ARMOR)
-                {
-                    inventoryCategory = InventoryCategory.ARMOR;
-                }
-                else if (equipItem.equipType == EquipType.ACCSESORRY_1 ||
-                    equipItem.equipType == EquipType.ACCSESORRY_2 ||
-                    equipItem.equipType == EquipType.ACCSESORRY_3)
-                {
-                    inventoryCategory = InventoryCategory.ACCSESORRY;
-                }
-                else if (equipItem.equipType == EquipType.WHEEL)
-                {
-                    inventoryCategory = InventoryCategory.WHEEL;
-                }
-                else if (equipItem.equipType == EquipType.DRONE)
-                {
-                    inventoryCategory = InventoryCategory.DRONE;
-                }
-                else if (equipItem.equipType == EquipType.RUNE)
-                {
-                    inventoryCategory = InventoryCategory.RUNE;
-                }
+                inventoryCategory = InventoryCategory.WEAPON;
+            }
+            else if (equipItem.equipType == EquipType.ARMOR)
+            {
+                inventoryCategory = InventoryCategory.ARMOR;
+            }
+            else if (equipItem.equipType == EquipType.ACCSESORRY_1 ||
+                equipItem.equipType == EquipType.ACCSESORRY_2 ||
+                equipItem.equipType == EquipType.ACCSESORRY_3)
+            {
+                inventoryCategory = InventoryCategory.ACCSESORRY;
+            }
+            else if (equipItem.equipType == EquipType.WHEEL)
+            {
+                inventoryCategory = InventoryCategory.WHEEL;
+            }
+            else if (equipItem.equipType == EquipType.DRONE)
+            {
+                inventoryCategory = InventoryCategory.DRONE;
+            }
+            else if (equipItem.equipType == EquipType.RUNE)
+            {
+                inventoryCategory = InventoryCategory.RUNE;
+            }
 
+            if(itemList[inventoryCategory].Count < maxSlotCount)
+                itemList[inventoryCategory].Add(item);
+            else
+            {
+                // todo 해당 아이템을 넣을 공간이 없다고 메세지를 전달한다.
+                Debug.Log(inventoryCategory + "가 꽉차서 넣을 수 없습니다.");
             }
         }
-        // 소모품일 경우
-        else if(item.itemType == ItemType.Used)
+    }
+
+    // PRIVATE METHOD : 장비 외에 아이템을 인벤토리에 넣는다. 
+    private void AddInventoryWithETC(Item item)
+    {
+        if (item == null) return;
+        InventoryCategory inventoryCategory = InventoryCategory.NONE;
+
+        if (item.itemType == ItemType.Used)
         {
             inventoryCategory = InventoryCategory.USED;
         }
+        else if( item.itemType == ItemType.MATERIAL)
+        {
+            inventoryCategory = InventoryCategory.ETC;
+        }
         // 기타
-        else if(item.itemType == ItemType.ETC)
+        else if (item.itemType == ItemType.ETC)
         {
             inventoryCategory = InventoryCategory.ETC;
         }
 
-        // 아이템 데이터 넣기
+
+        // 값 넣어주기 
         if (itemList[inventoryCategory].Count < maxSlotCount)
         {
-            itemList[inventoryCategory].Add(item);
+            // 이미 소지했다면 값을 추가
+            if (itemList[inventoryCategory].Contains(item) == true)
+            {
+                itemList[inventoryCategory].Find(x => x.itemKeycode == item.itemKeycode).itemCount += item.itemCount;
+            }
+            else
+            {
+                itemList[inventoryCategory].Add(item);
+            }
         }
         else
         {
             // todo 해당 아이템을 넣을 공간이 없다고 메세지를 전달한다.
             Debug.Log(inventoryCategory + "가 꽉차서 넣을 수 없습니다.");
+        }
+    }
+
+    // 리스트에 아이템을 넣는다. 아이템의 타입을 확인해서 세부 리스트에 추가한다 
+    public void AddItem(Item item)
+    {
+        if (item == null) return;
+
+        Debug.Log("TEST - 아이템 넣기 - " + item.itemName);
+
+        // 아이템 타입 검사 장비라면 장비 타입별로 검사한다.
+        if (item.itemType == ItemType.Equipment)
+        {
+            AddInventoryWithEquipment(item);
+        }
+        else
+        {
+            AddInventoryWithETC(item);
         }
     }
 
@@ -230,6 +273,17 @@ public class Inventory : MonoBehaviour
         //SetApplyList(EquipMenu.instance.tabNumber);
       
     }
+
+
+    // 재화 값 가져오기 
+    public int GetMyCoinCount()
+    {
+        return itemList[InventoryCategory.ETC].Find(x => x.itemKeycode == "currency_coin").itemCount;
+    }
    
+    public int GetMyAdventureCreditCount()
+    {
+        return itemList[InventoryCategory.ETC].Find(x => x.itemKeycode == "currency_adventure_credit").itemCount;
+    }
 }
 
