@@ -476,7 +476,7 @@ public class SaveManager : MonoBehaviour
     public void SaveUserInfo()
     {
         // 사용 금액 저장 
-        saveData.money = InfoManager.coin;
+        saveData.money = InventoryManager.coin;
 
         if (isExistFile == false)
         {
@@ -547,7 +547,7 @@ public class SaveManager : MonoBehaviour
 
     public void ApplyUserInfo()
     {
-        InfoManager.coin = saveData.money;
+        InventoryManager.coin = saveData.money;
         
         ApplyInvetory();
         

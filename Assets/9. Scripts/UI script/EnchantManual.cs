@@ -359,16 +359,16 @@ public class EnchantManual : MonoBehaviour
         {
             t_enchantCost = ((selectedItem).itemEnchantRank * 100) + 10;  // 강화 가격 상승 
 
-            if (InfoManager.coin < t_enchantCost)
+            if (InventoryManager.coin < t_enchantCost)
             {
                 Debug.Log("강화 불가능! 코인 부족");
                 // 토스트 메시지 
                 ToastMessageContorller.CreateToastMessage("코인이 부족하여 강화가 불가능합니다.");
             }
             // 강화 가능
-            else if (InfoManager.coin >= t_enchantCost)
+            else if (InventoryManager.coin >= t_enchantCost)
             {
-                InfoManager.coin -= t_enchantCost;
+                InventoryManager.coin -= t_enchantCost;
 
                 // 장착된 아이템인지 검사 
                 if ((selectedItem).isEquip)

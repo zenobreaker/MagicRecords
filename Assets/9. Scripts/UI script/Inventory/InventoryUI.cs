@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 
@@ -48,7 +49,7 @@ public class InventoryUI : TabManual
         RefreshInventory(); 
     }
 
-    // �ִ� ���� �� ��ŭ �κ��丮 ������ �����Ѵ� 
+  
     void SettingInventorySlot()
     {
         if (invenSlots.Count < maxSlotCount)
@@ -60,10 +61,10 @@ public class InventoryUI : TabManual
             }
         }
     }
-    // �κ��丮�� �ֽ�ȭ �Ѵ�
+
     public void RefreshInventory()
     {
-        // ���� ui �� ���� �ִ� �ִ� ������ �κ��丮 �����Ͱ� ���� �ִ� ������ �ٸ��ٸ� �ֽ�ȭ�Ѵ�
+        // 
         if (maxSlotCount != Inventory.instance.maxSlotCount)
         {
             maxSlotCount = Inventory.instance.maxSlotCount;
@@ -73,7 +74,7 @@ public class InventoryUI : TabManual
         TabSetting(selectedPage);
     }
 
-    // �κ��丮�� ������ �ֱ� 
+
     public void AddItem(Item p_item, int p_Count = 1)
     {
         if (totalItems.Count == invenSlots.Count)
@@ -131,7 +132,7 @@ public class InventoryUI : TabManual
 
   
  
-    // ��� ����
+
     public void TakeOffEquipment(int _idx)
     {
         invenSlots[_idx].TakeOffItemSlot();
@@ -168,7 +169,7 @@ public class InventoryUI : TabManual
             }
         }
 
-        // ���Կ� ������ �ֱ� 
+        
         for (int i = 0; i < p_Items.Count; i++)
         {
             invenSlots[i].ClearSlot();
@@ -183,19 +184,25 @@ public class InventoryUI : TabManual
     }
 
 
-    // �������� ���Կ� ��� 
-    public void TabSetting(int p_TabNumber)
+    
+    public void TabSetting(InventoryCategory category)
     {
-        SettingSlot(Inventory.instance.GetItemList((InventoryCategory)p_TabNumber));
-
+        SettingSlot(Inventory.instance.GetItemList(category));
     }
 
-    // ������ ���� �������� �κ��丮�� �����Ѵ�
-    public void OpenInventoryBySeletedTab(int p_TabNumber)
+    public void TabSetting(int tabNumber)
+    {
+        var category = (InventoryCategory)tabNumber;
+        TabSetting(category);
+    }
+
+
+
+    public void OpenInventoryBySeletedTab(int category)
     {
         SoundManager.instance.PlaySE("Confirm_Click");
-        
-        TabSetting(p_TabNumber);
+        selectedPage = category;
+        TabSetting(category);
 
         TabSlotOpen(contentPage);
     }

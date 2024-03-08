@@ -21,6 +21,9 @@ public class InventoryManager:MonoBehaviour, IRewardObserver
 {
     public static InventoryManager instance;
 
+    public static int coin;   // 인게임 재화
+
+
     public EquipItem TestItem;
     public EquipItem testDrone; 
 
@@ -51,13 +54,29 @@ public class InventoryManager:MonoBehaviour, IRewardObserver
         }
     }
 
+    public void RefreshCoin()
+    {
+        int prev = coin; 
+        coin = GetMyCoinCount();
+
+        if(LobbyManager.MyInstance != null)
+        {
+            LobbyManager.MyInstance.IncreseCoin(prev);
+        }
+    }
+
     // 테스트용 기능 함수 
     public void TestAddButton()
     {
         var testItem = CreateItem("equipment_weapon_gun_0");
         inventory.AddItem(testItem);
 
-        LobbyManager.MyInstance.IncreseCoin(100000);
+        var testCoin = CreateItem("currency_coin");
+        testCoin.itemCount = 100000;
+        inventory.AddItem(testCoin);
+        //int prev = coin;
+        RefreshCoin();
+        //LobbyManager.MyInstance.IncreseCoin(prev);
     }
 
     // 테스트용 기능 함수 
@@ -166,5 +185,22 @@ public class InventoryManager:MonoBehaviour, IRewardObserver
         {
             AddItemToInven(reward);
         }
+
+        // 코인값 갱신
+        RefreshCoin(); 
+    }
+
+    public int GetMyCoinCount()
+    {
+        if (inventory == null) return 0;
+
+        return inventory.GetMyCoinCount(); 
+    }
+
+    public void SetMyCoinCount(int value)
+    {
+        if (inventory == null) return;
+
+        inventory.SetMyCoinCount(value);
     }
 }

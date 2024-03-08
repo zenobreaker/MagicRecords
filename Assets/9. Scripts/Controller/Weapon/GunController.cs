@@ -14,9 +14,10 @@ public class GunController : WeaponController
 
         var clone = ObjectPooler.SpawnFromPool<MyBullet>("Bullet", currentWeapon.go_Muzzle.transform);
         // 총알은 생성할 때마다 설정해본다.
-        clone.SetLayer(targetLayer);
         if(clone != null)
         {
+            clone.SetLayer(targetLayer);
+            clone.GetLayer();
             clone.SetAttackInfo(weaponOwn, transform);
         }
     }

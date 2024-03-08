@@ -348,10 +348,10 @@ public class SkillManual : MonoBehaviour
         if (selectedSkill == null)
             return;
 
-        if (selectedSkill.upgradeCost <= InfoManager.coin
+        if (selectedSkill.upgradeCost <= InventoryManager.coin
             && selectedSkill.MySkillLevel < selectedSkill.MySkillMaxLevel)
         {
-            InfoManager.coin -= selectedSkill.upgradeCost;
+            InventoryManager.coin -= selectedSkill.upgradeCost;
             selectedSkill.UpgradeSkill();
             selectedSkillSlot.UpdateTooltip(selectedSkill);
             if(selectedSkill.skillType == SkillType.PASSIVE)
@@ -368,7 +368,7 @@ public class SkillManual : MonoBehaviour
             skillToolTip.UpdateTooltip(selectedSkill);
           
         }
-        else if (selectedSkill.upgradeCost> InfoManager.coin)
+        else if (selectedSkill.upgradeCost> InventoryManager.coin)
         {
             Debug.Log("코인이 부족해요!");
         }

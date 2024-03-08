@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -5,6 +6,7 @@ using UnityEngine;
 using static UnityEditor.Progress;
 
 
+[Serializable]
 public enum InventoryCategory
 {
     NONE = 0, 
@@ -202,7 +204,7 @@ public class Inventory : MonoBehaviour
         if (itemList[inventoryCategory].Count < maxSlotCount)
         {
             // 이미 소지했다면 값을 추가
-            if (itemList[inventoryCategory].Contains(item) == true)
+            if (itemList[inventoryCategory].Find(x => x.itemKeycode == item.itemKeycode) != null)
             {
                 itemList[inventoryCategory].Find(x => x.itemKeycode == item.itemKeycode).itemCount += item.itemCount;
             }
@@ -279,6 +281,11 @@ public class Inventory : MonoBehaviour
     public int GetMyCoinCount()
     {
         return itemList[InventoryCategory.ETC].Find(x => x.itemKeycode == "currency_coin").itemCount;
+    }
+
+    public void SetMyCoinCount(int value)
+    {
+        itemList[InventoryCategory.ETC].Find(x => x.itemKeycode == "currency_coin").itemCount += value;
     }
    
     public int GetMyAdventureCreditCount()

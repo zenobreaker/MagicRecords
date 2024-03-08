@@ -38,9 +38,9 @@ public class RewardController : MonoBehaviour
             // 찬스에서 나온 값이 리워드 가중치보다 작거나 같다면 해당 대상은 보상을 받을 수 있다.
             if (chance <= reward.Item2)
             {
-                if(itemList.Contains(item) == true)
+                var target = itemList.Find(x => x.itemKeycode == item.itemKeycode);
+                if(target != null)
                 {
-                    var target = itemList.Find(x => x.Equals(item));
                     target.itemCount += reward.Item2;
                 }
                 else

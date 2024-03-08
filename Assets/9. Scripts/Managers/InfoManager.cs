@@ -17,8 +17,6 @@ public class InfoManager : MonoBehaviour
 {
     public static InfoManager instance;
 
-    public static int coin;   // ������ ����ϴ� ������ȭ 
-
     public bool isTest; 
 
     // 모든 캐릭터 정보 리스트

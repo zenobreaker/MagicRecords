@@ -47,7 +47,7 @@ public class SkillToolTip : MonoBehaviour
 
         // 버튼 그리기 
         // 강화 버튼 
-        if (skill.upgradeCost <= InfoManager.coin)
+        if (skill.upgradeCost <= InventoryManager.coin)
         {
             upgradeBtn.interactable = true; 
         }
@@ -83,7 +83,7 @@ public class SkillToolTip : MonoBehaviour
     {
         txt_SkillDesc.text = SkillDataBase.instance.GetSkillDesc(skill); 
 
-        if (skill.upgradeCost <= InfoManager.coin)
+        if (skill.upgradeCost <= InventoryManager.coin)
         {
             upgradeBtn.interactable = true;
         }

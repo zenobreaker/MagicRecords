@@ -210,11 +210,10 @@ public class StageInfoManager : MonoBehaviour
     public bool isTest = false;
     [SerializeField] private StageNodeInfo selectStageNodeInfo;
 
-    [SerializeField] List<StageNodeInfo> stageTables = null;
     [SerializeField] GamePlayLevel gameLevel = 0; 
     [SerializeField] public Dictionary<GamePlayLevel, float> playLevelPair = new Dictionary<GamePlayLevel, float>();
-    [SerializeField] List<List<int>> stageLocateList;       
-    // é��, stagetable �� 
+    
+
     private Dictionary<int, List<StageNodeInfo>> stageDictList = new Dictionary<int, List<StageNodeInfo>>();
 
     private bool isStageLockChet = false;
@@ -248,8 +247,8 @@ public class StageInfoManager : MonoBehaviour
         }
 
         currentChapter = 1;
-        // todo 
-        maxChapter = 1; 
+        // todo : MAX 챕터 값 수정
+        maxChapter = 2; 
     }
 
     public void SetStageList(int _chapter, List<StageNodeInfo> _stageTableList)
@@ -424,15 +423,10 @@ public class StageInfoManager : MonoBehaviour
 
 
 
-     // 스테이지들을 배치한다.
-    void SetStagePosOneLine(int length, float rate = 1.0f)
+     // 배치한 스테이지 리스트를 반환
+    List<List<int>> GetStagePosOneLine(int length, float rate = 1.0f)
     {
-        if (stageLocateList != null)
-        {
-            return;
-        }
-
-        stageLocateList = new List<List<int>>();
+        var stageLocateList = new List<List<int>>();
 
         List<int> start = new List<int>(1) { 1, 1, 1 };
         List<int> end = new List<int>(1) { 1 };
@@ -490,7 +484,7 @@ public class StageInfoManager : MonoBehaviour
         // 종료엔 보스를 넣는다.
         stageLocateList.Add(end);
 
-        return;
+        return stageLocateList;
     }
 
     // StageNodeInfo 리스트를 참조하면서 각 타입별로 배치한다.
@@ -648,8 +642,51 @@ public class StageInfoManager : MonoBehaviour
         }
     }
 
+    void SetStageLocate(ref List<List<int>> stageLocateList, ref List<StageNodeInfo> stageNodeInfos)
+    {
+        if (stageLocateList == null || stageNodeInfos == null) return;
+
+        // 1-1 한줄 리스트 만큼 순회하면서 해당하는 기능의 클래스 생성하기
+        for (int i = 0; i < stageLocateList.Count; i++)
+        {
+            StageNodeInfo stageNodeInfo = new StageNodeInfo
+            {
+                //  order 
+                tableOrder = i + 1,
+                // 2.1 스테이지 이름 생성
+                stageName = currentChapter + "-" + i + 1,
+                contentType = ContentType.ADVENTURE,
+                //  stageType = (StageType)stageLocateList[i].First(),
+                eventInfoList = new List<StageEventCutScene>()
+            };
+            for (int j = 0; j < stageLocateList[i].Count; j++)
+            {
+                // todo 컷신클래스 정보 추가
+
+                StageAppearInfo info = new StageAppearInfo
+                {
+                    stageType = (StageType)stageLocateList[i][j]
+                };
+
+                stageNodeInfo.stageAppearInfos.Add(info);
+            }
+
+            if (stageNodeInfos != null)
+            {
+                stageNodeInfos.Add(stageNodeInfo);
+            }
+
+        }
+
+        // 마지막 스테이지는 보스 스테이지로 고정해놓는다
+        if (stageNodeInfos.Last() != null)
+        {
+            stageNodeInfos.Last().isBossStage = true;
+        }
+    }
+
     // 첫 스테이지를 제외하고 모든 스테이지를 잠근다.
-    private void LockedAllStage()
+    private void LockedAllStage(ref List<StageNodeInfo> stageTables)
     {
         if (stageTables == null) return;
 
@@ -677,66 +714,26 @@ public class StageInfoManager : MonoBehaviour
             maxStageCount = LEVEL_HARD_MAX_STAGE_COUNT;
         }
 
-        if (stageTables == null)
+        // 최대 챕터 수 만큼 반복하기 
+        for(int i = 0; i < maxChapter; i++)
         {
-            stageTables = new List<StageNodeInfo>();
+            var stageNodeInfos = new List<StageNodeInfo>();
+
+            // 스테이지를 한 줄로 배치하고 해당 하는 기능의 넘버를 담는 리스트를 생성
+            var stageLocateList = GetStagePosOneLine(maxStageCount);
+
+            SetStageLocate(ref stageLocateList, ref stageNodeInfos);
+            // 3. 
+            // 몬스터 스테이지라면 등급 설정하기
+            SetMonsterStageGrade(ref stageNodeInfos);
+            // 스테이지 타입별로 스테이지 정보에 세부사항 할당
+            SetStageNodeInfoListByStateTypeData(ref stageNodeInfos);
+
+            // 4. 첫 번째를 제외한 스테이지는 전부 잠금처리
+            LockedAllStage(ref stageNodeInfos);
+
+            SetStageList(i, stageNodeInfos);
         }
-        else
-        {
-            stageTables.Clear();
-        }
-
-        // 스테이지를 한 줄로 배치하고 해당 하는 기능의 넘버를 담는 리스트를 생성
-         SetStagePosOneLine(maxStageCount);
-        // 1-1 한줄 리스트 만큼 순회하면서 해당하는 기능의 클래스 생성하기
-        for (int i = 0; i < stageLocateList.Count; i++)
-        {
-            StageNodeInfo stageTable = new StageNodeInfo
-            {
-                //  order 
-                tableOrder = i + 1,
-                // 2.1 스테이지 이름 생성
-                stageName = currentChapter + "-" + i + 1,
-                contentType = ContentType.ADVENTURE,
-                //  stageType = (StageType)stageLocateList[i].First(),
-                eventInfoList = new List<StageEventCutScene>()
-            };
-            for (int j = 0; j < stageLocateList[i].Count; j++)
-            {
-                // todo 컷신클래스 정보 추가
-
-                StageAppearInfo info = new StageAppearInfo
-                {
-                    stageType = (StageType)stageLocateList[i][j]
-                };
-
-                stageTable.stageAppearInfos.Add(info);
-            }
-
-            if (stageTables != null)
-            {
-                stageTables.Add(stageTable);
-            }
-
-        }
-
-        // 마지막 스테이지는 보스 스테이지로 고정해놓는다
-        if (stageTables.Last() != null)
-        {
-            stageTables.Last().isBossStage = true;
-        }
-
-        // 3. 
-        // 몬스터 스테이지라면 등급 설정하기
-        SetMonsterStageGrade(ref stageTables);
-        // 스테이지 타입별로 스테이지 정보에 세부사항 할당
-        SetStageNodeInfoListByStateTypeData(ref stageTables);
-
-        // 4. 첫 번째를 제외한 스테이지는 전부 잠금처리
-        LockedAllStage();
-
-        SetStageList(currentChapter, stageTables); 
-
     }
 
 

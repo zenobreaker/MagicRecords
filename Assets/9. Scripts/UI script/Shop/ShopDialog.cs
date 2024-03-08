@@ -102,7 +102,7 @@ public class ShopDialog : MonoBehaviour
                 return;
         }
 
-        if (InfoManager.coin >= selectedItem.itemValue)
+        if (InventoryManager.coin >= selectedItem.itemValue)
         {
             Item boughtItem = null;
             // todo 나중에 아이템의 타입별로 아이템을 만드는 팩토리같은거 만들자

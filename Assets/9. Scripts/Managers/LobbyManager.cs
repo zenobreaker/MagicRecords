@@ -76,7 +76,7 @@ public class LobbyManager : MonoBehaviour
     {
         if(text_Coin != null)
         { 
-            text_Coin.text = "코인 : " + InfoManager.coin.ToString();
+            text_Coin.text = "코인 : " + InventoryManager.coin.ToString();
         }
 
  
@@ -179,38 +179,38 @@ public class LobbyManager : MonoBehaviour
         StartCoroutine(CoIncreaseCoin(-1000));
     }
 
-    public void IncreseCoin(int _num)
+    public void IncreseCoin(int prevValue)
     {
-        StartCoroutine(CoIncreaseCoin(_num));
+        StartCoroutine(CoIncreaseCoin(prevValue));
     }
 
-    IEnumerator CoIncreaseCoin(int _num)
+    IEnumerator CoIncreaseCoin(int prevValue)
     {
         float time = Time.deltaTime * 2;
         int lastValue = 0;
 
-        lastValue = InfoManager.coin + _num;
+        lastValue = prevValue;
 
-        while (InfoManager.coin != lastValue)
+        while (InventoryManager.coin != lastValue)
         {
+            int currentValue = InventoryManager.coin;
+            //InventoryManager.coin = (int)Mathf.SmoothStep(InventoryManager.coin, lastValue, 0.5f);
+            Debug.Log("코인 증가 : " + currentValue);
 
-            InfoManager.coin = (int)Mathf.SmoothStep(InfoManager.coin, lastValue, 0.5f);
-            Debug.Log("코인 증가 : " + InfoManager.coin);
 
-
-            if (_num > 0)
+            if (prevValue > 0)
             {
-                if (Mathf.Abs(InfoManager.coin) >= Mathf.Abs(lastValue) * 99 / 100)
+                if (Mathf.Abs(InventoryManager.coin) >= Mathf.Abs(lastValue) * 99 / 100)
                 {
-                    InfoManager.coin = lastValue;
+                    //InventoryManager.coin = lastValue;
                     break;
                 }
             }
-            else if(_num <= 0)
+            else if(prevValue <= 0)
             {
-                if (Mathf.Abs(lastValue) >= Mathf.Abs(InfoManager.coin) * 99 / 100)
+                if (Mathf.Abs(lastValue) >= Mathf.Abs(InventoryManager.coin) * 99 / 100)
                 {
-                    InfoManager.coin = lastValue;
+                    //InventoryManager.coin = lastValue;
                     break;
                 }
             }

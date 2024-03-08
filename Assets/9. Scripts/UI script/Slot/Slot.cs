@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Drawing;
 using System;
+using TMPro;
 
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
@@ -28,9 +29,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     // 필요한 컴포넌트 
     [SerializeField]
-    protected Text text_Count = null;
-    [SerializeField]
-    protected GameObject go_CountImage = null;
+    protected TextMeshProUGUI text_Count = null;
     [SerializeField] protected Image itemBGImage = null;
     [SerializeField] protected RectTransform rt_parent = null;
     [SerializeField] protected Image fadeImage = null;
@@ -86,7 +85,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         item = _item;
         itemID = _item.itemUID;
         itemName = _item.itemName;
-        itemCount = _count;
+        itemCount = _item.itemCount;
         itemImage.sprite = _item.itemImage;
         Debug.Log("아이템 들어옴" + _item.itemName + this.name + _item.itemRank);
         SetBackGround(_item);
@@ -94,13 +93,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
         if (_item.itemType != ItemType.Equipment)
         {
-            go_CountImage.SetActive(true);
+            text_Count.gameObject.SetActive(true);
             text_Count.text = itemCount.ToString();
         }
         else
         {
             text_Count.text = "0";
-            go_CountImage.SetActive(false);
         }
         
         SetColor(1);
@@ -148,7 +146,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         SetColor(0);
 
         text_Count.text = "0";
-        go_CountImage.SetActive(false);
+        text_Count.gameObject.SetActive(false);
     }
 
 

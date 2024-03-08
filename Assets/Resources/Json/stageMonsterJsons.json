@@ -6,7 +6,7 @@
       "monsterGroup": "101",
       "monsterGrade": "1",
       "mapID": "101",
-      "Memo": "슬라임 1마리"
+      "wave": "1"
     },
     {
       "id": "2",
@@ -14,7 +14,7 @@
       "monsterGroup": "101,102",
       "monsterGrade": "1",
       "mapID": "101",
-      "Memo": "슬라임과 나무귀신 듀오"
+      "wave": "1"
     },
     {
       "id": "3",
@@ -22,7 +22,7 @@
       "monsterGroup": "101,101,101,101",
       "monsterGrade": "1",
       "mapID": "101",
-      "Memo": "슬라임 가족"
+      "wave": "1"
     },
     {
       "id": "4",
@@ -30,7 +30,7 @@
       "monsterGroup": "201",
       "monsterGrade": "2",
       "mapID": "101",
-      "Memo": "엘리트 슬라임"
+      "wave": "1"
     },
     {
       "id": "5",
@@ -38,7 +38,7 @@
       "monsterGroup": "201,201",
       "monsterGrade": "2",
       "mapID": "101",
-      "Memo": "엘리트 슬라임 듀오"
+      "wave": "1"
     },
     {
       "id": "6",
@@ -46,7 +46,7 @@
       "monsterGroup": "202",
       "monsterGrade": "2",
       "mapID": "101",
-      "Memo": "엘리트 나무귀신"
+      "wave": "1"
     },
     {
       "id": "7",
@@ -54,7 +54,7 @@
       "monsterGroup": "102,102",
       "monsterGrade": "1",
       "mapID": "101",
-      "Memo": "나무귀신 듀오"
+      "wave": "1"
     },
     {
       "id": "8",
@@ -62,7 +62,7 @@
       "monsterGroup": "301",
       "monsterGrade": "3",
       "mapID": "101",
-      "Memo": "보스 슬라임"
+      "wave": "1"
     },
     {
       "id": "9",
@@ -70,7 +70,79 @@
       "monsterGroup": "302",
       "monsterGrade": "3",
       "mapID": "101",
-      "Memo": "보스 나무귀신"
+      "wave": "1"
+    },
+    {
+      "id": "10",
+      "chapter": "2",
+      "monsterGroup": "101",
+      "monsterGrade": "1",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "11",
+      "chapter": "2",
+      "monsterGroup": "101,102",
+      "monsterGrade": "1",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "12",
+      "chapter": "2",
+      "monsterGroup": "101,101,101,101",
+      "monsterGrade": "1",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "13",
+      "chapter": "2",
+      "monsterGroup": "201",
+      "monsterGrade": "2",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "14",
+      "chapter": "2",
+      "monsterGroup": "201,201",
+      "monsterGrade": "2",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "15",
+      "chapter": "2",
+      "monsterGroup": "202",
+      "monsterGrade": "2",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "16",
+      "chapter": "2",
+      "monsterGroup": "102,102",
+      "monsterGrade": "1",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "17",
+      "chapter": "2",
+      "monsterGroup": "301",
+      "monsterGrade": "3",
+      "mapID": "101",
+      "wave": "1"
+    },
+    {
+      "id": "18",
+      "chapter": "2",
+      "monsterGroup": "302",
+      "monsterGrade": "3",
+      "mapID": "101",
+      "wave": "1"
     }
   ]
 }
