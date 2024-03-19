@@ -17,6 +17,13 @@ public class DangerLine : MonoBehaviour
     }
 
     // 일자형 라인을 만든다 
+    public void CreateGuideSinlgeLine(WarningSignInfo info)
+    {
+        if (info == null) return;
+
+        //CreateGuideSinlgeLine(info.startPos, info.quaternion, info.distance);
+    }
+
     public void CreateGuideSinlgeLine(Vector3 startPos, Quaternion rotate, float distance)
     {
         this.distance = distance;

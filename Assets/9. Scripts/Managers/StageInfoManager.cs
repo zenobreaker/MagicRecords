@@ -397,6 +397,7 @@ public class StageInfoManager : MonoBehaviour
                 stageTable.isCleared = true;
                 stageTable.isLocked = true;
 
+                // 스테이지의 마지막이 클리어되면 다음 챕터로 넘어간다
                 if(stageTables.Last().isCleared == true)
                 {
                     currentChapter += 1;
@@ -715,10 +716,10 @@ public class StageInfoManager : MonoBehaviour
         }
 
         // 최대 챕터 수 만큼 반복하기 
-        for(int i = 0; i < maxChapter; i++)
+        for(int i = 1; i <= maxChapter; i++)
         {
             var stageNodeInfos = new List<StageNodeInfo>();
-
+            Debug.Log("스테이지 생성!: " + i);
             // 스테이지를 한 줄로 배치하고 해당 하는 기능의 넘버를 담는 리스트를 생성
             var stageLocateList = GetStagePosOneLine(maxStageCount);
 
@@ -732,6 +733,7 @@ public class StageInfoManager : MonoBehaviour
             // 4. 첫 번째를 제외한 스테이지는 전부 잠금처리
             LockedAllStage(ref stageNodeInfos);
 
+            // 챕터 넘버링은 1부터 시작
             SetStageList(i, stageNodeInfos);
         }
     }

@@ -15756,7 +15756,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardPopup: {fileID: 0}
-  myRewardList: []
 --- !u!4 &1243311388
 Transform:
   m_ObjectHideFlags: 0
@@ -21634,6 +21633,7 @@ MonoBehaviour:
   items: {fileID: 4900000, guid: 4ca032fbbbb355548b550a2b05f018a7, type: 3}
   subOptions: {fileID: 4900000, guid: 44dec3d5cdbf5af4599980929eda952d, type: 3}
   materialJson: {fileID: 0}
+  equipmentJson: {fileID: 0}
   weaponList: []
   armorList: []
   wheelList: []
@@ -21641,6 +21641,8 @@ MonoBehaviour:
   itemList: []
   materialJsonAllData:
     materialJsonData: []
+  equipmentJsonAllData:
+    equipmentJsonData: []
 --- !u!114 &1794802694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24009,7 +24011,6 @@ MonoBehaviour:
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-  stageTables: []
   gameLevel: 0
 --- !u!4 &1952398690
 Transform:

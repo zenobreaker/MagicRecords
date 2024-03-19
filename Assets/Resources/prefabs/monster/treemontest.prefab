@@ -749,9 +749,9 @@ GameObject:
   - component: {fileID: 5217542009992933858}
   - component: {fileID: 7054368208174049310}
   - component: {fileID: 3813353723264410707}
-  - component: {fileID: 25977407384923905}
+  - component: {fileID: 8251879730956171026}
   m_Layer: 10
-  m_Name: treemon
+  m_Name: treemontest
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -807,7 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b9eaa7ea57cf442956be23e8a3d1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myBody: {fileID: 0}
+  myBody: {fileID: 8251879730956171026}
   myAnim: {fileID: 9140126834733272458}
   myCondition: 0
 --- !u!195 &7272818212670496066
@@ -881,7 +881,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   thePlayer: {fileID: 0}
---- !u!114 &25977407384923905
+--- !u!114 &8251879730956171026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -890,7 +890,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4569200012176572667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5030f785702c11d41bf7ad3aad732a74, type: 3}
+  m_Script: {fileID: 11500000, guid: f10788b5bebc9274c93655422deacc21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   myPlayType: 0
@@ -898,11 +898,10 @@ MonoBehaviour:
   isLeader: 0
   m_rigid: {fileID: 5217542009992933858}
   m_agent: {fileID: 7272818212670496066}
-  anim: {fileID: 9140126834733272458}
   m_charName: 
   fieldOfView: {fileID: 3813353723264410707}
   myState: 0
-  delayTime: 0
+  delayTime: 0.7
   currentDelayTime: 0
   isWalking: 0
   isRunning: 0
@@ -910,24 +909,61 @@ MonoBehaviour:
   isAttacking: 0
   isDead: 0
   recoveryTime: 0
-  isTest: 1
+  isTest: 0
   current_Combo_State: 0
   max_Combo_State: 0
-  default_Combo_Timer: 1
+  default_Combo_Timer: 0.5
   current_Combo_Timer: 0
   activateTimerToReset: 0
   skillAction: {fileID: 0}
   isAutoFlag: 0
-  grade: 1
-  attackRange: 0
-  detectRange: 10
-  speed: 5
-  patrolRadius: 0
-  targetLayerMask:
+  MonsterName: "\uB098\uBB34\uADC0\uC2E0"
+  item_Coin: {fileID: 5506018764923015856, guid: 597c6290cede3bb47aa794d77132013b,
+    type: 3}
+  item_prefabs: []
+  itemNumber: 0
+  ChaseTime: 3
+  chaseDelayTime: 2
+  targetMask:
     serializedVersion: 2
     m_Bits: 256
   destination: {x: 0, y: 0, z: 0}
-  patterns: []
+  isBoss: 0
+  dangerLine:
+  - {fileID: 1493473438567746127, guid: ff3eaf96302e8864ca4df8cbab69115c, type: 3}
+  rangeOfEnemy: 10
+  baseAttackRange: 5
+  anim: {fileID: 9140126834733272458}
+  boxCol: {fileID: 7054368208174049310}
+  sound_Normal: []
+  sound_Hurt: {fileID: 0}
+  sound_Dead: {fileID: 0}
+  attackRanges:
+  - {fileID: 4349362302747307704}
+  attackEffect:
+  - {fileID: 1928950542853243801, guid: 1e13901788d21ea43b1412e5254d925d, type: 3}
+  addRange: 0
+  pattren_parameter_attackspeed_array:
+  - 1
+  - 1.1
+  - 1.3
+  - 1.3
+  - 1.3
+  chaseTime: 3
+  monsterAttackStat:
+  - attackPattern: 0
+    attackCoolTime: 3
+  - attackPattern: 0
+    attackCoolTime: 5
+  - attackPattern: 0
+    attackCoolTime: 10
+  - attackPattern: 0
+    attackCoolTime: 12
+  - attackPattern: 0
+    attackCoolTime: 10
+  MaxPattern: 0
+  go_TreeAttack: {fileID: 2653462365812280479, guid: f6e6e7221e0b42643b81417b7cf8ed7f,
+    type: 3}
 --- !u!1 &5056532667211443140
 GameObject:
   m_ObjectHideFlags: 0

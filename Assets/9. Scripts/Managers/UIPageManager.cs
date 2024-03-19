@@ -50,10 +50,8 @@ public class UIPageManager : MonoBehaviour
 
     }
 
-    // ���� ������ �����ΰ�?
     private void LateUpdate()
     {
-        // ���� ������ ���� ������ �ٸ��ٸ� ���� �Լ��� ȣ�� ��Ű�� �Ѵ�. 
         if(prevStackCount != popupList.Count && popupList.Count >= 1)
         {
             var currentPopup = popupList.Peek();
@@ -70,8 +68,6 @@ public class UIPageManager : MonoBehaviour
         return popupList.Pop();
     }
 
-    // UI���� ���������� stack�� �־ �����ϵ��� �Ѵ�.
-
    
     public void OpenClose(GameObject _gameObject)
     {
@@ -82,23 +78,13 @@ public class UIPageManager : MonoBehaviour
 
         if (_gameObject.activeSelf)
         {
-
-            //Debug.Log("���� ������ oc : " + popupList.Peek().name + popupList.Count);
-            // 1. ���� ����Ʈ�� ��� ���� 
-            //if (popupList.Count > 0)
-            //    popupList.Pop();
-
-            // 2. ��� ����Ʈ�� �Ŀ� ���� �׷��� ������ �ش� ������Ʈ�� disable �Լ��� ���� ȣ��Ǿ� 
-            // ���⸦ Ż �� �ִ�. (�� �Լ��� ȣ���� �ߴٸ�) ^^
-            //_gameObject.SetActive(false);
             BackPage();
-            //SoundManager.instance.PlaySE("Escape_UI");
         }
         else
         {
             popupList.Push(_gameObject);
             _gameObject.SetActive(true);
-            Debug.Log("���� ������ oc: " + popupList.Peek().name + popupList.Count);
+            Debug.Log(" oc: " + popupList.Peek().name + popupList.Count);
             SoundManager.instance.PlaySE("Confirm_Click");
             if (btn_Back != null)
             {
@@ -117,12 +103,10 @@ public class UIPageManager : MonoBehaviour
             }
         }
     }
-
-    // �� �Լ����� �ݹ��� �ִٸ� �����ϴ� �Լ� 
+ 
     public void OpenClose(GameObject _gameObject, Callback callback = null)
     {
         OpenClose(_gameObject);
-        // �ݹ��� �ִٸ� ����
         callback?.Invoke();
     }
 

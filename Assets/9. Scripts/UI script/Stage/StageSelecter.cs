@@ -54,7 +54,7 @@ public class StageSelecter : MonoBehaviour
             if (StageInfoManager.instance.currentChapter <=
                 StageInfoManager.instance.maxChapter)
             {
-                StageInfoManager.instance.CreateAdventureStageNodeList();
+                //StageInfoManager.instance.CreateAdventureStageNodeList();
                
                 UIPageManager.instance.OpenClose(go_StageScreen);
             }
@@ -118,6 +118,9 @@ public class StageSelecter : MonoBehaviour
 
                         // 변수 플래그 변경
                         StageInfoManager.FLAG_ADVENTURE_MODE = true;
+                        // 탐사할 스테이지 생성 
+                        StageInfoManager.instance.CreateAdventureStageNodeList();
+
                         // 플레이할 캐릭터 복사
                         InfoManager.instance.InitMyPartyPlayList();
                         // 탐사 UI 켜주기
