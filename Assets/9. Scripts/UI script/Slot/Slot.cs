@@ -93,12 +93,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
         if (_item.itemType != ItemType.Equipment)
         {
-            text_Count.gameObject.SetActive(true);
-            text_Count.text = itemCount.ToString();
+            //text_Count.gameObject.SetActive(true);
+            //text_Count.text = itemCount.ToString();
         }
         else
         {
-            text_Count.text = "0";
+            //text_Count.text = "0";
         }
         
         SetColor(1);

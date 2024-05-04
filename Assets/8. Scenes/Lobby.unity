@@ -4627,7 +4627,6 @@ MonoBehaviour:
     isBossStage: 0
     isLocked: 0
     isCleared: 0
-  stageTables: []
   gameLevel: 0
 --- !u!4 &122702523
 Transform:
@@ -13955,12 +13954,6 @@ MonoBehaviour:
       passiveAdditionalMaxHealthRate: 0
     isAction: 1
     isDead: 0
---- !u!1 &364384027 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3912769956927481650, guid: fc6992726f9bced4287b73b99a852907,
-    type: 3}
-  m_PrefabInstance: {fileID: 1853316251}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &367542085 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 975399638824626657, guid: 5fbe98a154cabe24eae538ba531db40f,
@@ -39474,18 +39467,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1243723394 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3161010619529081048, guid: fc6992726f9bced4287b73b99a852907,
-    type: 3}
-  m_PrefabInstance: {fileID: 1853316251}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1246913515 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1913273301340704334, guid: fc6992726f9bced4287b73b99a852907,
@@ -44891,7 +44872,6 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   isClick: 0
   text_Count: {fileID: 0}
-  go_CountImage: {fileID: 0}
   itemBGImage: {fileID: 0}
   rt_parent: {fileID: 0}
   fadeImage: {fileID: 0}
@@ -58903,7 +58883,7 @@ PrefabInstance:
         type: 3}
       propertyPath: text_Count
       value: 
-      objectReference: {fileID: 1243723394}
+      objectReference: {fileID: 0}
     - target: {fileID: 4922305463848312036, guid: fc6992726f9bced4287b73b99a852907,
         type: 3}
       propertyPath: itemBGImage
@@ -58919,7 +58899,7 @@ PrefabInstance:
         type: 3}
       propertyPath: go_CountImage
       value: 
-      objectReference: {fileID: 364384027}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc6992726f9bced4287b73b99a852907, type: 3}
 --- !u!1001 &1855780368
