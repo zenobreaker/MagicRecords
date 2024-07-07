@@ -47,7 +47,19 @@ public class Character
     private int playerCP;
 
     // 장착된 장비 
-    public Dictionary<EquipType, EquipItem> equipItems = new Dictionary<EquipType, EquipItem>();
+    public Dictionary<EquipType, EquipItem> equipItems =
+        new Dictionary<EquipType, EquipItem>()
+        {
+            [EquipType.WEAPON] = null,
+            [EquipType.ARMOR] = null,
+            [EquipType.WHEEL] = null,
+            [EquipType.ACCSESORRY_1] = null,
+            [EquipType.ACCSESORRY_2] = null,
+            [EquipType.ACCSESORRY_3] = null,
+            [EquipType.DRONE] = null,
+
+        };
+
 
     // 스킬 
     private int chainIdx;
